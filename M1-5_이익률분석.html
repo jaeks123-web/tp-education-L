@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>M1-5: 무위험이익률·위험가산율 | Chapter I 기초과정</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:#1a5fa8;--blue-light:#e8f0fa;--blue-mid:#3b7dd8;
+  --green:#1a7a4a;--green-light:#e6f5ee;
+  --orange:#c06000;--orange-light:#fff3e0;
+  --red:#b02020;--red-light:#fdecea;
+  --gray:#555;--gray-light:#f5f5f5;--gray-border:#ddd;
+  --text:#222;--text2:#555;
+  --radius:10px;--shadow:0 2px 8px rgba(0,0,0,.10);
+}
+body{font-family:'Noto Sans KR',Arial,sans-serif;background:#f0f4f8;color:var(--text);line-height:1.75;font-size:16px}
+a{color:var(--blue);text-decoration:none}
+.mod-header{background:var(--blue);color:#fff;padding:1.5rem 2rem}
+.mod-header .breadcrumb{font-size:.8rem;opacity:.7;margin-bottom:.4rem}
+.mod-header h1{font-size:1.4rem;font-weight:700}
+.mod-header .sub{font-size:.9rem;opacity:.8;margin-top:.3rem}
+.prog-strip{background:rgba(255,255,255,.15);height:6px;margin-top:1rem;border-radius:99px;overflow:hidden}
+.prog-strip-inner{height:100%;background:#fff;border-radius:99px;transition:width .4s}
+.layout{display:flex;max-width:1100px;margin:0 auto;padding:2rem 1.5rem 4rem;gap:1.5rem}
+.sidebar{width:220px;flex-shrink:0}
+.content{flex:1;min-width:0}
+.nav-card{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:1.2rem;margin-bottom:1rem;position:sticky;top:1rem}
+.nav-card h4{font-size:.85rem;color:var(--gray);margin-bottom:.8rem}
+.nav-item{display:block;padding:.45rem .75rem;border-radius:6px;font-size:.85rem;color:var(--text2);margin-bottom:3px;cursor:pointer;border:none;width:100%;text-align:left;background:none;transition:background .12s}
+.nav-item:hover{background:var(--blue-light);color:var(--blue)}
+.card{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:1.8rem 2rem;margin-bottom:1.5rem}
+.card h2{font-size:1.15rem;font-weight:700;color:var(--blue);margin-bottom:1rem;padding-bottom:.6rem;border-bottom:2px solid var(--blue-light)}
+.card p{font-size:.95rem;color:var(--text2);margin-bottom:.7rem}
+.obj-list{list-style:none;padding:0}
+.obj-list li{display:flex;gap:.7rem;align-items:flex-start;padding:.5rem 0;border-bottom:1px solid var(--gray-border);font-size:.93rem}
+.obj-list li:last-child{border:none}
+.obj-num{background:var(--blue);color:#fff;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;flex-shrink:0;margin-top:2px}
+.accordion{border:1px solid var(--gray-border);border-radius:var(--radius);overflow:hidden;margin-bottom:1rem}
+.acc-header{display:flex;justify-content:space-between;align-items:center;padding:.9rem 1.2rem;cursor:pointer;background:var(--gray-light);font-weight:600;font-size:.95rem;border:none;width:100%;text-align:left;transition:background .12s}
+.acc-header:hover{background:#ebebeb}
+.acc-header .para{font-size:.78rem;color:var(--blue);background:var(--blue-light);padding:2px 8px;border-radius:20px;margin-right:.6rem}
+.acc-header .arrow{font-size:1rem;color:var(--gray);transition:transform .2s}
+.acc-body{display:none;padding:1.1rem 1.3rem;background:#fff;font-size:.93rem;color:var(--text2);line-height:1.8;border-top:1px solid var(--gray-border)}
+.acc-body.open{display:block}
+.acc-header.open .arrow{transform:rotate(180deg)}
+.key-point{background:var(--blue-light);border-left:4px solid var(--blue);padding:.7rem 1rem;border-radius:0 6px 6px 0;margin:.8rem 0;font-size:.9rem;color:#1a3a6a}
+.warn-point{background:var(--orange-light);border-left:4px solid var(--orange);padding:.7rem 1rem;border-radius:0 6px 6px 0;margin:.8rem 0;font-size:.9rem;color:#6b3a00}
+.note-point{background:var(--green-light);border-left:4px solid var(--green);padding:.7rem 1rem;border-radius:0 6px 6px 0;margin:.8rem 0;font-size:.9rem;color:#0d3d25}
+.step-list{list-style:none;padding:0;margin:.6rem 0}
+.step-list li{display:flex;gap:.8rem;align-items:flex-start;padding:.45rem 0;font-size:.92rem;color:var(--text2)}
+.step-num{background:var(--blue);color:#fff;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;flex-shrink:0;margin-top:3px}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:.8rem 0}
+.info-box{background:var(--gray-light);border-radius:8px;padding:1rem;border-top:3px solid}
+.info-box .ib-title{font-size:.9rem;font-weight:700;margin-bottom:.5rem}
+.info-box .ib-body{font-size:.87rem;color:var(--text2);line-height:1.7}
+.rate-compare{width:100%;border-collapse:collapse;font-size:.88rem;margin:.8rem 0}
+.rate-compare th{background:var(--blue);color:#fff;padding:.5rem .8rem;text-align:left}
+.rate-compare td{padding:.5rem .8rem;border-bottom:1px solid var(--gray-border);color:var(--text2);vertical-align:top}
+.rate-compare tr:nth-child(even) td{background:var(--gray-light)}
+.tag{display:inline-block;padding:2px 9px;border-radius:20px;font-size:.75rem;font-weight:600;margin-left:.4rem}
+.tag-key{background:var(--blue-light);color:var(--blue)}
+.tag-new{background:#fff3e0;color:#c06000}
+.q-block{background:var(--gray-light);border-radius:8px;padding:1rem 1.2rem;margin-bottom:1rem}
+.q-block .q-text{font-weight:600;font-size:.93rem;margin-bottom:.7rem}
+.q-options label{display:flex;align-items:flex-start;gap:.5rem;padding:.4rem .5rem;border-radius:6px;cursor:pointer;font-size:.91rem;color:var(--text2);transition:background .1s;margin-bottom:3px}
+.q-options label:hover{background:#e8e8e8}
+.q-options input[type=radio]{margin-top:3px;flex-shrink:0;accent-color:var(--blue)}
+.q-feedback{display:none;margin-top:.7rem;padding:.6rem .9rem;border-radius:6px;font-size:.88rem;font-weight:500}
+.q-feedback.correct{background:var(--green-light);color:var(--green);border-left:3px solid var(--green)}
+.q-feedback.wrong{background:var(--red-light);color:var(--red);border-left:3px solid var(--red)}
+.quiz-btn{background:var(--blue);color:#fff;border:none;padding:.7rem 2rem;border-radius:8px;font-size:.95rem;font-weight:600;cursor:pointer;margin-top:.5rem}
+.quiz-btn:hover{background:var(--blue-mid)}
+.quiz-btn:disabled{background:#aaa;cursor:default}
+.score-box{display:none;background:var(--blue-light);border:2px solid var(--blue);border-radius:10px;padding:1.2rem;text-align:center;margin-top:1rem}
+.score-box .big{font-size:2rem;font-weight:800;color:var(--blue)}
+.checklist-wrap{margin:.6rem 0}
+.check-item{display:flex;align-items:flex-start;gap:.7rem;padding:.55rem .3rem;border-bottom:1px solid var(--gray-border);font-size:.92rem;cursor:pointer}
+.check-item:last-child{border:none}
+.check-item input[type=checkbox]{margin-top:4px;flex-shrink:0;accent-color:var(--green);width:16px;height:16px}
+.check-item.checked label{color:#aaa;text-decoration:line-through}
+.nav-bottom{display:flex;justify-content:space-between;align-items:center;margin-top:2rem;flex-wrap:wrap;gap:.5rem}
+.btn-nav{background:var(--blue);color:#fff;padding:.65rem 1.4rem;border-radius:8px;font-size:.93rem;font-weight:600;cursor:pointer;border:none;text-decoration:none;display:inline-block}
+.btn-nav.secondary{background:#fff;color:var(--blue);border:2px solid var(--blue)}
+@media(max-width:720px){.layout{flex-direction:column}.sidebar{width:100%;position:static}.nav-card{position:static}.two-col{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header class="mod-header">
+  <div class="breadcrumb">기초과정 › Chapter I › M1-5</div>
+  <h1>M1-5. 무위험이익률과 위험가산율</h1>
+  <div class="sub">§1.107 – §1.126 · 예상 학습시간: 35분 <span class="tag tag-new" style="vertical-align:middle">2022년 추가</span></div>
+  <div class="prog-strip"><div class="prog-strip-inner" id="topBar" style="width:0%"></div></div>
+</header>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="nav-card">
+      <h4>📑 목차</h4>
+      <button class="nav-item" onclick="scrollTo('obj')">🎯 학습목표</button>
+      <button class="nav-item" onclick="scrollTo('s1')">1. 개요 및 배경</button>
+      <button class="nav-item" onclick="scrollTo('s2')">2. 무위험이익률 (§1.107–1.116)</button>
+      <button class="nav-item" onclick="scrollTo('s3')">3. 위험가산율 (§1.117–1.126)</button>
+      <button class="nav-item" onclick="scrollTo('s4')">4. 두 개념 비교 및 실무 적용</button>
+      <button class="nav-item" onclick="scrollTo('quiz')">📝 확인 퀴즈</button>
+      <button class="nav-item" onclick="scrollTo('check')">✅ 실무 체크리스트</button>
+    </div>
+    <div class="nav-card">
+      <h4>📊 이 모듈 진도</h4>
+      <div style="text-align:center;padding:.5rem 0">
+        <div style="font-size:1.6rem;font-weight:800;color:var(--blue)" id="pctDisp">0%</div>
+        <div style="font-size:.8rem;color:var(--gray);margin-top:.2rem">퀴즈 완료 시 갱신</div>
+      </div>
+    </div>
+  </aside>
+
+  <main class="content">
+
+    <section class="card" id="obj">
+      <h2>🎯 학습 목표</h2>
+      <ul class="obj-list">
+        <li><span class="obj-num">1</span><span>무위험이익률(Risk-free rate)의 개념과 적용 상황을 설명할 수 있다</span></li>
+        <li><span class="obj-num">2</span><span>위험가산율(Risk-adjusted rate)의 구성(무위험이익률 + 프리미엄)을 이해할 수 있다</span></li>
+        <li><span class="obj-num">3</span><span>두 개념이 FAR 분석의 위험 할당 결과와 어떻게 연결되는지 파악할 수 있다</span></li>
+        <li><span class="obj-num">4</span><span>실무에서 정상가격 이자율 산출 시 무위험이익률을 적용하는 방법을 이해할 수 있다</span></li>
+      </ul>
+    </section>
+
+    <!-- 섹션 1 -->
+    <section class="card" id="s1">
+      <h2>1. 개요 및 배경 <span class="tag tag-key">§1.107</span></h2>
+
+      <p>§1.107–1.126은 <strong>2022년 OECD 이전가격지침서 개정 시 새로 추가된 내용</strong>입니다. Chapter X(금융거래)와 Chapter VI(무형자산)에서 이미 사용되던 이자율 결정 방법론을 Chapter I에 명시적으로 포함시킨 것입니다.</p>
+
+      <div class="key-point">💡 <strong>이 섹션이 필요한 이유:</strong> M1-4에서 배운 FAR 분석의 결과로 위험을 할당했다면, 그 다음 단계는 실제 거래에서 적용되는 이자율(수익률)을 결정하는 것입니다. 위험을 거의 부담하지 않는 당사자(예: 단순 자금 제공자)에게 얼마를 지급해야 하는지가 핵심입니다.</div>
+
+      <p>이 섹션은 특히 <strong>특수관계자 간 대여금 거래</strong>와 <strong>무형자산 개발 자금 제공</strong> 시 정상가격 이자율 결정에 직접 적용됩니다.</p>
+
+      <div class="two-col">
+        <div class="info-box" style="border-top-color:var(--blue)">
+          <div class="ib-title" style="color:var(--blue)">🔵 무위험이익률 (§1.107–1.116)</div>
+          <div class="ib-body">위험 통제기능 없이 단순히 자금만 제공하는 경우 받을 수 있는 최소한의 이익률<br><br>참조: 정부채권 수익률</div>
+        </div>
+        <div class="info-box" style="border-top-color:var(--orange)">
+          <div class="ib-title" style="color:var(--orange)">🟠 위험가산율 (§1.117–1.126)</div>
+          <div class="ib-body">무위험이익률 + 위험 부담에 따른 프리미엄<br><br>재무위험·운영위험을 부담하는 경우 적용</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 섹션 2 -->
+    <section class="card" id="s2">
+      <h2>2. 무위험이익률 (Risk-Free Rate of Return) <span class="tag tag-key">§1.108–1.116</span></h2>
+
+      <div class="accordion" id="acc-rfr1">
+        <button class="acc-header" onclick="toggleAcc(this,'acc-rfr1')">
+          <span><span class="para">§1.108–1.109</span>무위험이익률의 개념</span><span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p><strong>적용 대상:</strong> 자금 제공자가 실제 재무능력을 갖추고 있으나 자산투자에 대한 위험을 통제할 결정권한을 행사하지 않는 경우</p>
+          <p>이 경우 자금 제공자는 <strong>무위험이익 이상을 획득할 수 없습니다</strong>.</p>
+          <div class="key-point">💡 무위험이익률은 가상적으로 투자위험이 "0"인 경우를 말합니다. 현실에는 존재하지 않으므로 사실과 환경을 반영하여 근사치를 산출합니다.</div>
+          <p><strong>구조:</strong> 자금 제공자가 받아야 하는 금액과 차입자가 지급해야 할 비용의 차이 → 투자위험 통제기능을 수행하는 당사자에게 배분</p>
+        </div>
+      </div>
+
+      <div class="accordion" id="acc-rfr2">
+        <button class="acc-header" onclick="toggleAcc(this,'acc-rfr2')">
+          <span><span class="para">§1.110–1.116</span>무위험이익률 산출 방법</span><span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p><strong>주요 참조 자료 (§1.110):</strong> 실무에서는 <em>정부채권의 이자율(수익률)</em>을 기준으로 사용</p>
+          <p><strong>기타 적용 가능 이자율 (§1.115):</strong></p>
+          <ul class="step-list">
+            <li><span class="step-num">•</span><div>은행 간 이자율(LIBOR, SOFR 등)</div></li>
+            <li><span class="step-num">•</span><div>이자 스왑률(Interest Rate Swap Rates)</div></li>
+            <li><span class="step-num">•</span><div>고신용 정부채권의 재구매계약 이자율</div></li>
+          </ul>
+          <p><strong>환율변동 위험 처리 (§1.111):</strong></p>
+          <ul class="step-list">
+            <li><span class="step-num">①</span><div>투자자의 거주지 화폐가 아닌 <em>기능화폐</em>와 동일한 화폐로 발행된 채권 수익률 적용</div></li>
+            <li><span class="step-num">②</span><div>동일 통화 채권이 여러 국가에서 발행된 경우 → <em>이자율이 가장 낮은 것</em> 선택</div></li>
+          </ul>
+          <p><strong>거래 시기 (§1.112):</strong> 비교가능 채권 거래는 분석 대상 거래와 동일한 시기 또는 만기일이 있는 거래로 선택</p>
+
+          <div style="background:var(--blue-light);border-radius:8px;padding:1rem;margin-top:.8rem">
+            <div style="font-size:.88rem;font-weight:700;color:var(--blue);margin-bottom:.5rem">📋 무위험이익률 결정 사례 (§1.114)</div>
+            <div style="font-size:.85rem;color:var(--text2);line-height:1.8">
+              <strong>상황:</strong> 기업 A가 기업 B에게 1년 만기 자금 대여, 분석결과 기업 A는 위험 통제기능 없음 → 무위험이익률만 적용 가능<br>
+              <strong>과세관청 검색 결과:</strong> 기능화폐 동일 채권<br>
+              &nbsp;&nbsp;• 국가 X (신용등급 A): 이자율 2.5%<br>
+              &nbsp;&nbsp;• 국가 Y (신용등급 B): 이자율 3.2%<br>
+              &nbsp;&nbsp;• 국가 Z (신용등급 AA): 이자율 1.8%<br>
+              <strong>결론:</strong> 이자율이 가장 낮은 국가 Z의 1.8%를 비교가능 거래로 선택
+            </div>
+          </div>
+          <div class="note-point">📌 <strong>실무 포인트:</strong> 무위험이익률은 ① 위험가산율 산출 시 기준값 또는 ② 자금 제공자가 어떠한 위험도 부담하지 않는 경우의 기본 수익률로 활용됩니다. (§1.116)</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 섹션 3 -->
+    <section class="card" id="s3">
+      <h2>3. 위험가산율 (Risk-Adjusted Rate of Return) <span class="tag tag-key">§1.117–1.126</span></h2>
+
+      <div class="accordion" id="acc-rar1">
+        <button class="acc-header" onclick="toggleAcc(this,'acc-rar1')">
+          <span><span class="para">§1.118–1.121</span>위험가산율의 개념과 구성</span><span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p><strong>위험가산율 = 무위험이익률 + 위험 부담 프리미엄 (§1.120)</strong></p>
+          <p><strong>적용 대상 (§1.118):</strong></p>
+          <ul class="step-list">
+            <li><span class="step-num">①</span><div>자금 제공자의 금융활동 관련 <em>재무위험</em>을 부담하는 경우</div></li>
+            <li><span class="step-num">②</span><div>자금 대여자의 자금운영 관련 <em>운영위험</em>을 부담하는 경우 (예: 자금으로 무형자산 개발 시 개발 실패 위험)</div></li>
+          </ul>
+          <p><strong>핵심 원칙 (§1.121):</strong> 자금 제공자가 재무위험(위험 결과로 수익이 늘거나 줄 수 있는 위험)을 부담하는 경우, 무위험이익률보다 높은 수익을 획득해야 합니다.</p>
+        </div>
+      </div>
+
+      <div class="accordion" id="acc-rar2">
+        <button class="acc-header" onclick="toggleAcc(this,'acc-rar2')">
+          <span><span class="para">§1.119</span>위험가산율 사례</span><span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p><strong>상황:</strong> 기업 F가 기업 D에게 무형자산 개발 목적으로 자금 대여</p>
+          <table style="width:100%;border-collapse:collapse;font-size:.87rem;margin:.5rem 0">
+            <tr style="background:var(--blue);color:#fff">
+              <th style="padding:.4rem .7rem">당사자</th>
+              <th style="padding:.4rem .7rem">역할</th>
+              <th style="padding:.4rem .7rem">위험</th>
+            </tr>
+            <tr>
+              <td style="padding:.4rem .7rem;border-bottom:1px solid var(--gray-border);font-weight:600">기업 F (자금 제공)</td>
+              <td style="padding:.4rem .7rem;border-bottom:1px solid var(--gray-border);color:var(--text2)">재무위험 부담 및 통제</td>
+              <td style="padding:.4rem .7rem;border-bottom:1px solid var(--gray-border);color:var(--text2)">원금 회수 관련 재무위험</td>
+            </tr>
+            <tr>
+              <td style="padding:.4rem .7rem;font-weight:600">기업 D (자금 차입)</td>
+              <td style="padding:.4rem .7rem;color:var(--text2)">무형자산 실제 개발 (운영)</td>
+              <td style="padding:.4rem .7rem;color:var(--text2)">개발 실패 운영위험</td>
+            </tr>
+          </table>
+          <div class="note-point">📌 기업 F는 무형자산 활용 후 발생하는 결과(높거나 낮은 수익)에 대한 이해관계가 없습니다. 따라서 기업 F는 <em>위험가산율</em>에 해당하는 이익만 받습니다. 개발 성공 시 잔여이익은 실제로 운영위험을 부담하는 기업 D에 귀속됩니다.</div>
+        </div>
+      </div>
+
+      <div class="accordion" id="acc-rar3">
+        <button class="acc-header" onclick="toggleAcc(this,'acc-rar3')">
+          <span><span class="para">§1.122–1.126</span>위험가산율 산출 방법 2가지</span><span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p><strong>방법 1: 비교가능거래 검색법 (§1.122-1.123)</strong></p>
+          <p>유사한 경제적 특성을 가진 비교가능 채권·증권 거래를 검색하여 적용</p>
+          <p><strong>방법 2: 자금비용 산출법 (§1.122, §1.126)</strong></p>
+          <p>자금대여와 관련하여 자금 제공자에게 발생한 <em>비용</em> + <em>적정 마진</em>을 합산하여 산출</p>
+          <p><strong>위험가산율 사례 (§1.125):</strong> 기업 A가 위험가산율 대상인 경우 → 선택한 국가 X의 화폐채권 수익률에 프리미엄을 가산. 프리미엄 산출 기준: 기업 B와 동일한 국가에서 제3자가 발행한 회사채(Corporate Bonds) 수익률 활용</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 섹션 4 -->
+    <section class="card" id="s4">
+      <h2>4. 두 개념 비교 및 실무 적용</h2>
+
+      <table class="rate-compare">
+        <thead>
+          <tr><th style="width:20%">구분</th><th style="width:40%">무위험이익률</th><th style="width:40%">위험가산율</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>적용 대상</strong></td>
+            <td>위험 통제 없이 단순 자금 제공자</td>
+            <td>재무위험 또는 운영위험을 실제로 부담하는 자금 제공자</td>
+          </tr>
+          <tr>
+            <td><strong>구성</strong></td>
+            <td>기준 이자율(정부채권 수준)</td>
+            <td>무위험이익률 + 위험 프리미엄</td>
+          </tr>
+          <tr>
+            <td><strong>이익 수준</strong></td>
+            <td>낮음 (최소한)</td>
+            <td>중간~높음 (위험 수준에 비례)</td>
+          </tr>
+          <tr>
+            <td><strong>산출 기준</strong></td>
+            <td>정부채권 수익률 (가장 낮은 이자율)</td>
+            <td>회사채 수익률 또는 비교가능 투자수익률</td>
+          </tr>
+          <tr>
+            <td><strong>Chapter X 연계</strong></td>
+            <td>특수관계자 대여금 (단순 자금 제공)</td>
+            <td>리스크 있는 자금 거래, 무형자산 개발 투자</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="key-point">💡 <strong>핵심 정리:</strong> 이 두 개념은 FAR 분석(M1-4)의 결론과 직접 연결됩니다.<br>
+      ① 위험 통제기능 없음 → 무위험이익률 적용<br>
+      ② 재무위험 부담 → 위험가산율 적용<br>
+      ③ 위험 통제 + 운영위험 부담 → 잔여이익 포함한 더 높은 이익</div>
+
+      <div class="warn-point">⚠️ <strong>실무 주의:</strong> 이 섹션(§1.107-1.126)은 특히 그룹 내 차입거래(Inter-company Loan) 및 현금풀링(Cash Pooling) 등 금융거래의 정상가격을 결정할 때 Chapter X(금융거래 이전가격)와 함께 적용합니다. 기초과정에서는 개념 이해가 목표이며, 상세 적용은 고급과정에서 다룹니다.</div>
+    </section>
+
+    <!-- 퀴즈 -->
+    <section class="card" id="quiz">
+      <h2>📝 확인 퀴즈</h2>
+      <p style="font-size:.9rem;color:var(--gray);margin-bottom:1rem">4문항을 풀고 학습 내용을 확인하세요.</p>
+
+      <div id="quizWrap">
+        <div class="q-block">
+          <div class="q-text">Q1. 무위험이익률이 적용되는 경우는?</div>
+          <div class="q-options">
+            <label><input type="radio" name="q1" value="a"> 자금 제공자가 무형자산 개발 위험을 직접 부담하는 경우</label>
+            <label><input type="radio" name="q1" value="b"> 자금 제공자가 위험 통제 결정권을 행사하지 않는 경우</label>
+            <label><input type="radio" name="q1" value="c"> 자금 제공자가 운영위험을 실제로 부담하는 경우</label>
+            <label><input type="radio" name="q1" value="d"> 자금 제공자가 그룹 전체의 전략 결정을 하는 경우</label>
+          </div>
+          <div class="q-feedback" id="fb1"></div>
+        </div>
+
+        <div class="q-block">
+          <div class="q-text">Q2. OECD에 따르면 무위험이익률을 산출할 때 동일 통화의 채권이 여러 국가에서 발행된 경우, 어떤 수익률을 사용하는가?</div>
+          <div class="q-options">
+            <label><input type="radio" name="q2" value="a"> 신용등급이 가장 높은 국가의 채권 수익률</label>
+            <label><input type="radio" name="q2" value="b"> 이자율이 가장 낮은 국가의 채권 수익률</label>
+            <label><input type="radio" name="q2" value="c"> 이자율의 평균값</label>
+            <label><input type="radio" name="q2" value="d"> 자금 차입자가 위치한 국가의 채권 수익률</label>
+          </div>
+          <div class="q-feedback" id="fb2"></div>
+        </div>
+
+        <div class="q-block">
+          <div class="q-text">Q3. 위험가산율의 구성으로 옳은 것은?</div>
+          <div class="q-options">
+            <label><input type="radio" name="q3" value="a"> 정부채권 수익률 × 2</label>
+            <label><input type="radio" name="q3" value="b"> 무위험이익률 + 위험 부담 프리미엄</label>
+            <label><input type="radio" name="q3" value="c"> 시장이자율 - 세금</label>
+            <label><input type="radio" name="q3" value="d"> 자기자본비용 + 타인자본비용</label>
+          </div>
+          <div class="q-feedback" id="fb3"></div>
+        </div>
+
+        <div class="q-block">
+          <div class="q-text">Q4. §1.119 사례에서 기업 F(자금 제공자)와 기업 D(무형자산 개발)의 이익 배분에 대한 설명으로 옳은 것은?</div>
+          <div class="q-options">
+            <label><input type="radio" name="q4" value="a"> 기업 F는 무형자산 개발 성공 후 잔여이익 전부를 가져야 한다</label>
+            <label><input type="radio" name="q4" value="b"> 기업 F는 위험가산율에 해당하는 이익을 받고, 잔여이익은 기업 D에 귀속된다</label>
+            <label><input type="radio" name="q4" value="c"> 기업 F와 D는 이익을 50:50으로 분배한다</label>
+            <label><input type="radio" name="q4" value="d"> 기업 F는 무위험이익률만 받는다 (단, 재무위험을 통제하므로)</label>
+          </div>
+          <div class="q-feedback" id="fb4"></div>
+        </div>
+      </div>
+
+      <button class="quiz-btn" onclick="submitQuiz()" id="quizBtn">채점하기</button>
+      <div class="score-box" id="scoreBox">
+        <div class="big" id="scoreNum"></div>
+        <p id="scoreMsg"></p>
+      </div>
+    </section>
+
+    <section class="card" id="check">
+      <h2>✅ 실무 적용 체크리스트</h2>
+      <div class="checklist-wrap" id="checkList">
+        <div class="check-item" onclick="toggleCheck(this,0)">
+          <input type="checkbox" id="c0"><label for="c0">특수관계자 대여금 거래 시 자금 제공자의 위험 통제기능 수행 여부를 먼저 확인했는가</label>
+        </div>
+        <div class="check-item" onclick="toggleCheck(this,1)">
+          <input type="checkbox" id="c1"><label for="c1">무위험이익률 산출 시 기능화폐와 동일한 화폐로 발행된 채권 중 최저 이자율을 적용했는가</label>
+        </div>
+        <div class="check-item" onclick="toggleCheck(this,2)">
+          <input type="checkbox" id="c2"><label for="c2">자금 제공자가 재무위험을 실제로 부담·통제하는 경우 위험가산율(프리미엄 포함)을 적용했는가</label>
+        </div>
+        <div class="check-item" onclick="toggleCheck(this,3)">
+          <input type="checkbox" id="c3"><label for="c3">무형자산 개발 자금 제공의 경우 운영위험 부담자(개발자)에게 잔여이익을 배분했는가</label>
+        </div>
+      </div>
+    </section>
+
+    <div class="nav-bottom">
+      <a href="M1-4_FAR분석.html" class="btn-nav secondary">← M1-4: FAR분석</a>
+      <a href="index.html" class="btn-nav secondary">📋 목차로</a>
+      <a href="M1-6_비교가능성.html" class="btn-nav">M1-6: 비교가능성 →</a>
+    </div>
+  </main>
+</div>
+
+<script>
+const answers={q1:'b',q2:'b',q3:'b',q4:'b'};
+const feedbacks={
+  q1:{b:"✅ 정답! 무위험이익률은 자금 제공자가 위험 통제 결정권을 행사하지 않는 경우에 적용됩니다. (§1.108)",a:"❌ 오답. 무형자산 개발 위험을 직접 부담하면 위험가산율 또는 더 높은 수익이 적용됩니다.",c:"❌ 오답. 운영위험을 실제로 부담하면 위험가산율이 적용됩니다.",d:"❌ 오답. 전략 결정을 하는 것은 위험 통제기능을 갖추는 것입니다."},
+  q2:{b:"✅ 정답! §1.111에 따르면 동일 통화 채권이 여러 국가에서 발행된 경우 이자율이 가장 낮은 국가의 채권 수익률을 사용합니다.",a:"❌ 오답. 신용등급이 높다고 해서 사용하는 것이 아니라 이자율이 낮은 것을 선택합니다.",c:"❌ 오답. 평균값이 아닌 최저 이자율을 사용합니다.",d:"❌ 오답. 자금 차입자 위치가 아닌 투자자(제공자)의 기능화폐를 기준으로 합니다."},
+  q3:{b:"✅ 정답! §1.120에 따르면 위험가산율 = 무위험이익률 + 위험 부담에 따른 프리미엄으로 구성됩니다.",a:"❌ 오답. 정부채권 수익률 × 2가 아닙니다.",c:"❌ 오답. 이러한 계산법은 OECD 지침서에 없습니다.",d:"❌ 오답. WACC(가중평균자본비용)와 다른 개념입니다."},
+  q4:{b:"✅ 정답! §1.119 사례에서 기업 F는 재무위험을 통제하므로 위험가산율에 해당하는 이익을 받습니다. 기업 F는 무형자산 개발 결과(높거나 낮은 수익)에 대한 이해관계가 없으며, 잔여이익은 실제 운영위험을 부담하는 기업 D에 귀속됩니다.",a:"❌ 오답. 기업 F는 개발 결과에 대한 이해관계가 없으므로 잔여이익을 받지 않습니다.",c:"❌ 오답. 50:50 분배는 일반적인 원칙이 아닙니다.",d:"❌ 오답. 기업 F는 재무위험을 통제하므로 무위험이익률이 아닌 위험가산율을 적용받습니다."}
+};
+function submitQuiz(){
+  let score=0,answered=0;
+  ['q1','q2','q3','q4'].forEach(q=>{
+    const sel=document.querySelector(`input[name="${q}"]:checked`);
+    const fb=document.getElementById('fb'+q.slice(1));
+    if(!sel){fb.style.display='block';fb.className='q-feedback wrong';fb.textContent='⚠️ 답을 선택하세요.';return;}
+    answered++;
+    const val=sel.value;
+    fb.style.display='block';
+    if(val===answers[q]){score++;fb.className='q-feedback correct';fb.innerHTML=feedbacks[q][val];}
+    else{fb.className='q-feedback wrong';fb.innerHTML=feedbacks[q][val]+'<br><br><strong>정답:</strong> '+feedbacks[q][answers[q]];}
+  });
+  if(answered<4)return;
+  const pct=Math.round(score/4*100);
+  document.getElementById('scoreBox').style.display='block';
+  document.getElementById('scoreNum').textContent=pct+'점 ('+score+'/4)';
+  const msg=document.getElementById('scoreMsg');
+  if(pct>=75)msg.textContent='🎉 이익률 분석 개념을 잘 이해하셨습니다.';
+  else if(pct>=50)msg.textContent='✅ 양호합니다. 틀린 문항을 확인하고 진행하세요.';
+  else msg.textContent='📖 무위험이익률과 위험가산율 개념을 다시 복습하세요.';
+  document.getElementById('quizBtn').disabled=true;
+  finishQuiz(pct);
+}
+function finishQuiz(pct){
+  localStorage.setItem('ch1_m5_quiz',pct);
+  const prog=pct>=50?100:40;
+  localStorage.setItem('ch1_m5_pct',prog);
+  document.getElementById('topBar').style.width=prog+'%';
+  document.getElementById('pctDisp').textContent=prog+'%';
+}
+function toggleAcc(btn,id){
+  const body=btn.parentElement.querySelector('.acc-body');
+  const isOpen=body.classList.contains('open');
+  body.classList.toggle('open',!isOpen);btn.classList.toggle('open',!isOpen);
+  if(!isOpen)trackOpen();
+}
+function toggleCheck(item,idx){
+  const cb=item.querySelector('input[type=checkbox]');cb.checked=!cb.checked;
+  item.classList.toggle('checked',cb.checked);saveChecks();updateProg();
+}
+function saveChecks(){
+  const items=document.querySelectorAll('#checkList .check-item input');
+  localStorage.setItem('ch1_m5_checks',[...items].map(i=>i.checked?'1':'0').join(''));
+}
+function loadChecks(){
+  const saved=localStorage.getItem('ch1_m5_checks')||'';
+  document.querySelectorAll('#checkList .check-item input').forEach((cb,i)=>{if(saved[i]==='1'){cb.checked=true;cb.closest('.check-item').classList.add('checked');}});
+}
+let openedCount=parseInt(localStorage.getItem('ch1_m5_opened')||'0');
+function trackOpen(){openedCount++;localStorage.setItem('ch1_m5_opened',openedCount);updateProg();}
+function updateProg(){
+  const quiz=parseInt(localStorage.getItem('ch1_m5_quiz')||'0');
+  const checks=[...document.querySelectorAll('#checkList input:checked')].length;
+  let pct=0;
+  if(quiz>0)pct=Math.max(pct,quiz>=50?100:40);
+  pct=Math.max(pct,Math.min(40,Math.round(openedCount/5*20)+Math.round(checks/4*20)));
+  localStorage.setItem('ch1_m5_pct',pct);
+  document.getElementById('topBar').style.width=pct+'%';
+  document.getElementById('pctDisp').textContent=pct+'%';
+}
+function scrollTo(id){document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'});}
+window.addEventListener('DOMContentLoaded',()=>{
+  loadChecks();
+  const saved=parseInt(localStorage.getItem('ch1_m5_pct')||'0');
+  document.getElementById('topBar').style.width=saved+'%';
+  document.getElementById('pctDisp').textContent=saved+'%';
+  const savedQuiz=localStorage.getItem('ch1_m5_quiz');
+  if(savedQuiz){
+    document.getElementById('scoreBox').style.display='block';
+    document.getElementById('scoreNum').textContent=parseInt(savedQuiz)+'점';
+    document.getElementById('scoreMsg').textContent='이미 완료된 퀴즈입니다.';
+    document.getElementById('quizBtn').disabled=true;
+  }
+});
+</script>
+</body>
+</html>

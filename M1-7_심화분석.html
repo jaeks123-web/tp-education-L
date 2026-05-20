@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>M1-7: 심화분석 | Chapter I 기초과정</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:#1a5fa8;--blue-light:#e8f0fa;--blue-mid:#3b7dd8;
+  --green:#1a7a4a;--green-light:#e6f5ee;
+  --orange:#c06000;--orange-light:#fff3e0;
+  --red:#b02020;--red-light:#fdecea;
+  --purple:#6a1a9a;--purple-light:#f3e8fa;
+  --gray:#555;--gray-light:#f5f5f5;--gray-border:#ddd;
+  --text:#222;--text2:#555;
+  --radius:10px;--shadow:0 2px 8px rgba(0,0,0,.10);
+}
+body{font-family:'Noto Sans KR',Arial,sans-serif;background:#f0f4f8;color:var(--text);line-height:1.75;font-size:16px}
+a{color:var(--blue);text-decoration:none}
+.mod-header{background:var(--blue);color:#fff;padding:1.5rem 2rem}
+.mod-header .breadcrumb{font-size:.8rem;opacity:.7;margin-bottom:.4rem}
+.mod-header h1{font-size:1.4rem;font-weight:700}
+.mod-header .sub{font-size:.9rem;opacity:.8;margin-top:.3rem}
+.prog-strip{background:rgba(255,255,255,.15);height:6px;margin-top:1rem;border-radius:99px;overflow:hidden}
+.prog-strip-inner{height:100%;background:#fff;border-radius:99px;transition:width .4s}
+.layout{display:flex;max-width:1100px;margin:0 auto;padding:2rem 1.5rem 4rem;gap:1.5rem}
+.sidebar{width:220px;flex-shrink:0}
+.content{flex:1;min-width:0}
+.nav-card{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:1.2rem;margin-bottom:1rem;position:sticky;top:1rem}
+.nav-card h4{font-size:.85rem;color:var(--gray);margin-bottom:.8rem}
+.nav-item{display:block;padding:.45rem .75rem;border-radius:6px;font-size:.85rem;color:var(--text2);margin-bottom:3px;cursor:pointer;border:none;width:100%;text-align:left;background:none;transition:background .12s}
+.nav-item:hover{background:var(--blue-light);color:var(--blue)}
+.card{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:1.8rem 2rem;margin-bottom:1.5rem}
+.card h2{font-size:1.15rem;font-weight:700;color:var(--blue);margin-bottom:1rem;padding-bottom:.6rem;border-bottom:2px solid var(--blue-light)}
+.card p{font-size:.95rem;color:var(--text2);margin-bottom:.7rem}
+.obj-list{list-style:none;padding:0}
+.obj-list li{display:flex;gap:.7rem;align-items:flex-start;padding:.5rem 0;border-bottom:1px solid var(--gray-border);font-size:.93rem}
+.obj-list li:last-child{border:none}
+.obj-num{background:var(--blue);color:#fff;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;flex-shrink:0;margin-top:2px}
+.accordion{border:1px solid var(--gray-border);border-radius:var(--radius);overflow:hidden;margin-bottom:1rem}
+.acc-header{display:flex;justify-content:space-between;align-items:center;padding:.9rem 1.2rem;cursor:pointer;background:var(--gray-light);font-weight:600;font-size:.95rem;border:none;width:100%;text-align:left;transition:background .12s}
+.acc-header:hover{background:#ebebeb}
+.acc-header .para{font-size:.78rem;color:var(--blue);background:var(--blue-light);padding:2px 8px;border-radius:20px;margin-right:.6rem}
+.acc-header .arrow{font-size:1rem;color:var(--gray);transition:transform .2s}
+.acc-body{display:none;padding:1.1rem 1.3rem;background:#fff;font-size:.93rem;color:var(--text2);line-height:1.8;border-top:1px solid var(--gray-border)}
+.acc-body.open{display:block}
+.acc-header.open .arrow{transform:rotate(180deg)}
+.key-point{background:var(--blue-light);border-left:4px solid var(--blue);padding:.7rem 1rem;border-radius:0 6px 6px 0;margin:.8rem 0;font-size:.9rem;color:#1a3a6a}
+.warn-point{background:var(--orange-light);border-left:4px solid var(--orange);padding:.7rem 1rem;border-radius:0 6px 6px 0;margin:.8rem 0;font-size:.9rem;color:#6b3a00}
+.note-point{background:var(--green-light);border-left:4px solid var(--green);padding:.7rem 1rem;border-radius:0 6px 6px 0;margin:.8rem 0;font-size:.9rem;color:#0d3d25}
+.purple-point{background:var(--purple-light);border-left:4px solid var(--purple);padding:.7rem 1rem;border-radius:0 6px 6px 0;margin:.8rem 0;font-size:.9rem;color:#3a006a}
+.step-list{list-style:none;padding:0;margin:.6rem 0}
+.step-list li{display:flex;gap:.8rem;align-items:flex-start;padding:.45rem 0;font-size:.92rem;color:var(--text2)}
+.step-num{background:var(--blue);color:#fff;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;flex-shrink:0;margin-top:3px}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:.8rem 0}
+.info-box{background:var(--gray-light);border-radius:8px;padding:1rem;border-top:3px solid}
+.info-box .ib-title{font-size:.9rem;font-weight:700;margin-bottom:.5rem}
+.info-box .ib-body{font-size:.87rem;color:var(--text2);line-height:1.7}
+.case-table{width:100%;border-collapse:collapse;font-size:.87rem;margin:.8rem 0}
+.case-table th{background:var(--blue);color:#fff;padding:.5rem .8rem;text-align:left}
+.case-table td{padding:.5rem .8rem;border-bottom:1px solid var(--gray-border);color:var(--text2);vertical-align:top}
+.case-table tr:nth-child(even) td{background:var(--gray-light)}
+.section-badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:.75rem;font-weight:700;margin-bottom:.6rem}
+.tag{display:inline-block;padding:2px 9px;border-radius:20px;font-size:.75rem;font-weight:600;margin-left:.4rem}
+.tag-key{background:var(--blue-light);color:var(--blue)}
+.tag-new{background:#fff3e0;color:#c06000}
+.contrast-box{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--gray-border);border-radius:8px;overflow:hidden;margin:.8rem 0}
+.contrast-left{background:var(--green-light);padding:.9rem 1rem;border-right:1px solid var(--gray-border)}
+.contrast-right{background:var(--red-light);padding:.9rem 1rem}
+.contrast-head{font-size:.85rem;font-weight:700;margin-bottom:.4rem}
+.contrast-body{font-size:.84rem;color:var(--text2);line-height:1.7}
+.synergy-flow{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap;margin:.8rem 0}
+.sf-box{background:var(--gray-light);border:1px solid var(--gray-border);border-radius:8px;padding:.6rem .9rem;font-size:.83rem;text-align:center;flex:1;min-width:120px}
+.sf-arrow{font-size:1.2rem;color:var(--blue);flex-shrink:0}
+.q-block{background:var(--gray-light);border-radius:8px;padding:1rem 1.2rem;margin-bottom:1rem}
+.q-block .q-text{font-weight:600;font-size:.93rem;margin-bottom:.7rem}
+.q-options label{display:flex;align-items:flex-start;gap:.5rem;padding:.4rem .5rem;border-radius:6px;cursor:pointer;font-size:.91rem;color:var(--text2);transition:background .1s;margin-bottom:3px}
+.q-options label:hover{background:#e8e8e8}
+.q-options input[type=radio]{margin-top:3px;flex-shrink:0;accent-color:var(--blue)}
+.q-feedback{display:none;margin-top:.7rem;padding:.6rem .9rem;border-radius:6px;font-size:.88rem;font-weight:500}
+.q-feedback.correct{background:var(--green-light);color:var(--green);border-left:3px solid var(--green)}
+.q-feedback.wrong{background:var(--red-light);color:var(--red);border-left:3px solid var(--red)}
+.quiz-btn{background:var(--blue);color:#fff;border:none;padding:.7rem 2rem;border-radius:8px;font-size:.95rem;font-weight:600;cursor:pointer;margin-top:.5rem}
+.quiz-btn:hover{background:var(--blue-mid)}
+.quiz-btn:disabled{background:#aaa;cursor:default}
+.score-box{display:none;background:var(--blue-light);border:2px solid var(--blue);border-radius:10px;padding:1.2rem;text-align:center;margin-top:1rem}
+.score-box .big{font-size:2rem;font-weight:800;color:var(--blue)}
+.checklist-wrap{margin:.6rem 0}
+.check-item{display:flex;align-items:flex-start;gap:.7rem;padding:.55rem .3rem;border-bottom:1px solid var(--gray-border);font-size:.92rem;cursor:pointer}
+.check-item:last-child{border:none}
+.check-item input[type=checkbox]{margin-top:4px;flex-shrink:0;accent-color:var(--green);width:16px;height:16px}
+.check-item.checked label{color:#aaa;text-decoration:line-through}
+.nav-bottom{display:flex;justify-content:space-between;align-items:center;margin-top:2rem;flex-wrap:wrap;gap:.5rem}
+.btn-nav{background:var(--blue);color:#fff;padding:.65rem 1.4rem;border-radius:8px;font-size:.93rem;font-weight:600;cursor:pointer;border:none;text-decoration:none;display:inline-block}
+.btn-nav.secondary{background:#fff;color:var(--blue);border:2px solid var(--blue)}
+.btn-nav.green{background:var(--green);color:#fff;}
+@media(max-width:720px){.layout{flex-direction:column}.sidebar{width:100%;position:static}.nav-card{position:static}.two-col{grid-template-columns:1fr}.contrast-box{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header class="mod-header">
+  <div class="breadcrumb">기초과정 › Chapter I › M1-7</div>
+  <h1>M1-7. 심화분석: 거래 재구성·결손·지역절감효과·그룹시너지</h1>
+  <div class="sub">§1.139 – §1.193 · 예상 학습시간: 45분</div>
+  <div class="prog-strip"><div class="prog-strip-inner" id="topBar" style="width:0%"></div></div>
+</header>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="nav-card">
+      <h4>📑 목차</h4>
+      <button class="nav-item" onclick="scrollTo('obj')">🎯 학습목표</button>
+      <button class="nav-item" onclick="scrollTo('s1')">1. D.2 거래의 정확한 분석 (§1.139–1.148)</button>
+      <button class="nav-item" onclick="scrollTo('s2')">2. D.3 결손 (§1.149–1.151)</button>
+      <button class="nav-item" onclick="scrollTo('s3')">3. D.4 정부정책 (§1.152–1.154)</button>
+      <button class="nav-item" onclick="scrollTo('s4')">4. D.5 관세평가 (§1.157–1.158)</button>
+      <button class="nav-item" onclick="scrollTo('s5')">5. D.6 지역절감효과 (§1.159–1.171)</button>
+      <button class="nav-item" onclick="scrollTo('s6')">6. D.7 숙련노동집단 (§1.172–1.176)</button>
+      <button class="nav-item" onclick="scrollTo('s7')">7. D.8 그룹 시너지 (§1.177–1.193)</button>
+      <button class="nav-item" onclick="scrollTo('quiz')">📝 확인 퀴즈</button>
+      <button class="nav-item" onclick="scrollTo('check')">✅ 실무 체크리스트</button>
+    </div>
+    <div class="nav-card">
+      <h4>📊 이 모듈 진도</h4>
+      <div style="text-align:center;padding:.5rem 0">
+        <div style="font-size:1.6rem;font-weight:800;color:var(--blue)" id="pctDisp">0%</div>
+        <div style="font-size:.8rem;color:var(--gray);margin-top:.2rem">퀴즈 완료 시 갱신</div>
+      </div>
+    </div>
+  </aside>
+
+  <main class="content">
+
+    <!-- 학습목표 -->
+    <section class="card" id="obj">
+      <h2>🎯 학습 목표</h2>
+      <ul class="obj-list">
+        <li><span class="obj-num">1</span><span>'거래의 정확한 분석(accurate delineation)' 개념과 거래 부인(non-recognition) 조건을 설명할 수 있다</span></li>
+        <li><span class="obj-num">2</span><span>다국적기업 결손 발생 패턴과 이전가격 관계를 이해할 수 있다</span></li>
+        <li><span class="obj-num">3</span><span>지역절감효과(location savings)의 개념과 배분 원칙을 파악할 수 있다</span></li>
+        <li><span class="obj-num">4</span><span>그룹 시너지를 우발적 혜택과 의도된 합동행위로 구분하고 이전가격 처리 방법을 이해할 수 있다</span></li>
+        <li><span class="obj-num">5</span><span>숙련노동집단(assembled workforce)의 사업구조조정 시 이전가격 처리를 파악할 수 있다</span></li>
+      </ul>
+    </section>
+
+    <!-- 섹션 1: D.2 거래의 정확한 분석 -->
+    <section class="card" id="s1">
+      <h2>1. D.2 거래의 정확한 분석 <span class="tag tag-key">§1.139–1.148</span></h2>
+
+      <p>이전가격 분석은 당사자 간 상업적·재무적 관계의 실질을 파악하고, <strong>경제적으로 중요한 특성을 바탕으로 실제 거래를 정확히 분석(accurate delineation)</strong>함으로써 시작되어야 합니다.</p>
+
+      <div class="key-point">💡 <strong>핵심 원칙 (§1.139):</strong> 형식적인 계약서상의 문구보다 당사자의 <strong>실제 행동과 거래의 경제적 특성</strong>에 기반한 분석이 우선되어야 합니다. 이를 통해 '실제로 존재하는 거래'를 기준으로 정상가격을 산정합니다.</div>
+
+      <div class="accordion" id="acc-del1">
+        <button class="acc-header" onclick="toggleAcc(this,'acc-del1')">
+          <span><span class="para">§1.141–1.143</span>거래 부인(Non-recognition) 원칙</span><span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p><strong>§1.141 — 기본 원칙:</strong> 과세관청은 예외적인 사례를 제외하고 실제거래를 부인하거나 다른 거래로 대체하는 것은 자제해야 합니다.</p>
+          <p style="margin-top:.7rem"><strong>§1.142 — 거래가 부인되는 사례:</strong> 전체거래 측면에서 보았을 때 특수관계거래에 적용된 조건이 <strong>유사한 상황에서 독립된 제3자가 합리적인 상업적 의도를 가지고 했을 것이라고 보이지 않는 경우</strong>에 거래를 부인하거나 다른 거래로 대체합니다. 또한 다국적기업 그룹 전체가 해당 거래로 인해 과세표준 측면에서 불리해진다면 이 또한 거래 부인의 전제조건이 됩니다.</p>
+          <div class="warn-point">⚠️ <strong>§1.143 — 주의:</strong> 단순히 동일한 제3자 거래가 있는지 검토하는 것이 아니라, 유사한 상황에서 제3자가 했을 것으로 보이는 <strong>상업적 합리성 여부</strong>를 검토해야 합니다. 거래를 부인하는 관례는 이중과세 문제를 초래할 수 있습니다.</div>
+        </div>
+      </div>
+
+      <div class="accordion" id="acc-del2">
+        <button class="acc-header" onclick="toggleAcc(this,'acc-del2')">
+          <span><span class="para">§1.146–1.148</span>거래 부인 사례 2개</span><span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p style="margin-bottom:.7rem"><strong>사례 1 — 보험거래 (§1.146–1.147)</strong></p>
+          <table class="case-table">
+            <tr><th>구분</th><th>내용</th></tr>
+            <tr><td>기업 S1</td><td>제조업, 빈번한 홍수 발생 지역에 상업용 부동산 소유. 제3자 보험사가 상당한 불확실성에 직면</td></tr>
+            <tr><td>기업 S2</td><td>관계회사인 S1에게 보험을 제공하고 보험료로 자산가치의 80%를 청구</td></tr>
+            <tr><td>판단</td><td>기업 S1은 보험거래에 시장성이 없으므로 상업적으로 <strong>비합리적인 거래를 체결</strong>한 것으로 봄</td></tr>
+            <tr><td>결론</td><td>거래 부인 → 기업 S1은 보험을 구매하지 않은 것으로 처리. 기업 S2는 보험을 제공하지 않았고 관련 손해에 대해 책임 없음</td></tr>
+          </table>
+
+          <p style="margin-top:1rem;margin-bottom:.7rem"><strong>사례 2 — 무형자산 개발 거래 (§1.148)</strong></p>
+          <table class="case-table">
+            <tr><th>구분</th><th>내용</th></tr>
+            <tr><td>기업 S1</td><td>무형자산 개발을 위한 연구 수행, 기업 S2에게 미래 무형자산에 대한 무제한 권리를 이전하기로 합의</td></tr>
+            <tr><td>기업 S2</td><td>미래 무형자산에 대한 무제한 권리 획득, 일시불로 대가 지급</td></tr>
+            <tr><td>판단</td><td>양 당사자 모두에게 <strong>상업적 적합성이 결여</strong>되어 거래 부인 및 재구성</td></tr>
+            <tr><td>대체 구조</td><td>기업 S1과 S2가 특정 무형자산 성공적 개발을 조건으로 하는 <strong>조건부 지급조건 라이선스 거래</strong>로 재구성</td></tr>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- 섹션 2: D.3 결손 -->
+    <section class="card" id="s2">
+      <h2>2. D.3 결손 <span class="tag tag-key">§1.149–1.151</span></h2>
+
+      <div class="accordion" id="acc-loss1">
+        <button class="acc-header" onclick="toggleAcc(this,'acc-loss1')">
+          <span><span class="para">§1.149–1.150</span>결손과 이전가격의 관계</span><span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p><strong>§1.149:</strong> 수익성이 좋은 다국적기업 그룹에 속하면서 결손을 실현하는 것은 이전가격 조사로 이어질 가능성이 큽니다.</p>
+          <div class="two-col">
+            <div class="info-box" style="border-top-color:var(--green)">
+              <div class="ib-title" style="color:var(--green)">독립된 제3자의 결손 — 가능</div>
+              <div class="ib-body">
+                <ul style="list-style:disc;padding-left:1rem;font-size:.85rem">
+                  <li>시장진입 초기 비용</li>
+                  <li>불리한 경제적 상황</li>
+                  <li>비효율</li>
+                  <li>다른 상업적 이유</li>
+                </ul>
+                <p style="margin-top:.4rem;font-size:.83rem">단, <strong>계속적인 결손은 감내하지 않음</strong></p>
+              </div>
+            </div>
+            <div class="info-box" style="border-top-color:var(--orange)">
+              <div class="ib-title" style="color:var(--orange)">다국적기업 관계회사의 결손 — 주의</div>
+              <div class="ib-body">
+                <ul style="list-style:disc;padding-left:1rem;font-size:.85rem">
+                  <li>그룹 전체에 이익이 되는 경우 계속 결손에도 사업 유지 가능</li>
+                  <li>정상대가를 받지 못한 것이 주원인</li>
+                  <li>이전가격 조정으로 해결 필요</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="key-point">💡 <strong>인정 가능한 결손 사유:</strong> ① 시장진입을 위한 일시적 손실 ② 비효율성으로 인한 일시적 손실 ③ 예상치 못한 경제환경 변화로 인한 일시적 손실. 단, 각각에 대한 구체적 입증이 필요합니다.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 섹션 3: D.4 정부정책 -->
+    <section class="card" id="s3">
+      <h2>3. D.4 정부정책의 영향 <span class="tag tag-key">§1.152–1.154</span></h2>
+
+      <div class="accordion" id="acc-gov1">
+        <button class="acc-header" onclick="toggleAcc(this,'acc-gov1')">
+          <span><span class="para">§1.152–1.153</span>정부정책 분석 방법</span><span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p><strong>고려 대상 정부정책 유형 (§1.152):</strong> 가격통제, 이자율통제, 서비스·경영관리비용 지급규제, 로열티 지급규제, 특정산업 정부보조, 환율통제, 반덤핑 규제 등.</p>
+          <div class="note-point">📌 이러한 정부정책은 <strong>일종의 시장조건</strong>으로 취급하여 이전가격 분석을 실시합니다.</div>
+          <p style="margin-top:.7rem"><strong>§1.153 — 분석방법:</strong> 정부정책으로 변동된 가격을 누가 부담하는지에 따라 분석 방법이 달라집니다. 최종 소비자 또는 중간 유통업자가 부담하는 경우 이를 <strong>통과비용(pass-through expenses)</strong>이라 하며 이전가격 분석에서 제외합니다.</p>
+          <div class="key-point">💡 정부정책은 특수관계거래와 제3자거래 모두에 동일하게 적용되는 경우가 일반적이므로, 특정 기업에만 영향을 주지 않는 한 통상적으로 이전가격 조정을 하지 않습니다.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 섹션 4: D.5 관세평가 -->
+    <section class="card" id="s4">
+      <h2>4. D.5 관세 평가 활용 <span class="tag tag-key">§1.157–1.158</span></h2>
+
+      <div class="accordion" id="acc-cust1">
+        <button class="acc-header" onclick="toggleAcc(this,'acc-cust1')">
+          <span><span class="para">§1.157–1.158</span>관세평가방법과 정상가격산출방법의 관계</span><span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p>관세청은 관세가격이 특수관계로 인해 영향을 받았는지 검토하기 위해 제3자 비교 방법을 사용해 왔습니다.</p>
+          <div class="contrast-box">
+            <div class="contrast-left">
+              <div class="contrast-head" style="color:var(--green)">관세평가방법의 활용 가능성</div>
+              <div class="contrast-body">이전가격 거래의 특성을 이해하는 데 <em>참고 자료</em>로 활용 가능</div>
+            </div>
+            <div class="contrast-right">
+              <div class="contrast-head" style="color:var(--red)">직접 대체 불가</div>
+              <div class="contrast-body">관세평가방법은 이전가격상 정상가격원칙과 <strong>일치하지 않음</strong>. 비교가능성 평가방법이 상이하므로 조정 없이 그대로 사용 불가</div>
+            </div>
+          </div>
+          <div class="note-point">📌 한국 국조법 제18조~제20조는 국세의 정상가격산출방법과 관세의 과세가격 결정방법을 사전심사 또는 사후조정을 통해 합리적으로 해결하는 규정을 두고 있습니다.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 섹션 5: D.6 지역절감효과 -->
+    <section class="card" id="s5">
+      <h2>5. D.6 지역절감효과 및 지역시장 특성 <span class="tag tag-key">§1.159–1.171</span></h2>
+
+      <div class="key-point">💡 <strong>지역절감효과(Location Savings):</strong> 특정 시장에서 비용절감이 발생하는 경우, 이를 지역절감효과 또는 지역혜택(location saving)이라 합니다. 이는 사업구조조정과 깊은 관련이 있습니다.</div>
+
+      <div class="accordion" id="acc-loc1">
+        <button class="acc-header" onclick="toggleAcc(this,'acc-loc1')">
+          <span><span class="para">§1.159–1.163</span>지역절감효과의 개념과 이전가격 문제</span><span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p>지역절감효과가 존재하는 경우 비교가능거래 검색과 비교가능성 평가에 어려움이 발생합니다. 지역절감효과 이외에 다른 시장특성도 정상가격 결정에 영향을 줄 수 있습니다.</p>
+          <div class="warn-point">⚠️ 실무상 지역절감효과이든 시장에 영향을 주는 다른 요소이든 그 구분이 명확하지 않습니다. 정상가격 산출에 중요한 영향을 주는 것으로 확인되는 경우, 합리적인 조정을 하는 것으로 이해하면 됩니다.</div>
+        </div>
+      </div>
+
+      <div class="accordion" id="acc-loc2">
+        <button class="acc-header" onclick="toggleAcc(this,'acc-loc2')">
+          <span><span class="para">§1.164–1.167</span>지역시장 특성 조정 방법</span><span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p><strong>§1.164 — 지역절감효과 이외의 가격 영향 요소:</strong> 제품 제조·소비 지역의 시장특성, 구매력, 소비편향, 시장상황(팽창·축소), 경쟁 정도, 산업시설·훈련된 전문인력·시장 접근성 등</p>
+
+          <p style="margin-top:.7rem"><strong>§1.165 — 비교가능거래가 있는 경우:</strong> 지역 시장특성을 반영하는 비교가능거래가 존재하는 경우 별도의 조정은 필요하지 않습니다.</p>
+
+          <p style="margin-top:.7rem"><strong>§1.166 — 비교가능거래가 없는 경우:</strong></p>
+          <ul class="step-list">
+            <li><span class="step-num">①</span><div>시장에서 특정 혜택 또는 불이익이 존재하는지 검토</div></li>
+            <li><span class="step-num">②</span><div>혜택·불이익으로 인한 비용 감소(증가) 또는 이익 증가(감소)량 산출</div></li>
+            <li><span class="step-num">③</span><div>제3자 고객 또는 공급업자에게 전가된 금액 산출</div></li>
+            <li><span class="step-num">④</span><div>제3자 비교가능거래를 검색하여 전가되지 않은 혜택·불이익을 특수관계기업 간 배분</div></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="accordion" id="acc-loc3">
+        <button class="acc-header" onclick="toggleAcc(this,'acc-loc3')">
+          <span><span class="para">§1.168–1.171</span>사업이전 시 지역절감효과 및 투자관리 사례</span><span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p><strong>§1.168 — 사업이전·무형자산 이전:</strong> 미래에 예상되는 지역 시장특성 관련 혜택·불이익은 정상가격 결정에 영향을 줄 수 있습니다. 미래 기대 이익·손실을 계산하여 현재 자산 평가금액과 함께 이전 기업의 전체 평가금액을 산출합니다.</p>
+          <p><strong>§1.169 — 무형자산과의 구별:</strong> 계약상 권리, 정부 허가권, 노하우 등으로 발생한 혜택이 시장특성인지 무형자산인지 구별하는 것이 중요합니다. 무형자산인 경우 Chapter VI에 따라 정상가격을 산출합니다.</p>
+
+          <p style="margin-top:.7rem"><strong>§1.170 — 투자관리 기업 사례:</strong></p>
+          <table class="case-table">
+            <tr><th>요소</th><th>내용</th></tr>
+            <tr><td>라이선스 규제</td><td>특정 국가에서 투자 관리 사업 운영 시 규제 라이선스 필요 (정부 기관이 경험·자본 평가)</td></tr>
+            <tr><td>시장 특성</td><td>연금·보험 구조로 인한 상당한 현금 보유, 국제투자 분산 요구, 고품질 투자관리 서비스 필요</td></tr>
+            <tr><td>혜택</td><td>라이선스 보유자가 시장의 독특한 특성으로 더 많은 이익 확보 가능</td></tr>
+            <tr><td>배분 방법</td><td>국내 및 국외 특수관계자의 기여도를 모두 고려 (금융거래의 경우 이익분할방법 적용)</td></tr>
+          </table>
+          <div class="note-point">📌 §1.171: 정부 라이선스가 필요하나 특별한 진입장벽이 없는 경우에는 별도의 분석이 필요하지 않습니다.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 섹션 6: D.7 숙련노동집단 -->
+    <section class="card" id="s6">
+      <h2>6. D.7 숙련된 노동집단 <span class="tag tag-key">§1.172–1.176</span></h2>
+
+      <div class="accordion" id="acc-work1">
+        <button class="acc-header" onclick="toggleAcc(this,'acc-work1')">
+          <span><span class="para">§1.172–1.176</span>숙련노동집단의 이전가격 처리</span><span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p><strong>§1.172 — 개요:</strong> 경험이 풍부한 노동집단으로 특별한 서비스를 제공할 수 있는 인력자원을 보유한 다국적기업에서, 이러한 자원으로부터 얻는 효율성은 정상가격에 영향을 줄 수 있습니다.</p>
+
+          <div class="warn-point">⚠️ 이 문제는 주로 <strong>사업구조조정</strong> 시 발생하며, 개별 직원의 이동에 관한 문제는 통상 이전가격 문제로 다루어지지 않습니다.</div>
+
+          <p><strong>§1.173 — 사업구조조정 시 숙련노동집단 이전:</strong></p>
+          <div class="two-col">
+            <div class="info-box" style="border-top-color:var(--green)">
+              <div class="ib-title" style="color:var(--green)">양수자의 이익</div>
+              <div class="ib-body">숙련된 직원을 구하는 시간과 비용을 절감</div>
+            </div>
+            <div class="info-box" style="border-top-color:var(--red)">
+              <div class="ib-title" style="color:var(--red)">양수자의 부담</div>
+              <div class="ib-body">해당 직원이 퇴직하는 경우 발생하는 부채 부담</div>
+            </div>
+          </div>
+
+          <p><strong>§1.175–1.176 — 무형자산 관련 처리:</strong></p>
+          <ul class="step-list">
+            <li><span class="step-num">•</span><div>직원 이전으로 <strong>가치 있는 노하우가 이전</strong>되거나 공장 초기화에 도움을 주는 경우 → Chapter VI(무형자산)에 따라 정상가격 결정</div></li>
+            <li><span class="step-num">•</span><div>직원 이전으로 <strong>무형자산 또는 기타 자산의 가치가 달라지는 경우</strong> → Chapter VI에 따라 정상가격 결정</div></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 섹션 7: D.8 그룹 시너지 -->
+    <section class="card" id="s7">
+      <h2>7. D.8 다국적기업 그룹 시너지 <span class="tag tag-key">§1.177–1.193</span></h2>
+
+      <p>그룹 시너지는 다국적기업이 세계 여러 국가에 걸쳐 사업을 수행하기 때문에 발생합니다. 예: 구매력 결합, 규모의 경제, 통합정보시스템, 통합관리, 중복업무 제거 등</p>
+
+      <div class="key-point">💡 <strong>핵심 구분:</strong> 그룹 시너지를 <strong>우발적 혜택(incidental benefit)</strong>과 <strong>의도된 합동행위(deliberate concerted actions)</strong>로 구분하는 것이 이전가격 처리의 핵심입니다. 우발적 혜택인 경우 이전가격 조정 대상이 <strong>아닙니다</strong>.</div>
+
+      <div class="accordion" id="acc-syn1">
+        <button class="acc-header" onclick="toggleAcc(this,'acc-syn1')">
+          <span><span class="para">§1.177–1.178</span>우발적 혜택 vs. 의도된 합동행위</span><span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <div class="contrast-box">
+            <div class="contrast-left">
+              <div class="contrast-head" style="color:var(--green)">✅ 우발적 혜택 (조정 불필요)</div>
+              <div class="contrast-body">
+                단지 특정 그룹의 일원이라는 이유만으로 발생하는 혜택<br><br>
+                <strong>예:</strong> 기업 S가 기업 P 그룹 회사라는 이유로 제3자가 신용등급을 상향하여 낮은 이자율을 적용<br><br>
+                → 별도의 이전가격 조정 불필요
+              </div>
+            </div>
+            <div class="contrast-right">
+              <div class="contrast-head" style="color:var(--red)">⚠️ 의도된 합동행위 (조정 필요)</div>
+              <div class="contrast-body">
+                그룹 회사 간 사전에 계획된 행위로 발생하는 혜택<br><br>
+                <strong>예:</strong> 모회사가 보증을 제공하여 신용등급이 추가로 상향되는 경우<br><br>
+                → 정상가격 보증수수료 지급 필요
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion" id="acc-syn2">
+        <button class="acc-header" onclick="toggleAcc(this,'acc-syn2')">
+          <span><span class="para">§1.184–1.187</span>보증 거래 사례: 신용등급 상향의 처리</span><span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p><strong>배경:</strong> 기업 S의 자체 신용등급은 Baa이나, P 그룹의 일원이라는 이유로 제3자가 A 등급으로 상향하여 자금 대여를 원함.</p>
+
+          <div style="background:var(--gray-light);border-radius:8px;padding:1rem;margin:.7rem 0">
+            <div style="font-size:.87rem;font-weight:700;color:var(--blue);margin-bottom:.5rem">▶ 단계별 분석</div>
+            <div class="synergy-flow">
+              <div class="sf-box" style="border-top:3px solid var(--green)"><strong>Baa → A</strong><br><span style="color:var(--green);font-size:.78rem">우발적 혜택</span><br><span style="font-size:.78rem">조정 불필요</span></div>
+              <div class="sf-arrow">→</div>
+              <div class="sf-box" style="border-top:3px solid var(--orange)"><strong>모회사 보증</strong><br><span style="color:var(--orange);font-size:.78rem">의도된 합동행위</span></div>
+              <div class="sf-arrow">→</div>
+              <div class="sf-box" style="border-top:3px solid var(--red)"><strong>A → AAA</strong><br><span style="color:var(--red);font-size:.78rem">이전가격 조정</span><br><span style="font-size:.78rem">보증수수료 지급 필요</span></div>
+            </div>
+          </div>
+
+          <div class="note-point">📌 <strong>§1.186 — 원칙:</strong> 기업 S와 T 간 거래는 ① 적용 이자율이 비교가능한 제3자 이자율과 동일하고 ② 그룹 시너지로 발생한 혜택이 그룹 회사라는 이유만으로 발생한 것이라면 정상가격 원칙을 충족합니다.</div>
+        </div>
+      </div>
+
+      <div class="accordion" id="acc-syn3">
+        <button class="acc-header" onclick="toggleAcc(this,'acc-syn3')">
+          <span><span class="para">§1.188–1.193</span>중앙구매 및 물량할인 사례</span><span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p><strong>§1.188 — 중앙구매관리 서비스 제공 사례:</strong></p>
+          <table class="case-table">
+            <tr><th>구분</th><th>내용</th></tr>
+            <tr><td>기업 A의 역할</td><td>중앙구매 기능 수행: 제3자로부터 제품 구매(100) → 관계회사에 판매</td></tr>
+            <tr><td>협상 결과</td><td>제품 가격을 200에서 100으로 협상</td></tr>
+            <tr><td>정상가격 산출</td><td>정상 원가가산이익률(+6%) 적용 → 관계회사에 판매 정상가격 = 116</td></tr>
+            <tr><td>관계회사가 받은 혜택</td><td>84 (200 - 116)</td></tr>
+          </table>
+
+          <p style="margin-top:.9rem"><strong>§1.190–1.193 — 제조업자 물량할인 사례 (국가 B, C 제조관계회사):</strong></p>
+          <table class="case-table">
+            <tr><th>구분</th><th>내용</th></tr>
+            <tr><td>국가 B 제조관계회사 (세율 30%)</td><td>원재료 5,000개 필요 → 그룹 중앙구매센터를 통해 구매</td></tr>
+            <tr><td>국가 C 제조관계회사 (세율 10%)</td><td>원재료 5,000개 필요 → 그룹 중앙구매센터를 통해 구매</td></tr>
+            <tr><td>제3자 공급업체 조건</td><td>7,500개 이상 구매 시 5% 할인 적용 (USD 95,000 for 10,000개)</td></tr>
+            <tr><td>개별 구매 시 가격</td><td>국가 B: 50,000달러, 국가 C: 50,000달러 (합계 100,000달러)</td></tr>
+            <tr><td>중앙구매 후 가격</td><td>합산 10,000개로 5% 할인 → 95,000달러 (5,000달러 절감)</td></tr>
+          </table>
+
+          <div class="purple-point">📊 <strong>§1.193 — 조정 결론:</strong> 국가 C의 제조관계회사가 받은 혜택 5,000달러 중 <strong>2,500달러(5,000 × 0.5)</strong>는 이전가격 조정 대상입니다. 국가 B와 국가 C 간 표면적인 거래는 없었으나, 그룹 차원의 <strong>의도된 합동행위</strong>가 있었기 때문에 이 금액이 조정 대상이 됩니다.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 퀴즈 -->
+    <section class="card" id="quiz">
+      <h2>📝 확인 퀴즈</h2>
+
+      <div class="q-block" id="qb1">
+        <div class="q-text">Q1. '거래의 정확한 분석(accurate delineation)' 원칙에 따라 이전가격 분석 시 우선시되어야 하는 것은?</div>
+        <div class="q-options">
+          <label><input type="radio" name="q1" value="a"><span>① 계약서에 명시된 계약 조건</span></label>
+          <label><input type="radio" name="q1" value="b"><span>② 당사자의 실제 행동과 거래의 경제적 특성</span></label>
+          <label><input type="radio" name="q1" value="c"><span>③ 과세관청의 유사 거래 사례</span></label>
+          <label><input type="radio" name="q1" value="d"><span>④ 거래 당사자의 재무제표 수치</span></label>
+        </div>
+        <div class="q-feedback" id="fb1"></div>
+      </div>
+
+      <div class="q-block" id="qb2">
+        <div class="q-text">Q2. 다국적기업의 계속적인 결손이 이전가격 조사로 이어지는 주된 이유는?</div>
+        <div class="q-options">
+          <label><input type="radio" name="q2" value="a"><span>① 다국적기업은 비효율적이어서 결손이 자주 발생하기 때문</span></label>
+          <label><input type="radio" name="q2" value="b"><span>② 수익성이 좋은 그룹에 속하면서도 정상대가를 받지 못한 경우가 많기 때문</span></label>
+          <label><input type="radio" name="q2" value="c"><span>③ 정부 규제로 인해 가격 경쟁력이 낮아지기 때문</span></label>
+          <label><input type="radio" name="q2" value="d"><span>④ 독립 제3자도 계속적인 결손을 감내하기 때문</span></label>
+        </div>
+        <div class="q-feedback" id="fb2"></div>
+      </div>
+
+      <div class="q-block" id="qb3">
+        <div class="q-text">Q3. 그룹 시너지 중 이전가격 조정이 <strong>필요하지 않은</strong> 경우는?</div>
+        <div class="q-options">
+          <label><input type="radio" name="q3" value="a"><span>① 모회사가 보증을 제공하여 자회사의 신용등급이 추가로 상향된 경우</span></label>
+          <label><input type="radio" name="q3" value="b"><span>② 중앙구매부서가 적극적 행동으로 그룹사에 수량할인을 제공한 경우</span></label>
+          <label><input type="radio" name="q3" value="c"><span>③ 단지 그룹 일원이라는 이유로 제3자가 신용등급을 상향하여 낮은 이자율을 적용한 경우</span></label>
+          <label><input type="radio" name="q3" value="d"><span>④ 그룹 관리센터가 유리한 가격을 협상하여 관계회사에 제공한 경우</span></label>
+        </div>
+        <div class="q-feedback" id="fb3"></div>
+      </div>
+
+      <div class="q-block" id="qb4">
+        <div class="q-text">Q4. 지역절감효과 관련 비교가능거래가 <strong>없는</strong> 경우, 조정금액 산출 절차의 올바른 순서는?</div>
+        <div class="q-options">
+          <label><input type="radio" name="q4" value="a"><span>① 비교가능거래 검색 → 혜택·불이익 산출 → 전가 금액 산출 → 혜택·불이익 존재 여부 검토</span></label>
+          <label><input type="radio" name="q4" value="b"><span>② 혜택·불이익 존재 여부 검토 → 비용 감소·이익 증가량 산출 → 제3자에게 전가 금액 산출 → 비교가능거래 검색 후 배분</span></label>
+          <label><input type="radio" name="q4" value="c"><span>③ FAR 분석 → 비교가능거래 검색 → 시장특성 조정 → 최종 가격 결정</span></label>
+          <label><input type="radio" name="q4" value="d"><span>④ 정부정책 검토 → 혜택·불이익 산출 → 이전가격 조정 → 비교가능거래 검색</span></label>
+        </div>
+        <div class="q-feedback" id="fb4"></div>
+      </div>
+
+      <div class="q-block" id="qb5">
+        <div class="q-text">Q5. 직원 이전 시 Chapter VI(무형자산)에 따라 정상가격을 결정해야 하는 경우는?</div>
+        <div class="q-options">
+          <label><input type="radio" name="q5" value="a"><span>① 개별 직원 한 명이 관계회사로 이동하는 경우</span></label>
+          <label><input type="radio" name="q5" value="b"><span>② 직원 이전으로 가치 있는 노하우가 함께 이전되는 경우</span></label>
+          <label><input type="radio" name="q5" value="c"><span>③ 숙련노동집단을 유지하는 비용이 높은 경우</span></label>
+          <label><input type="radio" name="q5" value="d"><span>④ 직원의 퇴직으로 부채가 발생하는 경우</span></label>
+        </div>
+        <div class="q-feedback" id="fb5"></div>
+      </div>
+
+      <button class="quiz-btn" id="submitBtn" onclick="submitQuiz()">답안 제출</button>
+      <div class="score-box" id="scoreBox">
+        <div class="big" id="scoreNum">0점</div>
+        <div style="font-size:.95rem;color:var(--blue);margin-top:.3rem" id="scoreMsg"></div>
+      </div>
+    </section>
+
+    <!-- 체크리스트 -->
+    <section class="card" id="check">
+      <h2>✅ 실무 체크리스트</h2>
+      <p style="font-size:.9rem;color:var(--gray);margin-bottom:.8rem">Chapter I 심화분석 실무 적용 시 확인할 사항입니다.</p>
+      <div class="checklist-wrap" id="checkList">
+        <div class="check-item" onclick="toggleCheck(this)">
+          <input type="checkbox">
+          <label>계약서 형식보다 실제 행동·경제적 특성을 기준으로 거래를 분석했는가</label>
+        </div>
+        <div class="check-item" onclick="toggleCheck(this)">
+          <input type="checkbox">
+          <label>관계회사의 계속적 결손에 대해 정상대가 미수취 여부를 검토했는가</label>
+        </div>
+        <div class="check-item" onclick="toggleCheck(this)">
+          <input type="checkbox">
+          <label>정부정책의 영향을 받은 거래를 시장조건으로 처리하고 통과비용 여부를 구분했는가</label>
+        </div>
+        <div class="check-item" onclick="toggleCheck(this)">
+          <input type="checkbox">
+          <label>지역절감효과 발생 여부와 배분 기준을 검토했는가</label>
+        </div>
+        <div class="check-item" onclick="toggleCheck(this)">
+          <input type="checkbox">
+          <label>그룹 시너지가 우발적 혜택인지 의도된 합동행위인지 구분하여 조정 여부를 결정했는가</label>
+        </div>
+        <div class="check-item" onclick="toggleCheck(this)">
+          <input type="checkbox">
+          <label>사업구조조정 시 숙련노동집단 이전에 노하우·무형자산 이전이 포함되는지 확인했는가</label>
+        </div>
+      </div>
+    </section>
+
+    <!-- Chapter I 완료 메시지 -->
+    <section class="card" style="background:linear-gradient(135deg,#1a5fa8,#3b7dd8);color:#fff">
+      <h2 style="color:#fff;border-bottom-color:rgba(255,255,255,.3)">🎉 Chapter I 기초과정 완료!</h2>
+      <p style="color:rgba(255,255,255,.9)">Chapter I — 정상가격원칙(ALP) 전체 내용을 학습하셨습니다. M1-1부터 M1-7까지의 내용을 모두 이해하셨다면 Chapter II 이전가격산출방법으로 넘어갈 준비가 된 것입니다.</p>
+      <div style="margin-top:1rem;background:rgba(255,255,255,.15);border-radius:8px;padding:1rem;font-size:.9rem">
+        <div style="font-weight:700;margin-bottom:.5rem">📚 Chapter I 학습 내용 요약</div>
+        <ul style="list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:.3rem">
+          <li>✓ M1-1: ALP 개요 (§1.1–1.15)</li>
+          <li>✓ M1-2: GFA vs ALP (§1.16–1.32)</li>
+          <li>✓ M1-3: 거래 및 비교가능성 분석 (§1.33–1.50)</li>
+          <li>✓ M1-4: FAR 분석 (§1.51–1.106)</li>
+          <li>✓ M1-5: 무위험이익률·위험가산율 (§1.107–1.126)</li>
+          <li>✓ M1-6: 비교가능성 II (§1.127–1.138)</li>
+          <li>✓ M1-7: 심화분석 (§1.139–1.193)</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 하단 내비게이션 -->
+    <div class="nav-bottom">
+      <a href="M1-6_비교가능성.html" class="btn-nav secondary">← M1-6: 비교가능성</a>
+      <a href="index.html" class="btn-nav secondary">📋 목차로</a>
+      <a href="../index.html" class="btn-nav green">기초과정 목차 →</a>
+    </div>
+
+  </main>
+</div>
+
+<script>
+const KEY_PCT='ch1_m7_pct',KEY_QUIZ='ch1_m7_quiz',KEY_CHECKS='ch1_m7_checks',KEY_OPENED='ch1_m7_opened';
+
+const feedbacks={
+  q1:{correct:'b',msg:{b:'✅ 정답! §1.139에 따르면 형식적 계약 조건보다 당사자의 실제 행동과 거래의 경제적 특성에 기반한 분석이 우선됩니다.',a:'❌ 오답. 계약서 문구는 출발점이 될 수 있으나, 실제 행동과 경제적 특성이 우선됩니다.',c:'❌ 오답. 과세관청의 유사 사례는 참고는 되지만 우선시되지 않습니다.',d:'❌ 오답. 재무제표는 FAR 분석의 참고자료이지, 거래의 정확한 분석의 최우선 기준이 아닙니다.'}},
+  q2:{correct:'b',msg:{b:'✅ 정답! §1.150에 따르면 다국적기업의 계속적 결손은 적정한 정상가격을 받지 못했기 때문이 주된 원인입니다.',a:'❌ 오답. OECD는 비효율성이 아닌 정상대가 미수취를 주원인으로 봅니다.',c:'❌ 오답. 정부 규제는 이전가격 조사의 일반적인 원인이 아닙니다.',d:'❌ 오답. §1.149에 따르면 독립된 제3자도 계속적인 결손은 감내하지 않습니다.'}},
+  q3:{correct:'c',msg:{c:'✅ 정답! §1.186에 따르면 단지 그룹 회사라는 이유만으로 제3자가 신용등급을 상향한 것은 우발적 혜택(incidental benefit)으로 이전가격 조정 대상이 아닙니다.',a:'❌ 오답. 모회사 보증으로 추가 신용등급 상향은 의도된 합동행위로 보증수수료 지급이 필요합니다.',b:'❌ 오답. 중앙구매부서의 적극적 행동에 의한 수량할인은 의도된 합동행위입니다.',d:'❌ 오답. 그룹 관리센터의 협상 서비스는 의도된 합동행위입니다.'}},
+  q4:{correct:'b',msg:{b:'✅ 정답! §1.166의 순서: ① 혜택·불이익 존재 검토 → ② 금액 산출 → ③ 제3자 전가 금액 산출 → ④ 비교가능거래 검색 후 배분.',a:'❌ 오답. 비교가능거래 검색은 마지막 단계입니다.',c:'❌ 오답. FAR 분석은 별도 절차이며 §1.166의 순서와 다릅니다.',d:'❌ 오답. 정부정책 검토는 D.4의 내용으로, 지역절감효과 조정 순서와 다릅니다.'}},
+  q5:{correct:'b',msg:{b:'✅ 정답! §1.175에 따르면 직원 이전으로 가치 있는 노하우가 이전되거나 공장 초기화에 도움을 주는 경우 Chapter VI(무형자산)에 따라 정상가격을 결정합니다.',a:'❌ 오답. 개별 직원 한 명의 이동은 통상 이전가격 문제로 다루어지지 않습니다.',c:'❌ 오답. 숙련노동집단 유지 비용은 직접적 Chapter VI 적용 요건이 아닙니다.',d:'❌ 오답. 직원 퇴직으로 인한 부채는 양수자가 부담하는 위험이지 Chapter VI 적용 요건이 아닙니다.'}}
+};
+
+function toggleAcc(btn,id){
+  const body=document.getElementById(id).querySelector('.acc-body');
+  const isOpen=body.classList.contains('open');
+  body.classList.toggle('open');
+  btn.classList.toggle('open');
+  if(!isOpen){
+    const n=parseInt(localStorage.getItem(KEY_OPENED)||'0')+1;
+    localStorage.setItem(KEY_OPENED,n);
+    updateProg();
+  }
+}
+
+function submitQuiz(){
+  let score=0,answered=0;
+  ['q1','q2','q3','q4','q5'].forEach((q,i)=>{
+    const sel=document.querySelector(`input[name="${q}"]:checked`);
+    const fb=document.getElementById('fb'+(i+1));
+    const f=feedbacks[q];
+    if(!sel){
+      fb.style.display='block';fb.className='q-feedback wrong';
+      fb.textContent='⚠️ 답을 선택해 주세요.';return;
+    }
+    answered++;
+    fb.style.display='block';
+    fb.textContent=f.msg[sel.value];
+    if(sel.value===f.correct){fb.className='q-feedback correct';score++;}
+    else{fb.className='q-feedback wrong';}
+  });
+  if(answered<5)return;
+  const pct=Math.round(score/5*100);
+  document.getElementById('submitBtn').disabled=true;
+  document.querySelectorAll('.q-options input').forEach(i=>i.disabled=true);
+  const sb=document.getElementById('scoreBox');
+  sb.style.display='block';
+  document.getElementById('scoreNum').textContent=score+'/5점 ('+pct+'%)';
+  document.getElementById('scoreMsg').textContent=pct>=80?'🎉 우수합니다! Chapter I을 모두 완료했습니다!':pct>=60?'👍 합격입니다. 오답을 복습하세요.':'📖 다시 학습 후 재시도해 보세요.';
+  localStorage.setItem(KEY_QUIZ,pct);
+  finishQuiz(pct);
+}
+
+function finishQuiz(pct){
+  const prog=pct>=60?100:50;
+  localStorage.setItem(KEY_PCT,prog);
+  updateDisplay(prog);
+}
+
+function toggleCheck(item){
+  const cb=item.querySelector('input');
+  cb.checked=!cb.checked;
+  item.classList.toggle('checked',cb.checked);
+  saveChecks();updateProg();
+}
+
+function saveChecks(){
+  const checks=[...document.querySelectorAll('#checkList input')].map(c=>c.checked?'1':'0').join('');
+  localStorage.setItem(KEY_CHECKS,checks);
+}
+
+function loadChecks(){
+  const s=localStorage.getItem(KEY_CHECKS)||'';
+  document.querySelectorAll('#checkList .check-item').forEach((item,i)=>{
+    if(s[i]==='1'){item.querySelector('input').checked=true;item.classList.add('checked');}
+  });
+}
+
+function updateProg(){
+  const quiz=parseInt(localStorage.getItem(KEY_QUIZ)||'0');
+  const checks=[...document.querySelectorAll('#checkList input:checked')].length;
+  const opens=parseInt(localStorage.getItem(KEY_OPENED)||'0');
+  let pct=0;
+  if(quiz>0)pct=Math.max(pct,quiz>=60?100:50);
+  pct=Math.max(pct,Math.min(40,Math.round(opens/7*20)));
+  pct=Math.max(pct,Math.min(30,Math.round(checks/6*30)));
+  localStorage.setItem(KEY_PCT,pct);
+  updateDisplay(pct);
+}
+
+function updateDisplay(pct){
+  document.getElementById('topBar').style.width=pct+'%';
+  document.getElementById('pctDisp').textContent=pct+'%';
+}
+
+function scrollTo(id){
+  document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+(function init(){
+  loadChecks();
+  const savedPct=parseInt(localStorage.getItem(KEY_PCT)||'0');
+  const savedQuiz=parseInt(localStorage.getItem(KEY_QUIZ)||'0');
+  updateDisplay(savedPct);
+  if(savedQuiz>0){
+    document.getElementById('submitBtn').disabled=true;
+    document.getElementById('scoreBox').style.display='block';
+    document.getElementById('scoreNum').textContent=Math.round(savedQuiz/100*5)+'/5점 ('+savedQuiz+'%)';
+    document.getElementById('scoreMsg').textContent=savedQuiz>=80?'🎉 우수합니다!':savedQuiz>=60?'👍 합격입니다.':'📖 재학습을 권장합니다.';
+  }
+})();
+</script>
+</body>
+</html>

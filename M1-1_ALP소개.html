@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>M1-1: 정상가격원칙 소개 | Chapter I 기초과정</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:#1a5fa8;--blue-light:#e8f0fa;--blue-mid:#3b7dd8;
+  --green:#1a7a4a;--green-light:#e6f5ee;
+  --orange:#c06000;--orange-light:#fff3e0;
+  --red:#b02020;--red-light:#fdecea;
+  --gray:#555;--gray-light:#f5f5f5;--gray-border:#ddd;
+  --text:#222;--text2:#555;--white:#fff;
+  --radius:10px;--shadow:0 2px 8px rgba(0,0,0,.10);
+}
+body{font-family:'Noto Sans KR',Arial,sans-serif;background:#f0f4f8;color:var(--text);line-height:1.75;font-size:16px}
+a{color:var(--blue);text-decoration:none}
+/* ── 헤더 ── */
+.mod-header{background:var(--blue);color:#fff;padding:1.5rem 2rem}
+.mod-header .breadcrumb{font-size:.8rem;opacity:.7;margin-bottom:.4rem}
+.mod-header h1{font-size:1.4rem;font-weight:700}
+.mod-header .sub{font-size:.9rem;opacity:.8;margin-top:.3rem}
+/* ── 진도 바 ── */
+.prog-strip{background:rgba(255,255,255,.15);height:6px;margin-top:1rem;border-radius:99px;overflow:hidden}
+.prog-strip-inner{height:100%;background:#fff;border-radius:99px;transition:width .4s}
+/* ── 레이아웃 ── */
+.layout{display:flex;max-width:1100px;margin:0 auto;padding:2rem 1.5rem 4rem;gap:1.5rem}
+.sidebar{width:220px;flex-shrink:0}
+.content{flex:1;min-width:0}
+/* ── 사이드바 ── */
+.nav-card{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:1.2rem;margin-bottom:1rem;position:sticky;top:1rem}
+.nav-card h4{font-size:.85rem;color:var(--gray);margin-bottom:.8rem;letter-spacing:.04em}
+.nav-item{display:block;padding:.45rem .75rem;border-radius:6px;font-size:.85rem;color:var(--text2);margin-bottom:3px;cursor:pointer;border:none;width:100%;text-align:left;background:none;transition:background .12s}
+.nav-item:hover{background:var(--blue-light);color:var(--blue)}
+.nav-item.active{background:var(--blue);color:#fff;font-weight:600}
+.nav-item.done{color:var(--green)}
+.nav-item.done::after{content:' ✓'}
+/* ── 섹션 카드 ── */
+.card{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:1.8rem 2rem;margin-bottom:1.5rem}
+.card h2{font-size:1.15rem;font-weight:700;color:var(--blue);margin-bottom:1rem;padding-bottom:.6rem;border-bottom:2px solid var(--blue-light)}
+.card h3{font-size:1rem;font-weight:700;color:var(--text);margin:.8rem 0 .4rem}
+.card p{font-size:.95rem;color:var(--text2);margin-bottom:.7rem}
+/* ── 학습 목표 ── */
+.obj-list{list-style:none;padding:0}
+.obj-list li{display:flex;gap:.7rem;align-items:flex-start;padding:.5rem 0;border-bottom:1px solid var(--gray-border);font-size:.93rem}
+.obj-list li:last-child{border:none}
+.obj-num{background:var(--blue);color:#fff;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;flex-shrink:0;margin-top:2px}
+/* ── 아코디언(개념) ── */
+.accordion{border:1px solid var(--gray-border);border-radius:var(--radius);overflow:hidden;margin-bottom:1rem}
+.acc-header{display:flex;justify-content:space-between;align-items:center;padding:.9rem 1.2rem;cursor:pointer;background:var(--gray-light);font-weight:600;font-size:.95rem;border:none;width:100%;text-align:left;transition:background .12s}
+.acc-header:hover{background:#ebebeb}
+.acc-header .para{font-size:.78rem;color:var(--blue);background:var(--blue-light);padding:2px 8px;border-radius:20px;margin-right:.6rem}
+.acc-header .arrow{font-size:1rem;color:var(--gray);transition:transform .2s}
+.acc-body{display:none;padding:1.1rem 1.3rem;background:#fff;font-size:.93rem;color:var(--text2);line-height:1.8;border-top:1px solid var(--gray-border)}
+.acc-body.open{display:block}
+.acc-header.open .arrow{transform:rotate(180deg)}
+.key-point{background:var(--blue-light);border-left:4px solid var(--blue);padding:.7rem 1rem;border-radius:0 6px 6px 0;margin:.8rem 0;font-size:.9rem;color:#1a3a6a}
+.warn-point{background:var(--orange-light);border-left:4px solid var(--orange);padding:.7rem 1rem;border-radius:0 6px 6px 0;margin:.8rem 0;font-size:.9rem;color:#6b3a00}
+/* ── 원문 인용 ── */
+.quote-box{background:#fafafa;border:1px solid #ddd;border-radius:8px;padding:1rem 1.2rem;margin:.8rem 0;font-style:italic;font-size:.88rem;color:#444;position:relative}
+.quote-box::before{content:'"';font-size:2.5rem;color:#ccc;position:absolute;top:-5px;left:8px;line-height:1}
+.quote-box .source{display:block;font-style:normal;font-size:.78rem;color:var(--gray);margin-top:.5rem;text-align:right}
+/* ── 다이어그램 ── */
+.diagram{background:var(--gray-light);border-radius:var(--radius);padding:1.5rem;margin:1rem 0;overflow:auto}
+/* ── 비교 테이블 ── */
+.compare-table{width:100%;border-collapse:collapse;font-size:.9rem}
+.compare-table th{background:var(--blue);color:#fff;padding:.7rem 1rem;text-align:left;font-weight:600}
+.compare-table td{padding:.65rem 1rem;border-bottom:1px solid var(--gray-border);vertical-align:top}
+.compare-table tr:last-child td{border:none}
+.compare-table tr:nth-child(even) td{background:#fafafa}
+/* ── 사례 박스 ── */
+.case-box{background:#fff;border:1.5px solid var(--blue-mid);border-radius:var(--radius);padding:1.3rem 1.5rem;margin:1rem 0}
+.case-box .case-label{font-size:.78rem;font-weight:700;color:var(--blue);letter-spacing:.05em;margin-bottom:.5rem}
+.case-box h4{font-size:.95rem;font-weight:700;color:var(--text);margin-bottom:.6rem}
+/* ── 퀴즈 ── */
+.quiz-section{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:1.8rem 2rem;margin-bottom:1.5rem}
+.quiz-section h2{font-size:1.15rem;font-weight:700;color:var(--blue);margin-bottom:.4rem}
+.quiz-section .q-count{font-size:.85rem;color:var(--gray);margin-bottom:1.5rem}
+.quiz-item{margin-bottom:1.8rem;padding-bottom:1.5rem;border-bottom:1px solid var(--gray-border)}
+.quiz-item:last-of-type{border:none}
+.quiz-item .q-text{font-size:.97rem;font-weight:600;color:var(--text);margin-bottom:.9rem}
+.quiz-item .q-num{font-size:.78rem;background:var(--blue-light);color:var(--blue);padding:2px 9px;border-radius:20px;margin-right:.5rem;font-weight:700}
+.opt-list{list-style:none;padding:0;display:flex;flex-direction:column;gap:.5rem}
+.opt-list li button{width:100%;text-align:left;padding:.7rem 1rem;border-radius:8px;border:1.5px solid var(--gray-border);background:#fff;font-size:.9rem;cursor:pointer;color:var(--text);transition:all .15s}
+.opt-list li button:hover{border-color:var(--blue-mid);background:var(--blue-light)}
+.opt-list li button.correct{background:var(--green-light);border-color:var(--green);color:var(--green);font-weight:600}
+.opt-list li button.wrong{background:var(--red-light);border-color:var(--red);color:var(--red)}
+.opt-list li button:disabled{cursor:default}
+.q-feedback{margin-top:.7rem;padding:.6rem 1rem;border-radius:8px;font-size:.88rem;display:none}
+.q-feedback.show{display:block}
+.q-feedback.ok{background:var(--green-light);color:var(--green);border:1px solid #a0d8b8}
+.q-feedback.no{background:var(--red-light);color:var(--red);border:1px solid #f5b8b8}
+/* ── 체크리스트 ── */
+.checklist{list-style:none;padding:0}
+.checklist li{display:flex;gap:.8rem;align-items:flex-start;padding:.55rem 0;border-bottom:1px solid var(--gray-border);font-size:.92rem}
+.checklist li:last-child{border:none}
+.checklist input[type=checkbox]{width:18px;height:18px;margin-top:2px;cursor:pointer;flex-shrink:0;accent-color:var(--green)}
+.checklist label{cursor:pointer;color:var(--text2)}
+.checklist input:checked+label{color:var(--green);text-decoration:line-through;opacity:.7}
+/* ── 네비게이션 버튼 ── */
+.nav-btns{display:flex;justify-content:space-between;margin-top:1.5rem}
+.btn{display:inline-flex;align-items:center;gap:.4rem;padding:.7rem 1.5rem;border-radius:8px;font-size:.9rem;font-weight:600;cursor:pointer;border:none;transition:all .15s}
+.btn-primary{background:var(--blue);color:#fff}
+.btn-primary:hover{background:#164d8a}
+.btn-outline{background:#fff;color:var(--blue);border:1.5px solid var(--blue)}
+.btn-outline:hover{background:var(--blue-light)}
+.btn-success{background:var(--green);color:#fff}
+.btn-success:hover{background:#145e38}
+/* ── 완료 배너 ── */
+.complete-banner{background:var(--green-light);border:2px solid var(--green);border-radius:var(--radius);padding:1.3rem 1.8rem;text-align:center;display:none;margin-bottom:1.5rem}
+.complete-banner.show{display:block}
+.complete-banner h3{color:var(--green);font-size:1.1rem;margin-bottom:.4rem}
+.complete-banner p{font-size:.9rem;color:#2a6040}
+/* ── 반응형 ── */
+@media(max-width:720px){.layout{flex-direction:column}.sidebar{width:100%;position:static}.nav-card{position:static}}
+</style>
+</head>
+<body>
+<header class="mod-header">
+  <div class="breadcrumb"><a href="index.html" style="color:#fff8">← Chapter I 목록으로</a></div>
+  <h1>Module 1 — 정상가격원칙(ALP) 소개</h1>
+  <div class="sub">§1.1 ~ §1.15 · OECD Transfer Pricing Guidelines Chapter I · A&B</div>
+  <div class="prog-strip"><div class="prog-strip-inner" id="mod-prog" style="width:0%"></div></div>
+</header>
+
+<div class="layout">
+  <!-- 사이드바 -->
+  <aside class="sidebar">
+    <div class="nav-card">
+      <h4>이 모듈 목차</h4>
+      <button class="nav-item active" onclick="showSec('sec-obj',this)">학습 목표</button>
+      <button class="nav-item" onclick="showSec('sec-intro',this)">1. ALP란 무엇인가</button>
+      <button class="nav-item" onclick="showSec('sec-art9',this)">2. OECD 제9조 (법원)</button>
+      <button class="nav-item" onclick="showSec('sec-purpose',this)">3. ALP의 목적과 한계</button>
+      <button class="nav-item" onclick="showSec('sec-case',this)">4. 적용 사례</button>
+      <button class="nav-item" onclick="showSec('sec-quiz',this)">✏ 자가 퀴즈</button>
+      <button class="nav-item" onclick="showSec('sec-check',this)">☑ 실무 체크리스트</button>
+    </div>
+    <div class="nav-card">
+      <h4>모듈 진도</h4>
+      <div style="font-size:2rem;font-weight:700;color:var(--blue);text-align:center" id="pct-display">0%</div>
+      <div style="font-size:.8rem;color:var(--gray);text-align:center">학습 완료율</div>
+    </div>
+  </aside>
+
+  <!-- 본문 -->
+  <main class="content">
+
+    <!-- 완료 배너 -->
+    <div class="complete-banner" id="complete-banner">
+      <h3>🎉 Module 1 학습 완료!</h3>
+      <p>정상가격원칙의 기초를 완료했습니다. Module 2로 이어서 학습하세요.</p>
+      <a href="M1-2_GFA vs ALP.html" class="btn btn-success" style="margin-top:.8rem;display:inline-flex">Module 2 시작하기 →</a>
+    </div>
+
+    <!-- 학습 목표 -->
+    <div class="card" id="sec-obj">
+      <h2>📌 학습 목표</h2>
+      <p style="font-size:.9rem;color:var(--gray);margin-bottom:1rem">이 모듈을 마치면 다음 사항을 설명하고 업무에 적용할 수 있습니다.</p>
+      <ul class="obj-list">
+        <li><div class="obj-num">1</div><span>정상가격원칙(ALP)의 정확한 정의와 국제적 합의 배경을 설명할 수 있다</span></li>
+        <li><div class="obj-num">2</div><span>OECD 모델협약 제9조 제1항이 ALP의 국제적 법원(法源)임을 설명할 수 있다</span></li>
+        <li><div class="obj-num">3</div><span>과세관청이 특수관계거래에서 가격조작을 자동으로 추정해서는 안 되는 이유를 설명할 수 있다</span></li>
+        <li><div class="obj-num">4</div><span>ALP의 주요 목적 2가지(세무 혜택/불이익 제거, 국제거래 증진)를 말할 수 있다</span></li>
+        <li><div class="obj-num">5</div><span>ALP 적용의 실무적 어려움과 한계를 이해한다</span></li>
+      </ul>
+    </div>
+
+    <!-- 섹션 1: ALP란 -->
+    <div class="card" id="sec-intro">
+      <h2>1. 정상가격원칙(Arm's Length Principle)이란?</h2>
+      <p>정상가격원칙(ALP)은 다국적기업(MNE) 그룹 내 특수관계거래의 가격을 결정할 때, <strong>독립된 제3자가 동일한 상황에서 선택했을 가격·조건</strong>을 기준으로 삼아야 한다는 국제적 이전가격 원칙입니다.</p>
+
+      <div class="quote-box">
+        A controlled transaction meets the arm's length standard if the results of the transaction are consistent with the results that would have been realized if uncontrolled taxpayers had engaged in the same transaction under the same circumstances.
+        <span class="source">— US Treas. Reg. §1.482-1(b)(1) / OECD 이전가격지침서 §1.3 각주 인용</span>
+      </div>
+
+      <!-- 아코디언: §1.1 -->
+      <div class="accordion">
+        <button class="acc-header" onclick="toggleAcc(this)">
+          <span><span class="para">§1.1</span>정상가격원칙의 소개</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p>정상가격원칙은 OECD 회원국들이 조세 목적상 다국적기업(MNE) 그룹과 세무당국이 사용해야 할 <strong>국제적 이전가격 기준</strong>으로 합의한 원칙입니다.</p>
+          <div class="key-point">📌 핵심: ALP는 단순한 권고사항이 아니라, OECD 모델협약 제9조를 통해 각국 조세조약에 편입된 국제적 기준입니다.</div>
+        </div>
+      </div>
+
+      <!-- 아코디언: §1.2 -->
+      <div class="accordion">
+        <button class="acc-header" onclick="toggleAcc(this)">
+          <span><span class="para">§1.2</span>시장조건과 특수관계거래 가격결정의 관계</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p>제3자 간에는 상업적·재무적 관계가 <strong>시장에 의해 결정</strong>되지만, 특수관계거래는 그렇지 않습니다. 그러나 OECD는 특수관계기업이 가격을 반드시 조작할 것이라고 <strong>추정해서는 안 된다</strong>고 명시합니다.</p>
+          <div class="warn-point">⚠ 중요: 과세관청은 특수관계기업이 가격을 조작했다는 사실이 입증되지 않는 한, 가격조작을 추정해서는 안 됩니다. 정상가격 조정은 조세포탈과는 구분됩니다.</div>
+          <p style="margin-top:.7rem;font-size:.88rem;color:var(--gray)">※ '상업적·재무적 관계(commercial and financial relations)'는 거래에 적용된 '가격'과 '거래조건' 전반을 의미하며, OECD 모델협약 제9조도 동일 용어를 사용합니다.</p>
+        </div>
+      </div>
+
+      <!-- 아코디언: §1.3 -->
+      <div class="accordion">
+        <button class="acc-header" onclick="toggleAcc(this)">
+          <span><span class="para">§1.3</span>정상가격의 정의</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p>정상가격은 <strong>제3자 간에 비교가능한 환경에서 비교가능한 거래를 한 경우 결정했을 것으로 보이는 상업적·재무적 조건</strong>을 말합니다.</p>
+          <div class="key-point">📌 핵심: 정상가격 결정의 가장 중요한 3가지 요소는 ① 수행한 기능, ② 부담한 위험, ③ 사용된 자산입니다. (FAR 분석 — Module 4에서 상세 학습)</div>
+        </div>
+      </div>
+
+      <!-- 아코디언: §1.4, §1.5 -->
+      <div class="accordion">
+        <button class="acc-header" onclick="toggleAcc(this)">
+          <span><span class="para">§1.4–1.5</span>정상가격 결정 시 기타 조건 & 특수관계기업의 독립성</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p><strong>§1.4</strong> 정상가격을 결정하기 위해서는 조세 이외의 조건도 고려해야 합니다: 관세평가, 반덤핑과세, 외환 및 가격규제, 현금흐름, 주주의 수익 압박 등.</p>
+          <p style="margin-top:.6rem"><strong>§1.5</strong> 특수관계기업도 독립성을 가지고 시장에서와 같은 흥정 과정을 거칩니다. 그러나 이러한 독립성과 흥정 과정 자체가 곧 정상가격을 보장하는 것은 아닙니다.</p>
+        </div>
+      </div>
+
+      <!-- 도식 -->
+      <div class="diagram">
+        <svg viewBox="0 0 560 180" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:560px;display:block;margin:0 auto">
+          <rect x="10" y="20" width="150" height="60" rx="8" fill="#e8f0fa" stroke="#3b7dd8" stroke-width="1.5"/>
+          <text x="85" y="47" text-anchor="middle" font-size="13" font-weight="700" fill="#1a5fa8">모회사 A</text>
+          <text x="85" y="65" text-anchor="middle" font-size="11" fill="#555">(국가 A)</text>
+          <rect x="400" y="20" width="150" height="60" rx="8" fill="#e8f0fa" stroke="#3b7dd8" stroke-width="1.5"/>
+          <text x="475" y="47" text-anchor="middle" font-size="13" font-weight="700" fill="#1a5fa8">자회사 B</text>
+          <text x="475" y="65" text-anchor="middle" font-size="11" fill="#555">(국가 B)</text>
+          <line x1="160" y1="50" x2="400" y2="50" stroke="#3b7dd8" stroke-width="1.5" stroke-dasharray="6,3"/>
+          <text x="280" y="43" text-anchor="middle" font-size="11" fill="#1a5fa8" font-weight="600">특수관계거래</text>
+          <text x="280" y="58" text-anchor="middle" font-size="10" fill="#888">(ALP 적용 필요)</text>
+          <rect x="170" y="110" width="220" height="55" rx="8" fill="#e6f5ee" stroke="#1a7a4a" stroke-width="1.5"/>
+          <text x="280" y="133" text-anchor="middle" font-size="12" font-weight="700" fill="#1a7a4a">독립된 제3자 거래</text>
+          <text x="280" y="153" text-anchor="middle" font-size="10" fill="#2a6040">(비교가능거래 — ALP 기준)</text>
+          <path d="M280 110 L280 80" stroke="#1a7a4a" stroke-width="1.5" stroke-dasharray="4,3"/>
+          <text x="295" y="97" font-size="10" fill="#1a7a4a">비교</text>
+        </svg>
+        <p style="text-align:center;font-size:.8rem;color:var(--gray);margin-top:.5rem">ALP: 특수관계거래 조건 ≈ 독립 제3자 거래 조건</p>
+      </div>
+    </div>
+
+    <!-- 섹션 2: 제9조 -->
+    <div class="card" id="sec-art9">
+      <h2>2. OECD 모델협약 제9조 — ALP의 국제적 법원(法源)</h2>
+      <p>정상가격원칙의 국제적 법원(法源)은 <strong>OECD 모델협약(Model Tax Convention) 제9조 제1항</strong>입니다. OECD 이전가격지침서는 이 조항을 해석하는 가이드라인으로, 조약이 아닌 권고적 성격을 가집니다.</p>
+
+      <div class="accordion">
+        <button class="acc-header" onclick="toggleAcc(this)">
+          <span><span class="para">§1.6</span>OECD 이전가격지침서의 법원(法源)</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <div class="quote-box">
+            [양 기업 간의 상업상 또는 재무상 관계에 있어] conditions are made or imposed between the two enterprises in their commercial or financial relations which differ from those which would be made between independent enterprises, then any profits which would, but for those conditions, have accrued to one of the enterprises... may be included in the profits of that enterprise and taxed accordingly.
+            <span class="source">— OECD 모델협약 제9조 제1항 (일부)</span>
+          </div>
+          <div class="key-point">📌 핵심: OECD 이전가격지침서 자체는 국제조약이 아닙니다. 강제력은 각국이 조세조약에 OECD 모델협약 제9조를 편입함으로써 발생합니다.</div>
+          <p style="margin-top:.7rem;font-size:.88rem;color:var(--gray)">※ 한국의 경우 「국제조세조정에 관한 법률(국조법)」 제4조가 ALP를 국내법으로 규정하고 있습니다.</p>
+        </div>
+      </div>
+
+      <div class="accordion">
+        <button class="acc-header" onclick="toggleAcc(this)">
+          <span><span class="para">§1.7</span>비교가능성 분석의 균형</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p>비교가능성 분석은 <strong>신뢰성</strong>과 <strong>분석 비용</strong> 두 측면에서 균형을 유지하며 실시합니다. 완벽한 비교가능거래를 찾기 위해 과도한 비용을 지출하는 것은 실무적으로 현실적이지 않습니다.</p>
+        </div>
+      </div>
+
+      <!-- 글로벌 기준 비교표 -->
+      <h3 style="margin-top:1.2rem">주요 국가별 ALP 근거 법령 비교</h3>
+      <table class="compare-table" style="margin-top:.7rem">
+        <thead>
+          <tr><th>국가/기구</th><th>근거 법령</th><th>특징</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>OECD</strong></td><td>모델협약 제9조 + 이전가격지침서</td><td>국제 기준 (권고적 성격)</td></tr>
+          <tr><td><strong>한국</strong></td><td>국제조세조정에 관한 법률(국조법) 제4조</td><td>OECD 지침서 준용 명시</td></tr>
+          <tr><td><strong>미국</strong></td><td>IRC §482 + Treas. Reg. §1.482-0~9</td><td>Comparable Profit Method(CPM) 강조</td></tr>
+          <tr><td><strong>UN</strong></td><td>UN 이전가격 실무지침서(2021)</td><td>개발도상국 관점 반영</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 섹션 3: 목적과 한계 -->
+    <div class="card" id="sec-purpose">
+      <h2>3. ALP의 목적과 적용상 한계</h2>
+
+      <div class="accordion">
+        <button class="acc-header" onclick="toggleAcc(this)">
+          <span><span class="para">§1.8</span>ALP의 적용 목적</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p>ALP 적용의 목적은 두 가지입니다:</p>
+          <ol style="padding-left:1.3rem;margin-top:.5rem;font-size:.93rem;line-height:2">
+            <li><strong>세무적 혜택 또는 불이익 제거</strong> — 특수관계거래에서 발생할 수 있는 특수한 세무 혜택이나 불이익을 제거합니다.</li>
+            <li><strong>국제거래 증진</strong> — 공정하고 예측 가능한 이전가격 기준을 통해 국제거래를 촉진합니다.</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="accordion">
+        <button class="acc-header" onclick="toggleAcc(this)">
+          <span><span class="para">§1.9–1.13</span>ALP 적용상 어려움과 한계</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p>ALP 적용 시 다음과 같은 실무적 어려움이 있습니다:</p>
+          <ul style="padding-left:1.3rem;margin-top:.5rem;font-size:.93rem;line-height:2">
+            <li><strong>§1.10 규모의 경제</strong> — 다국적기업이 독립기업보다 규모의 경제로 더 낮은 원가를 달성하는 경우, 정상가격 산출이 어렵습니다.</li>
+            <li><strong>§1.11 특수관계거래의 특성</strong> — 독립기업 간에는 존재하지 않는 거래 유형(예: 고도의 기술 라이선스)이 있어 비교가능거래 탐색이 어렵습니다.</li>
+            <li><strong>§1.12 시점 차이</strong> — 거래 신고 시점과 분석 시점 사이에 시장 상황이 변할 수 있습니다.</li>
+            <li><strong>§1.13 비교가능거래 검색의 난점</strong> — 완전히 비교가능한 제3자 거래를 찾는 것은 실무적으로 매우 어렵습니다.</li>
+          </ul>
+          <div class="warn-point">⚠ 실무 시사점: 완벽한 비교가능거래가 없더라도 '합리적인 수준의 비교가능성'을 갖춘 거래를 찾아 분석하는 것이 허용됩니다. 단, 비교가능성 조정(comparability adjustments)을 적절히 수행해야 합니다.</div>
+        </div>
+      </div>
+
+      <div class="accordion">
+        <button class="acc-header" onclick="toggleAcc(this)">
+          <span><span class="para">§1.14–1.15</span>ALP 유지의 기본취지와 대안 거부</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p><strong>§1.14</strong> OECD는 ALP를 국제적 기준으로 유지하는 이유로, 개별기업 접근방법이 각국 세무당국과 납세자 모두에게 가장 적절하고 실행 가능한 방법임을 강조합니다.</p>
+          <p style="margin-top:.6rem"><strong>§1.15</strong> OECD는 ALP의 대안으로 거론되는 <strong>글로벌 내부규정 접근방법(Global Formulary Apportionment, GFA)</strong>을 공식적으로 채택하지 않습니다. GFA의 구체적 문제점은 Module 2에서 학습합니다.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 섹션 4: 사례 -->
+    <div class="card" id="sec-case">
+      <h2>4. ALP 적용 실무 사례</h2>
+
+      <div class="case-box">
+        <div class="case-label">🏭 사례 1 — 기본 개념 적용</div>
+        <h4>한국 모회사가 싱가포르 자회사에 제품을 판매하는 경우</h4>
+        <p>한국 모회사(A)가 싱가포르 자회사(B)에게 부품을 개당 100원에 공급합니다. 동일한 부품을 독립된 제3자 고객에게는 개당 120원에 판매하고 있습니다.</p>
+        <p style="margin-top:.5rem"><strong>ALP 적용 결과:</strong> 특수관계거래 가격(100원)이 독립기업 간 거래 가격(120원)보다 낮으므로, 과세관청은 한국 모회사의 소득을 20원 상향 조정할 수 있습니다.</p>
+        <div class="key-point" style="margin-top:.7rem">💡 이것이 CUP 방법(비교가능 제3자 가격법)의 가장 기본적인 적용입니다. Chapter II에서 상세 학습합니다.</div>
+      </div>
+
+      <div class="case-box" style="margin-top:1rem">
+        <div class="case-label">⚠ 사례 2 — ALP 오해 방지</div>
+        <h4>그룹 내부 가격이 낮다고 해서 항상 이전가격 문제가 생기는 것은 아닙니다</h4>
+        <p>모회사가 자회사에게 대량 구매 할인(volume discount)을 적용하여 낮은 가격으로 공급하는 경우, 독립 제3자도 동일한 구매량에 같은 할인을 받을 수 있다면 정상가격 문제가 없습니다.</p>
+        <p style="margin-top:.5rem"><strong>ALP 적용 결과:</strong> 독립기업과 동일한 조건이면 ALP를 충족합니다. 과세관청은 단순히 가격이 낮다는 이유만으로 조정할 수 없습니다.</p>
+      </div>
+    </div>
+
+    <!-- 퀴즈 -->
+    <div class="quiz-section" id="sec-quiz">
+      <h2>✏ 자가 퀴즈 — Module 1</h2>
+      <div class="q-count">총 5문항 · 각 문항을 풀고 즉각 피드백을 확인하세요</div>
+
+      <!-- Q1 -->
+      <div class="quiz-item" id="qi-1">
+        <div class="q-text"><span class="q-num">Q1</span>정상가격원칙(ALP)의 국제적 법원(法源)은 무엇입니까?</div>
+        <ul class="opt-list">
+          <li><button onclick="answer(1,this,false)">① OECD 이전가격지침서 전문(Preface)</button></li>
+          <li><button onclick="answer(1,this,true)">② OECD 모델협약 제9조 제1항</button></li>
+          <li><button onclick="answer(1,this,false)">③ BEPS Action Plan 13 (이전가격 문서화)</button></li>
+          <li><button onclick="answer(1,this,false)">④ 국제조세조정에 관한 법률 제5조</button></li>
+        </ul>
+        <div class="q-feedback" id="fb-1"></div>
+      </div>
+
+      <!-- Q2 -->
+      <div class="quiz-item" id="qi-2">
+        <div class="q-text"><span class="q-num">Q2</span>과세관청이 특수관계거래를 조사할 때 '가격 조작'에 관하여 올바른 입장은?</div>
+        <ul class="opt-list">
+          <li><button onclick="answer(2,this,false)">① 특수관계기업은 항상 가격을 조작하므로 이를 전제로 조사해야 한다</button></li>
+          <li><button onclick="answer(2,this,false)">② 가격이 시장보다 낮으면 자동으로 조세포탈로 간주한다</button></li>
+          <li><button onclick="answer(2,this,true)">③ 가격 조작을 추정해서는 안 되며, 합리적인 정상가격에 의해 조정해야 한다</button></li>
+          <li><button onclick="answer(2,this,false)">④ 조세포탈이 입증되어야만 이전가격 조정이 가능하다</button></li>
+        </ul>
+        <div class="q-feedback" id="fb-2"></div>
+      </div>
+
+      <!-- Q3 -->
+      <div class="quiz-item" id="qi-3">
+        <div class="q-text"><span class="q-num">Q3</span>정상가격 결정에 있어 가장 중요한 3가지 요소는?</div>
+        <ul class="opt-list">
+          <li><button onclick="answer(3,this,false)">① 매출액, 영업이익, 자산</button></li>
+          <li><button onclick="answer(3,this,true)">② 수행한 기능, 부담한 위험, 사용된 자산 (FAR)</button></li>
+          <li><button onclick="answer(3,this,false)">③ 계약 기간, 거래량, 지급 통화</button></li>
+          <li><button onclick="answer(3,this,false)">④ 영업이익률, 매출총이익률, 자산수익률</button></li>
+        </ul>
+        <div class="q-feedback" id="fb-3"></div>
+      </div>
+
+      <!-- Q4 -->
+      <div class="quiz-item" id="qi-4">
+        <div class="q-text"><span class="q-num">Q4</span>ALP의 주요 목적 2가지를 올바르게 짝지은 것은?</div>
+        <ul class="opt-list">
+          <li><button onclick="answer(4,this,false)">① 세수 극대화 + 납세자 부담 증가</button></li>
+          <li><button onclick="answer(4,this,false)">② 이중과세 방지 + 조세 회피 허용</button></li>
+          <li><button onclick="answer(4,this,true)">③ 세무적 혜택/불이익 제거 + 국제거래 증진</button></li>
+          <li><button onclick="answer(4,this,false)">④ 납세협력비용 감소 + 세무조사 강화</button></li>
+        </ul>
+        <div class="q-feedback" id="fb-4"></div>
+      </div>
+
+      <!-- Q5 -->
+      <div class="quiz-item" id="qi-5">
+        <div class="q-text"><span class="q-num">Q5</span>한국 모회사가 싱가포르 자회사에게 부품을 독립 제3자 대비 낮은 가격(100원 vs 120원)으로 공급하는 경우, 과세관청이 취할 수 있는 조치는?</div>
+        <ul class="opt-list">
+          <li><button onclick="answer(5,this,false)">① 아무런 조치도 할 수 없다. 그룹 내부 가격은 과세관청 관할 밖이다.</button></li>
+          <li><button onclick="answer(5,this,false)">② 즉시 조세포탈로 고발한다.</button></li>
+          <li><button onclick="answer(5,this,true)">③ 한국 모회사의 소득을 정상가격(120원) 기준으로 상향 조정할 수 있다.</button></li>
+          <li><button onclick="answer(5,this,false)">④ 싱가포르 과세관청에게만 과세 권한이 있다.</button></li>
+        </ul>
+        <div class="q-feedback" id="fb-5"></div>
+      </div>
+
+      <div style="text-align:center;margin-top:1.5rem">
+        <div id="quiz-score-display" style="font-size:1.1rem;font-weight:700;color:var(--blue);margin-bottom:.8rem"></div>
+        <button class="btn btn-success" onclick="finishQuiz()" id="finish-btn" style="display:none">✓ 퀴즈 완료 & 진도 저장</button>
+      </div>
+    </div>
+
+    <!-- 체크리스트 -->
+    <div class="card" id="sec-check">
+      <h2>☑ 실무 체크리스트 — Module 1 핵심 확인</h2>
+      <p style="font-size:.9rem;color:var(--gray);margin-bottom:1rem">다음 항목을 체크하며 학습 내용을 실무와 연결해 보세요.</p>
+      <ul class="checklist" id="cl-m1">
+        <li><input type="checkbox" id="c1" onchange="saveCheck()"><label for="c1">우리 회사의 특수관계거래(그룹 내 거래)가 어떤 것이 있는지 목록을 파악했다</label></li>
+        <li><input type="checkbox" id="c2" onchange="saveCheck()"><label for="c2">우리 회사 이전가격이 적용되는 국내 법령(국조법 제4조 등)을 확인했다</label></li>
+        <li><input type="checkbox" id="c3" onchange="saveCheck()"><label for="c3">독립 제3자와의 비교가능거래(internal comparable)가 존재하는지 검토했다</label></li>
+        <li><input type="checkbox" id="c4" onchange="saveCheck()"><label for="c4">이전가격 조정이 '조세포탈'이 아닌 '정상가격 기준 과세 조정'임을 내부적으로 공유했다</label></li>
+        <li><input type="checkbox" id="c5" onchange="saveCheck()"><label for="c5">ALP의 법원이 OECD 모델협약 제9조임을 설명할 수 있다</label></li>
+        <li><input type="checkbox" id="c6" onchange="saveCheck()"><label for="c6">FAR 분석(기능·자산·위험)이 정상가격 결정의 핵심임을 이해했다 (Module 4에서 상세 학습)</label></li>
+      </ul>
+    </div>
+
+    <!-- 하단 네비게이션 -->
+    <div class="nav-btns">
+      <a href="index.html" class="btn btn-outline">← 목록으로</a>
+      <a href="M1-2_GFA vs ALP.html" class="btn btn-primary">다음: Module 2 →</a>
+    </div>
+
+  </main>
+</div>
+
+<script>
+var MODKEY='ch1_m1';
+var answers={1:false,2:false,3:false,4:false,5:false};
+var correct_map={1:true,2:false,3:false,4:false,5:false};
+var answered={};
+var correctCount=0;
+var totalQ=5;
+
+var feedbacks={
+  1:{ok:'정답입니다! OECD 모델협약 제9조 제1항이 ALP의 국제적 법원입니다. OECD 이전가격지침서(Transfer Pricing Guidelines)는 이 조항을 해석하는 가이드라인으로 조약이 아닌 권고적 성격을 가집니다.',no:'오답입니다. 정답은 OECD 모델협약 제9조 제1항입니다. OECD 이전가격지침서 자체는 국제조약이 아닌 해석 가이드라인입니다.'},
+  2:{ok:'정답입니다! OECD §1.2는 "과세관청은 특수관계기업이 그러한 가격을 조작할 것이라고 추정해서는 안 되며, 합리적인 정상가격에 의하여 이전가격조정을 해야 한다"고 명시합니다.',no:'오답입니다. ALP는 가격 조작을 전제하지 않습니다. §1.2에 따르면 과세관청은 가격조작을 추정해서는 안 되며, 조세포탈과는 구분됩니다.'},
+  3:{ok:'정답입니다! 정상가격 결정의 핵심은 FAR 분석 — Functions(기능), Assets(자산), Risks(위험)입니다. Module 4에서 이를 심도 있게 학습합니다.',no:'오답입니다. 정답은 ② 수행한 기능(Functions), 부담한 위험(Risks), 사용된 자산(Assets) — FAR 분석입니다. §1.4(주)에서 강조되는 핵심 개념입니다.'},
+  4:{ok:'정답입니다! §1.8에 따르면 ALP의 목적은 ① 세무적 혜택/불이익 제거 ② 국제거래 증진입니다.',no:'오답입니다. §1.8의 ALP 목적은 ① 세무적 혜택/불이익 제거와 ② 국제거래 증진입니다.'},
+  5:{ok:'정답입니다! 모회사가 100원에 공급하지만 정상가격이 120원이라면, 한국 과세관청은 모회사의 소득을 120원 기준으로 상향 조정(이전가격 조정)할 수 있습니다. 이것이 ALP의 실제 적용입니다.',no:'오답입니다. 정답은 ③입니다. ALP에 따라 한국 과세관청은 정상가격(120원) 기준으로 모회사 소득을 상향 조정할 수 있습니다.'}
+};
+
+function answer(qnum, btn, isCorrect){
+  if(answered[qnum]) return;
+  answered[qnum]=true;
+  var opts=btn.closest('.opt-list').querySelectorAll('button');
+  opts.forEach(function(b){b.disabled=true;});
+  var fb=document.getElementById('fb-'+qnum);
+  if(isCorrect){
+    btn.classList.add('correct');
+    correctCount++;
+    fb.textContent='✓ '+feedbacks[qnum].ok;
+    fb.className='q-feedback show ok';
+  } else {
+    btn.classList.add('wrong');
+    fb.textContent='✗ '+feedbacks[qnum].no;
+    fb.className='q-feedback show no';
+    opts.forEach(function(b){
+      // mark correct answer green
+      var txt=b.textContent;
+      // find correct by checking onclick
+      if(b.getAttribute('onclick')&&b.getAttribute('onclick').includes(',true)')){
+        b.classList.add('correct');
+      }
+    });
+  }
+  checkAllAnswered();
+}
+
+function checkAllAnswered(){
+  if(Object.keys(answered).length===totalQ){
+    var score=Math.round(correctCount/totalQ*100);
+    var disp=document.getElementById('quiz-score-display');
+    disp.textContent='점수: '+correctCount+' / '+totalQ+' ('+score+'%)';
+    document.getElementById('finish-btn').style.display='inline-flex';
+  }
+}
+
+function finishQuiz(){
+  var score=Math.round(correctCount/totalQ*100);
+  var pct=score>=70?100:Math.max(60,score);
+  localStorage.setItem(MODKEY+'_pct',pct);
+  localStorage.setItem(MODKEY+'_quiz',score);
+  updateProgress(pct);
+  document.getElementById('complete-banner').classList.add('show');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function updateProgress(pct){
+  document.getElementById('mod-prog').style.width=pct+'%';
+  document.getElementById('pct-display').textContent=pct+'%';
+}
+
+function saveCheck(){
+  var checks=[];
+  for(var i=1;i<=6;i++){
+    checks.push(document.getElementById('c'+i).checked?'1':'0');
+  }
+  localStorage.setItem(MODKEY+'_checks',checks.join(''));
+  var done=checks.filter(function(c){return c==='1';}).length;
+  var pct=Math.round(done/6*40);
+  var existing=parseInt(localStorage.getItem(MODKEY+'_pct')||'0');
+  if(existing<pct){
+    localStorage.setItem(MODKEY+'_pct',pct);
+    updateProgress(Math.max(existing,pct));
+  }
+}
+
+function showSec(id, btn){
+  document.querySelectorAll('.nav-item').forEach(function(b){b.classList.remove('active');});
+  btn.classList.add('active');
+  document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function toggleAcc(btn){
+  var body=btn.nextElementSibling;
+  var isOpen=body.classList.contains('open');
+  body.classList.toggle('open');
+  btn.classList.toggle('open');
+  // track reading progress
+  if(!isOpen){
+    var opened=parseInt(localStorage.getItem(MODKEY+'_opened')||'0')+1;
+    localStorage.setItem(MODKEY+'_opened',opened);
+    var pct=Math.min(50,opened*7);
+    var existing=parseInt(localStorage.getItem(MODKEY+'_pct')||'0');
+    if(pct>existing){
+      localStorage.setItem(MODKEY+'_pct',pct);
+      updateProgress(pct);
+    }
+  }
+}
+
+// 저장된 진도 복원
+(function(){
+  var pct=parseInt(localStorage.getItem(MODKEY+'_pct')||'0');
+  updateProgress(pct);
+  var checks=localStorage.getItem(MODKEY+'_checks')||'';
+  for(var i=0;i<checks.length;i++){
+    if(checks[i]==='1'&&document.getElementById('c'+(i+1))){
+      document.getElementById('c'+(i+1)).checked=true;
+    }
+  }
+  if(pct===100) document.getElementById('complete-banner').classList.add('show');
+})();
+</script>
+</body>
+</html>

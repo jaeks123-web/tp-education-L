@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>M1-4: FAR 분석 (기능·자산·위험) | Chapter I 기초과정</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:#1a5fa8;--blue-light:#e8f0fa;--blue-mid:#3b7dd8;
+  --green:#1a7a4a;--green-light:#e6f5ee;
+  --orange:#c06000;--orange-light:#fff3e0;
+  --red:#b02020;--red-light:#fdecea;
+  --purple:#6a1fa8;--purple-light:#f2e8fa;
+  --gray:#555;--gray-light:#f5f5f5;--gray-border:#ddd;
+  --text:#222;--text2:#555;--white:#fff;
+  --radius:10px;--shadow:0 2px 8px rgba(0,0,0,.10);
+}
+body{font-family:'Noto Sans KR',Arial,sans-serif;background:#f0f4f8;color:var(--text);line-height:1.75;font-size:16px}
+a{color:var(--blue);text-decoration:none}
+.mod-header{background:var(--blue);color:#fff;padding:1.5rem 2rem}
+.mod-header .breadcrumb{font-size:.8rem;opacity:.7;margin-bottom:.4rem}
+.mod-header h1{font-size:1.4rem;font-weight:700}
+.mod-header .sub{font-size:.9rem;opacity:.8;margin-top:.3rem}
+.prog-strip{background:rgba(255,255,255,.15);height:6px;margin-top:1rem;border-radius:99px;overflow:hidden}
+.prog-strip-inner{height:100%;background:#fff;border-radius:99px;transition:width .4s}
+.layout{display:flex;max-width:1100px;margin:0 auto;padding:2rem 1.5rem 4rem;gap:1.5rem}
+.sidebar{width:220px;flex-shrink:0}
+.content{flex:1;min-width:0}
+.nav-card{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:1.2rem;margin-bottom:1rem;position:sticky;top:1rem}
+.nav-card h4{font-size:.85rem;color:var(--gray);margin-bottom:.8rem;letter-spacing:.04em}
+.nav-item{display:block;padding:.45rem .75rem;border-radius:6px;font-size:.85rem;color:var(--text2);margin-bottom:3px;cursor:pointer;border:none;width:100%;text-align:left;background:none;transition:background .12s}
+.nav-item:hover{background:var(--blue-light);color:var(--blue)}
+.nav-item.active{background:var(--blue);color:#fff;font-weight:600}
+.card{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:1.8rem 2rem;margin-bottom:1.5rem}
+.card h2{font-size:1.15rem;font-weight:700;color:var(--blue);margin-bottom:1rem;padding-bottom:.6rem;border-bottom:2px solid var(--blue-light)}
+.card h3{font-size:1rem;font-weight:700;color:var(--text);margin:.8rem 0 .4rem}
+.card p{font-size:.95rem;color:var(--text2);margin-bottom:.7rem}
+.obj-list{list-style:none;padding:0}
+.obj-list li{display:flex;gap:.7rem;align-items:flex-start;padding:.5rem 0;border-bottom:1px solid var(--gray-border);font-size:.93rem}
+.obj-list li:last-child{border:none}
+.obj-num{background:var(--blue);color:#fff;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;flex-shrink:0;margin-top:2px}
+.accordion{border:1px solid var(--gray-border);border-radius:var(--radius);overflow:hidden;margin-bottom:1rem}
+.acc-header{display:flex;justify-content:space-between;align-items:center;padding:.9rem 1.2rem;cursor:pointer;background:var(--gray-light);font-weight:600;font-size:.95rem;border:none;width:100%;text-align:left;transition:background .12s}
+.acc-header:hover{background:#ebebeb}
+.acc-header .para{font-size:.78rem;color:var(--blue);background:var(--blue-light);padding:2px 8px;border-radius:20px;margin-right:.6rem}
+.acc-header .arrow{font-size:1rem;color:var(--gray);transition:transform .2s}
+.acc-body{display:none;padding:1.1rem 1.3rem;background:#fff;font-size:.93rem;color:var(--text2);line-height:1.8;border-top:1px solid var(--gray-border)}
+.acc-body.open{display:block}
+.acc-header.open .arrow{transform:rotate(180deg)}
+.key-point{background:var(--blue-light);border-left:4px solid var(--blue);padding:.7rem 1rem;border-radius:0 6px 6px 0;margin:.8rem 0;font-size:.9rem;color:#1a3a6a}
+.warn-point{background:var(--orange-light);border-left:4px solid var(--orange);padding:.7rem 1rem;border-radius:0 6px 6px 0;margin:.8rem 0;font-size:.9rem;color:#6b3a00}
+.note-point{background:var(--green-light);border-left:4px solid var(--green);padding:.7rem 1rem;border-radius:0 6px 6px 0;margin:.8rem 0;font-size:.9rem;color:#0d3d25}
+.step-list{list-style:none;padding:0;margin:.6rem 0}
+.step-list li{display:flex;gap:.8rem;align-items:flex-start;padding:.45rem 0;font-size:.92rem;color:var(--text2)}
+.step-num{background:var(--blue);color:#fff;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;flex-shrink:0;margin-top:3px}
+.three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin:.8rem 0}
+.far-box{background:var(--gray-light);border-radius:10px;padding:1.1rem;text-align:center}
+.far-box .far-icon{font-size:1.8rem;margin-bottom:.4rem}
+.far-box .far-title{font-size:1rem;font-weight:700;margin-bottom:.4rem}
+.far-box .far-body{font-size:.82rem;color:var(--text2);line-height:1.6}
+.risk-grid{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin:.8rem 0}
+.risk-box{border-radius:8px;padding:.9rem;border-left:4px solid}
+.step6-flow{margin:.8rem 0}
+.step6-item{display:flex;gap:.8rem;align-items:flex-start;padding:.7rem .5rem;border-bottom:1px solid var(--gray-border)}
+.step6-item:last-child{border:none}
+.step6-num{background:var(--blue);color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;flex-shrink:0;margin-top:2px}
+.step6-content .step6-title{font-weight:600;font-size:.93rem;color:var(--text)}
+.step6-content .step6-body{font-size:.87rem;color:var(--text2);margin-top:.2rem}
+.case-tab-nav{display:flex;gap:.5rem;margin-bottom:0;flex-wrap:wrap}
+.case-tab{padding:.5rem 1rem;border-radius:8px 8px 0 0;border:1px solid var(--gray-border);border-bottom:none;cursor:pointer;font-size:.88rem;font-weight:600;background:var(--gray-light);color:var(--gray)}
+.case-tab.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+.case-panel{display:none;background:#fff;border:1px solid var(--gray-border);border-radius:0 8px 8px 8px;padding:1.2rem}
+.case-panel.active{display:block}
+.case-panel p{font-size:.9rem;color:var(--text2);margin-bottom:.5rem}
+.case-panel .result{background:var(--green-light);border-radius:6px;padding:.5rem .8rem;font-size:.88rem;color:var(--green);font-weight:600;margin-top:.7rem}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:.8rem 0}
+.info-box{background:var(--gray-light);border-radius:8px;padding:1rem;border-top:3px solid var(--blue)}
+.info-box .ib-title{font-size:.9rem;font-weight:700;color:var(--blue);margin-bottom:.5rem}
+.info-box .ib-body{font-size:.87rem;color:var(--text2);line-height:1.7}
+.tag{display:inline-block;padding:2px 9px;border-radius:20px;font-size:.75rem;font-weight:600;margin-left:.4rem}
+.tag-key{background:var(--blue-light);color:var(--blue)}
+.quiz-wrap{margin:.8rem 0}
+.q-block{background:var(--gray-light);border-radius:8px;padding:1rem 1.2rem;margin-bottom:1rem}
+.q-block .q-text{font-weight:600;font-size:.93rem;margin-bottom:.7rem}
+.q-options label{display:flex;align-items:flex-start;gap:.5rem;padding:.4rem .5rem;border-radius:6px;cursor:pointer;font-size:.91rem;color:var(--text2);transition:background .1s;margin-bottom:3px}
+.q-options label:hover{background:#e8e8e8}
+.q-options input[type=radio]{margin-top:3px;flex-shrink:0;accent-color:var(--blue)}
+.q-feedback{display:none;margin-top:.7rem;padding:.6rem .9rem;border-radius:6px;font-size:.88rem;font-weight:500}
+.q-feedback.correct{background:var(--green-light);color:var(--green);border-left:3px solid var(--green)}
+.q-feedback.wrong{background:var(--red-light);color:var(--red);border-left:3px solid var(--red)}
+.quiz-btn{background:var(--blue);color:#fff;border:none;padding:.7rem 2rem;border-radius:8px;font-size:.95rem;font-weight:600;cursor:pointer;margin-top:.5rem;transition:background .15s}
+.quiz-btn:hover{background:var(--blue-mid)}
+.quiz-btn:disabled{background:#aaa;cursor:default}
+.score-box{display:none;background:var(--blue-light);border:2px solid var(--blue);border-radius:10px;padding:1.2rem;text-align:center;margin-top:1rem}
+.score-box .big{font-size:2rem;font-weight:800;color:var(--blue)}
+.score-box p{font-size:.92rem;color:var(--text2);margin-top:.3rem}
+.checklist-wrap{margin:.6rem 0}
+.check-item{display:flex;align-items:flex-start;gap:.7rem;padding:.55rem .3rem;border-bottom:1px solid var(--gray-border);font-size:.92rem;cursor:pointer}
+.check-item:last-child{border:none}
+.check-item input[type=checkbox]{margin-top:4px;flex-shrink:0;accent-color:var(--green);width:16px;height:16px}
+.check-item.checked label{color:#aaa;text-decoration:line-through}
+.nav-bottom{display:flex;justify-content:space-between;align-items:center;margin-top:2rem}
+.btn-nav{background:var(--blue);color:#fff;padding:.65rem 1.4rem;border-radius:8px;font-size:.93rem;font-weight:600;cursor:pointer;border:none;transition:background .15s;text-decoration:none;display:inline-block}
+.btn-nav:hover{background:var(--blue-mid)}
+.btn-nav.secondary{background:#fff;color:var(--blue);border:2px solid var(--blue)}
+.btn-nav.secondary:hover{background:var(--blue-light)}
+@media(max-width:720px){
+  .layout{flex-direction:column}
+  .sidebar{width:100%;position:static}
+  .nav-card{position:static}
+  .three-col{grid-template-columns:1fr}
+  .risk-grid{grid-template-columns:1fr}
+  .two-col{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<header class="mod-header">
+  <div class="breadcrumb">기초과정 › Chapter I › M1-4</div>
+  <h1>M1-4. FAR 분석: 기능·자산·위험 분석</h1>
+  <div class="sub">§1.51 – §1.106 · 예상 학습시간: 55분</div>
+  <div class="prog-strip"><div class="prog-strip-inner" id="topBar" style="width:0%"></div></div>
+</header>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="nav-card">
+      <h4>📑 목차</h4>
+      <button class="nav-item" onclick="scrollTo('obj')">🎯 학습목표</button>
+      <button class="nav-item" onclick="scrollTo('s1')">1. FAR 분석 개요</button>
+      <button class="nav-item" onclick="scrollTo('s2')">2. 기능분석 (F)</button>
+      <button class="nav-item" onclick="scrollTo('s3')">3. 위험분석 6단계 (R)</button>
+      <button class="nav-item" onclick="scrollTo('s4')">4. 위험 통제기능 vs. 감소기능</button>
+      <button class="nav-item" onclick="scrollTo('s5')">5. 위험분석 3가지 사례</button>
+      <button class="nav-item" onclick="scrollTo('s6')">6. 위험 할당 원칙</button>
+      <button class="nav-item" onclick="scrollTo('quiz')">📝 확인 퀴즈</button>
+      <button class="nav-item" onclick="scrollTo('check')">✅ 실무 체크리스트</button>
+    </div>
+    <div class="nav-card">
+      <h4>📊 이 모듈 진도</h4>
+      <div style="text-align:center;padding:.5rem 0">
+        <div style="font-size:1.6rem;font-weight:800;color:var(--blue)" id="pctDisp">0%</div>
+        <div style="font-size:.8rem;color:var(--gray);margin-top:.2rem">퀴즈 완료 시 갱신</div>
+      </div>
+    </div>
+  </aside>
+
+  <main class="content">
+
+    <!-- 학습목표 -->
+    <section class="card" id="obj">
+      <h2>🎯 학습 목표</h2>
+      <ul class="obj-list">
+        <li><span class="obj-num">1</span><span>FAR 분석(기능·자산·위험)의 3요소와 이전가격에서의 중요성을 설명할 수 있다</span></li>
+        <li><span class="obj-num">2</span><span>기능분석의 목적, 절차, 주요 기능 유형을 파악할 수 있다</span></li>
+        <li><span class="obj-num">3</span><span>OECD 위험분석 6단계 절차를 순서대로 설명할 수 있다</span></li>
+        <li><span class="obj-num">4</span><span>위험 통제기능과 위험감소기능의 차이를 구분하고 실무에 적용할 수 있다</span></li>
+        <li><span class="obj-num">5</span><span>위험분석 3가지 사례(개발, 제조, 자산)를 통해 위험 할당 원칙을 이해할 수 있다</span></li>
+      </ul>
+    </section>
+
+    <!-- 섹션 1: FAR 개요 -->
+    <section class="card" id="s1">
+      <h2>1. FAR 분석 개요 <span class="tag tag-key">§1.51</span></h2>
+
+      <p>FAR 분석은 이전가격 분석에서 <strong>가장 핵심적인 절차</strong>입니다. 어떤 기업이 어떤 가치창출 활동을 하는지 파악하여 이익 배분의 근거를 마련합니다.</p>
+
+      <div class="three-col">
+        <div class="far-box" style="border-top:3px solid var(--blue)">
+          <div class="far-icon">⚙️</div>
+          <div class="far-title">기능 (Functions)</div>
+          <div class="far-body">거래당사자가 실제로 수행하는 활동<br>예: 제조, 판매, 마케팅, R&D, 물류, 구매</div>
+        </div>
+        <div class="far-box" style="border-top:3px solid var(--green)">
+          <div class="far-icon">🏢</div>
+          <div class="far-title">자산 (Assets)</div>
+          <div class="far-body">거래에 사용된 자산<br>예: 유형자산(공장/설비), 무형자산(특허/브랜드), 금융자산</div>
+        </div>
+        <div class="far-box" style="border-top:3px solid var(--red)">
+          <div class="far-icon">⚠️</div>
+          <div class="far-title">위험 (Risks)</div>
+          <div class="far-body">거래당사자가 부담하는 위험<br>예: 시장위험, 재고위험, 신용위험, 환율위험, 품질보증위험</div>
+        </div>
+      </div>
+
+      <div class="key-point">💡 <strong>FAR 분석의 핵심 원칙:</strong> 높은 기능·자산·위험을 부담하는 기업이 높은 이익을 얻어야 합니다. 이것이 바로 이전가격 분석에서 정상가격을 결정하는 근거가 됩니다.<br><br>
+      BEPS 프로젝트 이후 FAR 분석은 더욱 중요해졌습니다. 다국적기업의 통합된 사업활동에서 어떤 기업이 가치창출(value creation)을 했는지 파악하는 것이 핵심입니다.</div>
+    </section>
+
+    <!-- 섹션 2: 기능분석 -->
+    <section class="card" id="s2">
+      <h2>2. 기능분석 (Functional Analysis) <span class="tag tag-key">§1.51–1.55</span></h2>
+
+      <div class="accordion" id="acc-fa-purpose">
+        <button class="acc-header" onclick="toggleAcc(this,'acc-fa-purpose')">
+          <span><span class="para">§1.51</span>기능분석의 목적과 방법</span><span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p><strong>기능분석의 목적:</strong></p>
+          <ul class="step-list">
+            <li><span class="step-num">①</span><div>특수관계거래를 정확히 설명하고</div></li>
+            <li><span class="step-num">②</span><div>특수관계거래와 비교가능 제3자 거래의 비교가능성을 측정하는 기준을 제공</div></li>
+          </ul>
+          <p><strong>분석 대상:</strong> 경제적으로 중요한 요소 및 책임, 사용된 자산과 그 자산의 기여도, 거래당사자 간 부담한 위험</p>
+          <p><strong>분석 방법:</strong> 일반적으로 회사의 전체 조직도를 통해 그룹 내 조직과 각 기업 간 거래를 파악. 그룹 차원에서 수행하는 기능과 개별 기업의 기능을 모두 파악.</p>
+          <div class="key-point">💡 거래당사자가 어떤 기능을 실제로 수행하는지, 그리고 그 기능을 수행할 <em>능력</em>이 있는지 모두 검토해야 합니다.</div>
+        </div>
+      </div>
+
+      <div class="accordion" id="acc-fa-types">
+        <button class="acc-header" onclick="toggleAcc(this,'acc-fa-types')">
+          <span><span class="para">§1.51</span>주요 기능 유형 (OECD 분류)</span><span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:.8rem">
+            <div style="background:var(--blue-light);border-radius:8px;padding:.8rem">
+              <div style="font-size:.85rem;font-weight:700;color:var(--blue);margin-bottom:.5rem">제조·생산 관련</div>
+              <div style="font-size:.83rem;color:var(--text2)">• 설계 (Design)<br>• 제조 (Manufacturing)<br>• 조립 (Assembling)<br>• 구매 (Purchasing)</div>
+            </div>
+            <div style="background:var(--green-light);border-radius:8px;padding:.8rem">
+              <div style="font-size:.85rem;font-weight:700;color:var(--green);margin-bottom:.5rem">연구·개발 관련</div>
+              <div style="font-size:.83rem;color:var(--text2)">• 연구개발 (R&D)<br>• 서비스 제공 (Servicing)<br>• 기술 지원</div>
+            </div>
+            <div style="background:var(--orange-light);border-radius:8px;padding:.8rem">
+              <div style="font-size:.85rem;font-weight:700;color:var(--orange);margin-bottom:.5rem">판매·마케팅 관련</div>
+              <div style="font-size:.83rem;color:var(--text2)">• 유통 (Distribution)<br>• 마케팅 (Marketing)<br>• 광고 (Advertising)<br>• 영업 활동</div>
+            </div>
+            <div style="background:var(--purple-light);border-radius:8px;padding:.8rem">
+              <div style="font-size:.85rem;font-weight:700;color:var(--purple);margin-bottom:.5rem">지원·관리 관련</div>
+              <div style="font-size:.83rem;color:var(--text2)">• 운송 (Transportation)<br>• 금융 (Financing)<br>• 경영관리 (Management)</div>
+            </div>
+          </div>
+          <div class="note-point" style="margin-top:.8rem">📌 <strong>BEPS 이후 중요해진 구분:</strong> R&D 활동(주로 본사)과 시장·고객이 있는 국가에서의 마케팅활동으로 인한 마케팅 무형자산을 구분하는 것이 핵심 이슈가 되었습니다.</div>
+        </div>
+      </div>
+
+      <div class="accordion" id="acc-fa-ability">
+        <button class="acc-header" onclick="toggleAcc(this,'acc-fa-ability')">
+          <span><span class="para">§1.53</span>기능 수행 능력 검토</span><span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p>기능분석에서는 확인된 기능을 수행할 <strong>능력(Capacity)</strong>이 실제로 있는지도 검토해야 합니다.</p>
+          <p>계약서상 기능을 수행하기로 되어 있더라도 실제로 그 기능을 수행하지 않거나 능력이 없는 경우, 계약과 실제가 불일치하는 상황이 발생합니다.</p>
+          <div class="warn-point">⚠️ 예시: 계약상 마케팅 기능을 수행하기로 한 자회사가 실제로는 모회사의 지시에 따라 단순 주문처리만 하는 경우 → 실제 기능이 계약 내용과 다름</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 섹션 3: 위험분석 6단계 -->
+    <section class="card" id="s3">
+      <h2>3. 위험분석 6단계 (OECD §1.59-1.60)</h2>
+
+      <p>OECD는 2017년 개정 지침서에서 위험 분석을 위한 <strong>6단계 절차</strong>를 상세히 제시했습니다. 이는 BEPS 프로젝트 이후 위험 배분이 이전가격의 핵심 이슈가 되었기 때문입니다.</p>
+
+      <!-- 5가지 주요 위험 유형 -->
+      <div class="accordion" id="acc-risk-types">
+        <button class="acc-header" onclick="toggleAcc(this,'acc-risk-types')">
+          <span><span class="para">§1.60</span>실무상 5가지 주요 위험 유형</span><span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <div class="risk-grid">
+            <div class="risk-box" style="border-color:var(--blue);background:var(--blue-light)">
+              <div style="font-weight:700;font-size:.9rem;color:var(--blue)">① 시장위험 (Market Risk)</div>
+              <div style="font-size:.85rem;color:var(--text2);margin-top:.3rem">시장에서 제품이 실패하는 위험. 수요 감소, 경쟁 심화, 가격 하락 등</div>
+            </div>
+            <div class="risk-box" style="border-color:var(--orange);background:var(--orange-light)">
+              <div style="font-weight:700;font-size:.9rem;color:var(--orange)">② 재고위험 (Inventory Risk)</div>
+              <div style="font-size:.85rem;color:var(--text2);margin-top:.3rem">재고로 보유하는 상품·제품이 판매되지 않아 발생하는 재고유지 위험</div>
+            </div>
+            <div class="risk-box" style="border-color:var(--red);background:var(--red-light)">
+              <div style="font-weight:700;font-size:.9rem;color:var(--red)">③ 신용위험 (Credit Risk)</div>
+              <div style="font-size:.85rem;color:var(--text2);margin-top:.3rem">신용으로 판매된 제품이 현금화되지 않아 발생하는 채권회수 위험</div>
+            </div>
+            <div class="risk-box" style="border-color:var(--green);background:var(--green-light)">
+              <div style="font-weight:700;font-size:.9rem;color:var(--green)">④ 품질보증위험 (Warranty Risk)</div>
+              <div style="font-size:.85rem;color:var(--text2);margin-top:.3rem">판매된 제품에 하자 발생 시 생기는 위험 (제품 리콜, 보증 수리 등)</div>
+            </div>
+            <div class="risk-box" style="border-color:var(--purple);background:var(--purple-light)">
+              <div style="font-weight:700;font-size:.9rem;color:var(--purple)">⑤ 환율위험 (FX Risk)</div>
+              <div style="font-size:.85rem;color:var(--text2);margin-top:.3rem">외화로 거래된 채권·채무에 환율 변동 시 발생하는 위험</div>
+            </div>
+          </div>
+          <div class="note-point">📌 BEPS 이후 OECD는 위 5가지 외에도 전략위험, 시설·운영위험, 재무위험, 거래위험, 사고위험 등 모든 경제적으로 중요한 위험을 분석할 것을 권장합니다.</div>
+        </div>
+      </div>
+
+      <!-- 6단계 -->
+      <div style="background:#fff;border:1.5px solid var(--blue-mid);border-radius:10px;padding:1.2rem;margin-top:.8rem">
+        <h3 style="color:var(--blue);margin-bottom:1rem;font-size:1rem">📋 OECD 위험분석 6단계</h3>
+        <div class="step6-flow">
+          <div class="step6-item">
+            <div class="step6-num">1</div>
+            <div class="step6-content">
+              <div class="step6-title">경제적으로 중요한 위험 파악 (§1.71-1.76)</div>
+              <div class="step6-body">특정 거래에 관련된 경제적으로 중요한 위험 요소들을 구체적으로 파악. 전략/시장위험, 운영위험, 재무위험 등</div>
+            </div>
+          </div>
+          <div class="step6-item">
+            <div class="step6-num">2</div>
+            <div class="step6-content">
+              <div class="step6-title">계약상 위험 부담 확인 (§1.77-1.81)</div>
+              <div class="step6-body">파악된 위험요소들이 어떻게 당사자 간 계약에 포함되었는지 파악. 계약서 상 명시·비명시 내용 모두 검토</div>
+            </div>
+          </div>
+          <div class="step6-item">
+            <div class="step6-num">3</div>
+            <div class="step6-content">
+              <div class="step6-title">위험 통제기능·재무능력 분석 (§1.82)</div>
+              <div class="step6-body">① 누가 위험 통제기능을 수행하는지 ② 누가 위험 결과(이익·손실)에 책임을 지는지 ③ 누가 위험 부담 재무능력을 보유하는지</div>
+            </div>
+          </div>
+          <div class="step6-item">
+            <div class="step6-num">4</div>
+            <div class="step6-content">
+              <div class="step6-title">2·3단계 일치 여부 해석 (§1.86-1.92)</div>
+              <div class="step6-body">① 계약상 위험 부담자가 실제로 계약을 따르는지 ② 위험 부담자가 통제기능을 수행하고 재무능력이 있는지 확인. 일치하면 5·6단계 생략</div>
+            </div>
+          </div>
+          <div class="step6-item">
+            <div class="step6-num">5</div>
+            <div class="step6-content">
+              <div class="step6-title">위험 할당 (§1.98-1.99)</div>
+              <div class="step6-body">4단계에서 불일치 확인 시 → 실제로 통제권과 재무능력을 가진 당사자에게 위험을 재배분</div>
+            </div>
+          </div>
+          <div class="step6-item">
+            <div class="step6-num">6</div>
+            <div class="step6-content">
+              <div class="step6-title">위험 할당을 반영한 거래 가격 결정 (§1.101-1.106)</div>
+              <div class="step6-body">5단계 위험 할당 결과를 반영하여 거래의 정상가격(이전가격) 결정. 무형자산·이익분할방법과 연계</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 섹션 4: 통제기능 vs 감소기능 -->
+    <section class="card" id="s4">
+      <h2>4. 위험 통제기능 vs. 위험감소기능 <span class="tag tag-key">§1.61–1.68</span></h2>
+
+      <div class="two-col">
+        <div class="info-box" style="border-top-color:var(--blue)">
+          <div class="ib-title">🔵 위험 통제기능 (Control Function)</div>
+          <div class="ib-body">
+            <strong>정의:</strong> 위험을 부담하거나 회피하기 위한 <em>결정을 할 수 있는 능력</em><br><br>
+            ① 위험을 부담할지 회피할지 결정 (자금결정 능력 포함)<br>
+            ② 위험에 어떻게 대응할지 결정 (자금결정 능력 포함)<br><br>
+            <strong>⚠️ 주의:</strong> 위험감소 기능은 통제기능에 포함되지 않음
+          </div>
+        </div>
+        <div class="info-box" style="border-top-color:var(--orange)">
+          <div class="ib-title">🟠 위험감소기능 (Mitigation Function)</div>
+          <div class="ib-body">
+            <strong>정의:</strong> 위험 결과에 영향을 줄 수 있는 기능 — 불확실성 감소, 실제 발생 시 영향 최소화<br><br>
+            ③ 위험결과를 산출할 수 있는 능력을 통한 위험감소<br><br>
+            <strong>특징:</strong> 아웃소싱 가능 — 단, 아웃소싱해도 통제기능 보유자는 목적 설정·평가·선해임 능력 유지 필요
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion" id="acc-ctrl-detail">
+        <button class="acc-header" onclick="toggleAcc(this,'acc-ctrl-detail')">
+          <span><span class="para">§1.65</span>통제기능 수행으로 보기 위한 요건</span><span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p>통제기능을 수행하는 것으로 인정받으려면 <strong>두 가지 요건</strong>을 충족해야 합니다:</p>
+          <ul class="step-list">
+            <li><span class="step-num">①</span><div>위험과 관련된 기능을 <em>실제적으로</em> 수행</div></li>
+            <li><span class="step-num">②</span><div>위험 통제에 필요한 능력을 <em>실제로</em> 행사</div></li>
+          </ul>
+          <p><strong>통제기능으로 보기 어려운 행위 (§1.66):</strong></p>
+          <ul class="step-list">
+            <li><span class="step-num">✗</span><div>다른 국가에서 이미 결정된 사항과 관련한 회의 단순 주선</div></li>
+            <li><span class="step-num">✗</span><div>주주 의사록 작성 및 결정 문서 단순 서명</div></li>
+            <li><span class="step-num">✗</span><div>위험 관련 정책에 대한 사내 환경 단순 조정</div></li>
+          </ul>
+          <div class="key-point">💡 <strong>핵심:</strong> 매일 위험을 관리하고 업무를 수행하는 것이 통제기능이 아닙니다. 위험을 <em>부담할지 말지를 결정하는 능력</em>이 통제기능의 핵심입니다.</div>
+        </div>
+      </div>
+
+      <div class="accordion" id="acc-fin-cap">
+        <button class="acc-header" onclick="toggleAcc(this,'acc-fin-cap')">
+          <span><span class="para">§1.64</span>재무 능력 (Financial Capability)</span><span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p><strong>재무 능력의 의미:</strong></p>
+          <ul class="step-list">
+            <li><span class="step-num">•</span><div>위험을 부담하거나 회피하기 위해 필요한 자금 보유</div></li>
+            <li><span class="step-num">•</span><div>위험감소 기능에 대해 대가를 지급할 능력</div></li>
+            <li><span class="step-num">•</span><div>위험이 실제 발생했을 때 손해를 부담할 수 있는 능력</div></li>
+          </ul>
+          <div class="warn-point">⚠️ 그룹 내 내부 자금을 공급받아 위험에 대응하는 경우에도, 특정 위험에 대해 책임을 지지 않는다면 재무 능력이 완전하지 않다고 봅니다. → 5단계에서 추가 위험 배분 필요</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 섹션 5: 위험분석 사례 3개 -->
+    <section class="card" id="s5">
+      <h2>5. 위험분석 3가지 사례 <span class="tag tag-key">§1.83–1.85</span></h2>
+
+      <p>OECD는 3가지 사례를 통해 위험 통제기능 판단 방법을 구체적으로 설명합니다.</p>
+
+      <div class="case-tab-nav">
+        <button class="case-tab active" onclick="showCase(0)">사례 1: 개발 위험</button>
+        <button class="case-tab" onclick="showCase(1)">사례 2: 제조(공급망) 위험</button>
+        <button class="case-tab" onclick="showCase(2)">사례 3: 자산 투자 위험</button>
+      </div>
+
+      <div class="case-panel active" id="case0">
+        <p><strong>§1.83: 기업 A(모회사) — 기업 B(계약 R&D 업체)</strong></p>
+        <p><strong>상황:</strong> 기업 A가 신제품 개발을 계획하고, 기업 B에게 리서치 기능 수행 외주</p>
+        <p><strong>계약:</strong> 기업 A가 개발 위험을 부담하는 것으로 계약 체결</p>
+        <p><strong>실제 행동 분석:</strong></p>
+        <ul style="padding-left:1.3rem;font-size:.9rem;color:var(--text2);margin:.3rem 0">
+          <li>기업 A: 개발 작업 일부 직접 수행 결정, 특정 연구원 고용 결정, 연구 유형·목표 결정, 기업 B 예산 결정</li>
+          <li>기업 A: 개발 진척 상황 평가 후 프로젝트 계속 투자 여부 결정</li>
+          <li>기업 B: 기업 A의 통제하에 일상적 연구 수행, 정기적 보고</li>
+          <li>기업 B: 개발 위험 평가 능력 없음, 기업 A 활동에 대한 결정 권한 없음</li>
+        </ul>
+        <div class="result">✅ 결론: 기업 A가 개발 위험을 통제. 기업 B는 연구 활동을 효율적으로 수행하는 운영위험만 부담. 기업 B는 서비스 비용+정상마진만 받을 자격이 있으며, 개발 성공으로 인한 잔여이익은 기업 A에 귀속.</div>
+      </div>
+
+      <div class="case-panel" id="case1">
+        <p><strong>§1.84: 기업 A(모회사) — 기업 B(계약 제조업체)</strong></p>
+        <p><strong>상황:</strong> 기업 A가 기업 B에게 지시하여 제조공장 설립, 기업 A가 공급망 위험 계약상 부담</p>
+        <p><strong>기업 A가 실제 수행하는 기능:</strong></p>
+        <ul style="padding-left:1.3rem;font-size:.9rem;color:var(--text2);margin:.3rem 0">
+          <li>제품에 대한 기술 요구 사항과 디자인 결정</li>
+          <li>생산량 조절 결정</li>
+          <li>원자재·구성요소 구매를 포함한 공급망 운영</li>
+          <li>제조 과정 정기적 품질 검사</li>
+          <li>주요 비용 및 공급 안정성 결정</li>
+        </ul>
+        <p><strong>기업 B의 역할:</strong> 기업 A의 지시에 따라 공장 건설, 기술 인력 고용·교육, 생산 스케줄 결정 (단, 고정비용 회수 위험 관리 능력 없음)</p>
+        <div class="result">✅ 결론: 기업 B는 제조 서비스 기능 수행. 수익창출과 관련된 주요 위험은 기업 A가 통제. 기업 B는 서비스를 능숙하게 제공하지 못하는 위험만 통제. → 기업 B는 저위험·저이익의 계약제조업체로 분류.</div>
+      </div>
+
+      <div class="case-panel" id="case2">
+        <p><strong>§1.85: 기업 A(유형자산 법적 소유자) — 기업 B(마케팅·영업 수행) — 기업 C(서비스 제공)</strong></p>
+        <p><strong>상황:</strong> 기업 A가 유형자산 법적 소유권 보유, 기업 C와 자산 관련 서비스 계약 체결</p>
+        <p><strong>실제 행동 분석:</strong></p>
+        <ul style="padding-left:1.3rem;font-size:.9rem;color:var(--text2);margin:.3rem 0">
+          <li>기업 B: 자산 활용 계획 결정, 제3자 고객 마케팅 활동, 계약 조건 협상, 자산 전달·설치 담당</li>
+          <li>기업 A: 자산에 대한 사업기회 수락·거절 결정 능력 없음, 사업기회 평가 기능 미수행</li>
+        </ul>
+        <div class="result">✅ 결론: 기업 A는 자산 투자·활용과 관련된 경제적으로 중요한 위험을 통제할 수 없음. 기업 A의 기여는 자산 비용에 해당하는 금액을 재무적으로 지원하는 것에 제한됨 (= 재무 투자자로서 무위험이익률 수준만 받을 자격). 실제 가치창출 기능은 기업 B가 수행.</div>
+      </div>
+    </section>
+
+    <!-- 섹션 6: 위험 할당 -->
+    <section class="card" id="s6">
+      <h2>6. 위험 할당 원칙 <span class="tag tag-key">§1.98–1.106</span></h2>
+
+      <div class="accordion" id="acc-alloc">
+        <button class="acc-header" onclick="toggleAcc(this,'acc-alloc')">
+          <span><span class="para">§1.98</span>5단계: 위험 할당의 원칙</span><span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p>4단계에서 계약상 당사자가 실제로 통제권과 재무 역량을 갖추지 않은 경우, 다음 원칙에 따라 위험을 재할당합니다:</p>
+          <ul class="step-list">
+            <li><span class="step-num">①</span><div><strong>단일 통제자:</strong> 실제 통제권과 재무 능력을 가진 당사자에게 위험 할당</div></li>
+            <li><span class="step-num">②</span><div><strong>복수 통제자:</strong> 여러 회사가 동시에 통제권·재무 능력을 갖는 경우 가장 많은 권한을 가진 회사에 할당</div></li>
+            <li><span class="step-num">③</span><div><strong>통제자 없음:</strong> 어떤 회사도 통제권·재무 능력이 없는 경우(예: 페이퍼컴퍼니) → 다른 방식으로 위험 재배분</div></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="accordion" id="acc-updown">
+        <button class="acc-header" onclick="toggleAcc(this,'acc-updown')">
+          <span><span class="para">§1.105–1.106</span>사전(ex-ante) 위험 vs. 사후(ex-post) 위험</span><span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p>OECD 이전가격지침서가 이익 배분에서 고려하는 위험은 <strong>사전(ex-ante)</strong> 위험입니다.</p>
+          <div class="key-point">💡 이익 배분을 위해서는 사전에 어떤 위험을 부담하기로 했는지가 중요합니다. 실제로 위험이 발생하여 손해를 입은 사후(ex-post) 결과가 아니라, <em>거래 시점에서의 합리적 기대</em>를 기준으로 위험을 평가합니다.</div>
+          <p><strong>위험부담과 이익의 관계 (§1.105):</strong> 부담하는 위험이 클수록 잠재적 이익(upside benefit)도 크지만, 잠재적 손실(downside costs)도 커집니다.</p>
+        </div>
+      </div>
+
+      <!-- FAR 분석 종합 요약 -->
+      <div style="background:var(--blue-light);border-radius:10px;padding:1.3rem 1.5rem;margin-top:1rem;border:1.5px solid #3b7dd8">
+        <h3 style="color:var(--blue);margin-bottom:.8rem;font-size:1rem">🏁 M1-4 FAR 분석 핵심 정리</h3>
+        <table style="width:100%;border-collapse:collapse;font-size:.88rem">
+          <tr><td style="padding:.4rem .6rem;border-bottom:1px solid #c5d8f0;width:35%;font-weight:600;color:#1a3a6a">FAR 분석 목적</td><td style="padding:.4rem .6rem;border-bottom:1px solid #c5d8f0;color:var(--text2)">가치창출 기여도 파악 → 정상가격(이익 배분) 결정</td></tr>
+          <tr><td style="padding:.4rem .6rem;border-bottom:1px solid #c5d8f0;font-weight:600;color:#1a3a6a">위험분석 핵심 기준</td><td style="padding:.4rem .6rem;border-bottom:1px solid #c5d8f0;color:var(--text2)">통제기능 + 재무능력 = 위험 부담 → 높은 이익</td></tr>
+          <tr><td style="padding:.4rem .6rem;border-bottom:1px solid #c5d8f0;font-weight:600;color:#1a3a6a">계약 vs. 실질</td><td style="padding:.4rem .6rem;border-bottom:1px solid #c5d8f0;color:var(--text2)">계약서보다 실제 통제 행사 여부가 우선</td></tr>
+          <tr><td style="padding:.4rem .6rem;font-weight:600;color:#1a3a6a">위험분석 6단계</td><td style="padding:.4rem .6rem;color:var(--text2)">파악 → 계약 → 기능분석 → 해석 → 할당 → 가격결정</td></tr>
+        </table>
+      </div>
+    </section>
+
+    <!-- 퀴즈 -->
+    <section class="card" id="quiz">
+      <h2>📝 확인 퀴즈</h2>
+      <p style="font-size:.9rem;color:var(--gray);margin-bottom:1rem">5문항을 풀고 학습 내용을 확인하세요.</p>
+
+      <div class="quiz-wrap" id="quizWrap">
+
+        <div class="q-block">
+          <div class="q-text">Q1. FAR 분석에서 "F(Function)", "A(Assets)", "R(Risks)"에 각각 해당하지 않는 것은?</div>
+          <div class="q-options">
+            <label><input type="radio" name="q1" value="a"> 제조, 마케팅, 연구개발 활동 — 기능에 해당</label>
+            <label><input type="radio" name="q1" value="b"> 특허권, 공장설비, 브랜드 — 자산에 해당</label>
+            <label><input type="radio" name="q1" value="c"> 시장위험, 재고위험, 신용위험 — 위험에 해당</label>
+            <label><input type="radio" name="q1" value="d"> 경영진의 국적, 회사 설립 연도 — 위험에 해당</label>
+          </div>
+          <div class="q-feedback" id="fb1"></div>
+        </div>
+
+        <div class="q-block">
+          <div class="q-text">Q2. OECD 위험분석 6단계 중 "4단계"에서 확인하는 내용으로 옳은 것은?</div>
+          <div class="q-options">
+            <label><input type="radio" name="q2" value="a"> 경제적으로 중요한 위험 요소를 처음으로 파악하는 단계</label>
+            <label><input type="radio" name="q2" value="b"> 계약상 위험 부담자와 실제 통제기능 수행자가 일치하는지 해석·확인하는 단계</label>
+            <label><input type="radio" name="q2" value="c"> 위험을 실제로 통제하는 당사자에게 위험을 재할당하는 단계</label>
+            <label><input type="radio" name="q2" value="d"> 위험 할당 결과를 반영하여 거래 가격을 결정하는 단계</label>
+          </div>
+          <div class="q-feedback" id="fb2"></div>
+        </div>
+
+        <div class="q-block">
+          <div class="q-text">Q3. 위험 "통제기능"에 대한 설명으로 옳은 것은?</div>
+          <div class="q-options">
+            <label><input type="radio" name="q3" value="a"> 매일 위험을 관리하고 업무를 수행하는 일상적 활동을 말한다</label>
+            <label><input type="radio" name="q3" value="b"> 위험을 부담할지 회피할지 결정하는 능력과 위험에 어떻게 대응할지 결정하는 능력이다</label>
+            <label><input type="radio" name="q3" value="c"> 위험감소 기능과 동일하며 둘 다 아웃소싱할 수 없다</label>
+            <label><input type="radio" name="q3" value="d"> 주주 의사록을 작성하고 결정 문서에 서명하는 것이다</label>
+          </div>
+          <div class="q-feedback" id="fb3"></div>
+        </div>
+
+        <div class="q-block">
+          <div class="q-text">Q4. §1.83 사례(기업 A-기업 B)에서 기업 B의 역할에 대한 OECD의 결론은?</div>
+          <div class="q-options">
+            <label><input type="radio" name="q4" value="a"> 기업 B가 개발 위험을 실제로 통제하므로 개발 성공 이익 전부를 가져야 한다</label>
+            <label><input type="radio" name="q4" value="b"> 기업 B는 일상적 연구 수행에 대한 서비스 비용과 정상마진만 받을 수 있다</label>
+            <label><input type="radio" name="q4" value="c"> 기업 A와 기업 B가 개발 이익을 동등하게 분배해야 한다</label>
+            <label><input type="radio" name="q4" value="d"> 계약서에 개발 위험이 기업 A에 귀속되어 있으므로 분석이 필요 없다</label>
+          </div>
+          <div class="q-feedback" id="fb4"></div>
+        </div>
+
+        <div class="q-block">
+          <div class="q-text">Q5. OECD가 이익 배분에서 고려하는 위험의 기준 시점은?</div>
+          <div class="q-options">
+            <label><input type="radio" name="q5" value="a"> 위험이 실제로 발생한 이후(ex-post)의 결과를 기준으로 한다</label>
+            <label><input type="radio" name="q5" value="b"> 사전(ex-ante)에 어떤 위험을 부담하기로 했는지를 기준으로 한다</label>
+            <label><input type="radio" name="q5" value="c"> 해당 연도 말 결산 시점을 기준으로 한다</label>
+            <label><input type="radio" name="q5" value="d"> 세무조사 시점을 기준으로 한다</label>
+          </div>
+          <div class="q-feedback" id="fb5"></div>
+        </div>
+      </div>
+
+      <button class="quiz-btn" onclick="submitQuiz()" id="quizBtn">채점하기</button>
+      <div class="score-box" id="scoreBox">
+        <div class="big" id="scoreNum"></div>
+        <p id="scoreMsg"></p>
+      </div>
+    </section>
+
+    <!-- 체크리스트 -->
+    <section class="card" id="check">
+      <h2>✅ 실무 적용 체크리스트</h2>
+      <div class="checklist-wrap" id="checkList">
+        <div class="check-item" onclick="toggleCheck(this,0)">
+          <input type="checkbox" id="c0"><label for="c0">이전가격 분석 시 기능(F)·자산(A)·위험(R) 세 가지를 모두 분석했는가</label>
+        </div>
+        <div class="check-item" onclick="toggleCheck(this,1)">
+          <input type="checkbox" id="c1"><label for="c1">5가지 주요 위험(시장·재고·신용·품질보증·환율) 유형을 검토했는가</label>
+        </div>
+        <div class="check-item" onclick="toggleCheck(this,2)">
+          <input type="checkbox" id="c2"><label for="c2">위험 분석 시 계약상 위험 부담자와 실제 통제기능 수행자가 동일한지 확인했는가</label>
+        </div>
+        <div class="check-item" onclick="toggleCheck(this,3)">
+          <input type="checkbox" id="c3"><label for="c3">통제기능 수행 여부를 확인할 때 '매일의 관리 업무'와 '의사결정 권한'을 구분했는가</label>
+        </div>
+        <div class="check-item" onclick="toggleCheck(this,4)">
+          <input type="checkbox" id="c4"><label for="c4">위험 부담 능력(재무능력) 보유 여부를 확인했는가</label>
+        </div>
+        <div class="check-item" onclick="toggleCheck(this,5)">
+          <input type="checkbox" id="c5"><label for="c5">위험 분석 결과를 이전가격 결정(거래 가격 또는 이익률 수준)에 반영했는가</label>
+        </div>
+      </div>
+    </section>
+
+    <div class="nav-bottom">
+      <a href="M1-3_거래분석.html" class="btn-nav secondary">← M1-3: 거래분석</a>
+      <a href="index.html" class="btn-nav secondary">📋 목차로</a>
+      <a href="M1-5_이익률분석.html" class="btn-nav">M1-5: 이익률분석 →</a>
+    </div>
+
+  </main>
+</div>
+
+<script>
+const answers = {q1:'d',q2:'b',q3:'b',q4:'b',q5:'b'};
+const feedbacks = {
+  q1:{
+    d:"✅ 정답! FAR 분석에서 F는 기능(제조·마케팅·R&D 등), A는 자산(특허·공장·브랜드 등), R은 위험(시장·재고·신용 등)입니다. '경영진의 국적'과 '설립 연도'는 FAR 분석 항목이 아닙니다.",
+    a:"❌ 오답. 제조, 마케팅, 연구개발은 기능(F) 분석의 핵심 항목입니다.",
+    b:"❌ 오답. 특허권, 공장설비, 브랜드는 자산(A) 분석 항목입니다.",
+    c:"❌ 오답. 시장위험, 재고위험, 신용위험은 위험(R) 분석의 주요 5가지 유형에 포함됩니다."
+  },
+  q2:{
+    b:"✅ 정답! 4단계는 2단계(계약상 위험부담)와 3단계(실제 기능 분석)의 결과가 일치하는지 해석하는 단계입니다. 계약상 위험 부담자가 실제로 통제기능을 수행하고 재무능력이 있는지 확인합니다. 일치하면 5·6단계가 생략됩니다.",
+    a:"❌ 오답. 경제적으로 중요한 위험 요소를 처음 파악하는 것은 1단계입니다.",
+    c:"❌ 오답. 위험을 실제 통제자에게 재할당하는 것은 5단계입니다.",
+    d:"❌ 오답. 위험 할당을 반영하여 거래 가격을 결정하는 것은 6단계입니다."
+  },
+  q3:{
+    b:"✅ 정답! 위험 통제기능은 ①위험을 부담할지 회피할지 결정하는 능력, ②위험에 어떻게 대응할지 결정하는 능력을 말합니다. 매일의 관리 업무나 서명 행위는 통제기능이 아닙니다.",
+    a:"❌ 오답. 매일 위험을 관리하는 일상적 활동은 위험감소기능에 해당하며 아웃소싱도 가능합니다.",
+    c:"❌ 오답. 통제기능과 감소기능은 별개입니다. 감소기능은 아웃소싱 가능하지만 통제기능은 위임할 수 없습니다.",
+    d:"❌ 오답. 주주 의사록 작성·서명은 §1.66에서 통제기능으로 보기 어려운 행위로 명시됩니다."
+  },
+  q4:{
+    b:"✅ 정답! §1.83에서 기업 B는 개발 위험을 평가하거나 기업 A의 활동에 대한 결정을 내릴 능력이 없습니다. 기업 B는 일상적 연구 수행에 대한 서비스 비용과 정상마진만 받을 자격이 있으며, 개발 성공으로 인한 잔여이익은 기업 A에 귀속됩니다.",
+    a:"❌ 오답. 기업 B는 통제기능을 수행하지 않으므로 개발 이익을 전부 받을 수 없습니다.",
+    c:"❌ 오답. 기업 B는 기업 A의 통제하에 있는 계약 R&D 업체로, 이익을 동등하게 분배받지 않습니다.",
+    d:"❌ 오답. 계약서 형식보다 실제 행동과 통제기능 수행 여부를 분석해야 합니다."
+  },
+  q5:{
+    b:"✅ 정답! §1.106에 따르면 OECD 이전가격지침서가 이익 배분에서 고려하는 위험은 사전(ex-ante) 위험입니다. 거래 시점에서 어떤 위험을 부담하기로 했는지가 중요하며, 사후 실제 결과는 기준이 아닙니다.",
+    a:"❌ 오답. OECD는 사후(ex-post) 결과가 아닌 사전(ex-ante) 위험 부담 여부를 기준으로 합니다.",
+    c:"❌ 오답. 연말 결산 시점은 OECD가 제시하는 기준이 아닙니다.",
+    d:"❌ 오답. 세무조사 시점을 기준으로 하지 않습니다."
+  }
+};
+
+function submitQuiz(){
+  let score=0;let answered=0;
+  ['q1','q2','q3','q4','q5'].forEach(q=>{
+    const sel=document.querySelector(`input[name="${q}"]:checked`);
+    const fb=document.getElementById('fb'+q.slice(1));
+    if(!sel){fb.style.display='block';fb.className='q-feedback wrong';fb.textContent='⚠️ 답을 선택하세요.';return;}
+    answered++;
+    const val=sel.value;
+    fb.style.display='block';
+    if(val===answers[q]){score++;fb.className='q-feedback correct';fb.innerHTML=feedbacks[q][val];}
+    else{fb.className='q-feedback wrong';fb.innerHTML=feedbacks[q][val]+'<br><br><strong>정답 해설:</strong> '+feedbacks[q][answers[q]];}
+  });
+  if(answered<5)return;
+  const pct=Math.round(score/5*100);
+  const sb=document.getElementById('scoreBox');
+  sb.style.display='block';
+  document.getElementById('scoreNum').textContent=pct+'점 ('+score+'/5)';
+  const msg=document.getElementById('scoreMsg');
+  if(pct>=80)msg.textContent='🎉 우수합니다! FAR 분석의 핵심을 잘 이해하셨습니다.';
+  else if(pct>=60)msg.textContent='✅ 양호합니다. 틀린 문항을 확인하고 다음 모듈로 진행하세요.';
+  else msg.textContent='📖 위험분석 6단계와 통제기능 개념을 다시 복습하고 재도전하세요.';
+  document.getElementById('quizBtn').disabled=true;
+  finishQuiz(pct);
+}
+function finishQuiz(pct){
+  localStorage.setItem('ch1_m4_quiz',pct);
+  const prog=pct>=60?100:50;
+  localStorage.setItem('ch1_m4_pct',prog);
+  document.getElementById('topBar').style.width=prog+'%';
+  document.getElementById('pctDisp').textContent=prog+'%';
+}
+function showCase(n){
+  document.querySelectorAll('.case-tab').forEach((t,i)=>t.classList.toggle('active',i===n));
+  document.querySelectorAll('.case-panel').forEach((p,i)=>p.classList.toggle('active',i===n));
+}
+function toggleAcc(btn,id){
+  const body=btn.parentElement.querySelector('.acc-body');
+  const isOpen=body.classList.contains('open');
+  body.classList.toggle('open',!isOpen);
+  btn.classList.toggle('open',!isOpen);
+  if(!isOpen)trackOpen();
+}
+function toggleCheck(item,idx){
+  const cb=item.querySelector('input[type=checkbox]');
+  cb.checked=!cb.checked;
+  item.classList.toggle('checked',cb.checked);
+  saveChecks();updateProg();
+}
+function saveChecks(){
+  const items=document.querySelectorAll('#checkList .check-item input');
+  localStorage.setItem('ch1_m4_checks',[...items].map(i=>i.checked?'1':'0').join(''));
+}
+function loadChecks(){
+  const saved=localStorage.getItem('ch1_m4_checks')||'';
+  const items=document.querySelectorAll('#checkList .check-item input');
+  [...items].forEach((cb,i)=>{if(saved[i]==='1'){cb.checked=true;cb.closest('.check-item').classList.add('checked');}});
+}
+let openedCount=parseInt(localStorage.getItem('ch1_m4_opened')||'0');
+function trackOpen(){
+  openedCount++;
+  localStorage.setItem('ch1_m4_opened',openedCount);
+  updateProg();
+}
+function updateProg(){
+  const quiz=parseInt(localStorage.getItem('ch1_m4_quiz')||'0');
+  const checks=[...document.querySelectorAll('#checkList input:checked')].length;
+  const opens=parseInt(localStorage.getItem('ch1_m4_opened')||'0');
+  let pct=0;
+  if(quiz>0)pct=Math.max(pct,quiz>=60?100:50);
+  pct=Math.max(pct,Math.min(40,Math.round(opens/8*25)+Math.round(checks/6*15)));
+  localStorage.setItem('ch1_m4_pct',pct);
+  document.getElementById('topBar').style.width=pct+'%';
+  document.getElementById('pctDisp').textContent=pct+'%';
+}
+function scrollTo(id){document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'});}
+window.addEventListener('DOMContentLoaded',()=>{
+  loadChecks();
+  const saved=parseInt(localStorage.getItem('ch1_m4_pct')||'0');
+  document.getElementById('topBar').style.width=saved+'%';
+  document.getElementById('pctDisp').textContent=saved+'%';
+  const savedQuiz=localStorage.getItem('ch1_m4_quiz');
+  if(savedQuiz){
+    const pct=parseInt(savedQuiz);
+    document.getElementById('scoreBox').style.display='block';
+    document.getElementById('scoreNum').textContent=pct+'점';
+    document.getElementById('scoreMsg').textContent='이미 완료된 퀴즈입니다. 복습 후 다음 모듈로 진행하세요.';
+    document.getElementById('quizBtn').disabled=true;
+  }
+});
+</script>
+</body>
+</html>

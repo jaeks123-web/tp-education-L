@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OECD 이전가격 지침서 — Chapter I 기초과정</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:#1a5fa8;--blue-light:#e8f0fa;--blue-mid:#3b7dd8;
+  --green:#1a7a4a;--green-light:#e6f5ee;
+  --orange:#c06000;--orange-light:#fff3e0;
+  --red:#b02020;--red-light:#fdecea;
+  --gray:#555;--gray-light:#f5f5f5;--gray-border:#ddd;
+  --text:#222;--text2:#555;--white:#fff;
+  --radius:10px;--shadow:0 2px 8px rgba(0,0,0,.10);
+}
+body{font-family:'Noto Sans KR',Arial,sans-serif;background:#f0f4f8;color:var(--text);line-height:1.7;font-size:16px}
+a{color:var(--blue);text-decoration:none}
+.page-header{background:var(--blue);color:#fff;padding:2rem 2.5rem 1.5rem;border-bottom:4px solid var(--blue-mid)}
+.page-header h1{font-size:1.6rem;font-weight:700;margin-bottom:.3rem}
+.page-header p{font-size:.95rem;opacity:.85}
+.badge{display:inline-block;font-size:.75rem;padding:3px 10px;border-radius:20px;font-weight:600;margin-left:8px}
+.badge-basic{background:#fff3;color:#fff;border:1px solid #fff6}
+.main{max-width:900px;margin:2.5rem auto;padding:0 1.5rem 4rem}
+.intro-box{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:1.8rem 2rem;margin-bottom:2rem;border-left:5px solid var(--blue)}
+.intro-box h2{font-size:1.1rem;color:var(--blue);margin-bottom:.8rem}
+.intro-box p{font-size:.95rem;color:var(--text2);margin-bottom:.5rem}
+.overall-progress{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:1.5rem 2rem;margin-bottom:2rem}
+.overall-progress h3{font-size:1rem;color:var(--gray);margin-bottom:1rem}
+.prog-outer{background:#e9ecef;border-radius:99px;height:12px;overflow:hidden;margin-bottom:.4rem}
+.prog-inner{height:100%;background:linear-gradient(90deg,var(--blue),var(--blue-mid));border-radius:99px;transition:width .5s}
+.prog-label{display:flex;justify-content:space-between;font-size:.85rem;color:var(--gray)}
+.module-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.2rem}
+.module-card{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:1.5rem;border-top:4px solid var(--gray-border);transition:transform .15s,box-shadow .15s;position:relative;overflow:hidden}
+.module-card:hover{transform:translateY(-3px);box-shadow:0 6px 20px rgba(0,0,0,.13)}
+.module-card.done{border-top-color:var(--green)}
+.module-card.inprog{border-top-color:var(--blue-mid)}
+.module-card .num{font-size:.8rem;font-weight:700;color:var(--gray);margin-bottom:.4rem;letter-spacing:.05em}
+.module-card h3{font-size:1rem;font-weight:700;color:var(--text);margin-bottom:.5rem}
+.module-card p{font-size:.85rem;color:var(--text2);margin-bottom:1rem}
+.module-card .para-range{font-size:.78rem;color:var(--blue);background:var(--blue-light);padding:2px 8px;border-radius:20px;display:inline-block;margin-bottom:.8rem}
+.module-card .status-bar{height:4px;background:#eee;border-radius:99px;overflow:hidden;margin-bottom:1rem}
+.module-card .status-fill{height:100%;background:var(--green);border-radius:99px}
+.btn{display:inline-block;padding:.6rem 1.4rem;border-radius:8px;font-size:.88rem;font-weight:600;cursor:pointer;border:none;transition:all .15s}
+.btn-primary{background:var(--blue);color:#fff}
+.btn-primary:hover{background:#164d8a}
+.btn-outline{background:#fff;color:var(--blue);border:1.5px solid var(--blue)}
+.btn-outline:hover{background:var(--blue-light)}
+.btn-done{background:var(--green);color:#fff}
+.status-tag{position:absolute;top:12px;right:12px;font-size:.72rem;font-weight:700;padding:3px 9px;border-radius:20px}
+.tag-done{background:var(--green-light);color:var(--green)}
+.tag-inprog{background:var(--blue-light);color:var(--blue)}
+.tag-pending{background:var(--gray-light);color:var(--gray)}
+.learn-path{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:1.5rem 2rem;margin-bottom:2rem}
+.learn-path h3{font-size:1rem;color:var(--gray);margin-bottom:1rem}
+.path-steps{display:flex;align-items:center;flex-wrap:wrap;gap:.5rem}
+.path-step{background:var(--blue-light);color:var(--blue);padding:.3rem .9rem;border-radius:20px;font-size:.82rem;font-weight:600}
+.path-arrow{color:var(--gray);font-size:1.1rem}
+.tips-box{background:var(--orange-light);border:1px solid #f5c060;border-radius:var(--radius);padding:1.2rem 1.5rem;margin-bottom:2rem}
+.tips-box h4{color:var(--orange);font-size:.95rem;margin-bottom:.5rem}
+.tips-box ul{padding-left:1.2rem;font-size:.88rem;color:#6b4700}
+.tips-box li{margin-bottom:.3rem}
+</style>
+</head>
+<body>
+<header class="page-header">
+  <h1>OECD 이전가격 지침서 — Chapter I <span class="badge badge-basic">기초과정</span></h1>
+  <p>The Arm's Length Principle · 정상가격원칙 · 자기주도 학습 프로그램</p>
+</header>
+<div class="main">
+
+  <div class="intro-box">
+    <h2>📘 이 과정에 대하여</h2>
+    <p>이 과정은 OECD 이전가격 지침서 <strong>Chapter I (§1.1~§1.193)</strong>의 핵심 내용을 비전문 실무자가 스스로 이해하고 업무에 바로 적용할 수 있도록 설계된 <strong>자기주도 학습 프로그램</strong>입니다.</p>
+    <p>강사 없이도 개념 학습 → 사례 탐구 → 자가 퀴즈 → 실무 체크리스트 4단계로 완전한 이해에 도달할 수 있습니다.</p>
+    <p style="margin-top:.8rem;font-size:.88rem;color:var(--gray)">⏱ 예상 학습 시간: 7개 모듈 × 약 40~60분 = 총 약 5~7시간 (자신의 속도에 맞게 분할 가능)</p>
+  </div>
+
+  <div class="overall-progress" id="overall-progress-box">
+    <h3>📊 전체 학습 진도</h3>
+    <div class="prog-outer"><div class="prog-inner" id="overall-bar" style="width:0%"></div></div>
+    <div class="prog-label"><span id="prog-text">0 / 7 모듈 완료</span><span id="prog-pct">0%</span></div>
+  </div>
+
+  <div class="learn-path" style="margin-bottom:1.5rem">
+    <h3>🗺 학습 경로</h3>
+    <div class="path-steps">
+      <span class="path-step">M1-1 ALP 소개</span><span class="path-arrow">→</span>
+      <span class="path-step">M1-2 GFA vs ALP</span><span class="path-arrow">→</span>
+      <span class="path-step">M1-3 거래 분석</span><span class="path-arrow">→</span>
+      <span class="path-step">M1-4 FAR 분석</span><span class="path-arrow">→</span>
+      <span class="path-step">M1-5 이익률</span><span class="path-arrow">→</span>
+      <span class="path-step">M1-6 비교가능성</span><span class="path-arrow">→</span>
+      <span class="path-step">M1-7 심화 분석</span>
+    </div>
+  </div>
+
+  <div class="tips-box">
+    <h4>💡 학습 가이드</h4>
+    <ul>
+      <li>각 모듈은 독립적으로 학습할 수 있지만, <strong>M1-1 → M1-4 순서</strong>로 학습하면 이해도가 높아집니다.</li>
+      <li>각 모듈 마지막의 <strong>자가 퀴즈</strong>에서 70% 이상 정답이면 다음 모듈로 진행하세요.</li>
+      <li>학습 진도는 브라우저에 자동 저장됩니다. 다음에 이 파일을 열어도 이어서 학습할 수 있습니다.</li>
+      <li>모듈 내 <strong>OECD 원문 §번호</strong>를 클릭하면 해당 원칙의 핵심 내용을 확인할 수 있습니다.</li>
+    </ul>
+  </div>
+
+  <div class="module-grid" id="module-grid">
+
+    <div class="module-card" id="card-m1">
+      <span class="status-tag tag-pending" id="tag-m1">미시작</span>
+      <div class="num">MODULE 1 — 기초</div>
+      <span class="para-range">§1.1 – §1.15</span>
+      <h3>정상가격원칙(ALP) 소개</h3>
+      <p>정상가격원칙의 정의·법원(法源)·목적과 OECD 모델협약 제9조의 관계를 이해합니다.</p>
+      <div class="status-bar"><div class="status-fill" id="fill-m1" style="width:0%"></div></div>
+      <a href="M1-1_ALP소개.html" class="btn btn-primary" id="btn-m1">학습 시작 →</a>
+    </div>
+
+    <div class="module-card" id="card-m2">
+      <span class="status-tag tag-pending" id="tag-m2">미시작</span>
+      <div class="num">MODULE 2 — 기초</div>
+      <span class="para-range">§1.16 – §1.32</span>
+      <h3>GFA vs 정상가격원칙</h3>
+      <p>글로벌 내부규정 접근방법(GFA)이란 무엇이며, OECD가 이를 채택하지 않는 이유를 학습합니다.</p>
+      <div class="status-bar"><div class="status-fill" id="fill-m2" style="width:0%"></div></div>
+      <a href="M1-2_GFA vs ALP.html" class="btn btn-primary" id="btn-m2">학습 시작 →</a>
+    </div>
+
+    <div class="module-card" id="card-m3">
+      <span class="status-tag tag-pending" id="tag-m3">미시작</span>
+      <div class="num">MODULE 3 — 심화기초</div>
+      <span class="para-range">§1.33 – §1.50</span>
+      <h3>거래의 정확한 분석</h3>
+      <p>계약 분석, 실질 거래 파악, 계약과 현실이 다를 때의 처리 방법을 학습합니다.</p>
+      <div class="status-bar"><div class="status-fill" id="fill-m3" style="width:0%"></div></div>
+      <a href="M1-3_거래분석.html" class="btn btn-primary" id="btn-m3">학습 시작 →</a>
+    </div>
+
+    <div class="module-card" id="card-m4">
+      <span class="status-tag tag-pending" id="tag-m4">미시작</span>
+      <div class="num">MODULE 4 — 핵심실무</div>
+      <span class="para-range">§1.51 – §1.106</span>
+      <h3>FAR 분석 (기능·자산·위험)</h3>
+      <p>이전가격 실무의 핵심인 기능 분석·위험 6단계 분석·통제기능 개념을 깊이 있게 학습합니다.</p>
+      <div class="status-bar"><div class="status-fill" id="fill-m4" style="width:0%"></div></div>
+      <a href="M1-4_FAR분석.html" class="btn btn-primary" id="btn-m4">학습 시작 →</a>
+    </div>
+
+    <div class="module-card" id="card-m5">
+      <span class="status-tag tag-pending" id="tag-m5">미시작</span>
+      <div class="num">MODULE 5 — 심화</div>
+      <span class="para-range">§1.107 – §1.126</span>
+      <h3>무위험·위험가산 이익률</h3>
+      <p>위험 부담에 따른 정상 이익률 결정 방법 — 무위험이익률과 위험가산이익률을 학습합니다.</p>
+      <div class="status-bar"><div class="status-fill" id="fill-m5" style="width:0%"></div></div>
+      <a href="M1-5_이익률분석.html" class="btn btn-primary" id="btn-m5">학습 시작 →</a>
+    </div>
+
+    <div class="module-card" id="card-m6">
+      <span class="status-tag tag-pending" id="tag-m6">미시작</span>
+      <div class="num">MODULE 6 — 심화</div>
+      <span class="para-range">§1.127 – §1.138</span>
+      <h3>비교가능성 5대 요소 & 사업전략</h3>
+      <p>비교가능성을 결정하는 5대 요소와 시장침투 전략의 이전가격 처리 방법을 학습합니다.</p>
+      <div class="status-bar"><div class="status-fill" id="fill-m6" style="width:0%"></div></div>
+      <a href="M1-6_비교가능성.html" class="btn btn-primary" id="btn-m6">학습 시작 →</a>
+    </div>
+
+    <div class="module-card" id="card-m7">
+      <span class="status-tag tag-pending" id="tag-m7">미시작</span>
+      <div class="num">MODULE 7 — 심화·종합</div>
+      <span class="para-range">§1.139 – §1.193</span>
+      <h3>거래 부인·손실·지역절감·그룹시너지</h3>
+      <p>비정상 거래 부인 요건, 결손 처리, 지역절감효과 배분, MNE 그룹 시너지 분석을 학습합니다.</p>
+      <div class="status-bar"><div class="status-fill" id="fill-m7" style="width:0%"></div></div>
+      <a href="M1-7_심화분석.html" class="btn btn-primary" id="btn-m7">학습 시작 →</a>
+    </div>
+
+  </div>
+</div>
+
+<script>
+var modules=['m1','m2','m3','m4','m5','m6','m7'];
+function loadProgress(){
+  var done=0;
+  modules.forEach(function(m){
+    var pct=parseInt(localStorage.getItem('ch1_'+m+'_pct')||'0');
+    var fill=document.getElementById('fill-'+m);
+    var tag=document.getElementById('tag-'+m);
+    var btn=document.getElementById('btn-'+m);
+    var card=document.getElementById('card-'+m);
+    if(fill)fill.style.width=pct+'%';
+    if(pct===100){done++;tag.textContent='완료 ✓';tag.className='status-tag tag-done';card.classList.add('done');btn.textContent='복습하기';btn.className='btn btn-done';}
+    else if(pct>0){tag.textContent='학습중';tag.className='status-tag tag-inprog';card.classList.add('inprog');btn.textContent='이어서 학습 →';}
+  });
+  var pct=Math.round(done/7*100);
+  document.getElementById('overall-bar').style.width=pct+'%';
+  document.getElementById('prog-text').textContent=done+' / 7 모듈 완료';
+  document.getElementById('prog-pct').textContent=pct+'%';
+}
+loadProgress();
+</script>
+</body>
+</html>

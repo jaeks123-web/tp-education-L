@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>M1-6: 비교가능성 분석 II | Chapter I 기초과정</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:#1a5fa8;--blue-light:#e8f0fa;--blue-mid:#3b7dd8;
+  --green:#1a7a4a;--green-light:#e6f5ee;
+  --orange:#c06000;--orange-light:#fff3e0;
+  --red:#b02020;--red-light:#fdecea;
+  --gray:#555;--gray-light:#f5f5f5;--gray-border:#ddd;
+  --text:#222;--text2:#555;
+  --radius:10px;--shadow:0 2px 8px rgba(0,0,0,.10);
+}
+body{font-family:'Noto Sans KR',Arial,sans-serif;background:#f0f4f8;color:var(--text);line-height:1.75;font-size:16px}
+a{color:var(--blue);text-decoration:none}
+.mod-header{background:var(--blue);color:#fff;padding:1.5rem 2rem}
+.mod-header .breadcrumb{font-size:.8rem;opacity:.7;margin-bottom:.4rem}
+.mod-header h1{font-size:1.4rem;font-weight:700}
+.mod-header .sub{font-size:.9rem;opacity:.8;margin-top:.3rem}
+.prog-strip{background:rgba(255,255,255,.15);height:6px;margin-top:1rem;border-radius:99px;overflow:hidden}
+.prog-strip-inner{height:100%;background:#fff;border-radius:99px;transition:width .4s}
+.layout{display:flex;max-width:1100px;margin:0 auto;padding:2rem 1.5rem 4rem;gap:1.5rem}
+.sidebar{width:220px;flex-shrink:0}
+.content{flex:1;min-width:0}
+.nav-card{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:1.2rem;margin-bottom:1rem;position:sticky;top:1rem}
+.nav-card h4{font-size:.85rem;color:var(--gray);margin-bottom:.8rem}
+.nav-item{display:block;padding:.45rem .75rem;border-radius:6px;font-size:.85rem;color:var(--text2);margin-bottom:3px;cursor:pointer;border:none;width:100%;text-align:left;background:none;transition:background .12s}
+.nav-item:hover{background:var(--blue-light);color:var(--blue)}
+.card{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:1.8rem 2rem;margin-bottom:1.5rem}
+.card h2{font-size:1.15rem;font-weight:700;color:var(--blue);margin-bottom:1rem;padding-bottom:.6rem;border-bottom:2px solid var(--blue-light)}
+.card p{font-size:.95rem;color:var(--text2);margin-bottom:.7rem}
+.obj-list{list-style:none;padding:0}
+.obj-list li{display:flex;gap:.7rem;align-items:flex-start;padding:.5rem 0;border-bottom:1px solid var(--gray-border);font-size:.93rem}
+.obj-list li:last-child{border:none}
+.obj-num{background:var(--blue);color:#fff;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;flex-shrink:0;margin-top:2px}
+.accordion{border:1px solid var(--gray-border);border-radius:var(--radius);overflow:hidden;margin-bottom:1rem}
+.acc-header{display:flex;justify-content:space-between;align-items:center;padding:.9rem 1.2rem;cursor:pointer;background:var(--gray-light);font-weight:600;font-size:.95rem;border:none;width:100%;text-align:left;transition:background .12s}
+.acc-header:hover{background:#ebebeb}
+.acc-header .para{font-size:.78rem;color:var(--blue);background:var(--blue-light);padding:2px 8px;border-radius:20px;margin-right:.6rem}
+.acc-header .arrow{font-size:1rem;color:var(--gray);transition:transform .2s}
+.acc-body{display:none;padding:1.1rem 1.3rem;background:#fff;font-size:.93rem;color:var(--text2);line-height:1.8;border-top:1px solid var(--gray-border)}
+.acc-body.open{display:block}
+.acc-header.open .arrow{transform:rotate(180deg)}
+.key-point{background:var(--blue-light);border-left:4px solid var(--blue);padding:.7rem 1rem;border-radius:0 6px 6px 0;margin:.8rem 0;font-size:.9rem;color:#1a3a6a}
+.warn-point{background:var(--orange-light);border-left:4px solid var(--orange);padding:.7rem 1rem;border-radius:0 6px 6px 0;margin:.8rem 0;font-size:.9rem;color:#6b3a00}
+.note-point{background:var(--green-light);border-left:4px solid var(--green);padding:.7rem 1rem;border-radius:0 6px 6px 0;margin:.8rem 0;font-size:.9rem;color:#0d3d25}
+.step-list{list-style:none;padding:0;margin:.6rem 0}
+.step-list li{display:flex;gap:.8rem;align-items:flex-start;padding:.45rem 0;font-size:.92rem;color:var(--text2)}
+.step-num{background:var(--blue);color:#fff;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;flex-shrink:0;margin-top:3px}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:.8rem 0}
+.three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin:.8rem 0}
+.info-box{background:var(--gray-light);border-radius:8px;padding:1rem;border-top:3px solid}
+.info-box .ib-title{font-size:.9rem;font-weight:700;margin-bottom:.5rem}
+.info-box .ib-body{font-size:.87rem;color:var(--text2);line-height:1.7}
+.method-table{width:100%;border-collapse:collapse;font-size:.88rem;margin:.8rem 0}
+.method-table th{background:var(--blue);color:#fff;padding:.55rem .8rem;text-align:left}
+.method-table td{padding:.5rem .8rem;border-bottom:1px solid var(--gray-border);color:var(--text2);vertical-align:top}
+.method-table tr:nth-child(even) td{background:var(--gray-light)}
+.tag{display:inline-block;padding:2px 9px;border-radius:20px;font-size:.75rem;font-weight:600;margin-left:.4rem}
+.tag-key{background:var(--blue-light);color:var(--blue)}
+.tag-high{background:#fdecea;color:#b02020}
+.tag-med{background:#fff3e0;color:#c06000}
+.tag-low{background:#e6f5ee;color:#1a7a4a}
+.econ-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin:.8rem 0}
+.econ-item{background:var(--gray-light);border-radius:6px;padding:.4rem .75rem;font-size:.85rem;color:var(--text2);border-left:3px solid var(--blue)}
+.condition-box{background:#fff;border:2px solid;border-radius:8px;padding:.9rem 1rem;margin:.5rem 0}
+.q-block{background:var(--gray-light);border-radius:8px;padding:1rem 1.2rem;margin-bottom:1rem}
+.q-block .q-text{font-weight:600;font-size:.93rem;margin-bottom:.7rem}
+.q-options label{display:flex;align-items:flex-start;gap:.5rem;padding:.4rem .5rem;border-radius:6px;cursor:pointer;font-size:.91rem;color:var(--text2);transition:background .1s;margin-bottom:3px}
+.q-options label:hover{background:#e8e8e8}
+.q-options input[type=radio]{margin-top:3px;flex-shrink:0;accent-color:var(--blue)}
+.q-feedback{display:none;margin-top:.7rem;padding:.6rem .9rem;border-radius:6px;font-size:.88rem;font-weight:500}
+.q-feedback.correct{background:var(--green-light);color:var(--green);border-left:3px solid var(--green)}
+.q-feedback.wrong{background:var(--red-light);color:var(--red);border-left:3px solid var(--red)}
+.quiz-btn{background:var(--blue);color:#fff;border:none;padding:.7rem 2rem;border-radius:8px;font-size:.95rem;font-weight:600;cursor:pointer;margin-top:.5rem}
+.quiz-btn:hover{background:var(--blue-mid)}
+.quiz-btn:disabled{background:#aaa;cursor:default}
+.score-box{display:none;background:var(--blue-light);border:2px solid var(--blue);border-radius:10px;padding:1.2rem;text-align:center;margin-top:1rem}
+.score-box .big{font-size:2rem;font-weight:800;color:var(--blue)}
+.checklist-wrap{margin:.6rem 0}
+.check-item{display:flex;align-items:flex-start;gap:.7rem;padding:.55rem .3rem;border-bottom:1px solid var(--gray-border);font-size:.92rem;cursor:pointer}
+.check-item:last-child{border:none}
+.check-item input[type=checkbox]{margin-top:4px;flex-shrink:0;accent-color:var(--green);width:16px;height:16px}
+.check-item.checked label{color:#aaa;text-decoration:line-through}
+.nav-bottom{display:flex;justify-content:space-between;align-items:center;margin-top:2rem;flex-wrap:wrap;gap:.5rem}
+.btn-nav{background:var(--blue);color:#fff;padding:.65rem 1.4rem;border-radius:8px;font-size:.93rem;font-weight:600;cursor:pointer;border:none;text-decoration:none;display:inline-block}
+.btn-nav.secondary{background:#fff;color:var(--blue);border:2px solid var(--blue)}
+@media(max-width:720px){.layout{flex-direction:column}.sidebar{width:100%;position:static}.nav-card{position:static}.two-col,.three-col{grid-template-columns:1fr}.econ-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header class="mod-header">
+  <div class="breadcrumb">기초과정 › Chapter I › M1-6</div>
+  <h1>M1-6. 비교가능성 분석 II: 제품·경제환경·사업전략</h1>
+  <div class="sub">§1.127 – §1.138 · 예상 학습시간: 35분</div>
+  <div class="prog-strip"><div class="prog-strip-inner" id="topBar" style="width:0%"></div></div>
+</header>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="nav-card">
+      <h4>📑 목차</h4>
+      <button class="nav-item" onclick="scrollTo('obj')">🎯 학습목표</button>
+      <button class="nav-item" onclick="scrollTo('s1')">1. 개요</button>
+      <button class="nav-item" onclick="scrollTo('s2')">2. D.1.3 제품·서비스 특성 (§1.127–1.129)</button>
+      <button class="nav-item" onclick="scrollTo('s3')">3. D.1.4 경제적 환경 (§1.130–1.133)</button>
+      <button class="nav-item" onclick="scrollTo('s4')">4. D.1.5 사업전략 (§1.134–1.138)</button>
+      <button class="nav-item" onclick="scrollTo('quiz')">📝 확인 퀴즈</button>
+      <button class="nav-item" onclick="scrollTo('check')">✅ 실무 체크리스트</button>
+    </div>
+    <div class="nav-card">
+      <h4>📊 이 모듈 진도</h4>
+      <div style="text-align:center;padding:.5rem 0">
+        <div style="font-size:1.6rem;font-weight:800;color:var(--blue)" id="pctDisp">0%</div>
+        <div style="font-size:.8rem;color:var(--gray);margin-top:.2rem">퀴즈 완료 시 갱신</div>
+      </div>
+    </div>
+  </aside>
+
+  <main class="content">
+
+    <!-- 학습목표 -->
+    <section class="card" id="obj">
+      <h2>🎯 학습 목표</h2>
+      <ul class="obj-list">
+        <li><span class="obj-num">1</span><span>제품·서비스의 특성이 비교가능성 분석에서 왜 중요한지 설명할 수 있다</span></li>
+        <li><span class="obj-num">2</span><span>이전가격산출방법별로 요구되는 비교가능성의 수준 차이를 이해할 수 있다</span></li>
+        <li><span class="obj-num">3</span><span>경제적 환경 분석의 주요 요소와 방법을 파악할 수 있다</span></li>
+        <li><span class="obj-num">4</span><span>시장침투 전략과 일시적 결손의 정당성 판단 조건 3가지를 설명할 수 있다</span></li>
+        <li><span class="obj-num">5</span><span>사업전략 분석이 비교가능성 결정 과정에서 갖는 역할을 이해할 수 있다</span></li>
+      </ul>
+    </section>
+
+    <!-- 섹션 1: 개요 -->
+    <section class="card" id="s1">
+      <h2>1. 개요: 비교가능성 5요소 중 3가지 <span class="tag tag-key">§1.127–1.138</span></h2>
+
+      <p>M1-3(거래분석)에서 배운 비교가능성 5요소 중 이번 모듈에서는 나머지 3가지를 다룹니다.</p>
+
+      <div class="three-col" style="margin-top:1rem">
+        <div class="info-box" style="border-top-color:#999;opacity:.6">
+          <div class="ib-title" style="color:#555">① 계약 조건 (M1-3)</div>
+          <div class="ib-body">§1.42–1.50<br>D.1.1</div>
+        </div>
+        <div class="info-box" style="border-top-color:#999;opacity:.6">
+          <div class="ib-title" style="color:#555">② FAR 분석 (M1-4)</div>
+          <div class="ib-body">§1.51–1.106<br>D.1.2</div>
+        </div>
+        <div class="info-box" style="border-top-color:var(--blue)">
+          <div class="ib-title" style="color:var(--blue)">③ 제품·서비스 특성 ✓</div>
+          <div class="ib-body">§1.127–1.129<br>D.1.3 — 이번 모듈</div>
+        </div>
+      </div>
+      <div class="two-col">
+        <div class="info-box" style="border-top-color:var(--orange)">
+          <div class="ib-title" style="color:var(--orange)">④ 경제적 환경 ✓</div>
+          <div class="ib-body">§1.130–1.133<br>D.1.4 — 이번 모듈</div>
+        </div>
+        <div class="info-box" style="border-top-color:var(--green)">
+          <div class="ib-title" style="color:var(--green)">⑤ 사업전략 ✓</div>
+          <div class="ib-body">§1.134–1.138<br>D.1.5 — 이번 모듈</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 섹션 2: D.1.3 제품·서비스 특성 -->
+    <section class="card" id="s2">
+      <h2>2. D.1.3 제품·서비스의 특성 <span class="tag tag-key">§1.127–1.129</span></h2>
+
+      <p>시장에서 평가되는 가치를 측정하는 <strong>제품 또는 서비스의 특성</strong>은 분석대상거래와 비교가능거래의 비교가능성을 측정하는 데 유용합니다.</p>
+
+      <div class="key-point">💡 <strong>실무 포인트:</strong> 제품 또는 서비스의 특성은 비교가능성을 측정하는 데 상당히 중요합니다. 과세관청 조사 시 제품 또는 서비스 특성에서 차이가 나는 경우 이를 문제 삼는 경우가 많습니다.</div>
+
+      <div class="accordion" id="acc-char1">
+        <button class="acc-header" onclick="toggleAcc(this,'acc-char1')">
+          <span><span class="para">§1.127</span>거래 유형별 검토 요소</span><span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <div class="three-col">
+            <div class="info-box" style="border-top-color:var(--blue)">
+              <div class="ib-title" style="color:var(--blue)">📦 제품(유형자산)</div>
+              <div class="ib-body">
+                <ul style="list-style:disc;padding-left:1rem;font-size:.85rem">
+                  <li>물리적 특성</li>
+                  <li>질적 특성</li>
+                  <li>안정성</li>
+                  <li>공급물량 확보가능성</li>
+                </ul>
+              </div>
+            </div>
+            <div class="info-box" style="border-top-color:var(--orange)">
+              <div class="ib-title" style="color:var(--orange)">🔧 서비스</div>
+              <div class="ib-body">
+                <ul style="list-style:disc;padding-left:1rem;font-size:.85rem">
+                  <li>서비스의 내재적 특성</li>
+                  <li>서비스의 성격</li>
+                  <li>제공 방식</li>
+                </ul>
+              </div>
+            </div>
+            <div class="info-box" style="border-top-color:var(--green)">
+              <div class="ib-title" style="color:var(--green)">💡 무형자산</div>
+              <div class="ib-body">
+                <ul style="list-style:disc;padding-left:1rem;font-size:.85rem">
+                  <li>거래 특성 (라이선스/양도)</li>
+                  <li>거래 종류 (특허·상표·노하우)</li>
+                  <li>보호기간</li>
+                  <li>기대수익</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="note-point">📌 무형자산 거래의 상세 비교가능성 분석은 Chapter VI D.2.1에서 다룹니다.</div>
+        </div>
+      </div>
+
+      <div class="accordion" id="acc-char2">
+        <button class="acc-header" onclick="toggleAcc(this,'acc-char2')">
+          <span><span class="para">§1.128–1.129</span>이전가격산출방법별 비교가능성 요구 수준</span><span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p style="margin-bottom:.8rem">이전가격산출방법에 따라 적용하는 제품 또는 서비스의 비교가능성 요구 수준이 다릅니다.</p>
+          <table class="method-table">
+            <thead>
+              <tr>
+                <th>방법</th>
+                <th>약칭</th>
+                <th>비교가능성 수준</th>
+                <th>요구 조건</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>비교가능 제3자 가격방법</strong></td>
+                <td>CUP</td>
+                <td><span class="tag tag-high">최고 수준</span></td>
+                <td>성질·특성·기능 면에서 동일한 제품 (예: 경쟁회사 제품)</td>
+              </tr>
+              <tr>
+                <td><strong>재판매가격방법</strong></td>
+                <td>RPM</td>
+                <td><span class="tag tag-med">높은 수준</span></td>
+                <td>대체상품이면 인정 가능; 기능에 더 많은 초점</td>
+              </tr>
+              <tr>
+                <td><strong>원가가산방법</strong></td>
+                <td>CPM</td>
+                <td><span class="tag tag-med">높은 수준</span></td>
+                <td>대체상품이면 인정 가능; 기능에 더 많은 초점</td>
+              </tr>
+              <tr>
+                <td><strong>거래순이익률방법</strong></td>
+                <td>TNMM</td>
+                <td><span class="tag tag-low">가장 낮은 수준</span></td>
+                <td>동일 산업군 또는 제품군이면 대체로 인정</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="key-point">💡 <strong>핵심 원칙 (§1.129):</strong> 순이익률(TNMM) 또는 매출총이익률(RPM·CPM)을 이익지표로 사용하는 경우 비교되는 제품보다 <strong>기능에 더 많은 초점</strong>을 두어야 합니다. 예를 들어 도매거래 분석 시, 구매활동·물류활동·재고관리·광고·영업·고객서비스 등 각 기능이 비교가능 거래에서도 확인되어야 합니다.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 섹션 3: D.1.4 경제적 환경 -->
+    <section class="card" id="s3">
+      <h2>3. D.1.4 경제적 환경 <span class="tag tag-key">§1.130–1.133</span></h2>
+
+      <p>정상가격은 시장마다 상당한 차이가 있으며, 동일한 자산(제품) 또는 서비스인 경우에도 시장 차이에 따라 정상가격이 달라집니다. 따라서 특수관계기업과 독립된 제3자가 속해 있는 <strong>경제적 환경(시장) 차이가 정상가격 산출에 중요한 차이를 초래하지 않아야</strong> 합니다.</p>
+
+      <div class="note-point">📌 <strong>중요성 증가:</strong> BEPS 프로젝트 이후 다국적기업의 가치창출활동 연쇄고리에 대한 연구가 활발해지면서 경제적 환경 분석의 중요성이 더욱 커졌습니다. 경제환경 분석은 결손(§1.149), 정부정책(§1.152–1.154), 지역절감효과(§1.159–1.162), 다국적기업 그룹시너지(§1.177–1.193) 분석을 모두 포함합니다.</div>
+
+      <div class="accordion" id="acc-econ1">
+        <button class="acc-header" onclick="toggleAcc(this,'acc-econ1')">
+          <span><span class="para">§1.130</span>경제적 환경 분석 방법 및 주요 요소</span><span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p style="margin-bottom:.7rem"><strong>분석 절차:</strong></p>
+          <ul class="step-list">
+            <li><span class="step-num">①</span><div><strong>시장특성 분석:</strong> 대체 가능한 상품이나 서비스를 고려하여 시장특성 분석 (가장 중요한 첫 번째 단계)</div></li>
+            <li><span class="step-num">②</span><div><strong>경제적 요소 파악:</strong> 아래 요소들이 가격에 중요한 영향을 미치는지 검토</div></li>
+            <li><span class="step-num">③</span><div><strong>중요한 차이 존재 여부 결정:</strong> 합병·중요한 자산 매수매도·새로운 경쟁자 출현 등 특정 사실과 상황 고려</div></li>
+            <li><span class="step-num">④</span><div><strong>합리적인 조정 가능성 판단:</strong> 중요한 차이의 영향을 제거하기 위한 방법 검토</div></li>
+          </ul>
+
+          <p style="margin-top:.9rem;margin-bottom:.6rem"><strong>주요 경제적 요소:</strong></p>
+          <div class="econ-grid">
+            <div class="econ-item">📍 지리적 위치</div>
+            <div class="econ-item">📊 시장 규모</div>
+            <div class="econ-item">⚔️ 시장 내 경쟁 정도</div>
+            <div class="econ-item">🏆 매수자·매도자의 경쟁력</div>
+            <div class="econ-item">🔄 대체 가능한 상품·서비스 가용성</div>
+            <div class="econ-item">📈 공급 및 수요 수준</div>
+            <div class="econ-item">💰 소비자 구매력</div>
+            <div class="econ-item">🏛️ 정부 규제의 성격과 정도</div>
+            <div class="econ-item">🏭 생산 비용 (토지·노동·자본)</div>
+            <div class="econ-item">🚚 운송 비용</div>
+            <div class="econ-item">🏪 시장의 수준 (소매 또는 도매)</div>
+            <div class="econ-item">📅 거래 일시 및 시간</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion" id="acc-econ2">
+        <button class="acc-header" onclick="toggleAcc(this,'acc-econ2')">
+          <span><span class="para">§1.131</span>순환주기 (제품주기·사업주기·경제주기)</span><span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p>경제주기, 사업주기 및 <strong>제품주기</strong>는 경제환경을 이해하기 위해 반드시 검토되어야 합니다. 이는 다년도 자료 사용과도 관련이 있습니다.</p>
+          <div class="warn-point">⚠️ <strong>실무 예시 — 반도체:</strong> 반도체 제품은 교체주기가 매우 빠릅니다(단기 6개월). 제품이 빠르게 진부화되어 가격이 하락하므로, 동일한 산업·제품군에 속하는 비교가능회사를 선택하는 것이 중요합니다. 그러나 반도체 산업은 소수 다국적기업이 시장 공급량 대부분을 차지해 비교가능회사를 찾기 어려우므로, 실무상 기타 첨단산업 회사의 사분위값으로 정상가격범위를 산출합니다.</div>
+        </div>
+      </div>
+
+      <div class="accordion" id="acc-econ3">
+        <button class="acc-header" onclick="toggleAcc(this,'acc-econ3')">
+          <span><span class="para">§1.132–1.133</span>지역시장특성 및 비교가능회사 검색 범위</span><span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p><strong>§1.132 — 지역시장특성:</strong> 지역시장특성은 경제환경 중 또 다른 중요한 요소입니다. 어떤 제품은 국가의 범위를 넘어 넓은 지역에서 유사한 반면, 어떤 제품은 한 국가 내에서도 서로 다른 특성을 가진 시장에서 판매될 수 있습니다.</p>
+          <p><strong>§1.133 — 다국적기업의 지역적 특성:</strong> 여러 국가를 범위로 동일한 제품군에서 유사한 기능·위험을 부담하는 다국적기업이 있는 반면, 한 국가 내에서도 여러 제품군과 특화된 기능·위험을 부담하는 다국적기업도 있습니다.</p>
+          <div class="key-point">💡 <strong>실무 적용:</strong> §1.133을 근거로, 분석대상회사가 위치한 한 국가에 국한되지 않고 <strong>아시아·유럽·미주 등 지역을 기준</strong>으로 전 세계 데이터를 사용하여 비교가능회사를 검색할 수 있습니다. 즉, 국가의 범위를 넘어 기능·위험을 기준으로 비교가능회사를 검색해도 정상가격원칙에 벗어나지 않는다는 일정 근거를 제공합니다.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 섹션 4: D.1.5 사업전략 -->
+    <section class="card" id="s4">
+      <h2>4. D.1.5 사업전략 <span class="tag tag-key">§1.134–1.138</span></h2>
+
+      <p>사업전략은 이전가격 적용을 위해 거래의 범위를 구분하고 비교가능성을 결정하는 과정에서 <strong>반드시 고려</strong>되어야 합니다.</p>
+
+      <div class="accordion" id="acc-biz1">
+        <button class="acc-header" onclick="toggleAcc(this,'acc-biz1')">
+          <span><span class="para">§1.134</span>사업전략 분석의 목적과 범위</span><span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p>사업전략은 기업의 다양한 측면을 고려해야 합니다:</p>
+          <ul class="step-list">
+            <li><span class="step-num">•</span><div>신제품 개발 전략</div></li>
+            <li><span class="step-num">•</span><div>사업 다변화 정도</div></li>
+            <li><span class="step-num">•</span><div>위험 회피 전략</div></li>
+            <li><span class="step-num">•</span><div>정치적 변화 대응</div></li>
+            <li><span class="step-num">•</span><div>노동법 개정에 따른 전략 변화</div></li>
+            <li><span class="step-num">•</span><div>계약기간 및 사업 전반에 영향을 미치는 기타 요소</div></li>
+          </ul>
+          <div class="note-point">📌 <strong>2017년 개정:</strong> OECD는 2017년 개정 시 경제환경·사업전략·위험요소 분석 문단을 보강했습니다. BEPS 프로젝트의 Pillar 1 규정에 따라 다국적기업의 초과이익을 국가별로 분할하기 위해서는 사업전략과 같은 시장경제적 요소 분석이 사전적으로 전제되어야 하기 때문입니다.</div>
+        </div>
+      </div>
+
+      <div class="accordion" id="acc-biz2">
+        <button class="acc-header" onclick="toggleAcc(this,'acc-biz2')">
+          <span><span class="para">§1.135–1.136</span>시장침투 전략과 일시적 결손</span><span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p><strong>시장진입 단계의 회사:</strong> 그 회사가 처한 시장 및 경제적 요소(시장침투전략으로 인해 일시적으로 비용이 이익을 초과하는 현상)를 분석합니다.</p>
+          <div class="warn-point">⚠️ <strong>실무 분쟁 포인트:</strong> 시장진입 초기에 관계회사가 결손을 신고하는 경우, 이 지침을 대응 논리로 사용합니다. 그러나 <strong>"시장진입 시기를 몇 년으로 볼 것인가"</strong>에 대한 공통 의견이 없어 납세자와 과세관청 간 충돌이 빈번히 발생합니다.</div>
+          <p style="margin-top:.7rem"><strong>§1.136 — 이익 미실현 문제:</strong> 시장침투 전략을 적용하였으나 그 이후 해당 전략에 따른 이익이 실현되지 않았거나, 당초 계획한 전략대로 사업을 하지 않은 경우 문제가 됩니다.</p>
+        </div>
+      </div>
+
+      <div class="accordion" id="acc-biz3">
+        <button class="acc-header" onclick="toggleAcc(this,'acc-biz3')">
+          <span><span class="para">§1.137</span>시장침투 전략 인정을 위한 3가지 조건</span><span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p>시장침투 전략과 그 위험을 실제로 부담하였는지 판단하기 위한 조건:</p>
+          <div class="condition-box" style="border-color:var(--blue)">
+            <div style="font-size:.88rem;font-weight:700;color:var(--blue);margin-bottom:.4rem">조건 1. 미래 기대이익을 위한 일시적 수익 감소</div>
+            <div style="font-size:.88rem;color:var(--text2)">사업전략은 미래의 기대이익을 위해 <strong>일시적으로</strong> 수익이 낮아지는 것을 말합니다.</div>
+          </div>
+          <div class="condition-box" style="border-color:var(--orange)">
+            <div style="font-size:.88rem;font-weight:700;color:var(--orange);margin-bottom:.4rem">조건 2. 정상가격원칙에 비추어 합리적인 사업전략 관계</div>
+            <div style="font-size:.88rem;color:var(--text2)">정상가격원칙에 비추어 사업전략 관계가 합리적이어야 합니다. 예를 들어, 판매대리점인 경우 사업전략과 관련된 비용을 부담하거나 이러한 전략을 독단적으로 수행하지 않는 것.</div>
+          </div>
+          <div class="condition-box" style="border-color:var(--green)">
+            <div style="font-size:.88rem;font-weight:700;color:var(--green);margin-bottom:.4rem">조건 3. 합리적인 이익을 기대할 수 있는 수준의 비용</div>
+            <div style="font-size:.88rem;color:var(--text2)">발생한 비용은 정상가격원칙에 비추어 <strong>합리적인 이익을 기대할 정도</strong>이어야 합니다.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion" id="acc-biz4">
+        <button class="acc-header" onclick="toggleAcc(this,'acc-biz4')">
+          <span><span class="para">§1.138</span>추가 조건: 가시적 이익 발생 가능성</span><span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p>§1.135에서 언급한 바와 같이, 시장침투전략은 최초 전략 실행 시 <strong>미래에 가시적인 이익이 발생할 가능성</strong>이 있어야 합니다.</p>
+          <div class="warn-point">⚠️ 가시적인 이익이 <strong>언제부터</strong> 발생해야 정상가격원칙과 일치하는지에 대한 공통된 의견이 없어 많은 경우 분쟁의 소지가 됩니다.</div>
+          <div style="background:var(--blue-light);border-radius:8px;padding:1rem;margin-top:.8rem">
+            <div style="font-size:.88rem;font-weight:700;color:var(--blue);margin-bottom:.5rem">📋 요약: 시장침투 전략 인정 요건 체크</div>
+            <ul class="step-list" style="margin-top:.4rem">
+              <li><span class="step-num">①</span><div>일시적 수익 감소 → 미래 기대이익 목적</div></li>
+              <li><span class="step-num">②</span><div>정상가격원칙 기준으로 합리적인 전략 관계</div></li>
+              <li><span class="step-num">③</span><div>발생 비용이 합리적 이익을 기대할 수 있는 수준</div></li>
+              <li><span class="step-num">④</span><div>전략 실행 시점에 미래 가시적 이익 발생 가능성 존재</div></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 퀴즈 -->
+    <section class="card" id="quiz">
+      <h2>📝 확인 퀴즈</h2>
+
+      <div class="q-block" id="qb1">
+        <div class="q-text">Q1. 이전가격산출방법 중 제품·서비스의 비교가능성을 <strong>가장 높은 수준</strong>으로 요구하는 방법은?</div>
+        <div class="q-options">
+          <label><input type="radio" name="q1" value="a"><span>① 거래순이익률방법 (TNMM)</span></label>
+          <label><input type="radio" name="q1" value="b"><span>② 재판매가격방법 (RPM)</span></label>
+          <label><input type="radio" name="q1" value="c"><span>③ 비교가능 제3자 가격방법 (CUP)</span></label>
+          <label><input type="radio" name="q1" value="d"><span>④ 원가가산방법 (CPM)</span></label>
+        </div>
+        <div class="q-feedback" id="fb1"></div>
+      </div>
+
+      <div class="q-block" id="qb2">
+        <div class="q-text">Q2. TNMM 또는 RPM을 적용할 때 비교가능회사 선택 시 제품 특성보다 더 중요하게 고려해야 하는 것은?</div>
+        <div class="q-options">
+          <label><input type="radio" name="q2" value="a"><span>① 제품의 브랜드 가치</span></label>
+          <label><input type="radio" name="q2" value="b"><span>② 기능 (구매·물류·재고관리 등)</span></label>
+          <label><input type="radio" name="q2" value="c"><span>③ 제품의 물리적 특성</span></label>
+          <label><input type="radio" name="q2" value="d"><span>④ 판매 지역</span></label>
+        </div>
+        <div class="q-feedback" id="fb2"></div>
+      </div>
+
+      <div class="q-block" id="qb3">
+        <div class="q-text">Q3. 경제적 환경 분석에서 <strong>가장 먼저</strong> 실시해야 하는 단계는?</div>
+        <div class="q-options">
+          <label><input type="radio" name="q3" value="a"><span>① 비교가능거래 검색</span></label>
+          <label><input type="radio" name="q3" value="b"><span>② 합리적인 조정 가능성 판단</span></label>
+          <label><input type="radio" name="q3" value="c"><span>③ 대체 가능한 상품·서비스를 고려한 시장특성 분석</span></label>
+          <label><input type="radio" name="q3" value="d"><span>④ 거래 일시 및 시간 파악</span></label>
+        </div>
+        <div class="q-feedback" id="fb3"></div>
+      </div>
+
+      <div class="q-block" id="qb4">
+        <div class="q-text">Q4. 다음 중 시장침투 전략으로 인한 일시적 결손을 정당화하기 위한 OECD 조건으로 <strong>올바르지 않은 것</strong>은?</div>
+        <div class="q-options">
+          <label><input type="radio" name="q4" value="a"><span>① 사업전략은 미래의 기대이익을 위한 일시적 수익 감소이어야 한다</span></label>
+          <label><input type="radio" name="q4" value="b"><span>② 정상가격원칙에 비추어 사업전략 관계가 합리적이어야 한다</span></label>
+          <label><input type="radio" name="q4" value="c"><span>③ 결손 기간이 5년 이내이어야 한다</span></label>
+          <label><input type="radio" name="q4" value="d"><span>④ 발생한 비용은 정상가격원칙에 비추어 합리적인 이익을 기대할 정도이어야 한다</span></label>
+        </div>
+        <div class="q-feedback" id="fb4"></div>
+      </div>
+
+      <div class="q-block" id="qb5">
+        <div class="q-text">Q5. 비교가능회사 검색 범위에 관한 §1.133의 내용으로 올바른 것은?</div>
+        <div class="q-options">
+          <label><input type="radio" name="q5" value="a"><span>① 반드시 분석대상회사가 위치한 동일 국가 내에서만 검색해야 한다</span></label>
+          <label><input type="radio" name="q5" value="b"><span>② 아시아·유럽·미주 등 지역을 기준으로 기능·위험 기반 검색이 가능하다</span></label>
+          <label><input type="radio" name="q5" value="c"><span>③ 동일 제품을 취급하는 경우에만 다른 국가 회사를 비교가능회사로 쓸 수 있다</span></label>
+          <label><input type="radio" name="q5" value="d"><span>④ 비교가능회사는 동일 언어권 국가에서만 선택해야 한다</span></label>
+        </div>
+        <div class="q-feedback" id="fb5"></div>
+      </div>
+
+      <button class="quiz-btn" id="submitBtn" onclick="submitQuiz()">답안 제출</button>
+      <div class="score-box" id="scoreBox">
+        <div class="big" id="scoreNum">0점</div>
+        <div style="font-size:.95rem;color:var(--blue);margin-top:.3rem" id="scoreMsg"></div>
+      </div>
+    </section>
+
+    <!-- 체크리스트 -->
+    <section class="card" id="check">
+      <h2>✅ 실무 체크리스트</h2>
+      <p style="font-size:.9rem;color:var(--gray);margin-bottom:.8rem">비교가능성 분석 II 실무 적용 시 확인할 사항입니다.</p>
+      <div class="checklist-wrap" id="checkList">
+        <div class="check-item" onclick="toggleCheck(this)">
+          <input type="checkbox">
+          <label>거래 유형(제품·서비스·무형자산)에 맞는 비교가능성 요소를 확인했는가</label>
+        </div>
+        <div class="check-item" onclick="toggleCheck(this)">
+          <input type="checkbox">
+          <label>선택한 이전가격산출방법에 맞는 비교가능성 수준으로 비교대상거래를 검색했는가</label>
+        </div>
+        <div class="check-item" onclick="toggleCheck(this)">
+          <input type="checkbox">
+          <label>비교가능회사 선택 시 지역(아시아·유럽·미주 등) 기준 검색의 근거를 마련했는가</label>
+        </div>
+        <div class="check-item" onclick="toggleCheck(this)">
+          <input type="checkbox">
+          <label>제품주기·사업주기·경제주기 등 순환주기 요소를 비교가능성 분석에 반영했는가</label>
+        </div>
+        <div class="check-item" onclick="toggleCheck(this)">
+          <input type="checkbox">
+          <label>분석대상회사가 결손을 신고하는 경우 시장침투 전략 3가지 조건에 부합하는지 검토했는가</label>
+        </div>
+        <div class="check-item" onclick="toggleCheck(this)">
+          <input type="checkbox">
+          <label>비교가능회사의 사업전략이 분석대상회사와 유사한지 사업보고서·재무제표로 확인했는가</label>
+        </div>
+      </div>
+    </section>
+
+    <!-- 하단 내비게이션 -->
+    <div class="nav-bottom">
+      <a href="M1-5_이익률분석.html" class="btn-nav secondary">← M1-5: 이익률분석</a>
+      <a href="index.html" class="btn-nav secondary">📋 목차로</a>
+      <a href="M1-7_심화분석.html" class="btn-nav">M1-7: 심화분석 →</a>
+    </div>
+
+  </main>
+</div>
+
+<script>
+const KEY_PCT='ch1_m6_pct',KEY_QUIZ='ch1_m6_quiz',KEY_CHECKS='ch1_m6_checks',KEY_OPENED='ch1_m6_opened';
+
+const feedbacks={
+  q1:{correct:'c',msg:{c:'✅ 정답! CUP(비교가능 제3자 가격방법)은 성질·특성·기능 면에서 동일한 제품을 요구하는 가장 엄격한 방법입니다.',a:'❌ 오답. TNMM은 동일 산업군·제품군이면 대체로 인정되는, 비교가능성 요구 수준이 가장 낮은 방법입니다.',b:'❌ 오답. RPM은 높은 수준을 요구하나 CUP보다는 낮습니다.',d:'❌ 오답. CPM도 높은 수준을 요구하나 CUP보다는 낮습니다.'}},
+  q2:{correct:'b',msg:{b:'✅ 정답! §1.129에 따르면 TNMM 또는 RPM 적용 시 제품 특성보다 기능(구매·물류·재고관리·광고·영업 등)에 더 많은 초점을 두어야 합니다.',a:'❌ 오답. 브랜드 가치는 이익지표 사용 시 제1순위 검토 대상이 아닙니다.',c:'❌ 오답. 제품의 물리적 특성은 CUP 적용 시 더 중요한 요소입니다.',d:'❌ 오답. 판매 지역은 경제적 환경 분석의 요소이지, 기능 분석의 핵심은 아닙니다.'}},
+  q3:{correct:'c',msg:{c:'✅ 정답! §1.130에서 첫 번째 중요한 단계로 대체 가능한 상품이나 서비스를 고려하여 시장특성 분석을 실시합니다.',a:'❌ 오답. 비교가능거래 검색은 경제적 환경 분석 후에 이루어집니다.',b:'❌ 오답. 합리적인 조정 가능성 판단은 마지막 단계입니다.',d:'❌ 오답. 거래 일시 및 시간은 경제적 요소 중 하나이지 첫 번째 단계가 아닙니다.'}},
+  q4:{correct:'c',msg:{c:'✅ 정답! §1.137과 §1.138은 결손 기간을 구체적으로 "5년 이내"라고 규정하지 않습니다. 언제부터 이익이 발생해야 하는지에 대한 공통된 의견이 없어 분쟁 소지가 됩니다.',a:'❌ 오답. 이는 §1.137의 첫 번째 조건으로 올바른 내용입니다.',b:'❌ 오답. 이는 §1.137의 두 번째 조건으로 올바른 내용입니다.',d:'❌ 오답. 이는 §1.137의 세 번째 조건으로 올바른 내용입니다.'}},
+  q5:{correct:'b',msg:{b:'✅ 정답! §1.133을 근거로 아시아·유럽·미주 등 지역 기준으로 기능·위험을 기반으로 비교가능회사를 검색해도 정상가격원칙에 위배되지 않습니다.',a:'❌ 오답. 동일 국가 내로 검색을 제한할 필요가 없습니다.',c:'❌ 오답. 기능·위험이 유사하면 동일 제품이 아니어도 비교가능회사로 선택할 수 있습니다.',d:'❌ 오답. 언어권은 비교가능회사 선택의 기준이 아닙니다.'}}
+};
+
+function toggleAcc(btn,id){
+  const body=document.getElementById(id).querySelector('.acc-body');
+  const isOpen=body.classList.contains('open');
+  body.classList.toggle('open');
+  btn.classList.toggle('open');
+  if(!isOpen){
+    const n=parseInt(localStorage.getItem(KEY_OPENED)||'0')+1;
+    localStorage.setItem(KEY_OPENED,n);
+    updateProg();
+  }
+}
+
+function submitQuiz(){
+  let score=0,answered=0;
+  ['q1','q2','q3','q4','q5'].forEach((q,i)=>{
+    const sel=document.querySelector(`input[name="${q}"]:checked`);
+    const fb=document.getElementById('fb'+(i+1));
+    const f=feedbacks[q];
+    if(!sel){
+      fb.style.display='block';fb.className='q-feedback wrong';
+      fb.textContent='⚠️ 답을 선택해 주세요.';return;
+    }
+    answered++;
+    fb.style.display='block';
+    fb.textContent=f.msg[sel.value];
+    if(sel.value===f.correct){fb.className='q-feedback correct';score++;}
+    else{fb.className='q-feedback wrong';}
+  });
+  if(answered<5)return;
+  const pct=Math.round(score/5*100);
+  document.getElementById('submitBtn').disabled=true;
+  document.querySelectorAll('.q-options input').forEach(i=>i.disabled=true);
+  const sb=document.getElementById('scoreBox');
+  sb.style.display='block';
+  document.getElementById('scoreNum').textContent=score+'/5점 ('+pct+'%)';
+  document.getElementById('scoreMsg').textContent=pct>=80?'🎉 우수합니다! 다음 모듈로 넘어가세요.':pct>=60?'👍 합격입니다. 오답을 복습하세요.':'📖 다시 학습 후 재시도해 보세요.';
+  localStorage.setItem(KEY_QUIZ,pct);
+  finishQuiz(pct);
+}
+
+function finishQuiz(pct){
+  const prog=pct>=60?100:50;
+  localStorage.setItem(KEY_PCT,prog);
+  updateDisplay(prog);
+}
+
+function toggleCheck(item){
+  const cb=item.querySelector('input');
+  cb.checked=!cb.checked;
+  item.classList.toggle('checked',cb.checked);
+  saveChecks();updateProg();
+}
+
+function saveChecks(){
+  const checks=[...document.querySelectorAll('#checkList input')].map(c=>c.checked?'1':'0').join('');
+  localStorage.setItem(KEY_CHECKS,checks);
+}
+
+function loadChecks(){
+  const s=localStorage.getItem(KEY_CHECKS)||'';
+  document.querySelectorAll('#checkList .check-item').forEach((item,i)=>{
+    if(s[i]==='1'){item.querySelector('input').checked=true;item.classList.add('checked');}
+  });
+}
+
+function updateProg(){
+  const quiz=parseInt(localStorage.getItem(KEY_QUIZ)||'0');
+  const checks=[...document.querySelectorAll('#checkList input:checked')].length;
+  const opens=parseInt(localStorage.getItem(KEY_OPENED)||'0');
+  let pct=0;
+  if(quiz>0)pct=Math.max(pct,quiz>=60?100:50);
+  pct=Math.max(pct,Math.min(40,Math.round(opens/4*20)));
+  pct=Math.max(pct,Math.min(30,Math.round(checks/6*30)));
+  localStorage.setItem(KEY_PCT,pct);
+  updateDisplay(pct);
+}
+
+function updateDisplay(pct){
+  document.getElementById('topBar').style.width=pct+'%';
+  document.getElementById('pctDisp').textContent=pct+'%';
+}
+
+function scrollTo(id){
+  document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+// 초기화
+(function init(){
+  loadChecks();
+  const savedPct=parseInt(localStorage.getItem(KEY_PCT)||'0');
+  const savedQuiz=parseInt(localStorage.getItem(KEY_QUIZ)||'0');
+  updateDisplay(savedPct);
+  if(savedQuiz>0){
+    document.getElementById('submitBtn').disabled=true;
+    document.getElementById('scoreBox').style.display='block';
+    document.getElementById('scoreNum').textContent=Math.round(savedQuiz/100*5)+'/5점 ('+savedQuiz+'%)';
+    document.getElementById('scoreMsg').textContent=savedQuiz>=80?'🎉 우수합니다!':savedQuiz>=60?'👍 합격입니다.':'📖 재학습을 권장합니다.';
+  }
+})();
+</script>
+</body>
+</html>
