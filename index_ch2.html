@@ -91,7 +91,7 @@ a{color:var(--blue);text-decoration:none}
     <h2>📗 Chapter II 과정에 대하여</h2>
     <p>이 과정은 OECD 이전가격 지침서 <strong>Chapter II (§2.1~§2.187)</strong>의 핵심 내용을 다룹니다. OECD가 승인한 <strong>5가지 정상가격 산출방법</strong> — CUP, RPM, CPM, TNMM, PSM — 을 단계적으로 학습합니다.</p>
     <p>Chapter I(ALP 기초)을 먼저 학습하신 후 이 과정을 수강하시면 이해도가 높아집니다. 방법론 선택 기준부터 각 방법의 적용 조건·사례·한계까지 체계적으로 학습할 수 있습니다.</p>
-    <p style="margin-top:.8rem;font-size:.88rem;color:var(--gray)">⏱ 예상 학습 시간: 8개 모듈 × 약 40~60분 = 총 약 5~7시간 (자신의 속도에 맞게 분할 가능)</p>
+    <p style="margin-top:.8rem;font-size:.88rem;color:var(--gray)">⏱ 예상 학습 시간: 9개 모듈 × 약 40~60분 = 총 약 6~8시간 (자신의 속도에 맞게 분할 가능)</p>
   </div>
 
   <div class="methods-overview">
@@ -108,7 +108,7 @@ a{color:var(--blue);text-decoration:none}
   <div class="overall-progress" id="overall-progress-box">
     <h3>📊 전체 학습 진도 (Chapter II)</h3>
     <div class="prog-outer"><div class="prog-inner" id="overall-bar" style="width:0%"></div></div>
-    <div class="prog-label"><span id="prog-text">0 / 8 모듈 완료</span><span id="prog-pct">0%</span></div>
+    <div class="prog-label"><span id="prog-text">0 / 9 모듈 완료</span><span id="prog-pct">0%</span></div>
   </div>
 
   <div class="learn-path" style="margin-bottom:1.5rem">
@@ -121,7 +121,8 @@ a{color:var(--blue);text-decoration:none}
       <span class="path-step">M2-5 TNMM 기초</span><span class="path-arrow">→</span>
       <span class="path-step">M2-6 TNMM 적용</span><span class="path-arrow">→</span>
       <span class="path-step">M2-7 PSM 개요</span><span class="path-arrow">→</span>
-      <span class="path-step">M2-8 PSM 심화</span>
+      <span class="path-step">M2-8 PSM 심화</span><span class="path-arrow">→</span>
+      <span class="path-step">M2-9 Annex II 사례</span>
     </div>
   </div>
 
@@ -131,6 +132,7 @@ a{color:var(--blue);text-decoration:none}
       <li><strong>M2-1(방법 선택 기준)</strong>을 먼저 완료하면 나머지 방법론 모듈의 맥락을 이해하기 쉽습니다.</li>
       <li>M2-2~M2-4(전통적 방법)는 독립적으로 학습 가능하나, <strong>순서대로</strong> 학습하면 비교 이해가 명확해집니다.</li>
       <li>M2-5·M2-6(TNMM)과 M2-7·M2-8(PSM)은 각각 2모듈 세트로 연속 학습을 권장합니다.</li>
+      <li><strong>M2-9(Annex II)</strong>는 PSM 적용 사례 15개를 심화 학습하는 선택 심화모듈입니다. M2-7·M2-8 완료 후 학습하세요.</li>
       <li>학습 진도는 브라우저에 자동 저장됩니다. 다음 접속 시 이어서 학습할 수 있습니다.</li>
     </ul>
   </div>
@@ -217,6 +219,16 @@ a{color:var(--blue);text-decoration:none}
       <a href="M2-8_PSM심화.html" class="btn btn-primary" id="btn-m8">학습 시작 →</a>
     </div>
 
+    <div class="module-card" id="card-m9" style="border-top-color:var(--purple);grid-column:1/-1">
+      <span class="status-tag tag-pending" id="tag-m9">미시작</span>
+      <div class="num">MODULE 9 — PSM 심화 사례 (Annex II)</div>
+      <span class="para-range" style="background:var(--purple-light);color:var(--purple)">Annex II to Chapter II</span><span class="method-tag">PSM 사례</span>
+      <h3>PSM 적용 사례 15선 — Annex II to Chapter II</h3>
+      <p>OECD가 제시한 PSM 적용 사례 15개를 유형별(독특·가치 있는 기여 / 고도 통합 사업 / 위험 공유·무형자산 / 배분대상 이익 결정)로 분석합니다. Example 11·14의 실제 계산 과정을 통해 잔여이익분할법의 적용 원리를 심화 학습합니다.</p>
+      <div class="status-bar"><div class="status-fill" id="fill-m9" style="width:0%"></div></div>
+      <a href="M2-9_AnnexII.html" class="btn btn-primary" id="btn-m9" style="background:var(--purple)">학습 시작 →</a>
+    </div>
+
   </div>
 
   <div style="margin-top:2rem;text-align:center">
@@ -226,11 +238,12 @@ a{color:var(--blue);text-decoration:none}
 </div>
 
 <script>
-var modules=['m1','m2','m3','m4','m5','m6','m7','m8'];
+var modules=['m1','m2','m3','m4','m5','m6','m7','m8','m9'];
+var modkeys=['m2_1','m2_2','m2_3','m2_4','m2_5','m2_6','m2_7','m2_8','m2_9'];
 function loadProgress(){
   var done=0;
   modules.forEach(function(m,i){
-    var pct=parseInt(localStorage.getItem('m2_'+(i+1)+'_pct')||'0');
+    var pct=parseInt(localStorage.getItem(modkeys[i]+'_pct')||'0');
     var fill=document.getElementById('fill-'+m);
     var tag=document.getElementById('tag-'+m);
     var btn=document.getElementById('btn-'+m);
@@ -240,16 +253,17 @@ function loadProgress(){
       done++;
       tag.textContent='완료 ✓';tag.className='status-tag tag-done';
       card.classList.add('done');
-      btn.textContent='복습하기';btn.className='btn btn-done';
+      if(m==='m9'){btn.textContent='복습하기';btn.className='btn btn-done';btn.style.background='';}
+      else{btn.textContent='복습하기';btn.className='btn btn-done';}
     } else if(pct>0){
       tag.textContent='학습중';tag.className='status-tag tag-inprog';
       card.classList.add('inprog');
       btn.textContent='이어서 학습 →';
     }
   });
-  var pct=Math.round(done/8*100);
+  var pct=Math.round(done/9*100);
   document.getElementById('overall-bar').style.width=pct+'%';
-  document.getElementById('prog-text').textContent=done+' / 8 모듈 완료';
+  document.getElementById('prog-text').textContent=done+' / 9 모듈 완료';
   document.getElementById('prog-pct').textContent=pct+'%';
 }
 loadProgress();

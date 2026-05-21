@@ -105,7 +105,7 @@ a{color:var(--accent);text-decoration:none}
       <button class="nav-item" onclick="scrollTo('sec2')">§3.4-3.5 9단계 프로세스</button>
       <button class="nav-item" onclick="scrollTo('sec3')">§3.7-3.9 광범위한 분석</button>
       <button class="nav-item" onclick="scrollTo('sec4')">§3.10-3.12 포트폴리오·패키지</button>
-      <button class="nav-item" onclick="scrollTo('sec-case')">사례 탐구</button>
+      <button class="nav-item" onclick="scrollTo('sec-port-case')">§3.10 포트폴리오 사례</button>
       <button class="nav-item" onclick="scrollTo('sec-quiz')">퀴즈</button>
       <button class="nav-item" onclick="scrollTo('sec-check')">체크리스트</button>
       <div style="margin-top:1rem;padding-top:.8rem;border-top:1px solid var(--gray-border);font-size:.8rem;color:var(--gray)">
@@ -166,10 +166,22 @@ a{color:var(--accent);text-decoration:none}
           <span class="arrow">▼</span>
         </button>
         <div class="acc-body">
-          <p>비교가능성 분석의 궁극적 목적은 신뢰할 만한 비교가능거래를 발견하는 것입니다. 단, 완벽한 비교가능거래 요구는 비현실적임을 유의하십시오.</p>
-          <p>자료 제공 원칙과 관련하여, 납세자가 비교가능거래를 사용하거나 과세당국이 조정을 위한 비교가능거래를 사용하는 경우 상대방이 적정성을 평가할 수 있도록 자료를 제공해야 합니다.</p>
+          <p><strong>§3.2 — 분석 목적:</strong> 비교가능성 분석의 궁극적 목적은 <strong>신뢰할 만한 비교가능거래</strong>를 발견하는 것입니다. 그러나 현실적으로 완벽한 비교가능거래를 찾기는 매우 어려우며, OECD는 이를 명시적으로 인정합니다.</p>
+          <p>따라서 실무에서는 다음과 같은 균형을 찾아야 합니다.</p>
+          <table class="compare-table" style="margin:.6rem 0">
+            <tr><th>요구 수준</th><th>설명</th></tr>
+            <tr><td>이상적</td><td>모든 비교가능성 요소가 동일한 내부비교가능거래 존재</td></tr>
+            <tr><td>실무적 허용</td><td>합리적 수준의 비교가능성 + 적절한 비교가능성 조정</td></tr>
+            <tr><td>한계</td><td>중요한 차이를 조정할 수 없는 경우 해당 거래 제외</td></tr>
+          </table>
+          <p><strong>§3.3 — 자료 제공 의무:</strong> 납세자 또는 과세당국이 이전가격 분석에서 비교가능거래를 사용하는 경우, 상대방(납세자·과세당국·외국 권한당국 모두)이 해당 비교가능거래의 적정성을 <em>독립적으로 평가</em>할 수 있도록 자료를 제공하여야 합니다.</p>
+          <ul style="margin:.5rem 0 .8rem 1.2rem;line-height:2.1">
+            <li>납세자 → 사용한 비교가능거래 자료 공개 (이전가격문서화, Chapter V)</li>
+            <li>과세당국 → 조정 근거로 사용한 비교가능거래 공개 (납세자 방어권 보장)</li>
+            <li>권한당국 → 상호합의절차(MAP) 및 APA에서도 동일 원칙 적용</li>
+          </ul>
           <div class="warn-point">
-            완벽한 비교가능거래가 없어도 합리적 수준의 비교가능성을 가진 거래를 찾아 분석하는 것이 허용됩니다. 단, 비교가능성 조정을 적절히 실시해야 합니다.
+            과세당국이 납세자에게 공개되지 않은 비밀정보를 이전가격 조정의 근거로 사용하는 경우, 이는 납세자의 방어권을 침해하는 절차적 문제를 야기합니다(§3.36 참조).
           </div>
         </div>
       </div>
@@ -233,14 +245,19 @@ a{color:var(--accent);text-decoration:none}
           <span class="arrow">▼</span>
         </button>
         <div class="acc-body">
-          <p>광범위한 분석(Broad-based Analysis)에서는 다음 요소들을 검토합니다.</p>
-          <ul style="margin:.5rem 0 .8rem 1.2rem;line-height:2">
-            <li>산업 정보 분석</li>
-            <li>경쟁자 현황 파악</li>
-            <li>경제 환경 분석</li>
-            <li>관련 법규 분석</li>
-          </ul>
-          <p>이와 관련하여 OECD 지침서 ¶1.130–1.133을 참조하시기 바랍니다.</p>
+          <p>광범위한 분석(Broad-based Analysis)은 비교가능성 분석 9단계 중 <strong>2단계</strong>에 해당하며, 분석대상회사가 속한 외부 환경 전반을 이해하는 단계입니다(¶1.130–1.133 참조).</p>
+          <p>주요 검토 내용은 다음과 같습니다.</p>
+          <table class="compare-table" style="margin:.6rem 0">
+            <tr><th>분석 영역</th><th>구체적 검토 사항</th></tr>
+            <tr><td>산업 분석</td><td>산업의 성장성, 경쟁 구조, 진입장벽, 주요 성공요인(KSF)</td></tr>
+            <tr><td>경쟁자 분석</td><td>직·간접 경쟁사의 수익률 수준, 시장점유율 변화, 사업모델 비교</td></tr>
+            <tr><td>경제 환경</td><td>환율, 인플레이션, 경기사이클, 지역별 경제 특수요인(지역혜택 등)</td></tr>
+            <tr><td>법규·규제</td><td>관련국의 가격규제, 외환규제, 이전가격 세제, 관세율 차이</td></tr>
+          </table>
+          <div class="key-point">
+            광범위한 분석의 결과는 이후 비교가능거래 검색에서 <strong>비교가능성 요소를 결정</strong>하는 기초 자료로 활용됩니다. 산업 특성을 충분히 이해하지 않은 채 데이터베이스 검색을 시작하면 비교가능성 없는 회사가 선정될 위험이 높습니다.
+          </div>
+          <p style="font-size:.88rem;color:var(--gray)">예: 반도체 산업의 경우 장치산업의 특성상 자산집약도(ROA 기준)가 중요하며, 유통업의 경우 재고회전율과 운전자본 규모가 비교가능성에 중요한 영향을 줍니다.</p>
         </div>
       </div>
 
@@ -272,14 +289,28 @@ a{color:var(--accent);text-decoration:none}
           <span class="arrow">▼</span>
         </button>
         <div class="acc-body">
-          <p>포트폴리오 접근법은 특정 제품의 손익이 아닌 제품군 전체를 기준으로 수익을 창출하는 사업전략입니다.</p>
-          <ul style="margin:.5rem 0 .8rem 1.2rem;line-height:2">
-            <li>예시: 프린터(저가 판매) + 잉크카트리지(고가 판매) — 잉크에서 전체 이익 실현</li>
-            <li>예시: 커피머신(저가) + 캡슐(고가) — 캡슐 판매로 수익 창출</li>
+          <p>포트폴리오 접근법(portfolio approach)은 특정 제품의 손익이 아닌 <strong>제품군 전체를 기준</strong>으로 수익을 창출하는 사업전략입니다. 개별 거래 분석 원칙의 예외로서, 경제적으로 밀접한 관련이 있는 제품군을 묶어 이전가격을 설정하는 방식입니다(¶1.134–1.138 참조).</p>
+          <p><strong>허용 조건:</strong></p>
+          <ul style="margin:.4rem 0 .8rem 1.2rem;line-height:2.1">
+            <li>독립기업 간에도 동일한 포트폴리오 전략이 관찰될 것</li>
+            <li>포트폴리오 내 제품들이 경제적으로 밀접하게 연결될 것</li>
+            <li>전체 기업 수준의 이전가격 분석 정당화 도구로 남용되지 않을 것</li>
           </ul>
-          <p>허용 범위와 관련하여, 비교가능성 분석 시 고려가 가능하나 기업 전체 수준의 이전가격 분석을 정당화하는 도구로 남용될 수 없습니다.</p>
           <div class="warn-point">
-            한 계열사가 다른 계열사를 위해 고의적으로 비정상적 이익을 희생하는 형태는 정상가격 원칙에 반합니다.
+            한 계열사가 다른 계열사를 위해 고의적으로 비정상적 이익을 희생하는 형태는 정상가격 원칙에 반합니다. 또한 경제적 논리가 다른 거래는 반드시 분리 분석하여야 합니다.
+          </div>
+          <div class="case-box" id="sec-port-case" style="margin-top:1rem">
+            <div class="case-label">§3.10 적용 사례 — 프린터+잉크 포트폴리오 전략</div>
+            <h4>다국적 IT 기업의 포트폴리오 이전가격 문제</h4>
+            <p><strong>사실관계:</strong> 다국적 IT 기업 A(본사)는 프린터를 원가 수준($50)에 한국 자회사 B에 공급하고, 독자 규격 잉크 카트리지는 높은 마진($30/개)으로 공급합니다. 프린터 단독 거래만 보면 자회사 B는 프린터에서 손실이 발생하는 것처럼 보입니다.</p>
+            <p><strong>포트폴리오 분석 적용:</strong></p>
+            <table class="compare-table" style="margin:.5rem 0">
+              <tr><th>거래</th><th>이전가격</th><th>독립기업 마진</th><th>판정</th></tr>
+              <tr><td>프린터</td><td>원가 수준 (저가)</td><td>통상 +10~15%</td><td>단독: 문제</td></tr>
+              <tr><td>잉크카트리지</td><td>높은 마진 (고가)</td><td>통상 +5~10%</td><td>단독: 문제</td></tr>
+              <tr><td><strong>포트폴리오 전체</strong></td><td>전체 마진 합산</td><td>유사 전략 독립기업 확인 필요</td><td>통합: 허용 가능</td></tr>
+            </table>
+            <p><strong>결론 및 한계:</strong> 면도기·면도날, 게임기·소프트웨어 등 독립기업 간에도 동일한 전략이 관찰되므로 포트폴리오 분석이 허용될 수 있습니다. 그러나 전혀 관련 없는 제품(예: 프린터+자동차)은 분리 분석이 필요합니다.</p>
           </div>
         </div>
       </div>
@@ -299,28 +330,6 @@ a{color:var(--accent);text-decoration:none}
       </div>
     </div>
 
-    <!-- 사례 탐구 -->
-    <div class="card" id="sec-case">
-      <h2>사례 탐구: 프린터+잉크 포트폴리오 전략</h2>
-
-      <div class="case-box">
-        <div class="case-label">CASE 1 · 배경</div>
-        <h4>다국적 IT 기업의 프린터+잉크 포트폴리오 전략</h4>
-        <p>다국적 IT 기업 A는 프린터를 저가($50)에 판매하고 독자 규격 잉크 카트리지를 고가($30/개)에 판매합니다. 한국 자회사 B는 프린터를 원가 이하로 공급받습니다.</p>
-      </div>
-
-      <div class="case-box">
-        <div class="case-label">CASE 2 · 분석</div>
-        <h4>포트폴리오 관점에서의 비교가능성 분석</h4>
-        <p>프린터 단일 거래로 보면 이전가격 문제처럼 보이나, 잉크 카트리지 거래와 함께 포트폴리오로 보면 전체 마진은 정상 수준일 수 있습니다. 독립기업 간에도 동일한 전략(예: 면도기+면도날, 게임기+게임 소프트웨어)이 존재합니다.</p>
-      </div>
-
-      <div class="case-box">
-        <div class="case-label">CASE 3 · 결론 및 한계</div>
-        <h4>포트폴리오 분석의 허용 범위와 한계</h4>
-        <p>포트폴리오 분석으로 정상가격 입증이 가능하지만, 경제적 논리가 다른 거래(예: 전혀 관련 없는 제품)는 반드시 분리 분석이 필요합니다.</p>
-      </div>
-    </div>
 
     <!-- 퀴즈 -->
     <div class="quiz-section" id="sec-quiz">

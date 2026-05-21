@@ -105,7 +105,7 @@ a{color:var(--accent);text-decoration:none}
       <button class="nav-item" onclick="scrollTo('sec2')">§3.18-3.19 분석대상회사 선정</button>
       <button class="nav-item" onclick="scrollTo('sec3')">§3.20-3.22 정보 범위</button>
       <button class="nav-item" onclick="scrollTo('sec4')">§3.23 해외 정보 한계</button>
-      <button class="nav-item" onclick="scrollTo('sec-case')">사례 탐구</button>
+      <button class="nav-item" onclick="scrollTo('sec-tested-case')">§3.18–3.19 선정 사례</button>
       <button class="nav-item" onclick="scrollTo('sec-quiz')">퀴즈</button>
       <button class="nav-item" onclick="scrollTo('sec-check')">체크리스트</button>
       <div style="margin-top:1rem;padding-top:.8rem;border-top:1px solid var(--gray-border);font-size:.8rem;color:var(--gray)">
@@ -234,35 +234,32 @@ a{color:var(--accent);text-decoration:none}
           <span class="arrow">▼</span>
         </button>
         <div class="acc-body">
-          <p>납세자에게는 해외 관계회사 정보 수집에 어려움이 존재합니다. 세무 당국은 이러한 현실적 제약을 문서화 요건 설계에 반영해야 합니다.</p>
-          <p>과도한 문서요건은 납세자에게 불합리한 부담을 초래하므로 금지됩니다.</p>
-          <p>실무 시사점으로는, 이전가격 방법에 따라 요구되는 해외 관계회사 정보 범위가 달라진다는 점을 유의하시기 바랍니다.</p>
+          <p>납세자에게는 해외 관계회사 정보 수집에 현실적 어려움이 존재합니다. OECD는 세무당국이 이러한 제약을 문서화 요건 설계에 반영하도록 권고합니다. 즉, 납세자가 <em>합리적으로</em> 접근할 수 있는 정보의 범위 안에서 문서화 의무를 부과해야 합니다.</p>
+          <table class="compare-table" style="margin:.6rem 0">
+            <tr><th>이전가격 방법</th><th>해외 관계회사 정보 필요성</th></tr>
+            <tr><td>CUP</td><td>거래조건 파악을 위해 상대방 정보 필요</td></tr>
+            <tr><td>RPM / CPM / TNMM</td><td>기능분석 목적으로 비검증 당사자 정보 일부 필요</td></tr>
+            <tr><td>PSM (이익분할법)</td><td>양 당사자 모두의 재무자료가 필수적으로 요구됨</td></tr>
+          </table>
+          <div class="warn-point">
+            과도한 문서요건은 납세자에게 불합리한 부담을 초래합니다. OECD BEPS Action 13은 이를 고려하여 Master File / Local File / CbCR의 3단계 문서화 체계를 설계하였습니다.
+          </div>
+          <div class="case-box" id="sec-tested-case" style="margin-top:1rem">
+            <div class="case-label">§3.18–3.23 적용 사례 — 한국 제조 자회사 TNMM 분석</div>
+            <h4>비검증 당사자(미국 모회사) 정보의 활용</h4>
+            <p><strong>사실관계:</strong> 한국 자회사 A는 스마트폰 부품을 제조하여 미국 모회사 B(브랜드·특허 보유)에 공급합니다. TNMM 적용 시 단순 제조기능을 수행하는 한국 A가 분석대상회사(Tested Party)로 선정됩니다.</p>
+            <p><strong>정보 수집 구조:</strong></p>
+            <table class="compare-table" style="margin:.5rem 0">
+              <tr><th>당사자</th><th>역할</th><th>필요 정보</th><th>접근성</th></tr>
+              <tr><td>한국 A (Tested Party)</td><td>계약제조업자</td><td>매출원가, OPM, FAR</td><td>용이 (내국법인)</td></tr>
+              <tr><td>미국 B (Non-tested)</td><td>브랜드·특허 보유, 전략 결정</td><td>기능·위험 구조 파악용</td><td>제한적 (해외법인)</td></tr>
+            </table>
+            <p><strong>실무 대응:</strong> 미국 B의 세부 재무정보를 얻기 어렵더라도 Master File, 연결재무제표, CbCR을 통해 그룹 내 역할을 파악하고, 한국 A의 기능이 단순 계약제조임을 FAR 분석으로 입증하면 TNMM 적용이 가능합니다.</p>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- 사례 탐구 -->
-    <div class="card" id="sec-case">
-      <h2>사례 탐구: 해외 비검증당사자 정보 수집</h2>
-
-      <div class="case-box">
-        <div class="case-label">CASE 1 · 상황</div>
-        <h4>한국 자회사(제조업자)와 미국 모회사 간 거래</h4>
-        <p>한국 자회사(제조업자)가 미국 모회사에게 제품을 판매하는 구조입니다. TNMM 적용 시 한국 자회사가 분석대상회사(Tested Party)로 선정됩니다.</p>
-      </div>
-
-      <div class="case-box">
-        <div class="case-label">CASE 2 · 정보 수집 필요성</div>
-        <h4>비검증당사자(미국 모회사) 정보의 중요성</h4>
-        <p>TNMM에서 한국 자회사의 재무자료가 필수이지만, 미국 모회사의 기능(브랜드 소유, 전략 결정, 시장 개발)에 대한 이해 없이는 비교가능성 평가가 불가능합니다.</p>
-      </div>
-
-      <div class="case-box">
-        <div class="case-label">CASE 3 · 실무 해결방안</div>
-        <h4>간접적 정보 확보 방법과 현실적 한계</h4>
-        <p>연결재무제표, Master File, 국가별보고서(CbCR)를 통해 미국 모회사 정보를 간접적으로 확보할 수 있습니다. 다만 세부 원가 등 민감 정보 수집에는 현실적 한계가 존재합니다.</p>
-      </div>
-    </div>
 
     <!-- 퀴즈 -->
     <div class="quiz-section" id="sec-quiz">

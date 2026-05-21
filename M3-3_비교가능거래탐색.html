@@ -108,7 +108,7 @@ ul.body-list li{margin-bottom:.35rem}
       <button class="nav-item" onclick="scrollTo('sec2')">§3.27-3.28 내부비교가능거래</button>
       <button class="nav-item" onclick="scrollTo('sec3')">§3.29-3.34 외부비교가능거래·상업DB</button>
       <button class="nav-item" onclick="scrollTo('sec4')">§3.35-3.39 해외비교·비밀정보</button>
-      <button class="nav-item" onclick="scrollTo('sec-case')">사례탐구</button>
+      <button class="nav-item" onclick="scrollTo('sec-db-case')">§3.35 탐색 사례</button>
       <button class="nav-item" onclick="scrollTo('sec-quiz')">퀴즈</button>
       <button class="nav-item" onclick="scrollTo('sec-check')">체크리스트</button>
     </div>
@@ -238,11 +238,17 @@ ul.body-list li{margin-bottom:.35rem}
           <span class="arrow">▼</span>
         </button>
         <div class="acc-body">
-          <p>내부비교가능거래가 있는 경우 상업 데이터베이스는 불필요합니다.</p>
-          <ul class="body-list">
-            <li><strong>질적 검색조건(qualitative screen)</strong>과 <strong>양적 검색조건(quantitative screen)</strong>을 병행 적용해야 합니다.</li>
-            <li><strong>독점 데이터베이스(proprietary database)</strong>: 일반에 공개되지 않는 비공개 자료로, 정보 범위·투명성 측면에서 추가적인 주의가 필요합니다.</li>
-          </ul>
+          <p><strong>§3.32 — 내부비교가능거래 우선 적용:</strong> 신뢰성 있는 내부비교가능거래가 존재하는 경우, 상업 데이터베이스 검색은 불필요합니다. 내부비교가능거래는 실제 거래 조건에 대한 직접적 정보를 제공하기 때문입니다.</p>
+          <p><strong>§3.33 — 검색기준 유형:</strong> 비교가능거래 검색에는 두 가지 기준을 병행 적용해야 합니다.</p>
+          <table class="compare-table" style="margin:.5rem 0">
+            <tr><th>기준 유형</th><th>내용</th><th>예시</th></tr>
+            <tr><td><strong>질적 검색조건<br>(Qualitative Screen)</strong></td><td>사업 내용·특성 심층 검토</td><td>SIC/NACE 코드, 사업기술서, 제품·서비스 유사성, FAR 분석 결과</td></tr>
+            <tr><td><strong>양적 검색조건<br>(Quantitative Screen)</strong></td><td>재무수치 기반 필터링</td><td>무형자산/총자산 비율, R&D/매출 비율, 해외매출 비율, 재고/매출 비율</td></tr>
+          </table>
+          <p><strong>§3.34 — 독점 데이터베이스(Proprietary Database):</strong> 일부 자문기관이 독자적으로 구축·운영하는 비공개 데이터베이스를 의미합니다. 일반 상업 데이터베이스보다 시장 범위가 좁아질 수 있고, 검색 결과의 재현 가능성이 낮을 수 있으므로 추가적인 투명성 확보가 필요합니다.</p>
+          <div class="warn-point">
+            독점 데이터베이스를 사용하는 경우 과세당국이 동일한 결과를 재현할 수 없을 수 있습니다. 검색 조건과 탈락 이유를 상세히 문서화하여 절차적 투명성을 확보해야 합니다(§3.46 참조).
+          </div>
         </div>
       </div>
     </div>
@@ -258,12 +264,25 @@ ul.body-list li{margin-bottom:.35rem}
         </button>
         <div class="acc-body">
           <p>비교가능거래 검색 범위를 확장할 때에는 단계적 접근이 필요합니다.</p>
-          <ul class="body-list">
-            <li><strong>우선</strong>: 분석대상회사가 속한 국가의 비교가능회사를 검색합니다.</li>
-            <li><strong>확장</strong>: 유사한 지역 또는 국가(예: 한국 → 동아시아, 또는 유럽 전체)로 범위를 넓힙니다.</li>
-            <li>다중국가 비교가능검색: ¶1.132-1.133 참조</li>
-          </ul>
-          <div class="warn-point">해외 비교가능거래 사용 시 경제환경 차이(시장 성숙도, 경쟁 수준)에 따른 비교가능성 조정 필요성을 검토해야 합니다.</div>
+          <table class="compare-table" style="margin:.5rem 0">
+            <tr><th>우선순위</th><th>검색 범위</th><th>비교가능성 고려사항</th></tr>
+            <tr><td>1순위</td><td>분석대상회사 소재 국가</td><td>동일한 경제환경, 법규, 경쟁 구조</td></tr>
+            <tr><td>2순위</td><td>동일 지역권(예: 동아시아, 유럽)</td><td>유사한 경제발전 수준 확인 필요</td></tr>
+            <tr><td>3순위</td><td>글로벌 범위</td><td>경제환경·규제 차이에 따른 조정 불가피</td></tr>
+          </table>
+          <div class="warn-point">해외 비교가능거래 사용 시 경제환경 차이(시장 성숙도, 임금 수준, 경쟁 강도)에 따른 비교가능성 조정 필요성을 검토해야 합니다. ¶1.132–1.133 참조.</div>
+          <div class="case-box" id="sec-db-case" style="margin-top:1rem">
+            <div class="case-label">§3.35 적용 사례 — 한국 IT 서비스회사의 동아시아 비교가능거래 탐색</div>
+            <h4>상업 DB 활용 한계와 범위 확장 사례</h4>
+            <p><strong>사실관계:</strong> 한국 IT 서비스 자회사 A가 TNMM 적용을 위해 Orbis(Bureau van Dijk) DB에서 비교가능기업을 검색합니다. 한국 내 IT 서비스 기업 대부분이 비상장·소규모여서 공시 데이터가 제한적입니다.</p>
+            <p><strong>단계별 검색 결과:</strong></p>
+            <table class="compare-table" style="margin:.5rem 0">
+              <tr><th>검색 단계</th><th>범위</th><th>초기 후보</th><th>최종 선정</th><th>탈락 이유</th></tr>
+              <tr><td>1차</td><td>한국 내</td><td>45개</td><td>3개</td><td>재무정보 불충분, R&D 비중 과다</td></tr>
+              <tr><td>2차 확장</td><td>동아시아<br>(한국+일본+대만)</td><td>180개</td><td>12개</td><td>경제환경 차이 조정 필요, 사업 내용 불일치</td></tr>
+            </table>
+            <p><strong>결론:</strong> 검색 범위를 동아시아로 확장하여 12개 기업을 최종 선정합니다. 일본·대만 기업과의 경제환경 차이(임금 수준, 시장 성숙도)에 대한 비교가능성 조정 여부를 검토하고, 검색 과정과 각 기업의 탈락 이유를 문서화합니다.</p>
+          </div>
         </div>
       </div>
 
@@ -273,12 +292,14 @@ ul.body-list li{margin-bottom:.35rem}
           <span class="arrow">▼</span>
         </button>
         <div class="acc-body">
-          <p>과세당국만 보유한 비밀정보를 비교가능거래로 사용하는 경우 납세자의 방어권 침해 우려가 있습니다.</p>
-          <ul class="body-list">
-            <li><strong>원칙</strong>: 납세자가 비교가능거래의 적정성을 검토할 수 있도록 정보 제공이 필요합니다.</li>
-            <li>정당한 비밀 보호가 필요한 경우에는 충분한 정보 요약본을 제공해야 합니다.</li>
+          <p>과세당국이 납세자에게 공개되지 않은 비밀정보(예: 다른 납세자의 이전가격 자료)를 이전가격 조정의 근거로 사용하는 것은 납세자의 <strong>방어권(right of defense)</strong> 침해 문제를 야기합니다.</p>
+          <p><strong>OECD의 요구 사항:</strong></p>
+          <ul class="body-list" style="margin:.4rem 0 .7rem 1.2rem;line-height:2.1">
+            <li>납세자가 비교가능거래의 적정성을 검토·반박할 수 있도록 충분한 정보를 제공해야 합니다.</li>
+            <li>비밀 보호가 필요한 경우, 비교가능회사의 신원 공개 없이도 적정성 평가가 가능한 수준의 요약 정보를 제공해야 합니다.</li>
+            <li>납세자가 반박할 수 없는 비밀 비교가능거래에 근거한 조정은 원칙적으로 허용되지 않습니다.</li>
           </ul>
-          <div class="key-point">납세자의 방어권은 세법상 핵심 원칙으로, 과세당국은 비밀 보호와 납세자 권리 보호를 균형 있게 고려해야 합니다.</div>
+          <div class="key-point">이 조항은 이전가격 세무조사 및 MAP·APA 절차에서 절차적 공정성의 핵심 원칙입니다. 한국 국조법 및 조세심판원 결정례에서도 비밀 비교가능거래에 기반한 과세처분의 위법성이 문제된 사례가 있습니다.</div>
         </div>
       </div>
 
@@ -298,28 +319,6 @@ ul.body-list li{margin-bottom:.35rem}
       </div>
     </div>
 
-    <!-- 사례탐구 -->
-    <div class="card" id="sec-case">
-      <h2>사례탐구 — 상업DB 활용 한계: 동아시아 비교가능거래 탐색</h2>
-
-      <div class="case-box">
-        <div class="case-label">CASE 1 · 상황</div>
-        <h4>한국 IT 서비스 회사의 비교가능거래 탐색</h4>
-        <p>한국 IT 서비스 회사가 TNMM 적용을 위해 비교가능 IT 서비스 기업을 검색하는 상황입니다. Orbis(Bureau van Dijk) 데이터베이스를 사용하였습니다.</p>
-      </div>
-
-      <div class="case-box">
-        <div class="case-label">CASE 2 · 한계 발생</div>
-        <h4>데이터 한계와 경제환경 차이 문제</h4>
-        <p>한국 IT 서비스 기업의 공시 데이터가 제한적입니다(비상장기업 다수). 검색 범위를 확장하여 일본·대만 기업을 포함할 경우, 국가별 경제환경 차이(시장 성숙도, 임금 수준, 규제 환경)가 비교가능성에 영향을 미칩니다.</p>
-      </div>
-
-      <div class="case-box">
-        <div class="case-label">CASE 3 · 해결 방안</div>
-        <h4>질적·양적 검색기준 결합 및 완전 문서화</h4>
-        <p>질적 검색(SIC 코드, 사업내용 설명 검토)과 양적 검색(무형자산 비율, 연구개발비 비율)을 결합하여 적용합니다. 검색 과정 전체 및 각 기업의 제외 이유를 완전히 문서화하여 과세당국의 재현 가능성을 확보해야 합니다.</p>
-      </div>
-    </div>
 
     <!-- 퀴즈 -->
     <div class="quiz-section" id="sec-quiz">

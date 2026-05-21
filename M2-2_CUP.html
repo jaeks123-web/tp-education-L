@@ -116,7 +116,7 @@ a{color:var(--accent);text-decoration:none}
       <button class="nav-item" onclick="showSec('sec-s2',this)">2. 비교가능거래 요건</button>
       <button class="nav-item" onclick="showSec('sec-s3',this)">3. 공시가격(Quoted Price) 적용</button>
       <button class="nav-item" onclick="showSec('sec-s4',this)">4. 주요 조정 사례</button>
-      <button class="nav-item" onclick="showSec('sec-case',this)">🔍 사례 탐구</button>
+      <button class="nav-item" onclick="showSec('sec-s4-ex',this)">§2.24–2.26 사례</button>
       <button class="nav-item" onclick="showSec('sec-quiz',this)">✏ 자가 퀴즈</button>
       <button class="nav-item" onclick="showSec('sec-check',this)">☑ 실무 체크리스트</button>
     </div>
@@ -330,43 +330,33 @@ a{color:var(--accent);text-decoration:none}
       </div>
     </div>
 
-    <!-- 사례 탐구 -->
-    <div class="card" id="sec-case">
-      <h2>🔍 사례 탐구 — 커피원두 수출 거래의 CUP 적용</h2>
-
-      <div class="case-box">
-        <div class="case-label">사례 배경</div>
-        <h4>A사(한국 무역회사)의 커피원두 수출 거래</h4>
-        <p>한국의 A사는 커피원두를 수입하여 특수관계기업인 B사(일본)와 독립기업인 C사(독일)에게 판매합니다.</p>
-        <ul style="padding-left:1.3rem;line-height:2;font-size:.93rem;margin-top:.5rem">
-          <li><strong>B사 판매(특수관계):</strong> 콜롬비아산 아라비카, 1,000톤, 공장인도 $80/kg</li>
-          <li><strong>C사 판매(독립거래):</strong> 브라질산 아라비카, 500톤, 배송완료 $100/kg</li>
-        </ul>
-      </div>
-
-      <div class="case-box">
-        <div class="case-label">조정 과정</div>
-        <h4>단계별 CUP 비교가능성 조정</h4>
-        <p><strong>Step 1 — 원산지 차이 조정:</strong><br>
-        시장 데이터에 따르면 콜롬비아산은 브라질산 대비 5% 프리미엄<br>
-        → C사 가격 조정: $100 × 1.05 = $105/kg (콜롬비아산 기준)</p>
-        <p style="margin-top:.5rem"><strong>Step 2 — 배송 조건 차이 조정:</strong><br>
-        배송완료(CIF) → 공장인도(FOB factory) 조건 전환<br>
-        운송비 $8/kg + 보험 $2/kg 차감<br>
-        → $105 — $10 = $95/kg</p>
-        <p style="margin-top:.5rem"><strong>Step 3 — 거래량 차이 조정:</strong><br>
-        500톤→1,000톤 시 10% 대량 할인 시장 관행<br>
-        → $95 × (1 — 10%) = $85.5/kg</p>
-        <p style="margin-top:.7rem;font-weight:700;color:var(--accent)">결론: 조정 후 CUP = $85.5/kg vs 실제 이전가격 $80/kg<br>
-        차이($5.5/kg)에 대한 추가 분석이 필요합니다.</p>
-      </div>
-
-      <div class="case-box">
-        <div class="case-label">실무 시사점</div>
-        <h4>가격결정일자 문서화의 중요성</h4>
-        <p>커피원두 가격은 시장에서 일별로 변동하므로, 계약 체결일, 선적일, 가격 기준일을 명확히 문서화해야 합니다. 납세자가 가격결정일자를 입증하지 못하는 경우 과세당국은 선적일 기준 가격을 적용할 수 있으며, 이는 납세자에게 불리할 수 있습니다.</p>
+    <!-- §2.24–2.26 적용 사례 (종합) -->
+    <div class="card" id="sec-s4-ex">
+      <h2>§ 2.24–2.26 CUP 비교가능성 조정 종합 사례</h2>
+      <p>§2.24–2.26의 조정 원칙을 한 거래에 종합 적용하는 사례입니다. A사(한국 무역회사)는 커피원두를 수입하여 특수관계기업인 B사(일본)와 독립기업인 C사(독일)에게 판매합니다.</p>
+      <div class="accordion">
+        <button class="acc-header" onclick="toggleAcc(this)">
+          <span><span class="para">¶ 2.24</span>사례 — 원산지·배송조건·거래량 차이 조정</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p><strong>거래 조건 비교:</strong></p>
+          <table class="compare-table">
+            <tr><th>구분</th><th>B사(특수관계)</th><th>C사(독립기업, 비교가능)</th></tr>
+            <tr><td>원산지</td><td>콜롬비아산 아라비카</td><td>브라질산 아라비카</td></tr>
+            <tr><td>거래량</td><td>1,000톤</td><td>500톤</td></tr>
+            <tr><td>배송조건</td><td>공장인도(FOB factory)</td><td>배송완료(CIF)</td></tr>
+            <tr><td>거래가격</td><td>$80/kg (분석 대상)</td><td>$100/kg (비교가능거래)</td></tr>
+          </table>
+          <p style="margin-top:.8rem"><strong>단계별 조정 (§2.24–2.26 적용):</strong></p>
+          <p>① 원산지 차이 조정 (§2.24): 콜롬비아산은 브라질산 대비 5% 프리미엄 → $100 × 1.05 = <strong>$105/kg</strong></p>
+          <p>② 배송 조건 차이 조정 (§2.25): CIF→FOB 전환, 운송비 $8/kg + 보험 $2/kg 차감 → $105 − $10 = <strong>$95/kg</strong></p>
+          <p>③ 거래량 차이 조정 (§2.26): 1,000톤은 500톤 대비 대량 할인 5% 적용 → $95 × 0.95 = <strong>$90.25/kg</strong></p>
+          <div class="key-point">조정 후 정상가격 범위: <strong>약 $90/kg</strong>. 실제 B사 거래가격 $80/kg은 이를 하회하므로 이전가격 검토 대상입니다. 이처럼 §2.24–2.26의 조정은 비교가능거래의 차이를 제거하여 정상가격을 산출하는 핵심 단계입니다.</div>
+        </div>
       </div>
     </div>
+
 
     <!-- 퀴즈 -->
     <div class="quiz-section" id="sec-quiz">

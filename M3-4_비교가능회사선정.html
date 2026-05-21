@@ -1,413 +1,577 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>M3-4: 비교가능회사 선정 (§3.40–§3.54)</title>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>M3-4 비교가능회사 선정과 비교가능성 조정 | OECD 이전가격 지침서</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;700&display=swap" rel="stylesheet"/>
 <style>
-  :root{
-    --teal:#0f7a7a;
-    --teal-light:#e0f5f5;
-    --teal-mid:#1a9a9a;
-    --teal-dark:#0a5a5a;
-    --text:#1a1a2e;
-    --bg:#f7f9fc;
-    --card:#ffffff;
-    --border:#d0e8e8;
-  }
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:'Malgun Gothic','Apple SD Gothic Neo',sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.75}
-
-  .page-header{background:var(--teal);color:#fff;padding:18px 28px;display:flex;align-items:center;gap:18px;box-shadow:0 3px 10px rgba(15,122,122,.35)}
-  .back-btn{color:#fff;text-decoration:none;font-size:14px;background:rgba(255,255,255,.18);padding:6px 14px;border-radius:20px;transition:.2s}
-  .back-btn:hover{background:rgba(255,255,255,.32)}
-  .page-header h1{font-size:18px;font-weight:700;letter-spacing:-.3px}
-
-  .layout{display:flex;gap:0;min-height:calc(100vh - 64px)}
-
-  .sidebar{width:240px;flex-shrink:0;background:#fff;border-right:1px solid var(--border);padding:20px 14px;position:sticky;top:0;height:calc(100vh - 64px);overflow-y:auto}
-  .sidebar-box h3{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--teal-dark);margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid var(--teal-light)}
-  .nav-item{width:100%;text-align:left;background:none;border:none;padding:10px 12px;border-radius:8px;cursor:pointer;font-size:13px;color:#444;transition:.18s;margin-bottom:4px;line-height:1.4}
-  .nav-item:hover{background:var(--teal-light);color:var(--teal)}
-  .nav-item.active{background:var(--teal);color:#fff;font-weight:700}
-
-  .content{flex:1;padding:30px 36px;max-width:860px}
-  .section{display:none}
-  .section.active{display:block}
-
-  .sec-title{font-size:20px;font-weight:700;color:var(--teal);border-bottom:3px solid var(--teal);padding-bottom:10px;margin-bottom:22px}
-
-  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:22px 26px;margin-bottom:22px;box-shadow:0 2px 8px rgba(0,0,0,.05)}
-  .card-title{font-size:15px;font-weight:700;color:var(--teal);margin-bottom:12px;display:flex;align-items:center;gap:8px}
-  .card-title::before{content:'';display:inline-block;width:5px;height:18px;background:var(--teal);border-radius:3px}
-
-  .para-badge{display:inline-block;background:var(--teal);color:#fff;font-size:11px;font-weight:700;padding:2px 8px;border-radius:10px;margin-right:6px;vertical-align:middle}
-
-  .commentary{background:#f0fafa;border-left:4px solid var(--teal);border-radius:0 10px 10px 0;padding:14px 18px;margin-top:14px;font-size:14px;color:#2a4a4a}
-  .commentary strong{color:var(--teal-dark)}
-
-  .highlight-box{background:var(--teal-light);border:1px solid var(--teal-mid);border-radius:10px;padding:16px 20px;margin:14px 0}
-  .highlight-box .hb-title{font-weight:700;color:var(--teal-dark);margin-bottom:8px;font-size:14px}
-
-  .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
-  .info-card{background:var(--teal-light);border:1px solid var(--border);border-radius:10px;padding:16px 18px}
-  .info-card .ic-label{font-size:12px;font-weight:700;color:var(--teal);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
-  .info-card .ic-title{font-size:14px;font-weight:700;color:var(--teal-dark);margin-bottom:8px}
-  .info-card p{font-size:13px;color:#444;line-height:1.6}
-
-  .cmp-table{width:100%;border-collapse:collapse;margin-top:14px;font-size:14px}
-  .cmp-table th{background:var(--teal);color:#fff;padding:10px 14px;text-align:left;font-weight:700}
-  .cmp-table td{padding:10px 14px;border-bottom:1px solid var(--border);vertical-align:top}
-  .cmp-table tr:nth-child(even) td{background:#f5fbfb}
-  .cmp-table tr:hover td{background:var(--teal-light)}
-
-  .method-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:14px}
-  .method-card{border-radius:12px;padding:18px;border:2px solid var(--teal-mid)}
-  .method-card.add{background:#e8f8f2;border-color:#2aa87a}
-  .method-card.ded{background:#e8f0f8;border-color:#3a6abf}
-  .method-card .mc-label{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px}
-  .method-card.add .mc-label{color:#1a7a4a}
-  .method-card.ded .mc-label{color:#2a4abf}
-  .method-card .mc-title{font-size:15px;font-weight:700;margin-bottom:10px}
-  .method-card.add .mc-title{color:#1a7a4a}
-  .method-card.ded .mc-title{color:#2a4abf}
-  .method-card p{font-size:13px;color:#444;line-height:1.6}
-
-  .screen-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:14px}
-  .screen-item{background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px 16px}
-  .screen-item .si-icon{font-size:22px;margin-bottom:6px}
-  .screen-item .si-title{font-size:13px;font-weight:700;color:var(--teal-dark);margin-bottom:5px}
-  .screen-item p{font-size:13px;color:#555;line-height:1.5}
-
-  ul.styled{padding-left:20px;margin-top:10px}
-  ul.styled li{margin-bottom:8px;font-size:14px;line-height:1.6}
-  ul.styled li::marker{color:var(--teal)}
-
-  .warning-box{background:#fff8e0;border:1.5px solid #e0a000;border-radius:10px;padding:14px 18px;margin:14px 0}
-  .warning-box .wb-title{font-weight:700;color:#7a5a00;margin-bottom:6px;font-size:14px}
-
-  .footnote{font-size:12px;color:#888;margin-top:20px;padding-top:12px;border-top:1px solid #e0e0e0}
-
-  @media(max-width:700px){
-    .layout{flex-direction:column}
-    .sidebar{width:100%;height:auto;position:static;border-right:none;border-bottom:1px solid var(--border)}
-    .content{padding:20px 16px}
-    .info-grid,.method-grid,.screen-grid{grid-template-columns:1fr}
-  }
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--accent:#0f7a7a;--accent-light:#e0f5f5;--accent-mid:#1a9a9a;--green:#1a7a4a;--green-light:#e6f5ee;--orange:#c06000;--orange-light:#fff3e0;--red:#b02020;--red-light:#fdecea;--gray:#555;--gray-light:#f5f5f5;--gray-border:#ddd;--text:#222;--text2:#555;--white:#fff;--radius:10px;--shadow:0 2px 8px rgba(0,0,0,.10);}
+body{font-family:'Noto Sans KR',Arial,sans-serif;background:#f0f4f8;color:var(--text);line-height:1.75;font-size:16px}
+a{color:var(--accent);text-decoration:none}
+.mod-header{background:var(--accent);color:#fff;padding:1.5rem 2rem}
+.mod-header .breadcrumb{font-size:.8rem;opacity:.7;margin-bottom:.4rem}
+.mod-header h1{font-size:1.4rem;font-weight:700}
+.mod-header .sub{font-size:.9rem;opacity:.8;margin-top:.3rem}
+.prog-strip{background:rgba(255,255,255,.15);height:6px;margin-top:1rem;border-radius:99px;overflow:hidden}
+.prog-strip-inner{height:100%;background:#fff;border-radius:99px;transition:width .4s}
+.layout{display:flex;max-width:1100px;margin:0 auto;padding:2rem 1.5rem 4rem;gap:1.5rem}
+.sidebar{width:220px;flex-shrink:0}
+.content{flex:1;min-width:0}
+.nav-card{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:1.2rem;margin-bottom:1rem;position:sticky;top:1rem}
+.nav-card h4{font-size:.85rem;color:var(--gray);margin-bottom:.8rem}
+.nav-item{display:block;padding:.45rem .75rem;border-radius:6px;font-size:.85rem;color:var(--text2);margin-bottom:3px;cursor:pointer;border:none;width:100%;text-align:left;background:none;transition:background .12s}
+.nav-item:hover{background:var(--accent-light);color:var(--accent)}
+.nav-item.active{background:var(--accent);color:#fff;font-weight:600}
+.card{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:1.8rem 2rem;margin-bottom:1.5rem}
+.card h2{font-size:1.15rem;font-weight:700;color:var(--accent);margin-bottom:1rem;padding-bottom:.6rem;border-bottom:2px solid var(--accent-light)}
+.card p{font-size:.95rem;color:var(--text2);margin-bottom:.7rem}
+.obj-list{list-style:none;padding:0}
+.obj-list li{display:flex;gap:.7rem;align-items:flex-start;padding:.5rem 0;border-bottom:1px solid var(--gray-border);font-size:.93rem}
+.obj-list li:last-child{border:none}
+.obj-num{background:var(--accent);color:#fff;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;flex-shrink:0;margin-top:2px}
+.accordion{border:1px solid var(--gray-border);border-radius:var(--radius);overflow:hidden;margin-bottom:1rem}
+.acc-header{display:flex;justify-content:space-between;align-items:center;padding:.9rem 1.2rem;cursor:pointer;background:var(--gray-light);font-weight:600;font-size:.95rem;border:none;width:100%;text-align:left;transition:background .12s}
+.acc-header:hover{background:#ebebeb}
+.acc-header .para{font-size:.78rem;color:var(--accent);background:var(--accent-light);padding:2px 8px;border-radius:20px;margin-right:.6rem}
+.acc-header .arrow{font-size:1rem;color:var(--gray);transition:transform .2s}
+.acc-body{display:none;padding:1.1rem 1.3rem;background:#fff;font-size:.93rem;color:var(--text2);line-height:1.8;border-top:1px solid var(--gray-border)}
+.acc-body.open{display:block}
+.acc-header.open .arrow{transform:rotate(180deg)}
+.key-point{background:#e0f5f5;border-left:4px solid #0f7a7a;padding:.7rem 1rem;border-radius:0 6px 6px 0;margin:.8rem 0;font-size:.9rem;color:#0a4a4a}
+.warn-point{background:var(--orange-light);border-left:4px solid var(--orange);padding:.7rem 1rem;border-radius:0 6px 6px 0;margin:.8rem 0;font-size:.9rem;color:#6b3a00}
+.compare-table{width:100%;border-collapse:collapse;font-size:.9rem;margin:.8rem 0}
+.compare-table th{background:var(--accent);color:#fff;padding:.7rem 1rem;text-align:left;font-weight:600}
+.compare-table td{padding:.65rem 1rem;border-bottom:1px solid var(--gray-border);vertical-align:top}
+.compare-table tr:last-child td{border:none}
+.compare-table tr:nth-child(even) td{background:#fafafa}
+.case-box{background:#fff;border:1.5px solid var(--accent-mid);border-radius:var(--radius);padding:1.3rem 1.5rem;margin:1rem 0}
+.case-box .case-label{font-size:.78rem;font-weight:700;color:var(--accent);letter-spacing:.05em;margin-bottom:.5rem}
+.case-box h4{font-size:.95rem;font-weight:700;color:var(--text);margin-bottom:.6rem}
+.quiz-section{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:1.8rem 2rem;margin-bottom:1.5rem}
+.quiz-section h2{font-size:1.15rem;font-weight:700;color:var(--accent);margin-bottom:.4rem}
+.quiz-section .q-count{font-size:.85rem;color:var(--gray);margin-bottom:1.5rem}
+.quiz-item{margin-bottom:1.8rem;padding-bottom:1.5rem;border-bottom:1px solid var(--gray-border)}
+.quiz-item:last-of-type{border:none}
+.quiz-item .q-text{font-size:.97rem;font-weight:600;color:var(--text);margin-bottom:.9rem}
+.quiz-item .q-num{font-size:.78rem;background:var(--accent-light);color:var(--accent);padding:2px 9px;border-radius:20px;margin-right:.5rem;font-weight:700}
+.opt-list{list-style:none;padding:0;display:flex;flex-direction:column;gap:.5rem}
+.opt-list li button{width:100%;text-align:left;padding:.7rem 1rem;border-radius:8px;border:1.5px solid var(--gray-border);background:#fff;font-size:.9rem;cursor:pointer;color:var(--text);transition:all .15s}
+.opt-list li button:hover{border-color:var(--accent-mid);background:var(--accent-light)}
+.opt-list li button.correct{background:var(--green-light);border-color:var(--green);color:var(--green);font-weight:600}
+.opt-list li button.wrong{background:var(--red-light);border-color:var(--red);color:var(--red)}
+.opt-list li button:disabled{cursor:default}
+.q-feedback{margin-top:.7rem;padding:.6rem 1rem;border-radius:8px;font-size:.88rem;display:none}
+.q-feedback.show{display:block}
+.q-feedback.ok{background:var(--green-light);color:var(--green);border:1px solid #a0d8b8}
+.q-feedback.no{background:var(--red-light);color:var(--red);border:1px solid #f5b8b8}
+.checklist{list-style:none;padding:0}
+.checklist li{display:flex;gap:.8rem;align-items:flex-start;padding:.55rem 0;border-bottom:1px solid var(--gray-border);font-size:.92rem}
+.checklist li:last-child{border:none}
+.checklist input[type=checkbox]{width:18px;height:18px;margin-top:2px;cursor:pointer;flex-shrink:0;accent-color:var(--green)}
+.checklist label{cursor:pointer;color:var(--text2)}
+.checklist input:checked+label{color:var(--green);text-decoration:line-through;opacity:.7}
+.nav-btns{display:flex;justify-content:space-between;margin-top:1.5rem}
+.btn{display:inline-flex;align-items:center;gap:.4rem;padding:.7rem 1.5rem;border-radius:8px;font-size:.9rem;font-weight:600;cursor:pointer;border:none;transition:all .15s;text-decoration:none}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:#0a5a5a}
+.btn-outline{background:#fff;color:var(--accent);border:1.5px solid var(--accent)}
+.btn-outline:hover{background:var(--accent-light)}
+.btn-success{background:var(--green);color:#fff}
+.complete-banner{background:var(--green-light);border:2px solid var(--green);border-radius:var(--radius);padding:1.3rem 1.8rem;text-align:center;display:none;margin-bottom:1.5rem}
+.complete-banner.show{display:block}
+.complete-banner h3{color:var(--green);font-size:1.1rem;margin-bottom:.4rem}
+.complete-banner p{font-size:.9rem;color:#2a6040}
+ul.body-list{padding-left:1.3rem;margin:.5rem 0}
+ul.body-list li{margin-bottom:.35rem}
+.formula-box{background:#f8f8f8;border:1px solid var(--gray-border);border-radius:8px;padding:.9rem 1.2rem;margin:.8rem 0;font-size:.9rem;font-family:monospace;color:var(--text)}
+@media(max-width:720px){.layout{flex-direction:column}.sidebar{width:100%;position:static}.nav-card{position:static}}
 </style>
 </head>
 <body>
 
-<header class="page-header">
-  <a href="index_ch3.html" class="back-btn">← 목차</a>
-  <h1>M3-4: 비교가능회사 선정 (§3.40–§3.54)</h1>
-</header>
+<!-- 모듈 헤더 -->
+<div class="mod-header">
+  <div class="breadcrumb"><a href="index_ch3.html" style="color:#fff;opacity:.8;">← Chapter III 목록으로</a></div>
+  <h1>Module 4 — 비교가능회사 선정과 비교가능성 조정</h1>
+  <div class="sub">§3.40 ~ §3.54 · OECD Transfer Pricing Guidelines Chapter III · A.5–A.6</div>
+  <div class="prog-strip"><div class="prog-strip-inner" id="progBar" style="width:0%"></div></div>
+</div>
 
 <div class="layout">
-  <nav class="sidebar">
-    <div class="sidebar-box">
-      <h3>목차</h3>
-      <button class="nav-item active" onclick="showSection(0,this)">1. 가산·연역 검색방법</button>
-      <button class="nav-item" onclick="showSection(1,this)">2. 정량적 검색기준</button>
-      <button class="nav-item" onclick="showSection(2,this)">3. 연역방법의 적용</button>
-      <button class="nav-item" onclick="showSection(3,this)">4. 비교가능성 조정</button>
+  <!-- 사이드바 -->
+  <aside class="sidebar">
+    <div class="nav-card">
+      <h4>목차</h4>
+      <button class="nav-item active" onclick="scrollTo('sec-obj')">학습목표</button>
+      <button class="nav-item" onclick="scrollTo('sec1')">§3.40-3.42 가산 vs 연역</button>
+      <button class="nav-item" onclick="scrollTo('sec2')">§3.43-3.46 정량적 기준·투명성</button>
+      <button class="nav-item" onclick="scrollTo('sec3')">§3.47-3.49 비교가능성 조정</button>
+      <button class="nav-item" onclick="scrollTo('sec4')">§3.50-3.54 선행조건·문서화</button>
+      <button class="nav-item" onclick="scrollTo('sec-wca-case')">§3.49 WCA 계산 사례</button>
+      <button class="nav-item" onclick="scrollTo('sec-quiz')">퀴즈</button>
+      <button class="nav-item" onclick="scrollTo('sec-check')">체크리스트</button>
     </div>
-  </nav>
-
-  <div class="content">
-
-    <!-- ═══ Section 0 : 가산·연역 검색방법 ═══ -->
-    <div class="section active" id="sec0">
-      <h2 class="sec-title">1. 가산·연역 검색방법 (§3.40–§3.42)</h2>
-
-      <div class="card">
-        <div class="card-title"><span class="para-badge">§3.40</span> 두 가지 비교가능거래 식별 방식</div>
-        <p>OECD 이전가격지침서는 비교가능 거래의 식별 방식을 크게 두 가지 접근법으로 제시한다. 어느 하나를 일률적으로 우선시해서는 안 되며, 상황에 따라 두 방법을 조합하여 사용하는 것이 바람직하다.</p>
-
-        <div class="method-grid">
-          <div class="method-card add">
-            <div class="mc-label">접근법 1</div>
-            <div class="mc-title">가산 접근법 (Additive Approach)</div>
-            <p>사전에 유사 거래를 수행하는 것으로 알려진 제3자를 식별하고, 그 거래를 분석하는 방식. 시장에서 잘 알려진 비교가능기업이 있는 경우에 효과적.</p>
-          </div>
-          <div class="method-card ded">
-            <div class="mc-label">접근법 2</div>
-            <div class="mc-title">연역 접근법 (Deductive Approach)</div>
-            <p>유사한 업종에 속하는 기업 전체에서 출발해 점차 비교대상을 좁혀가는 방식. 상업DB를 활용하여 산업코드 기준으로 검색 후 단계적으로 필터링.</p>
-          </div>
-        </div>
-
-        <div class="commentary">
-          <strong>💡 핵심 개념 (주):</strong> 비교가능성 확보를 위한 검색 전략의 선택과 실행은 단순히 기술적 절차가 아닌, <strong>정상가격 원칙을 충실히 반영하기 위한 분석 기초 작업</strong>임을 이해해야 한다.
-        </div>
+    <div class="nav-card">
+      <h4>진도</h4>
+      <div style="font-size:.85rem;color:var(--gray);">
+        <div style="margin-bottom:.4rem;">아코디언 <span id="accPct">0</span>% / 50%</div>
+        <div style="margin-bottom:.4rem;">퀴즈 <span id="quizPct">0</span>% / 30%</div>
+        <div>체크리스트 <span id="chkPct">0</span>% / 20%</div>
       </div>
+      <div style="margin-top:.8rem;font-size:.9rem;font-weight:700;color:var(--accent);">총 <span id="totalPct">0</span>%</div>
+    </div>
+  </aside>
 
-      <div class="card">
-        <div class="card-title"><span class="para-badge">§3.41</span> 가산(Additive) 방법 상세</div>
-        <p>가산방법은 비교가능거래로 생각되는 <strong>목록을 먼저 작성</strong>하고, 그 목록으로부터 비교가능거래를 찾는 방법이다.</p>
-        <ul class="styled">
-          <li>비교가능거래 목록이 작성되면 추가 제3자 정보를 획득하여 비교가능성을 확인한다.</li>
-          <li>시장에서 잘 알려진 비교가능기업에 대한 사전 정보가 있는 경우 매우 용이하다.</li>
-          <li>검색자가 시장에서 비교가능거래에 대한 <strong>사전정보</strong>를 가지고 있는 경우 가산방법만을 적용하는 것도 가능하다.</li>
-          <li>특히 <strong>내부비교가능거래</strong>를 검색할 경우에 매우 효과적이다.</li>
-        </ul>
-      </div>
+  <!-- 본문 -->
+  <main class="content">
 
-      <div class="card">
-        <div class="card-title"><span class="para-badge">§3.42</span> 연역(Deductive) 방법 상세</div>
-        <p>연역방법은 유사한 기능과 경제적 유사성을 지닌 <strong>대량의 비교가능거래를 추출</strong>하여 일정의 검색기준을 적용하여 비교가능거래를 찾는 방법이다.</p>
-        <ul class="styled">
-          <li>제3자 공개 데이터에서 자료를 추출하여 §3.24-3.39에서 설명한 비교가능성 기준을 적용한다.</li>
-          <li>상업DB(Orbis, Amadeus 등)를 기반으로 산업코드(NAICS, SIC 등)에 따라 초기 집단을 선정한다.</li>
-          <li>이후 <strong>질적·양적 검색기준</strong>을 단계적으로 적용하여 비교가능회사를 좁혀간다.</li>
-        </ul>
-
-        <div class="commentary">
-          <strong>💡 실무 포인트 (주):</strong> 일반적으로 가산방법은 사업내용을 잘 알고 있는 경쟁자 또는 유사업체에서 비교가능회사를 선택할 경우에 사용된다. 연역방법은 산업그룹 등에서 잠재적으로 유사한 비교가능거래(회사) 집단을 선택해서 비교가능성 없는 거래를 제거하여 최종 비교가능거래를 선택하는 방법이다. <strong>실무에서는 일반적으로 TNMM이 적용되기 때문에 연역방법을 주로 사용</strong>한다.
-        </div>
-      </div>
+    <!-- 완료 배너 -->
+    <div class="complete-banner" id="completeBanner">
+      <h3>모듈 완료!</h3>
+      <p>M3-4 비교가능회사 선정과 비교가능성 조정을 완료하셨습니다. 다음 모듈로 이동하세요.</p>
     </div>
 
-    <!-- ═══ Section 1 : 정량적 검색기준 ═══ -->
-    <div class="section" id="sec1">
-      <h2 class="sec-title">2. 정량적 검색기준 (§3.43–§3.45)</h2>
-
-      <div class="card">
-        <div class="card-title"><span class="para-badge">§3.43</span> 대표적인 양적(Quantitative) 검색기준</div>
-        <p>One-sided method(재판매가격방법, 원가가산방법, TNMM) 적용 시 일반적으로 사용되는 정량적 검색기준은 다음과 같다.</p>
-
-        <div class="screen-grid">
-          <div class="screen-item">
-            <div class="si-icon">📊</div>
-            <div class="si-title">크기 관련 기준</div>
-            <p>매출, 자산, 직원 수 기준. 거래 크기는 가격 주도력(bargaining power)에 영향을 줄 수 있다.</p>
-          </div>
-          <div class="screen-item">
-            <div class="si-icon">🔬</div>
-            <div class="si-title">무형자산 관련 기준</div>
-            <p>총자산 대비 무형자산 순가치 비율, 매출 대비 R&amp;D 비용 비율. 가치있는 무형자산 보유 회사를 제외하는 기준.</p>
-          </div>
-          <div class="screen-item">
-            <div class="si-icon">🌐</div>
-            <div class="si-title">수출거래 관련 기준</div>
-            <p>총매출 대비 해외판매 매출 비율. 수출 중심 기업 여부를 판단하는 기준.</p>
-          </div>
-          <div class="screen-item">
-            <div class="si-icon">📦</div>
-            <div class="si-title">재고자산 관련 기준</div>
-            <p>재고자산 규모 및 재고회전율. 제조·유통 기업의 기능적 특성 반영.</p>
-          </div>
-        </div>
-
-        <div class="commentary">
-          <strong>💡 적용 대상 (주):</strong> 정량적 검색기준은 일반적으로 <strong>One-sided method</strong>인 재판매가격방법, 원가가산방법 및 TNMM을 사용할 경우 적용한다. 특히 거래 한쪽이 사업상 중요한 무형자산을 소유하지 않거나, 중요한 R&amp;D 활동을 수행하지 않으며, <strong>단순한 제조 또는 판매활동</strong>만을 수행하는 경우에 정량적 검색기준으로 비교가능한 회사를 검색한다.
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-title"><span class="para-badge">§3.44</span> 연역방법의 장점</div>
-        <p>연역 접근법의 주요 장점은 다음과 같다.</p>
-        <ul class="styled">
-          <li><strong>체계성과 일관성:</strong> 정해진 기준에 따라 기계적으로 적용하므로 분석자의 주관적 편향을 최소화</li>
-          <li><strong>투명성:</strong> 검색 과정과 적용 기준이 문서화되어 과세관청이 검토 가능</li>
-          <li><strong>재현가능성:</strong> 동일한 기준을 적용하면 동일한 결과를 재현할 수 있어 신뢰성 확보</li>
-          <li><strong>대규모 데이터 처리:</strong> 상업DB를 통해 수백 개의 잠재적 비교가능회사를 효율적으로 처리</li>
-        </ul>
-      </div>
-
-      <div class="card">
-        <div class="card-title"><span class="para-badge">§3.45</span> 두 방법의 조합 사용</div>
-        <p>"가산 접근법(additive approach)"과 "연역 접근법(deductive approach)" 중 어느 하나를 일률적으로 우선시해서는 안 되며, <strong>상황에 따라 두 방법을 조합</strong>하여 사용하는 것이 바람직할 수 있다.</p>
-
-        <div class="highlight-box">
-          <div class="hb-title">📌 조합 사용 실무 예시</div>
-          <p>연역 접근법을 기반으로 상업용 데이터베이스를 통해 비교대상을 검색하더라도, 해당 산업 코드에 포함되지 않았지만 실제로는 유사한 거래를 수행하는 제3자(예: 경쟁사)를 <strong>가산 방식으로 보완</strong>할 수 있다.</p>
-          <p style="margin-top:8px">통상 실무에서는 <strong>연역 접근을 기본으로 하고 가산 접근을 보완도구로 활용</strong>하는 경우가 많다.</p>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-title"><span class="para-badge">§3.46</span> 정보공개의 투명성과 절차적 공정성</div>
-        <p>비교가능회사 선정 과정에서 적용된 기준과 절차는 <strong>투명하게 문서화</strong>되어야 하며, 과세관청과 납세자 모두가 선정 과정의 합리성을 검토할 수 있어야 한다.</p>
-        <ul class="styled">
-          <li>검색에 사용된 데이터베이스와 검색 날짜를 기록</li>
-          <li>적용된 산업코드(NAICS, SIC 등)와 그 선택 이유를 명시</li>
-          <li>질적·양적 검색기준의 임계치와 적용 근거를 문서화</li>
-          <li>제외된 회사와 그 제외 이유를 기록</li>
-        </ul>
-      </div>
+    <!-- 학습목표 -->
+    <div class="card" id="sec-obj">
+      <h2>학습목표</h2>
+      <ul class="obj-list">
+        <li><span class="obj-num">1</span><span>가산(Additive)과 연역(Deductive) 비교가능거래 검색 방법의 차이와 적합한 상황을 설명하실 수 있습니다.</span></li>
+        <li><span class="obj-num">2</span><span>정량적 검색기준(크기, 무형자산, 수출비율 등) 4가지를 설명하실 수 있습니다.</span></li>
+        <li><span class="obj-num">3</span><span>비교가능성 조정의 목적과 3가지 주요 유형(회계처리/자산/기능위험)을 설명하실 수 있습니다.</span></li>
+        <li><span class="obj-num">4</span><span>운전자본조정(Working Capital Adjustment)의 원리와 계산 방법을 이해하십니다.</span></li>
+        <li><span class="obj-num">5</span><span>비교가능성 조정의 신뢰성 평가와 문서화 요건을 이해하십니다.</span></li>
+      </ul>
     </div>
 
-    <!-- ═══ Section 2 : 연역방법의 적용 ═══ -->
-    <div class="section" id="sec2">
-      <h2 class="sec-title">3. 연역방법의 적용 단계 (§3.42–§3.46)</h2>
+    <!-- 섹션 1: §3.40-3.42 -->
+    <div class="card" id="sec1">
+      <h2>§3.40-3.42 · 가산(Additive) vs 연역(Deductive) 검색방법</h2>
 
-      <div class="card">
-        <div class="card-title">연역방법 적용 단계 흐름도</div>
-        <p>실무에서 연역방법을 적용하는 일반적인 단계는 다음과 같다.</p>
-
-        <table class="cmp-table">
-          <thead>
-            <tr>
-              <th>단계</th>
-              <th>내용</th>
-              <th>적용 기준</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>1단계</strong><br>초기 집단 선정</td>
-              <td>상업DB에서 산업코드 기준으로 잠재적 비교가능회사 전체 추출</td>
-              <td>SIC/NAICS 코드, 지역(국가/지역) 설정</td>
-            </tr>
-            <tr>
-              <td><strong>2단계</strong><br>질적 스크리닝</td>
-              <td>사업 설명 검토, 주요 제품/서비스 유사성 확인, 다각화 여부 확인</td>
-              <td>사업설명(business description) 검토</td>
-            </tr>
-            <tr>
-              <td><strong>3단계</strong><br>양적 스크리닝</td>
-              <td>무형자산 비율, R&amp;D 비용 비율, 수출 비율 등 재무적 임계치 적용</td>
-              <td>총자산 대비 무형자산 비율 &lt; 25%, R&amp;D 비율 &lt; 5% 등</td>
-            </tr>
-            <tr>
-              <td><strong>4단계</strong><br>독립성 확인</td>
-              <td>특수관계기업 여부 확인, 독립 제3자 여부 검증</td>
-              <td>지배주주 지분율 &lt; 25% 등</td>
-            </tr>
-            <tr>
-              <td><strong>5단계</strong><br>재무 데이터 가용성</td>
-              <td>분석 기간에 해당하는 재무자료 공개 여부 확인</td>
-              <td>최소 3개 사업연도 데이터 요구</td>
-            </tr>
-            <tr>
-              <td><strong>6단계</strong><br>최종 비교가능회사 선정</td>
-              <td>위 단계를 통과한 회사들을 최종 비교가능회사로 선정</td>
-              <td>전문적 판단으로 추가 제외 가능</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- ═══ Section 3 : 비교가능성 조정 ═══ -->
-    <div class="section" id="sec3">
-      <h2 class="sec-title">4. 비교가능성 조정 (§3.47–§3.54)</h2>
-
-      <div class="card">
-        <div class="card-title"><span class="para-badge">§3.47</span> 비교가능성 조정의 목적</div>
-        <p>비교가능성 조정(comparability adjustments)은 <strong>분석대상거래와 비교가능거래의 비교가능성 및 자료의 신뢰성을 높이기 위하여</strong> 실시한다.</p>
-        <div class="highlight-box">
-          <div class="hb-title">📌 조정의 기본 원칙</div>
-          <p>조정은 비교가능성을 개선하기 위한 목적으로만 실시되어야 하며, 분석의 신뢰성을 떨어뜨리는 방향으로 실시해서는 안 된다. 또한 조정의 근거와 방법론은 명확하게 문서화되어야 한다.</p>
+      <div class="accordion" id="acc1">
+        <button class="acc-header" onclick="toggleAcc('acc1')">
+          <span><span class="para">§3.40-3.41</span>가산방법(Additive Approach)</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p><strong>가산방법(Additive Approach)</strong>은 사전에 알려진 비교가능기업 목록을 먼저 작성한 후 비교가능성을 검증하는 방식입니다.</p>
+          <ul class="body-list">
+            <li>비교가능거래에 대한 사전 정보가 필요합니다.</li>
+            <li>내부비교가능거래 검색 시 매우 효과적입니다.</li>
+            <li>시장에서 잘 알려진 비교가능기업 정보가 있는 경우에 적합합니다.</li>
+          </ul>
+          <div class="key-point">검색자가 시장에서 비교가능거래에 대한 사전정보를 가진 경우 가산방법만으로도 검색이 가능합니다.</div>
         </div>
       </div>
 
-      <div class="card">
-        <div class="card-title"><span class="para-badge">§3.48</span> 비교가능성 조정의 유형</div>
-        <p>대표적인 비교가능성 조정은 다음과 같다.</p>
-
-        <table class="cmp-table">
-          <thead>
-            <tr>
-              <th>조정 유형</th>
-              <th>조정 내용</th>
-              <th>실무 적용 빈도</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>① 회계처리 차이 조정</strong></td>
-              <td>비교회사와 분석대상회사 간의 회계기준 차이(GAAP vs IFRS 등) 조정</td>
-              <td>⭐⭐⭐ 높음</td>
-            </tr>
-            <tr>
-              <td><strong>② 사업연도 차이 조정</strong></td>
-              <td>회계연도 불일치(예: 3월 결산 vs 12월 결산) 조정</td>
-              <td>⭐⭐⭐ 높음</td>
-            </tr>
-            <tr>
-              <td><strong>③ 자산 차이 조정 (Working Capital)</strong></td>
-              <td>매출채권, 매입채무, 재고자산의 차이 조정</td>
-              <td>⭐⭐⭐ 높음 (TNMM 적용 시 가장 일반적)</td>
-            </tr>
-            <tr>
-              <td><strong>④ 기능·위험 차이 조정</strong></td>
-              <td>수행 기능과 부담 위험의 차이를 반영한 조정</td>
-              <td>⭐⭐ 중간</td>
-            </tr>
-          </tbody>
-        </table>
-
-        <div class="commentary">
-          <strong>💡 실무 포인트 (주):</strong> 실무상 가장 많이 사용되는 비교가능성 조정은 ① 회계처리 방법 차이조정, ② 사업연도 차이조정, ③ 자산 차이조정이다. 특히 <strong>③ 자산 차이조정(Working Capital Adjustment)</strong>은 TNMM을 적용하는 경우 가장 일반적으로 적용되는 방법이다.
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-title"><span class="para-badge">§3.49</span> 자산 차이 조정 (Working Capital Adjustment)</div>
-        <p>자산 차이 조정은 매출채권(AR), 매입채무(AP), 재고자산(INV) 등의 운전자본(Working Capital) 차이를 조정하는 방법으로, TNMM 적용 시 가장 일반적으로 활용된다.</p>
-
-        <div class="info-grid">
-          <div class="info-card">
-            <div class="ic-label">조정 대상</div>
-            <div class="ic-title">운전자본 3항목</div>
-            <p>매출채권(Accounts Receivable), 매입채무(Accounts Payable), 재고자산(Inventory)의 차이를 총자산 또는 매출액으로 나누어 조정 배수 산정.</p>
-          </div>
-          <div class="info-card">
-            <div class="ic-label">참고</div>
-            <div class="ic-title">Chapter III Annex</div>
-            <p>운전자본 조정의 구체적 계산 방법과 사례는 Chapter III Annex에 상세히 수록되어 있다.</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-title"><span class="para-badge">§3.50–3.52</span> 비교가능성 조정의 선행조건</div>
-        <p>비교가능성 조정을 실시하기 위해서는 다음 선행조건이 충족되어야 한다.</p>
-        <ul class="styled">
-          <li>조정이 비교가능성을 <strong>실질적으로 개선</strong>할 수 있어야 한다.</li>
-          <li>조정 금액을 <strong>합리적으로 산정</strong>할 수 있어야 한다.</li>
-          <li>조정 후 비교가능성이 조정 전보다 <strong>더 신뢰성 있는 결과</strong>를 제공해야 한다.</li>
-          <li>비교가능성을 개선하기보다 오히려 저하시키는 방향으로는 조정을 실시해서는 안 된다.</li>
-        </ul>
-      </div>
-
-      <div class="card">
-        <div class="card-title"><span class="para-badge">§3.53</span> 기계적(Routine) 조정</div>
-        <p>일부 조정은 비교가능성을 개선한다는 확신 없이도 기계적으로 적용되는 경향이 있다. OECD 이전가격지침서는 이러한 <strong>기계적·형식적 조정</strong>에 주의를 요구한다.</p>
-        <div class="warning-box">
-          <div class="wb-title">⚠️ 기계적 조정의 위험성</div>
-          <p>조정이 비교가능성을 개선한다는 확실한 근거 없이 형식적으로 적용되는 경우, 오히려 분석의 신뢰성을 저하시킬 수 있다. 모든 조정은 경제적 실질에 근거하여 실시되어야 한다.</p>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-title"><span class="para-badge">§3.54</span> 비교가능성 조정의 문서화</div>
-        <p>비교가능성 조정의 적용 근거와 방법론은 <strong>명확하게 문서화</strong>되어야 하며, 다음 사항을 포함해야 한다.</p>
-        <ul class="styled">
-          <li>적용된 조정의 유형과 그 선택 이유</li>
-          <li>조정 금액 산정 방법론 및 계산 근거</li>
-          <li>조정 후 비교가능성이 어떻게 개선되었는지에 대한 설명</li>
-          <li>조정의 한계 및 잔여 비교가능성 차이에 대한 언급</li>
-        </ul>
-
-        <div class="footnote">
-          참고: §3.40–§3.54, OECD 이전가격지침서 Chapter III A.5. "Selecting or Rejecting Potential Comparables", A.6. "Comparability Adjustments" | IMF et al. (2017, pp. 49-59; 5. "Determination of and Making Comparability Adjustments")
+      <div class="accordion" id="acc2">
+        <button class="acc-header" onclick="toggleAcc('acc2')">
+          <span><span class="para">§3.42</span>연역방법(Deductive Approach)</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p><strong>연역방법(Deductive Approach)</strong>은 유사 업종의 기업 전체에서 출발하여 기준을 적용하면서 비교가능거래를 좁혀가는 방식입니다.</p>
+          <ul class="body-list">
+            <li>제3자 공개 데이터(상업DB)에서 추출하여 시작합니다.</li>
+            <li>¶3.24-3.39의 비교가능성 기준을 순차적으로 적용합니다.</li>
+            <li>실무에서 TNMM 적용 시 일반적으로 사용됩니다.</li>
+          </ul>
+          <div class="key-point">실무에서는 연역방법이 주로 사용되나, 가산방법으로 알려진 경쟁사를 보완으로 추가하는 것이 가능합니다.</div>
         </div>
       </div>
     </div>
 
-  </div><!-- /content -->
-</div><!-- /layout -->
+    <!-- 섹션 2: §3.43-3.46 -->
+    <div class="card" id="sec2">
+      <h2>§3.43-3.46 · 정량적 검색기준과 투명성</h2>
+
+      <div class="accordion" id="acc3">
+        <button class="acc-header" onclick="toggleAcc('acc3')">
+          <span><span class="para">§3.43</span>정량적 검색기준 4가지</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p>비교가능회사 선정 시 다음 4가지 정량적 검색기준을 적용합니다.</p>
+          <table class="compare-table">
+            <thead>
+              <tr>
+                <th>검색기준 유형</th>
+                <th>구체적 지표</th>
+                <th>목적</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>크기 기준</strong></td>
+                <td>매출, 자산, 직원수</td>
+                <td>거래 주도 영향력 파악</td>
+              </tr>
+              <tr>
+                <td><strong>무형자산 기준</strong></td>
+                <td>무형자산/총자산 비율, R&amp;D/매출 비율</td>
+                <td>가치 있는 무형자산 소유 기업 제외</td>
+              </tr>
+              <tr>
+                <td><strong>수출거래 기준</strong></td>
+                <td>해외판매/총매출 비율</td>
+                <td>수출 중심 기업 특성 파악</td>
+              </tr>
+              <tr>
+                <td><strong>재고자산 기준</strong></td>
+                <td>재고자산 규모</td>
+                <td>제조·유통 특성 파악</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="key-point">정량적 검색기준은 One-sided 방법에서 단순 제조 또는 판매 기능만 수행하는 기업 검색 시 적용합니다.</div>
+        </div>
+      </div>
+
+      <div class="accordion" id="acc4">
+        <button class="acc-header" onclick="toggleAcc('acc4')">
+          <span><span class="para">§3.44-3.46</span>연역방법 장점·기계적 선택 금지·투명성</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p>연역방법의 핵심 장점은 투명성(모든 검색 단계의 재현 가능성)과 체계성입니다.</p>
+          <ul class="body-list">
+            <li><strong>기계적 방법 금지</strong>: 가산·연역 어느 하나를 일률적으로 우선시해서는 안 됩니다. 상황에 따라 조합해야 합니다.</li>
+            <li><strong>두 방법의 상호보완</strong>: 연역 기반 검색에 가산방법으로 경쟁사를 추가하는 것이 가능합니다.</li>
+            <li><strong>투명성과 절차적 공정성</strong>: 검색 과정을 완전히 문서화해야 합니다.</li>
+          </ul>
+          <div class="warn-point">어느 한 방법만을 기계적으로 선택하는 것은 지침서의 취지에 반합니다. 분석 상황에 따라 적절한 방법을 선택하고 그 근거를 문서화해야 합니다.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 섹션 3: §3.47-3.49 -->
+    <div class="card" id="sec3">
+      <h2>§3.47-3.49 · 비교가능성 조정</h2>
+
+      <div class="accordion" id="acc5">
+        <button class="acc-header" onclick="toggleAcc('acc5')">
+          <span><span class="para">§3.47-3.48</span>비교가능성 조정 개요와 3가지 유형</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p>비교가능성 조정의 목적은 비교가능성 및 자료의 신뢰성을 향상시키는 것입니다.</p>
+          <p><strong>3가지 주요 조정 유형:</strong></p>
+          <ul class="body-list">
+            <li><strong>① 회계처리방법 차이 조정</strong>: 사업연도, 수익인식 방법 등의 차이를 조정합니다.</li>
+            <li><strong>② 자산 차이 조정</strong>: 운전자본, 고정자산 차이를 조정합니다.</li>
+            <li><strong>③ 기능 및 위험 차이 조정</strong>: 기능 수행 정도, 위험 부담 차이를 조정합니다.</li>
+          </ul>
+          <div class="key-point">실무상 가장 많이 사용되는 조정은 ①회계처리방법 차이, ②사업연도 차이, ③자산 차이조정(특히 운전자본조정)입니다.</div>
+        </div>
+      </div>
+
+      <div class="accordion" id="acc6">
+        <button class="acc-header" onclick="toggleAcc('acc6')">
+          <span><span class="para">§3.49</span>자산 차이 조정 — 운전자본조정(WCA)</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p><strong>운전자본조정(Working Capital Adjustment, WCA)</strong>은 TNMM 적용 시 가장 널리 사용되는 비교가능성 조정으로, 매출채권·매입채무·재고자산의 차이에서 발생하는 자본비용 차이를 제거합니다.</p>
+          <p><strong>원리:</strong> 운전자본 규모 차이 → 조달 자본비용 차이 → 영업이익률 차이 발생 → 이를 조정하여 순수한 영업 성과를 비교</p>
+          <p><strong>계산 공식 (Chapter III Annex 참조):</strong></p>
+          <div class="formula-box" style="font-size:.92rem;line-height:1.9">
+            순운전자본(NWC) = 매출채권 + 재고자산 − 매입채무<br>
+            NWC/매출 비율 차이 = (분석대상회사 NWC/매출) − (비교가능회사 NWC/매출)<br>
+            <strong>WCA = NWC/매출 비율 차이 × 단기 차입 이자율(기준금리)</strong>
+          </div>
+          <div class="case-box" id="sec-wca-case" style="margin-top:1rem">
+            <div class="case-label">§3.49 적용 사례 — 운전자본조정(WCA) 계산 예시</div>
+            <h4>분석대상회사(A)와 비교가능회사(B)의 WCA 산출</h4>
+            <p><strong>재무 데이터 비교:</strong></p>
+            <table class="compare-table" style="margin:.5rem 0">
+              <tr><th>항목</th><th>분석대상 A사</th><th>비교가능 B사</th></tr>
+              <tr><td>매출채권/매출</td><td>20%</td><td>15%</td></tr>
+              <tr><td>재고자산/매출</td><td>15%</td><td>10%</td></tr>
+              <tr><td>매입채무/매출</td><td>10%</td><td>8%</td></tr>
+              <tr><td><strong>순운전자본(NWC)/매출</strong></td><td><strong>25%</strong></td><td><strong>17%</strong></td></tr>
+              <tr><td>영업이익률 (조정 전)</td><td>?</td><td>8.0%</td></tr>
+            </table>
+            <p><strong>WCA 계산 (기준금리 5% 가정):</strong></p>
+            <div class="formula-box" style="font-size:.9rem;line-height:1.8">
+              차이 = 25% − 17% = 8%<br>
+              WCA = 8% × 5% = <strong>+0.4%</strong><br>
+              B사 조정 후 영업이익률 = 8.0% + 0.4% = <strong>8.4%</strong>
+            </div>
+            <p style="margin-top:.6rem"><strong>해석:</strong> B사는 A사보다 운전자본 부담이 적어 이익률이 상대적으로 높게 나타납니다. 조정 후 B사의 8.4%를 기준으로 A사의 정상 영업이익률을 평가합니다.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 섹션 4: §3.50-3.54 -->
+    <div class="card" id="sec4">
+      <h2>§3.50-3.54 · 조정 선행조건·신뢰성·문서화</h2>
+
+      <div class="accordion" id="acc7">
+        <button class="acc-header" onclick="toggleAcc('acc7')">
+          <span><span class="para">§3.50-3.52</span>비교가능성 조정 선행조건</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p>비교가능성 조정(comparability adjustments)은 모든 차이를 무조건 보정하는 것이 아니라, <strong>선행조건 3가지</strong>를 충족한 경우에만 실시합니다.</p>
+          <table class="compare-table" style="margin:.5rem 0">
+            <tr><th>선행조건</th><th>판단 기준</th></tr>
+            <tr><td>①&nbsp;비교가능거래 존재</td><td>조정 전에 해당 거래가 충분한 비교가능성을 갖추고 있어야 함<br><em>(비교가능성이 너무 낮으면 조정이 아니라 더 나은 비교가능거래 탐색이 우선)</em></td></tr>
+            <tr><td>②&nbsp;차이의 합리적 측정 가능</td><td>차이를 신뢰할 수 있는 방법으로 정량화할 수 있어야 함<br><em>(정량화 불가능한 차이에 대한 임의적 조정은 허용되지 않음)</em></td></tr>
+            <tr><td>③&nbsp;조정이 신뢰성 향상</td><td>조정 후 결과가 조정 전보다 비교가능성 및 신뢰성이 실질적으로 향상되어야 함<br><em>(조정 후에도 비교가능성이 여전히 낮다면 조정 의미 없음)</em></td></tr>
+          </table>
+          <div class="key-point">
+            <strong>OECD 기본 원칙 (§3.52):</strong> 조정 가능 여부 판단보다 더 신뢰할 수 있는 비교가능거래를 탐색하는 것이 항상 우선입니다. 조정은 이미 합리적인 비교가능거래의 신뢰성을 <em>추가로</em> 높이기 위한 도구이지, 비교가능성 없는 거래를 비교가능하게 만드는 수단이 아닙니다.
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion" id="acc8">
+        <button class="acc-header" onclick="toggleAcc('acc8')">
+          <span><span class="para">§3.53-3.54</span>기계적 조정·신뢰성·문서화</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p><strong>§3.53 — 기계적(Routine) 조정:</strong> 운전자본조정(WCA)과 같이 표준화된 공식을 반복 적용하는 조정 방법을 의미합니다. 기계적 조정이 실무에서 자주 사용되는 이유는 적용이 간편하고 재현 가능성이 높기 때문입니다.</p>
+          <p>그러나 기계적 조정이라도 다음 요소를 반드시 검토해야 합니다.</p>
+          <ul class="body-list" style="margin:.4rem 0 .7rem 1.2rem;line-height:2.1">
+            <li>조정 적용 가정(자본비용률 등)의 합리성</li>
+            <li>조정 결과가 비교가능성 향상에 실질적으로 기여하는지 여부</li>
+            <li>조정 전후 민감도 분석 실시 여부</li>
+          </ul>
+          <p><strong>§3.54 — 문서화 및 검증:</strong> 조정의 투명성과 재현 가능성을 확보하기 위해 다음을 문서화해야 합니다.</p>
+          <table class="compare-table" style="margin:.5rem 0">
+            <tr><th>문서화 항목</th><th>내용</th></tr>
+            <tr><td>조정 근거</td><td>왜 이 조정이 필요한지 경제적 논리 서술</td></tr>
+            <tr><td>조정 방법</td><td>사용한 공식·데이터 출처·가정값 명시</td></tr>
+            <tr><td>조정 결과</td><td>조정 전후 수치 비교표 제시</td></tr>
+            <tr><td>검증</td><td>조정이 분석 결과에 미치는 영향 민감도 분석</td></tr>
+          </table>
+          <div class="warn-point">조정이 결과에 중요한 영향을 미치는 경우(예: 조정 후 정상가격범위 내 → 조정 전 범위 밖), 조정 방법론의 합리성에 대한 입증 책임이 높아집니다.</div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- 퀴즈 -->
+    <div class="quiz-section" id="sec-quiz">
+      <h2>확인 퀴즈</h2>
+      <div class="q-count">5문항 · 퀴즈 점수는 진도에 반영됩니다</div>
+
+      <!-- Q1 -->
+      <div class="quiz-item" id="qi1">
+        <div class="q-text"><span class="q-num">Q1</span>가산방법(Additive Approach)이 가장 효과적으로 활용되는 상황은?</div>
+        <ul class="opt-list">
+          <li><button onclick="checkQ(1,this,false)">① 대규모 데이터베이스에서 비교가능기업을 처음 탐색하는 경우</button></li>
+          <li><button onclick="checkQ(1,this,true)">② 내부비교가능거래를 검색하거나 시장에서 알려진 비교가능기업 정보가 있는 경우</button></li>
+          <li><button onclick="checkQ(1,this,false)">③ 항상 연역방법과 함께 사용해야 한다.</button></li>
+          <li><button onclick="checkQ(1,this,false)">④ 비교가능기업에 대한 정보가 전혀 없는 경우</button></li>
+        </ul>
+        <div class="q-feedback" id="qf1"></div>
+      </div>
+
+      <!-- Q2 -->
+      <div class="quiz-item" id="qi2">
+        <div class="q-text"><span class="q-num">Q2</span>정량적 검색기준 중 '무형자산 기준'의 목적은?</div>
+        <ul class="opt-list">
+          <li><button onclick="checkQ(2,this,false)">① 매출이 많은 기업을 선정하기 위함</button></li>
+          <li><button onclick="checkQ(2,this,true)">② 사업상 중요한 무형자산을 소유하거나 핵심 R&amp;D를 수행하는 기업을 비교가능기업에서 제외하기 위함</button></li>
+          <li><button onclick="checkQ(2,this,false)">③ 재고자산이 많은 기업을 선정하기 위함</button></li>
+          <li><button onclick="checkQ(2,this,false)">④ 해외 매출 비중이 높은 기업을 선정하기 위함</button></li>
+        </ul>
+        <div class="q-feedback" id="qf2"></div>
+      </div>
+
+      <!-- Q3 -->
+      <div class="quiz-item" id="qi3">
+        <div class="q-text"><span class="q-num">Q3</span>비교가능성 조정 중 가장 일반적으로 사용되는 조정은?</div>
+        <ul class="opt-list">
+          <li><button onclick="checkQ(3,this,false)">① 기능 차이 조정</button></li>
+          <li><button onclick="checkQ(3,this,false)">② 법인세 차이 조정</button></li>
+          <li><button onclick="checkQ(3,this,true)">③ 운전자본조정(Working Capital Adjustment)</button></li>
+          <li><button onclick="checkQ(3,this,false)">④ 외환환율 조정</button></li>
+        </ul>
+        <div class="q-feedback" id="qf3"></div>
+      </div>
+
+      <!-- Q4 -->
+      <div class="quiz-item" id="qi4">
+        <div class="q-text"><span class="q-num">Q4</span>운전자본조정(WCA)이 필요한 이유로 옳은 것은?</div>
+        <ul class="opt-list">
+          <li><button onclick="checkQ(4,this,false)">① 분석대상회사와 비교가능회사의 제품이 다르기 때문</button></li>
+          <li><button onclick="checkQ(4,this,true)">② 운전자본 규모 차이가 자본비용 차이를 유발하고, 이것이 이익률 차이로 이어지기 때문</button></li>
+          <li><button onclick="checkQ(4,this,false)">③ 세율 차이를 보정하기 위함</button></li>
+          <li><button onclick="checkQ(4,this,false)">④ 감가상각 방법 차이를 조정하기 위함</button></li>
+        </ul>
+        <div class="q-feedback" id="qf4"></div>
+      </div>
+
+      <!-- Q5 -->
+      <div class="quiz-item" id="qi5">
+        <div class="q-text"><span class="q-num">Q5</span>비교가능성 조정에서 '기계적(Routine) 조정'의 의미는?</div>
+        <ul class="opt-list">
+          <li><button onclick="checkQ(5,this,false)">① 자동화 소프트웨어로만 실시하는 조정</button></li>
+          <li><button onclick="checkQ(5,this,false)">② 조정이 불필요한 거래에 강제로 적용하는 조정</button></li>
+          <li><button onclick="checkQ(5,this,true)">③ 표준화된 방법으로 반복 적용하는 일반적인 조정(예: 운전자본조정)</button></li>
+          <li><button onclick="checkQ(5,this,false)">④ 기계 장비 거래에만 적용하는 조정</button></li>
+        </ul>
+        <div class="q-feedback" id="qf5"></div>
+      </div>
+    </div>
+
+    <!-- 체크리스트 -->
+    <div class="card" id="sec-check">
+      <h2>실무 체크리스트</h2>
+      <ul class="checklist">
+        <li>
+          <input type="checkbox" id="chk1" onchange="updateChk()"/>
+          <label for="chk1">가산방법과 연역방법 중 어느 방법이 적합한지 검토하였으며, 필요시 두 방법을 조합하였습니까?</label>
+        </li>
+        <li>
+          <input type="checkbox" id="chk2" onchange="updateChk()"/>
+          <label for="chk2">정량적 검색기준(크기, 무형자산, 수출비율, 재고) 설정과 그 근거를 문서화하였습니까?</label>
+        </li>
+        <li>
+          <input type="checkbox" id="chk3" onchange="updateChk()"/>
+          <label for="chk3">비교가능성 조정(WCA, 회계처리 등) 실시 여부와 필요성을 검토하였습니까?</label>
+        </li>
+        <li>
+          <input type="checkbox" id="chk4" onchange="updateChk()"/>
+          <label for="chk4">운전자본조정 계산 시 가중평균 자본비용을 합리적으로 결정하였습니까?</label>
+        </li>
+        <li>
+          <input type="checkbox" id="chk5" onchange="updateChk()"/>
+          <label for="chk5">조정 내용, 이유, 계산 방법을 이전가격 문서에 완전히 기재하였습니까?</label>
+        </li>
+        <li>
+          <input type="checkbox" id="chk6" onchange="updateChk()"/>
+          <label for="chk6">비교가능성이 낮은 경우 조정보다 더 나은 비교가능거래 탐색을 우선 시도하였습니까?</label>
+        </li>
+      </ul>
+    </div>
+
+    <!-- 네비게이션 버튼 -->
+    <div class="nav-btns">
+      <a href="M3-3_비교가능거래탐색.html" class="btn btn-outline">← 이전: M3-3 비교가능거래탐색</a>
+      <a href="M3-5_정상가격범위.html" class="btn btn-primary">다음: M3-5 정상가격범위 →</a>
+    </div>
+
+  </main>
+</div>
 
 <script>
-function showSection(idx, btn) {
-  document.querySelectorAll('.section').forEach((s,i) => s.classList.toggle('active', i===idx));
-  document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
-  if(btn) btn.classList.add('active');
-  window.scrollTo({top:0, behavior:'smooth'});
+const MODKEY = 'm3_4';
+const ACC_TOTAL = 8;
+const QUIZ_TOTAL = 5;
+const CHK_TOTAL = 6;
+
+// 상태 로드
+let state = JSON.parse(localStorage.getItem(MODKEY) || '{"acc":[],"quiz":{},"chk":[]}');
+
+// 아코디언
+function toggleAcc(id) {
+  const el = document.getElementById(id);
+  const header = el.querySelector('.acc-header');
+  const body = el.querySelector('.acc-body');
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  header.classList.toggle('open', !isOpen);
+  if (!isOpen && !state.acc.includes(id)) {
+    state.acc.push(id);
+    saveState();
+    updateProg();
+  }
 }
+
+// 퀴즈
+const feedbacks = {
+  1: {ok:'정답입니다. 가산방법은 내부비교가능거래 검색이나 시장에서 알려진 비교가능기업 정보가 있는 경우에 가장 효과적입니다.', no:'틀렸습니다. 가산방법은 사전에 비교가능거래에 대한 정보가 있는 경우에 효과적입니다.'},
+  2: {ok:'정답입니다. 무형자산 기준은 고유한 무형자산이나 R&D를 보유하여 단순 기능 수행 기업과 비교가 어려운 기업을 제외하기 위해 사용됩니다.', no:'틀렸습니다. 무형자산 기준의 목적은 중요한 무형자산을 보유하거나 핵심 R&D를 수행하는 기업을 비교가능기업에서 제외하는 것입니다.'},
+  3: {ok:'정답입니다. 운전자본조정(WCA)은 실무에서 가장 일반적으로 사용되는 비교가능성 조정입니다.', no:'틀렸습니다. 실무에서 가장 일반적으로 사용되는 조정은 운전자본조정(WCA)입니다.'},
+  4: {ok:'정답입니다. 운전자본 규모 차이는 자본비용 차이를 유발하고, 이것이 이익률 차이로 이어지기 때문에 WCA가 필요합니다.', no:'틀렸습니다. WCA는 운전자본 규모 차이로 인한 자본비용 차이를 보정하기 위해 필요합니다.'},
+  5: {ok:'정답입니다. 기계적(Routine) 조정은 표준화된 방법으로 반복 적용하는 일반적인 조정을 의미하며, 운전자본조정이 대표적인 예입니다.', no:'틀렸습니다. 기계적 조정은 표준화된 방법으로 반복 적용하는 조정(예: 운전자본조정)을 의미합니다.'},
+};
+
+function checkQ(qNum, btn, isCorrect) {
+  const item = document.getElementById('qi'+qNum);
+  if (item.querySelector('.correct') || item.querySelector('.wrong')) return;
+  const btns = item.querySelectorAll('button');
+  btns.forEach(b => b.disabled = true);
+  btn.classList.add(isCorrect ? 'correct' : 'wrong');
+  const fb = document.getElementById('qf'+qNum);
+  fb.textContent = isCorrect ? feedbacks[qNum].ok : feedbacks[qNum].no;
+  fb.className = 'q-feedback show ' + (isCorrect ? 'ok' : 'no');
+  state.quiz[qNum] = isCorrect;
+  saveState();
+  updateProg();
+}
+
+// 체크리스트
+function updateChk() {
+  state.chk = [];
+  for(let i=1;i<=CHK_TOTAL;i++){
+    if(document.getElementById('chk'+i)?.checked) state.chk.push(i);
+  }
+  saveState();
+  updateProg();
+}
+
+// 진도 계산
+function updateProg() {
+  const accPct = Math.min(50, state.acc.length * 8);
+  const correctCount = Object.values(state.quiz).filter(Boolean).length;
+  const quizPct = Math.min(30, Math.round(correctCount / QUIZ_TOTAL * 30));
+  const chkPct = Math.min(20, Math.round(state.chk.length / CHK_TOTAL * 20));
+  const total = accPct + quizPct + chkPct;
+
+  document.getElementById('accPct').textContent = accPct;
+  document.getElementById('quizPct').textContent = quizPct;
+  document.getElementById('chkPct').textContent = chkPct;
+  document.getElementById('totalPct').textContent = total;
+  document.getElementById('progBar').style.width = total + '%';
+
+  if(total >= 100) document.getElementById('completeBanner').classList.add('show');
+}
+
+function saveState() {
+  localStorage.setItem(MODKEY, JSON.stringify(state));
+}
+
+function scrollTo(id) {
+  document.getElementById(id)?.scrollIntoView({behavior:'smooth', block:'start'});
+  document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+  event.target.classList.add('active');
+}
+
+// 초기화: 저장된 상태 복원
+(function init() {
+  // 아코디언 복원
+  state.acc.forEach(id => {
+    const el = document.getElementById(id);
+    if(el) {
+      el.querySelector('.acc-body')?.classList.add('open');
+      el.querySelector('.acc-header')?.classList.add('open');
+    }
+  });
+  // 퀴즈 복원
+  Object.entries(state.quiz).forEach(([qNum, isCorrect]) => {
+    const item = document.getElementById('qi'+qNum);
+    if(!item) return;
+    const btns = item.querySelectorAll('button');
+    btns.forEach(b => b.disabled = true);
+    const feedbackData = feedbacks[qNum];
+    const fb = document.getElementById('qf'+qNum);
+    fb.textContent = isCorrect ? feedbackData.ok : feedbackData.no;
+    fb.className = 'q-feedback show ' + (isCorrect ? 'ok' : 'no');
+  });
+  // 체크리스트 복원
+  state.chk.forEach(i => {
+    const el = document.getElementById('chk'+i);
+    if(el) el.checked = true;
+  });
+  updateProg();
+})();
 </script>
 </body>
 </html>
