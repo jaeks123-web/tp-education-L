@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OECD 이전가격 지침서 — Chapter II 기초과정</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:#1a5fa8;--blue-light:#e8f0fa;--blue-mid:#3b7dd8;
+  --green:#1a7a4a;--green-light:#e6f5ee;
+  --orange:#c06000;--orange-light:#fff3e0;
+  --red:#b02020;--red-light:#fdecea;
+  --purple:#6a1fa8;--purple-light:#f3e8fa;
+  --gray:#555;--gray-light:#f5f5f5;--gray-border:#ddd;
+  --text:#222;--text2:#555;--white:#fff;
+  --radius:10px;--shadow:0 2px 8px rgba(0,0,0,.10);
+}
+body{font-family:'Noto Sans KR',Arial,sans-serif;background:#f0f4f8;color:var(--text);line-height:1.7;font-size:16px}
+a{color:var(--blue);text-decoration:none}
+.page-header{background:var(--blue);color:#fff;padding:2rem 2.5rem 1.5rem;border-bottom:4px solid var(--blue-mid)}
+.page-header h1{font-size:1.6rem;font-weight:700;margin-bottom:.3rem}
+.page-header p{font-size:.95rem;opacity:.85}
+.badge{display:inline-block;font-size:.75rem;padding:3px 10px;border-radius:20px;font-weight:600;margin-left:8px}
+.badge-basic{background:#fff3;color:#fff;border:1px solid #fff6}
+.badge-ch2{background:rgba(106,31,168,.3);color:#fff;border:1px solid rgba(255,255,255,.3)}
+.main{max-width:960px;margin:2.5rem auto;padding:0 1.5rem 4rem}
+.intro-box{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:1.8rem 2rem;margin-bottom:2rem;border-left:5px solid var(--purple)}
+.intro-box h2{font-size:1.1rem;color:var(--purple);margin-bottom:.8rem}
+.intro-box p{font-size:.95rem;color:var(--text2);margin-bottom:.5rem}
+.overall-progress{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:1.5rem 2rem;margin-bottom:2rem}
+.overall-progress h3{font-size:1rem;color:var(--gray);margin-bottom:1rem}
+.prog-outer{background:#e9ecef;border-radius:99px;height:12px;overflow:hidden;margin-bottom:.4rem}
+.prog-inner{height:100%;background:linear-gradient(90deg,var(--purple),var(--blue-mid));border-radius:99px;transition:width .5s}
+.prog-label{display:flex;justify-content:space-between;font-size:.85rem;color:var(--gray)}
+.module-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.2rem}
+.module-card{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:1.5rem;border-top:4px solid var(--gray-border);transition:transform .15s,box-shadow .15s;position:relative;overflow:hidden}
+.module-card:hover{transform:translateY(-3px);box-shadow:0 6px 20px rgba(0,0,0,.13)}
+.module-card.done{border-top-color:var(--green)}
+.module-card.inprog{border-top-color:var(--purple)}
+.module-card .num{font-size:.8rem;font-weight:700;color:var(--gray);margin-bottom:.4rem;letter-spacing:.05em}
+.module-card h3{font-size:1rem;font-weight:700;color:var(--text);margin-bottom:.5rem}
+.module-card p{font-size:.85rem;color:var(--text2);margin-bottom:1rem}
+.module-card .para-range{font-size:.78rem;color:var(--purple);background:var(--purple-light);padding:2px 8px;border-radius:20px;display:inline-block;margin-bottom:.8rem}
+.module-card .method-tag{font-size:.75rem;color:var(--blue);background:var(--blue-light);padding:2px 8px;border-radius:20px;display:inline-block;margin-bottom:.8rem;margin-left:4px}
+.module-card .status-bar{height:4px;background:#eee;border-radius:99px;overflow:hidden;margin-bottom:1rem}
+.module-card .status-fill{height:100%;background:var(--green);border-radius:99px}
+.btn{display:inline-block;padding:.6rem 1.4rem;border-radius:8px;font-size:.88rem;font-weight:600;cursor:pointer;border:none;transition:all .15s}
+.btn-primary{background:var(--blue);color:#fff}
+.btn-primary:hover{background:#164d8a}
+.btn-outline{background:#fff;color:var(--blue);border:1.5px solid var(--blue)}
+.btn-outline:hover{background:var(--blue-light)}
+.btn-done{background:var(--green);color:#fff}
+.status-tag{position:absolute;top:12px;right:12px;font-size:.72rem;font-weight:700;padding:3px 9px;border-radius:20px}
+.tag-done{background:var(--green-light);color:var(--green)}
+.tag-inprog{background:var(--purple-light);color:var(--purple)}
+.tag-pending{background:var(--gray-light);color:var(--gray)}
+.learn-path{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:1.5rem 2rem;margin-bottom:2rem}
+.learn-path h3{font-size:1rem;color:var(--gray);margin-bottom:1rem}
+.path-steps{display:flex;align-items:center;flex-wrap:wrap;gap:.5rem}
+.path-step{background:var(--purple-light);color:var(--purple);padding:.3rem .9rem;border-radius:20px;font-size:.82rem;font-weight:600}
+.path-arrow{color:var(--gray);font-size:1.1rem}
+.tips-box{background:var(--orange-light);border:1px solid #f5c060;border-radius:var(--radius);padding:1.2rem 1.5rem;margin-bottom:2rem}
+.tips-box h4{color:var(--orange);font-size:.95rem;margin-bottom:.5rem}
+.tips-box ul{padding-left:1.2rem;font-size:.88rem;color:#6b4700}
+.tips-box li{margin-bottom:.3rem}
+.methods-overview{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:1.5rem 2rem;margin-bottom:2rem}
+.methods-overview h3{font-size:1rem;color:var(--gray);margin-bottom:1rem}
+.methods-row{display:flex;gap:.6rem;flex-wrap:wrap}
+.method-pill{flex:1;min-width:100px;text-align:center;padding:.7rem .5rem;border-radius:8px;font-size:.82rem;font-weight:700;border:2px solid transparent}
+.mp-cup{background:#e8f0fa;color:#1a5fa8;border-color:#1a5fa8}
+.mp-rpm{background:#e6f5ee;color:#1a7a4a;border-color:#1a7a4a}
+.mp-cpm{background:#fff3e0;color:#c06000;border-color:#c06000}
+.mp-tnmm{background:#f3e8fa;color:#6a1fa8;border-color:#6a1fa8}
+.mp-psm{background:#fdecea;color:#b02020;border-color:#b02020}
+.method-pill small{display:block;font-size:.7rem;font-weight:400;margin-top:2px;opacity:.8}
+.nav-back{display:inline-flex;align-items:center;gap:.4rem;color:var(--blue);font-size:.88rem;font-weight:600;margin-bottom:1.5rem;padding:.4rem .9rem;background:#fff;border-radius:8px;box-shadow:var(--shadow);border:1px solid var(--gray-border)}
+.nav-back:hover{background:var(--blue-light)}
+</style>
+  <!-- Firebase CDN -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
+  <script src="tp-firebase.js"></script>
+</head>
+<body>
+<div id="tpLoading" style="position:fixed;top:0;left:0;width:100%;height:100%;background:#1a5fa8;display:flex;align-items:center;justify-content:center;z-index:9999;color:#fff;font-family:'Noto Sans KR',Arial,sans-serif">
+  <div style="text-align:center">
+    <div style="font-size:2.5rem;margin-bottom:.8rem">📚</div>
+    <div style="font-size:1rem;font-weight:600">대주 이전가격 교육</div>
+    <div style="font-size:.82rem;opacity:.75;margin-top:.4rem">로딩 중...</div>
+  </div>
+</div>
+<header class="page-header">
+  <h1>OECD 이전가격 지침서 — Chapter II <span class="badge badge-basic">기초과정</span> <span class="badge badge-ch2">정상가격산출방법</span></h1>
+  <p>Transfer Pricing Methods · 5가지 이전가격 산출방법 · 자기주도 학습 프로그램</p>
+  <div style="display:flex;justify-content:flex-end;align-items:center;gap:.7rem;margin-top:.5rem;font-size:.82rem">
+    <span id="topUserName" style="color:rgba(255,255,255,.85)"></span>
+    <button onclick="tpSignOut()" style="background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.35);color:#fff;padding:3px 14px;border-radius:20px;cursor:pointer;font-size:.78rem;font-family:inherit">로그아웃</button>
+  </div>
+</header>
+<div class="main">
+
+  <a href="index.html" class="nav-back">← Chapter I로 돌아가기</a>
+
+  <div class="intro-box">
+    <h2>📗 Chapter II 과정에 대하여</h2>
+    <p>이 과정은 OECD 이전가격 지침서 <strong>Chapter II (§2.1~§2.187)</strong>의 핵심 내용을 다룹니다. OECD가 승인한 <strong>5가지 정상가격 산출방법</strong> — CUP, RPM, CPM, TNMM, PSM — 을 단계적으로 학습합니다.</p>
+    <p>Chapter I(ALP 기초)을 먼저 학습하신 후 이 과정을 수강하시면 이해도가 높아집니다. 방법론 선택 기준부터 각 방법의 적용 조건·사례·한계까지 체계적으로 학습할 수 있습니다.</p>
+    <p style="margin-top:.8rem;font-size:.88rem;color:var(--gray)">⏱ 예상 학습 시간: 8개 모듈 × 약 40~60분 = 총 약 5~7시간 (자신의 속도에 맞게 분할 가능)</p>
+  </div>
+
+  <div class="methods-overview">
+    <h3>📌 Chapter II — 5대 이전가격 산출방법 한눈에 보기</h3>
+    <div class="methods-row">
+      <div class="method-pill mp-cup">CUP<small>비교가능 비통제가격</small></div>
+      <div class="method-pill mp-rpm">RPM<small>재판매가격방법</small></div>
+      <div class="method-pill mp-cpm">CPM<small>원가가산방법</small></div>
+      <div class="method-pill mp-tnmm">TNMM<small>거래순이익률방법</small></div>
+      <div class="method-pill mp-psm">PSM<small>이익분할방법</small></div>
+    </div>
+  </div>
+
+  <div class="overall-progress" id="overall-progress-box">
+    <h3>📊 전체 학습 진도 (Chapter II)</h3>
+    <div class="prog-outer"><div class="prog-inner" id="overall-bar" style="width:0%"></div></div>
+    <div class="prog-label"><span id="prog-text">0 / 8 모듈 완료</span><span id="prog-pct">0%</span></div>
+  </div>
+
+  <div class="learn-path" style="margin-bottom:1.5rem">
+    <h3>🗺 학습 경로</h3>
+    <div class="path-steps">
+      <span class="path-step">M2-1 방법선택</span><span class="path-arrow">→</span>
+      <span class="path-step">M2-2 CUP</span><span class="path-arrow">→</span>
+      <span class="path-step">M2-3 RPM</span><span class="path-arrow">→</span>
+      <span class="path-step">M2-4 CPM</span><span class="path-arrow">→</span>
+      <span class="path-step">M2-5 TNMM 기초</span><span class="path-arrow">→</span>
+      <span class="path-step">M2-6 TNMM 적용</span><span class="path-arrow">→</span>
+      <span class="path-step">M2-7 PSM 개요</span><span class="path-arrow">→</span>
+      <span class="path-step">M2-8 PSM 심화</span>
+    </div>
+  </div>
+
+  <div class="tips-box">
+    <h4>💡 학습 가이드</h4>
+    <ul>
+      <li><strong>M2-1(방법 선택 기준)</strong>을 먼저 완료하면 나머지 방법론 모듈의 맥락을 이해하기 쉽습니다.</li>
+      <li>M2-2~M2-4(전통적 방법)는 독립적으로 학습 가능하나, <strong>순서대로</strong> 학습하면 비교 이해가 명확해집니다.</li>
+      <li>M2-5·M2-6(TNMM)과 M2-7·M2-8(PSM)은 각각 2모듈 세트로 연속 학습을 권장합니다.</li>
+      <li>학습 진도는 Google 계정으로 자동 클라우드 저장됩니다. 다음 접속 시 이어서 학습할 수 있습니다.</li>
+    </ul>
+  </div>
+
+  <div class="module-grid" id="module-grid">
+
+    <div class="module-card" id="card-m1">
+      <span class="status-tag tag-pending" id="tag-m1">미시작</span>
+      <div class="num">MODULE 1 — 방법론 기초</div>
+      <span class="para-range">§2.1 – §2.12</span>
+      <h3>정상가격산출방법 선택</h3>
+      <p>5가지 방법의 분류 체계, '최적 방법' 선택 기준(MAS), 방법별 적합 거래 유형을 학습합니다.</p>
+      <div class="status-bar"><div class="status-fill" id="fill-m1" style="width:0%"></div></div>
+      <a href="M2-1_방법선택.html" class="btn btn-primary" id="btn-m1">학습 시작 →</a>
+    </div>
+
+    <div class="module-card" id="card-m2">
+      <span class="status-tag tag-pending" id="tag-m2">미시작</span>
+      <div class="num">MODULE 2 — 전통적 방법</div>
+      <span class="para-range">§2.13 – §2.26</span><span class="method-tag">CUP</span>
+      <h3>비교가능 비통제가격법 (CUP)</h3>
+      <p>내부·외부 CUP의 정의, 비교가능성 2대 조건, 상품 가격 특례(인용가격), 가격산정일 규정을 학습합니다.</p>
+      <div class="status-bar"><div class="status-fill" id="fill-m2" style="width:0%"></div></div>
+      <a href="M2-2_CUP.html" class="btn btn-primary" id="btn-m2">학습 시작 →</a>
+    </div>
+
+    <div class="module-card" id="card-m3">
+      <span class="status-tag tag-pending" id="tag-m3">미시작</span>
+      <div class="num">MODULE 3 — 전통적 방법</div>
+      <span class="para-range">§2.27 – §2.44</span><span class="method-tag">RPM</span>
+      <h3>재판매가격방법 (RPM)</h3>
+      <p>총이익률 마진 적용 원리, 마케팅 무형자산의 RPM 영향, 판매 전용권과 독점성, 회계기준 차이 조정을 학습합니다.</p>
+      <div class="status-bar"><div class="status-fill" id="fill-m3" style="width:0%"></div></div>
+      <a href="M2-3_RPM.html" class="btn btn-primary" id="btn-m3">학습 시작 →</a>
+    </div>
+
+    <div class="module-card" id="card-m4">
+      <span class="status-tag tag-pending" id="tag-m4">미시작</span>
+      <div class="num">MODULE 4 — 전통적 방법</div>
+      <span class="para-range">§2.45 – §2.61</span><span class="method-tag">CPM</span>
+      <h3>원가가산방법 (CPM)</h3>
+      <p>원가 기반 마진 산출, 원가 범주(직접·간접·영업), 역사적 원가 대 한계원가, 세 가지 적용 사례를 학습합니다.</p>
+      <div class="status-bar"><div class="status-fill" id="fill-m4" style="width:0%"></div></div>
+      <a href="M2-4_CPM.html" class="btn btn-primary" id="btn-m4">학습 시작 →</a>
+    </div>
+
+    <div class="module-card" id="card-m5">
+      <span class="status-tag tag-pending" id="tag-m5">미시작</span>
+      <div class="num">MODULE 5 — 거래이익방법</div>
+      <span class="para-range">§2.62 – §2.81</span><span class="method-tag">TNMM</span>
+      <h3>거래이익방법 & TNMM 기초</h3>
+      <p>거래이익방법의 개관, TNMM의 정의·검증대상방(Tested Party) 선정, 강점(제품 차이 둔감)·약점(기업특유 요소)을 학습합니다.</p>
+      <div class="status-bar"><div class="status-fill" id="fill-m5" style="width:0%"></div></div>
+      <a href="M2-5_TNMM기초.html" class="btn btn-primary" id="btn-m5">학습 시작 →</a>
+    </div>
+
+    <div class="module-card" id="card-m6">
+      <span class="status-tag tag-pending" id="tag-m6">미시작</span>
+      <div class="num">MODULE 6 — 거래이익방법</div>
+      <span class="para-range">§2.82 – §2.113</span><span class="method-tag">TNMM</span>
+      <h3>TNMM 순이익 지표 선정</h3>
+      <p>순이익 지표 4종(ROS·원가기반·ROA·Berry Ratio) 비교, 각 지표의 적합 거래·제약 조건, 다년도 데이터 활용을 학습합니다.</p>
+      <div class="status-bar"><div class="status-fill" id="fill-m6" style="width:0%"></div></div>
+      <a href="M2-6_TNMM적용.html" class="btn btn-primary" id="btn-m6">학습 시작 →</a>
+    </div>
+
+    <div class="module-card" id="card-m7">
+      <span class="status-tag tag-pending" id="tag-m7">미시작</span>
+      <div class="num">MODULE 7 — 거래이익방법</div>
+      <span class="para-range">§2.114 – §2.153</span><span class="method-tag">PSM</span>
+      <h3>이익분할방법 (PSM) 개요</h3>
+      <p>PSM의 원리·강점·약점, 적용 조건 3가지(고유 무형자산·고도통합·공유위험), 기여분석 vs 잔여이익분석을 학습합니다.</p>
+      <div class="status-bar"><div class="status-fill" id="fill-m7" style="width:0%"></div></div>
+      <a href="M2-7_PSM개요.html" class="btn btn-primary" id="btn-m7">학습 시작 →</a>
+    </div>
+
+    <div class="module-card" id="card-m8">
+      <span class="status-tag tag-pending" id="tag-m8">미시작</span>
+      <div class="num">MODULE 8 — 심화·종합</div>
+      <span class="para-range">§2.154 – §2.187</span><span class="method-tag">PSM</span>
+      <h3>PSM 심화 & Chapter II 결론</h3>
+      <p>관련이익 범위 확정, 예상이익 vs 실제이익 차이 처리, 이익분할 요소(자산·원가·고용), Chapter II 5대 방법 종합 비교표를 학습합니다.</p>
+      <div class="status-bar"><div class="status-fill" id="fill-m8" style="width:0%"></div></div>
+      <a href="M2-8_PSM심화.html" class="btn btn-primary" id="btn-m8">학습 시작 →</a>
+    </div>
+
+  </div>
+
+  <div style="margin-top:2rem;text-align:center">
+    <a href="index.html" style="color:var(--blue);font-size:.9rem;font-weight:600">← Chapter I: 정상가격원칙(ALP) 기초과정으로</a>
+  </div>
+
+</div>
+
+<script>
+var modules=['m1','m2','m3','m4','m5','m6','m7','m8'];
+function loadProgress(){
+  var done=0;
+  modules.forEach(function(m,i){
+    var pct=parseInt(tpGet('ch2_'+m+'_pct')||'0');
+    var fill=document.getElementById('fill-'+m);
+    var tag=document.getElementById('tag-'+m);
+    var btn=document.getElementById('btn-'+m);
+    var card=document.getElementById('card-'+m);
+    if(fill)fill.style.width=pct+'%';
+    if(pct===100){
+      done++;
+      tag.textContent='완료 ✓';tag.className='status-tag tag-done';
+      card.classList.add('done');
+      btn.textContent='복습하기';btn.className='btn btn-done';
+    } else if(pct>0){
+      tag.textContent='학습중';tag.className='status-tag tag-inprog';
+      card.classList.add('inprog');
+      btn.textContent='이어서 학습 →';
+    }
+  });
+  var pct=Math.round(done/8*100);
+  document.getElementById('overall-bar').style.width=pct+'%';
+  document.getElementById('prog-text').textContent=done+' / 8 모듈 완료';
+  document.getElementById('prog-pct').textContent=pct+'%';
+}
+tpOnReady(function(user){
+  document.getElementById('tpLoading').style.display='none';
+  document.getElementById('topUserName').textContent=user.displayName||user.email;
+  loadProgress();
+});
+</script>
+</body>
+</html>

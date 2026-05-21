@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>M2-1: 정상가격산출방법 선택 | Chapter II 기초과정</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:#1a5fa8;--blue-light:#e8f0fa;--blue-mid:#3b7dd8;
+  --green:#1a7a4a;--green-light:#e6f5ee;
+  --orange:#c06000;--orange-light:#fff3e0;
+  --red:#b02020;--red-light:#fdecea;
+  --purple:#6b21a8;--purple-light:#f3e8ff;
+  --gray:#555;--gray-light:#f5f5f5;--gray-border:#ddd;
+  --text:#222;--text2:#555;--white:#fff;
+  --radius:10px;--shadow:0 2px 8px rgba(0,0,0,.10);
+}
+body{font-family:'Noto Sans KR',Arial,sans-serif;background:#f0f4f8;color:var(--text);line-height:1.75;font-size:16px}
+a{color:var(--blue);text-decoration:none}
+.mod-header{background:linear-gradient(135deg,#1a5fa8 0%,#2d7dd2 100%);color:#fff;padding:1.5rem 2rem}
+.mod-header .breadcrumb{font-size:.8rem;opacity:.7;margin-bottom:.4rem}
+.mod-header h1{font-size:1.4rem;font-weight:700}
+.mod-header .sub{font-size:.9rem;opacity:.8;margin-top:.3rem}
+.prog-strip{background:rgba(255,255,255,.15);height:6px;margin-top:1rem;border-radius:99px;overflow:hidden}
+.prog-strip-inner{height:100%;background:#fff;border-radius:99px;transition:width .4s}
+.layout{display:flex;max-width:1100px;margin:0 auto;padding:2rem 1.5rem 4rem;gap:1.5rem}
+.sidebar{width:220px;flex-shrink:0}
+.content{flex:1;min-width:0}
+.nav-card{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:1.2rem;margin-bottom:1rem;position:sticky;top:1rem}
+.nav-card h4{font-size:.85rem;color:var(--gray);margin-bottom:.8rem;letter-spacing:.04em}
+.nav-item{display:block;padding:.45rem .75rem;border-radius:6px;font-size:.85rem;color:var(--text2);margin-bottom:3px;cursor:pointer;border:none;width:100%;text-align:left;background:none;transition:background .12s}
+.nav-item:hover{background:var(--blue-light);color:var(--blue)}
+.nav-item.active{background:var(--blue);color:#fff;font-weight:600}
+.nav-item.done{color:var(--green)}
+.nav-item.done::after{content:' ✓'}
+.card{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:1.8rem 2rem;margin-bottom:1.5rem}
+.card h2{font-size:1.15rem;font-weight:700;color:var(--blue);margin-bottom:1rem;padding-bottom:.6rem;border-bottom:2px solid var(--blue-light)}
+.card h3{font-size:1rem;font-weight:700;color:var(--text);margin:.8rem 0 .4rem}
+.card p{font-size:.95rem;color:var(--text2);margin-bottom:.7rem}
+.obj-list{list-style:none;padding:0}
+.obj-list li{display:flex;gap:.7rem;align-items:flex-start;padding:.5rem 0;border-bottom:1px solid var(--gray-border);font-size:.93rem}
+.obj-list li:last-child{border:none}
+.obj-num{background:var(--blue);color:#fff;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;flex-shrink:0;margin-top:2px}
+.accordion{border:1px solid var(--gray-border);border-radius:var(--radius);overflow:hidden;margin-bottom:1rem}
+.acc-header{display:flex;justify-content:space-between;align-items:center;padding:.9rem 1.2rem;cursor:pointer;background:var(--gray-light);font-weight:600;font-size:.95rem;border:none;width:100%;text-align:left;transition:background .12s}
+.acc-header:hover{background:#ebebeb}
+.acc-header .para{font-size:.78rem;color:var(--blue);background:var(--blue-light);padding:2px 8px;border-radius:20px;margin-right:.6rem}
+.acc-header .arrow{font-size:1rem;color:var(--gray);transition:transform .2s}
+.acc-body{display:none;padding:1.1rem 1.3rem;background:#fff;font-size:.93rem;color:var(--text2);line-height:1.8;border-top:1px solid var(--gray-border)}
+.acc-body.open{display:block}
+.acc-header.open .arrow{transform:rotate(180deg)}
+.key-point{background:var(--blue-light);border-left:4px solid var(--blue);padding:.7rem 1rem;border-radius:0 6px 6px 0;margin:.8rem 0;font-size:.9rem;color:#1a3a6a}
+.warn-point{background:var(--orange-light);border-left:4px solid var(--orange);padding:.7rem 1rem;border-radius:0 6px 6px 0;margin:.8rem 0;font-size:.9rem;color:#6b3a00}
+.tip-point{background:var(--purple-light);border-left:4px solid var(--purple);padding:.7rem 1rem;border-radius:0 6px 6px 0;margin:.8rem 0;font-size:.9rem;color:#4a1272}
+.quote-box{background:#fafafa;border:1px solid #ddd;border-radius:8px;padding:1rem 1.2rem;margin:.8rem 0;font-style:italic;font-size:.88rem;color:#444;position:relative}
+.quote-box::before{content:'"';font-size:2.5rem;color:#ccc;position:absolute;top:-5px;left:8px;line-height:1}
+.quote-box .source{display:block;font-style:normal;font-size:.78rem;color:var(--gray);margin-top:.5rem;text-align:right}
+.diagram{background:var(--gray-light);border-radius:var(--radius);padding:1.5rem;margin:1rem 0;overflow:auto}
+.compare-table{width:100%;border-collapse:collapse;font-size:.9rem}
+.compare-table th{background:var(--blue);color:#fff;padding:.7rem 1rem;text-align:left;font-weight:600}
+.compare-table td{padding:.65rem 1rem;border-bottom:1px solid var(--gray-border);vertical-align:top}
+.compare-table tr:last-child td{border:none}
+.compare-table tr:nth-child(even) td{background:#fafafa}
+.method-card{background:#fff;border:2px solid var(--gray-border);border-radius:var(--radius);padding:1.2rem 1.4rem;margin:.6rem 0;transition:border-color .2s}
+.method-card:hover{border-color:var(--blue-mid)}
+.method-card .method-badge{display:inline-block;font-size:.72rem;font-weight:700;padding:2px 10px;border-radius:20px;margin-bottom:.5rem}
+.badge-trad{background:#e8f0fa;color:#1a5fa8}
+.badge-profit{background:#e6f5ee;color:#1a7a4a}
+.method-card h4{font-size:.95rem;font-weight:700;color:var(--text);margin-bottom:.4rem}
+.method-card p{font-size:.88rem;color:var(--text2);margin:0}
+.flow-box{display:flex;align-items:center;flex-wrap:wrap;gap:.5rem;margin:1rem 0}
+.flow-step{background:var(--blue-light);border:1.5px solid var(--blue-mid);border-radius:8px;padding:.5rem .9rem;font-size:.85rem;font-weight:600;color:var(--blue);text-align:center}
+.flow-arrow{font-size:1.2rem;color:var(--blue-mid)}
+.case-box{background:#fff;border:1.5px solid var(--blue-mid);border-radius:var(--radius);padding:1.3rem 1.5rem;margin:1rem 0}
+.case-box .case-label{font-size:.78rem;font-weight:700;color:var(--blue);letter-spacing:.05em;margin-bottom:.5rem}
+.case-box h4{font-size:.95rem;font-weight:700;color:var(--text);margin-bottom:.6rem}
+.quiz-section{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:1.8rem 2rem;margin-bottom:1.5rem}
+.quiz-section h2{font-size:1.15rem;font-weight:700;color:var(--blue);margin-bottom:.4rem}
+.quiz-section .q-count{font-size:.85rem;color:var(--gray);margin-bottom:1.5rem}
+.quiz-item{margin-bottom:1.8rem;padding-bottom:1.5rem;border-bottom:1px solid var(--gray-border)}
+.quiz-item:last-of-type{border:none}
+.quiz-item .q-text{font-size:.97rem;font-weight:600;color:var(--text);margin-bottom:.9rem}
+.quiz-item .q-num{font-size:.78rem;background:var(--blue-light);color:var(--blue);padding:2px 9px;border-radius:20px;margin-right:.5rem;font-weight:700}
+.opt-list{list-style:none;padding:0;display:flex;flex-direction:column;gap:.5rem}
+.opt-list li button{width:100%;text-align:left;padding:.7rem 1rem;border-radius:8px;border:1.5px solid var(--gray-border);background:#fff;font-size:.9rem;cursor:pointer;color:var(--text);transition:all .15s}
+.opt-list li button:hover{border-color:var(--blue-mid);background:var(--blue-light)}
+.opt-list li button.correct{background:var(--green-light);border-color:var(--green);color:var(--green);font-weight:600}
+.opt-list li button.wrong{background:var(--red-light);border-color:var(--red);color:var(--red)}
+.opt-list li button:disabled{cursor:default}
+.q-feedback{margin-top:.7rem;padding:.6rem 1rem;border-radius:8px;font-size:.88rem;display:none}
+.q-feedback.show{display:block}
+.q-feedback.ok{background:var(--green-light);color:var(--green);border:1px solid #a0d8b8}
+.q-feedback.no{background:var(--red-light);color:var(--red);border:1px solid #f5b8b8}
+.checklist{list-style:none;padding:0}
+.checklist li{display:flex;gap:.8rem;align-items:flex-start;padding:.55rem 0;border-bottom:1px solid var(--gray-border);font-size:.92rem}
+.checklist li:last-child{border:none}
+.checklist input[type=checkbox]{width:18px;height:18px;margin-top:2px;cursor:pointer;flex-shrink:0;accent-color:var(--green)}
+.checklist label{cursor:pointer;color:var(--text2)}
+.checklist input:checked+label{color:var(--green);text-decoration:line-through;opacity:.7}
+.nav-btns{display:flex;justify-content:space-between;margin-top:1.5rem}
+.btn{display:inline-flex;align-items:center;gap:.4rem;padding:.7rem 1.5rem;border-radius:8px;font-size:.9rem;font-weight:600;cursor:pointer;border:none;transition:all .15s}
+.btn-primary{background:var(--blue);color:#fff}
+.btn-primary:hover{background:#164d8a}
+.btn-outline{background:#fff;color:var(--blue);border:1.5px solid var(--blue)}
+.btn-outline:hover{background:var(--blue-light)}
+.btn-success{background:var(--green);color:#fff}
+.btn-success:hover{background:#145e38}
+.complete-banner{background:var(--green-light);border:2px solid var(--green);border-radius:var(--radius);padding:1.3rem 1.8rem;text-align:center;display:none;margin-bottom:1.5rem}
+.complete-banner.show{display:block}
+.complete-banner h3{color:var(--green);font-size:1.1rem;margin-bottom:.4rem}
+.complete-banner p{font-size:.9rem;color:#2a6040}
+@media(max-width:720px){.layout{flex-direction:column}.sidebar{width:100%;position:static}.nav-card{position:static}}
+</style>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
+  <script src="tp-firebase.js"></script>
+</head>
+<body>
+<div id="tpLoading" style="position:fixed;top:0;left:0;width:100%;height:100%;background:#1a5fa8;display:flex;align-items:center;justify-content:center;z-index:9999;color:#fff;font-family:'Noto Sans KR',Arial,sans-serif">
+  <div style="text-align:center">
+    <div style="font-size:2.5rem;margin-bottom:.8rem">📚</div>
+    <div style="font-size:1rem;font-weight:600">대주 이전가격 교육</div>
+    <div style="font-size:.82rem;opacity:.75;margin-top:.4rem">로딩 중...</div>
+  </div>
+</div>
+
+<header class="mod-header">
+  <div class="breadcrumb"><a href="index.html" style="color:#fff8">← Chapter II 목록으로</a></div>
+  <h1>Module 1 — 정상가격산출방법의 선택</h1>
+  <div class="sub">§2.1 ~ §2.12 · OECD Transfer Pricing Guidelines Chapter II · Part I</div>
+  <div class="prog-strip"><div class="prog-strip-inner" id="mod-prog" style="width:0%"></div></div>
+  <div style="display:flex;justify-content:flex-end;align-items:center;gap:.7rem;margin-top:.5rem;font-size:.82rem">
+    <span id="topUserName" style="color:rgba(255,255,255,.85)"></span>
+    <button onclick="tpSignOut()" style="background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.35);color:#fff;padding:3px 14px;border-radius:20px;cursor:pointer;font-size:.78rem;font-family:inherit">로그아웃</button>
+  </div>
+</header>
+
+<div class="layout">
+  <!-- 사이드바 -->
+  <aside class="sidebar">
+    <div class="nav-card">
+      <h4>이 모듈 목차</h4>
+      <button class="nav-item active" onclick="showSec('sec-obj',this)">학습 목표</button>
+      <button class="nav-item" onclick="showSec('sec-overview',this)">1. 방법 체계 개요</button>
+      <button class="nav-item" onclick="showSec('sec-select',this)">2. 가장 적합한 방법 선택</button>
+      <button class="nav-item" onclick="showSec('sec-hierarchy',this)">3. 방법 간 우선순위</button>
+      <button class="nav-item" onclick="showSec('sec-multi',this)">4. 복수 방법 사용</button>
+      <button class="nav-item" onclick="showSec('sec-case',this)">5. 적용 사례</button>
+      <button class="nav-item" onclick="showSec('sec-quiz',this)">✏ 자가 퀴즈</button>
+      <button class="nav-item" onclick="showSec('sec-check',this)">☑ 실무 체크리스트</button>
+    </div>
+    <div class="nav-card">
+      <h4>모듈 진도</h4>
+      <div style="font-size:2rem;font-weight:700;color:var(--blue);text-align:center" id="pct-display">0%</div>
+      <div style="font-size:.8rem;color:var(--gray);text-align:center">학습 완료율</div>
+    </div>
+  </aside>
+
+  <!-- 본문 -->
+  <main class="content">
+
+    <!-- 완료 배너 -->
+    <div class="complete-banner" id="complete-banner">
+      <h3>🎉 Module 1 학습 완료!</h3>
+      <p>정상가격산출방법 선택 원칙을 마쳤습니다. Module 2에서 CUP 방법을 학습하세요.</p>
+      <a href="M2-2_CUP.html" class="btn btn-success" style="margin-top:.8rem;display:inline-flex">Module 2 시작하기 →</a>
+    </div>
+
+    <!-- 학습 목표 -->
+    <div class="card" id="sec-obj">
+      <h2>📌 학습 목표</h2>
+      <p style="font-size:.9rem;color:var(--gray);margin-bottom:1rem">이 모듈을 마치면 다음 사항을 설명하고 업무에 적용할 수 있습니다.</p>
+      <ul class="obj-list">
+        <li><div class="obj-num">1</div><span>OECD가 인정하는 5가지 정상가격산출방법(전통적 거래방법 3종, 거래이익방법 2종)을 열거하고 각 방법의 특성을 설명할 수 있다</span></li>
+        <li><div class="obj-num">2</div><span>가장 적합한 방법(Most Appropriate Method) 선택 시 고려해야 할 4가지 기준을 설명할 수 있다</span></li>
+        <li><div class="obj-num">3</div><span>전통적 거래방법이 거래이익방법보다 우선 적용되어야 하는 이유와 CUP가 다른 전통적 방법보다 선호되는 이유를 설명할 수 있다</span></li>
+        <li><div class="obj-num">4</div><span>거래이익방법이 전통적 방법보다 더 적합한 상황을 구체적 사례로 설명할 수 있다</span></li>
+        <li><div class="obj-num">5</div><span>OECD 미인정 방법("Other Methods") 사용 시 충족해야 할 요건을 이해한다</span></li>
+      </ul>
+    </div>
+
+    <!-- 섹션 1: 방법 체계 개요 -->
+    <div class="card" id="sec-overview">
+      <h2>1. 정상가격산출방법 체계 개요</h2>
+      <p>OECD 이전가격지침서 Chapter II는 특수관계거래가 정상가격원칙(ALP)에 부합하는지 판단하기 위해 사용할 수 있는 <strong>5가지 공인 방법</strong>을 제시합니다. 크게 <strong>전통적 거래방법</strong>과 <strong>거래이익방법</strong> 두 범주로 나뉩니다.</p>
+
+      <div class="diagram">
+        <svg viewBox="0 0 620 280" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:620px;display:block;margin:0 auto">
+          <!-- 루트 박스 -->
+          <rect x="200" y="10" width="220" height="50" rx="8" fill="#1a5fa8"/>
+          <text x="310" y="31" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">OECD 정상가격산출방법</text>
+          <text x="310" y="50" text-anchor="middle" font-size="11" fill="#d0e4ff">(5가지 공인 방법)</text>
+          <!-- 분기선 -->
+          <line x1="310" y1="60" x2="310" y2="80" stroke="#aaa" stroke-width="1.5"/>
+          <line x1="155" y1="80" x2="465" y2="80" stroke="#aaa" stroke-width="1.5"/>
+          <line x1="155" y1="80" x2="155" y2="100" stroke="#aaa" stroke-width="1.5"/>
+          <line x1="465" y1="80" x2="465" y2="100" stroke="#aaa" stroke-width="1.5"/>
+          <!-- 전통적 거래방법 -->
+          <rect x="30" y="100" width="250" height="45" rx="8" fill="#e8f0fa" stroke="#3b7dd8" stroke-width="1.5"/>
+          <text x="155" y="119" text-anchor="middle" font-size="12" font-weight="700" fill="#1a5fa8">전통적 거래방법</text>
+          <text x="155" y="136" text-anchor="middle" font-size="10" fill="#555">Traditional Transaction Methods</text>
+          <!-- 전통적 방법 3종 -->
+          <line x1="155" y1="145" x2="155" y2="165" stroke="#aaa" stroke-width="1.5"/>
+          <line x1="65" y1="165" x2="245" y2="165" stroke="#aaa" stroke-width="1.5"/>
+          <line x1="65" y1="165" x2="65" y2="180" stroke="#aaa" stroke-width="1.5"/>
+          <line x1="155" y1="165" x2="155" y2="180" stroke="#aaa" stroke-width="1.5"/>
+          <line x1="245" y1="165" x2="245" y2="180" stroke="#aaa" stroke-width="1.5"/>
+          <rect x="10" y="180" width="110" height="55" rx="8" fill="#fff" stroke="#3b7dd8" stroke-width="1.5"/>
+          <text x="65" y="201" text-anchor="middle" font-size="11" font-weight="700" fill="#1a5fa8">CUP</text>
+          <text x="65" y="217" text-anchor="middle" font-size="9.5" fill="#555">비교가능</text>
+          <text x="65" y="229" text-anchor="middle" font-size="9.5" fill="#555">제3자가격방법</text>
+          <rect x="100" y="180" width="110" height="55" rx="8" fill="#fff" stroke="#3b7dd8" stroke-width="1.5"/>
+          <text x="155" y="201" text-anchor="middle" font-size="11" font-weight="700" fill="#1a5fa8">RPM</text>
+          <text x="155" y="217" text-anchor="middle" font-size="9.5" fill="#555">재판매</text>
+          <text x="155" y="229" text-anchor="middle" font-size="9.5" fill="#555">가격방법</text>
+          <rect x="190" y="180" width="110" height="55" rx="8" fill="#fff" stroke="#3b7dd8" stroke-width="1.5"/>
+          <text x="245" y="201" text-anchor="middle" font-size="11" font-weight="700" fill="#1a5fa8">CPM</text>
+          <text x="245" y="217" text-anchor="middle" font-size="9.5" fill="#555">원가</text>
+          <text x="245" y="229" text-anchor="middle" font-size="9.5" fill="#555">가산방법</text>
+          <!-- 거래이익방법 -->
+          <rect x="340" y="100" width="250" height="45" rx="8" fill="#e6f5ee" stroke="#1a7a4a" stroke-width="1.5"/>
+          <text x="465" y="119" text-anchor="middle" font-size="12" font-weight="700" fill="#1a7a4a">거래이익방법</text>
+          <text x="465" y="136" text-anchor="middle" font-size="10" fill="#555">Transactional Profit Methods</text>
+          <!-- 거래이익 2종 -->
+          <line x1="465" y1="145" x2="465" y2="165" stroke="#aaa" stroke-width="1.5"/>
+          <line x1="390" y1="165" x2="540" y2="165" stroke="#aaa" stroke-width="1.5"/>
+          <line x1="390" y1="165" x2="390" y2="180" stroke="#aaa" stroke-width="1.5"/>
+          <line x1="540" y1="165" x2="540" y2="180" stroke="#aaa" stroke-width="1.5"/>
+          <rect x="335" y="180" width="110" height="55" rx="8" fill="#fff" stroke="#1a7a4a" stroke-width="1.5"/>
+          <text x="390" y="201" text-anchor="middle" font-size="11" font-weight="700" fill="#1a7a4a">TNMM</text>
+          <text x="390" y="217" text-anchor="middle" font-size="9.5" fill="#555">거래순이익률</text>
+          <text x="390" y="229" text-anchor="middle" font-size="9.5" fill="#555">방법</text>
+          <rect x="485" y="180" width="110" height="55" rx="8" fill="#fff" stroke="#1a7a4a" stroke-width="1.5"/>
+          <text x="540" y="201" text-anchor="middle" font-size="11" font-weight="700" fill="#1a7a4a">PSM</text>
+          <text x="540" y="217" text-anchor="middle" font-size="9.5" fill="#555">이익분할</text>
+          <text x="540" y="229" text-anchor="middle" font-size="9.5" fill="#555">방법</text>
+          <!-- CUP 우선 표시 -->
+          <rect x="10" y="248" width="110" height="22" rx="4" fill="#ffd700" opacity=".5"/>
+          <text x="65" y="263" text-anchor="middle" font-size="9" font-weight="700" fill="#7a5a00">최우선 적용</text>
+        </svg>
+        <p style="text-align:center;font-size:.8rem;color:var(--gray);margin-top:.5rem">OECD 정상가격산출방법 체계도 — CUP(★최우선), 전통적방법 ▶ 거래이익방법 순서</p>
+      </div>
+
+      <div class="accordion">
+        <button class="acc-header" onclick="toggleAcc(this)">
+          <span><span class="para">§2.1</span>5가지 방법의 개요</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p>Chapter II의 Part II와 Part III는 각각 <strong>전통적 거래방법(Traditional Transaction Methods)</strong>과 <strong>거래이익방법(Transactional Profit Methods)</strong>을 설명합니다.</p>
+          <p style="margin-top:.6rem"><strong>전통적 거래방법 3종:</strong></p>
+          <ul style="margin:.4rem 0 .4rem 1.2rem;font-size:.9rem;line-height:2">
+            <li>CUP (Comparable Uncontrolled Price Method) — 비교가능 제3자 가격방법</li>
+            <li>RPM (Resale Price Method) — 재판매가격방법</li>
+            <li>CPM (Cost Plus Method) — 원가가산방법</li>
+          </ul>
+          <p style="margin-top:.6rem"><strong>거래이익방법 2종:</strong></p>
+          <ul style="margin:.4rem 0 .4rem 1.2rem;font-size:.9rem;line-height:2">
+            <li>TNMM (Transactional Net Margin Method) — 거래순이익률방법</li>
+            <li>PSM (Transactional Profit Split Method) — 이익분할방법</li>
+          </ul>
+          <div class="key-point">📌 핵심: 이 5가지 방법은 <strong>상호 배타적이 아니며</strong>, 사안의 사실관계에 따라 가장 적합한 방법을 선택해야 합니다.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 섹션 2: 방법 선택 기준 -->
+    <div class="card" id="sec-select">
+      <h2>2. 가장 적합한 방법(Most Appropriate Method) 선택</h2>
+      <p>방법 선택은 항상 <strong>특정 사안에 가장 적합한 방법을 찾는 것</strong>을 목표로 합니다. 이는 단순히 모든 방법을 순서대로 검토하는 것이 아니라, 아래 4가지 기준을 종합적으로 고려하는 과정입니다.</p>
+
+      <div class="accordion">
+        <button class="acc-header" onclick="toggleAcc(this)">
+          <span><span class="para">§2.2</span>방법 선택 4가지 고려 기준</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p>가장 적합한 방법을 선택하는 과정에서 다음 4가지를 고려해야 합니다:</p>
+          <table class="compare-table" style="margin-top:.7rem">
+            <thead>
+              <tr><th>기준</th><th>내용</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>① 각 방법의 강점·약점</strong></td><td>OECD 인정 각 방법의 장단점 비교</td></tr>
+              <tr><td><strong>② 거래 성격 적합성</strong></td><td>기능분석(FAR)을 통해 파악된 거래의 성격에 맞는 방법 선택</td></tr>
+              <tr><td><strong>③ 신뢰할 수 있는 정보 가용성</strong></td><td>비교가능 거래 등 필요 정보의 입수 가능성</td></tr>
+              <tr><td><strong>④ 비교가능성 정도</strong></td><td>특수관계거래와 비교가능거래 간 차이 및 차이조정의 신뢰성</td></tr>
+            </tbody>
+          </table>
+          <div class="key-point">📌 핵심: "어떤 방법도 모든 상황에 적합하지 않다(No one method is suitable in every possible situation)." — 특정 방법이 부적합하다는 것을 먼저 증명할 필요는 없습니다.</div>
+        </div>
+      </div>
+
+      <div class="accordion">
+        <button class="acc-header" onclick="toggleAcc(this)">
+          <span><span class="para">§2.8</span>방법 선택 실무: 모든 방법을 다 검토할 필요 없음</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p>§2.2의 지침("가장 적합한 방법 찾기")이 모든 방법을 심층 분석하거나 테스트해야 한다는 의미는 아닙니다. <strong>실무적으로 가장 적합한 방법 및 비교가능거래 선정 과정을 문서화하는 것으로 충분합니다.</strong></p>
+          <div class="tip-point">💡 실무 팁: Chapter III §3.4에서 제안하는 전형적인 비교가능거래 검색 프로세스의 일환으로 방법 선정 근거를 문서에 포함하세요.</div>
+        </div>
+      </div>
+
+      <div class="accordion">
+        <button class="acc-header" onclick="toggleAcc(this)">
+          <span><span class="para">§2.9</span>OECD 미인정 방법("Other Methods") 사용</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p>다국적기업 그룹은 OECD 미인정 방법을 사용하여 가격을 결정할 자유를 보유합니다. 단, 다음 조건이 충족되어야 합니다:</p>
+          <ul style="margin:.5rem 0 .5rem 1.2rem;font-size:.9rem;line-height:2">
+            <li>해당 가격이 ALP에 부합해야 함</li>
+            <li>OECD 인정 방법이 해당 사안에 더 적합한 경우 미인정 방법을 사용할 수 없음</li>
+            <li>OECD 인정 방법이 적합하지 않다는 이유와 미인정 방법이 더 나은 해법인 이유를 설명해야 함</li>
+          </ul>
+          <div class="warn-point">⚠ 주의: 데이터 접근 어려움만으로는 거래이익방법이나 미인정 방법 적용을 정당화할 수 없습니다. 동일한 §2.2 기준이 다시 적용됩니다(§2.5).</div>
+        </div>
+      </div>
+
+      <div class="accordion">
+        <button class="acc-header" onclick="toggleAcc(this)">
+          <span><span class="para">§2.10–2.11</span>일반 경험칙과 세무조사관의 조정 한계</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p><strong>§2.10</strong> — 일반적인 경험칙(Rule of Thumb)은 Chapter I–III의 완전한 기능·비교가능성 분석을 대체할 수 없습니다. 경험칙만으로는 가격 또는 소득 배분이 정상가격 기준을 충족한다는 증거가 되지 않습니다.</p>
+          <p style="margin-top:.6rem"><strong>§2.11</strong> — 모든 경우를 포괄하는 구체적 규칙 제공은 불가능합니다. 세무당국은 사소하거나 한계적인 조정을 주저해야 합니다. 다소 비교가능성 기준을 완전히 충족하지 못하더라도 유용한 정보(예: 완전히 동일하지 않은 제3자 거래)는 활용할 수 있습니다.</p>
+          <div class="key-point">📌 핵심: 정상가격 분석은 엄격한 기계적 적용이 아닌 <strong>합리적 판단과 실용적 접근</strong>이 요구됩니다.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 섹션 3: 방법 간 우선순위 -->
+    <div class="card" id="sec-hierarchy">
+      <h2>3. 방법 간 우선순위 (§2.3–2.7)</h2>
+      <p>OECD는 방법 간 명시적 위계(hierarchy)를 규정하되, <strong>이는 절대적이 아닌 조건부 우선순위</strong>입니다. 동등하게 신뢰할 수 있는 방법이 여럿인 경우에만 우선순위가 적용됩니다.</p>
+
+      <div class="flow-box">
+        <div class="flow-step">① 전통적 거래방법<br><small>vs. 거래이익방법</small></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step" style="background:#e6f5ee;border-color:#1a7a4a;color:#1a7a4a">동등 신뢰성 시<br>전통적 방법 우선</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">② CUP<br><small>vs. 기타 전통적 방법</small></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step" style="background:#e6f5ee;border-color:#1a7a4a;color:#1a7a4a">동등 신뢰성 시<br>CUP 우선</div>
+      </div>
+
+      <div class="accordion">
+        <button class="acc-header" onclick="toggleAcc(this)">
+          <span><span class="para">§2.3</span>전통적 거래방법이 선호되는 이유</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p>전통적 거래방법은 <strong>가장 직접적인 방법</strong>입니다. 특수관계거래의 가격과 비교가능한 비관계자 거래의 가격 간 차이를 통해 ALP 위반 여부를 직접 파악하고, 비교가능거래 가격으로 대체함으로써 정상가격 조건을 확립할 수 있기 때문입니다.</p>
+          <div class="key-point">📌 조건: "동등하게 신뢰할 수 있는(equally reliable manner)" 경우에만 전통적 방법이 우선합니다. 비교가능거래를 찾기 어려운 상황에서 전통적 방법 적용을 억지로 강요할 수 없습니다.</div>
+        </div>
+      </div>
+
+      <div class="accordion">
+        <button class="acc-header" onclick="toggleAcc(this)">
+          <span><span class="para">§2.4</span>거래이익방법이 더 적합한 상황</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p>다음의 경우 거래이익방법(특히 PSM)이 전통적 방법보다 더 적합할 수 있습니다:</p>
+          <ul style="margin:.5rem 0 .5rem 1.2rem;font-size:.9rem;line-height:2">
+            <li>거래 양 당사자가 <strong>고유하고 가치 있는 기여(unique and valuable contributions)</strong>를 하는 경우</li>
+            <li>당사자들이 <strong>고도로 통합된 사업(highly integrated operations)</strong>을 영위하는 경우</li>
+            <li>신뢰할 수 있는 공개 총이익정보(gross margin information)가 없는 경우</li>
+          </ul>
+          <div class="tip-point">💡 실무 팁: 이익분할방법(PSM)이 적합한 상황은 Chapter II Module 7에서 자세히 다룹니다.</div>
+        </div>
+      </div>
+
+      <div class="accordion">
+        <button class="acc-header" onclick="toggleAcc(this)">
+          <span><span class="para">§2.6–2.7</span>Article 9와의 양립성, 과세의 한계</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p><strong>§2.6</strong> — 이익 기반 방법은 OECD 모델협약 제9조와 양립하는 범위 내에서만 인정됩니다. 이는 이익 기반 방법을 정상가격에 근사하도록 적용함으로써 달성됩니다.</p>
+          <p style="margin-top:.6rem"><strong>§2.7</strong> — 거래이익방법은 평균 이하의 이익을 내는 기업을 <strong>과세해서는 안 되고</strong>, 평균 이상의 이익을 내는 기업을 <strong>과세 경감해서도 안 됩니다</strong>. 사업적 성공 또는 실패가 상업적 요인에 기인하는 경우 ALP 상 추가 조정 근거가 없습니다.</p>
+          <div class="warn-point">⚠ 중요: 평균 이하 이익 = 이전가격 조작이 아닙니다. 사업적 이유가 있는 경우 ALP 위반이 아닙니다.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 섹션 4: 복수 방법 사용 -->
+    <div class="card" id="sec-multi">
+      <h2>4. 복수 방법 사용 (§2.12)</h2>
+
+      <div class="accordion">
+        <button class="acc-header" onclick="toggleAcc(this)">
+          <span><span class="para">§2.12</span>단일 방법 원칙 및 복수 방법의 허용 범위</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p>ALP는 하나의 거래(또는 적절히 통합된 거래 세트)에 <strong>둘 이상의 방법 적용을 요구하지 않습니다.</strong> 여러 방법에 지나치게 의존하면 납세자에게 상당한 부담이 될 수 있습니다.</p>
+          <p style="margin-top:.6rem">그러나 어려운 사안(difficult cases)에서 단일 방법이 결정적이지 않은 경우, <strong>유연한 접근(flexible approach)</strong>으로 여러 방법의 증거를 결합하여 사용할 수 있습니다.</p>
+          <div class="key-point">📌 핵심 원칙:<br>
+          • 일반적으로 → 단일 방법으로 최선의 정상가격 추정 가능<br>
+          • 복수 방법 사용 시 → 모든 당사자에게 실용적으로 만족스럽고 ALP에 부합하는 결론 도출 목표<br>
+          • 복수 방법으로 범위(range)가 도출된 경우 → §3.58-3.59 참조</div>
+        </div>
+      </div>
+
+      <table class="compare-table" style="margin-top:1rem">
+        <thead>
+          <tr><th>구분</th><th>원칙</th><th>예외</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>방법 수</strong></td><td>1개 방법으로 충분</td><td>어려운 사안에서 복수 방법 활용 가능</td></tr>
+          <tr><td><strong>의무 여부</strong></td><td>납세자·세무당국 모두 복수 방법 분석 의무 없음</td><td>단, 복수 분석 결과도 고려할 수 있음</td></tr>
+          <tr><td><strong>근거 문서화</strong></td><td>선정된 방법의 근거 문서화 필요</td><td>—</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 섹션 5: 적용 사례 -->
+    <div class="card" id="sec-case">
+      <h2>5. 방법 선택 적용 사례</h2>
+
+      <div class="case-box">
+        <div class="case-label">CASE 1</div>
+        <h4>제조업체 A사 — 완제품 판매 거래</h4>
+        <p>A사(한국)가 관계사 B사(미국)에 동종 제품을 제3자 C사(일본)에게도 판매하는 상황.</p>
+        <p style="margin-top:.5rem"><strong>방법 선택:</strong> 제3자 C사와의 거래(내부 비교가능거래)가 존재하므로 <strong>CUP 방법</strong>이 가장 직접적이고 신뢰성 높은 방법으로 선택됩니다.</p>
+        <div class="key-point" style="margin-top:.5rem">📌 §2.3 & §2.15 — 내부 비교가능거래가 있으면 CUP가 모든 방법에 우선합니다.</div>
+      </div>
+
+      <div class="case-box" style="border-color:#1a7a4a">
+        <div class="case-label" style="color:#1a7a4a">CASE 2</div>
+        <h4>소프트웨어 기업 D사 — 고유 IP 라이선싱</h4>
+        <p>D사(독일)가 개발한 고유 특허 소프트웨어를 관계사 E사(싱가포르)에 라이선스하는 상황. 비교가능한 제3자 라이선스 거래 데이터 없음.</p>
+        <p style="margin-top:.5rem"><strong>방법 선택:</strong> 양사 모두 고유하고 가치 있는 기여를 하고, 비교가능거래가 없으므로 <strong>이익분할방법(PSM)</strong>이 가장 적합한 방법으로 선택됩니다.</p>
+        <div class="key-point" style="margin-top:.5rem;background:var(--green-light);border-color:var(--green);color:#2a5a30">📌 §2.4 — 고유·가치 있는 기여 + 비교가능거래 없음 = PSM 적합 상황</div>
+      </div>
+
+      <div class="case-box" style="border-color:#c06000">
+        <div class="case-label" style="color:#c06000">CASE 3</div>
+        <h4>유통업체 F사 — 총이익정보 부재</h4>
+        <p>F사(중국)가 관계사 G사(한국)로부터 수입한 제품을 현지 시장에 재판매. 신뢰할 수 있는 공개 총이익정보가 없음.</p>
+        <p style="margin-top:.5rem"><strong>방법 선택:</strong> RPM 적용을 위한 외부 비교가능거래의 총이익정보 부재 → <strong>TNMM</strong>이 가장 현실적인 대안.</p>
+        <div class="warn-point" style="margin-top:.5rem">⚠ §2.4 & §2.5 — 정보 부재만으로 TNMM 선택이 자동 정당화되지는 않으며, §2.2 기준 재검토 필요.</div>
+      </div>
+    </div>
+
+    <!-- 퀴즈 -->
+    <div class="quiz-section" id="sec-quiz">
+      <h2>✏ 자가 퀴즈</h2>
+      <p class="q-count">총 4문제 · 정답 확인 후 다음 섹션으로 진행하세요</p>
+
+      <div class="quiz-item">
+        <div class="q-text"><span class="q-num">Q1</span>OECD 이전가격지침서가 인정하는 전통적 거래방법(Traditional Transaction Methods)으로 올바르게 묶인 것은?</div>
+        <ul class="opt-list">
+          <li><button onclick="answerQ(this,'wrong','정답은 CUP, RPM, CPM입니다. TNMM과 PSM은 거래이익방법입니다.')">① CUP, TNMM, CPM</button></li>
+          <li><button onclick="answerQ(this,'correct','정확합니다! CUP(비교가능 제3자 가격), RPM(재판매가격), CPM(원가가산)이 전통적 거래방법 3종입니다.')">② CUP, RPM, CPM</button></li>
+          <li><button onclick="answerQ(this,'wrong','정답은 CUP, RPM, CPM입니다. PSM은 거래이익방법입니다.')">③ CUP, RPM, PSM</button></li>
+          <li><button onclick="answerQ(this,'wrong','정답은 CUP, RPM, CPM입니다. TNMM과 PSM은 거래이익방법입니다.')">④ TNMM, PSM, CUP</button></li>
+        </ul>
+        <div class="q-feedback" id="fb1"></div>
+      </div>
+
+      <div class="quiz-item">
+        <div class="q-text"><span class="q-num">Q2</span>§2.2에 따른 방법 선택 시 고려해야 할 기준이 아닌 것은?</div>
+        <ul class="opt-list">
+          <li><button onclick="answerQ(this,'wrong','방법의 강점·약점은 §2.2 기준 중 하나입니다.')">① 각 방법의 강점과 약점</button></li>
+          <li><button onclick="answerQ(this,'wrong','거래 성격 적합성은 §2.2 기준 중 하나입니다.')">② 기능분석을 통한 거래 성격 적합성</button></li>
+          <li><button onclick="answerQ(this,'correct','납세자 편의성은 §2.2 기준에 포함되지 않습니다. 올바른 4가지 기준은: ①강점·약점 ②거래 성격 ③정보 가용성 ④비교가능성 정도입니다.')">③ 납세자의 계산 편의성</button></li>
+          <li><button onclick="answerQ(this,'wrong','비교가능성 정도는 §2.2 기준 중 하나입니다.')">④ 특수관계거래와 비교가능거래 간 비교가능성 정도</button></li>
+        </ul>
+        <div class="q-feedback" id="fb2"></div>
+      </div>
+
+      <div class="quiz-item">
+        <div class="q-text"><span class="q-num">Q3</span>§2.3에 따르면, 동등하게 신뢰할 수 있는 경우 전통적 거래방법이 거래이익방법보다 선호되는 이유로 가장 적절한 것은?</div>
+        <ul class="opt-list">
+          <li><button onclick="answerQ(this,'wrong','전통적 방법이 계산이 더 간단하다는 것은 선호 이유가 아닙니다.')">① 전통적 방법이 계산이 더 단순하기 때문에</button></li>
+          <li><button onclick="answerQ(this,'correct','정확합니다! 전통적 방법은 특수관계거래와 독립거래 간 가격 차이를 직접 추적할 수 있어 ALP 조건을 더 직접적으로 확립할 수 있습니다.')">② 특수관계거래와 독립거래 간 가격 차이를 직접 추적하여 ALP 조건을 더 직접적으로 확립할 수 있기 때문에</button></li>
+          <li><button onclick="answerQ(this,'wrong','OECD가 선호를 권고한다는 것만으로는 이유가 되지 않습니다.')">③ OECD가 전통적 방법을 항상 강제하기 때문에</button></li>
+          <li><button onclick="answerQ(this,'wrong','비교가능거래 이용 가능성은 이유가 아닙니다.')">④ 전통적 방법에서는 비교가능거래를 항상 쉽게 찾을 수 있기 때문에</button></li>
+        </ul>
+        <div class="q-feedback" id="fb3"></div>
+      </div>
+
+      <div class="quiz-item">
+        <div class="q-text"><span class="q-num">Q4</span>§2.12에 따른 복수 방법 사용에 관한 설명 중 옳은 것은?</div>
+        <ul class="opt-list">
+          <li><button onclick="answerQ(this,'wrong','OECD는 복수 방법 사용을 의무화하지 않습니다.')">① OECD는 모든 사안에서 최소 2가지 방법을 적용하도록 의무화한다</button></li>
+          <li><button onclick="answerQ(this,'wrong','정보 부재가 복수 방법 적용 의무를 발생시키지 않습니다.')">② 비교가능거래 정보가 없으면 반드시 복수 방법을 사용해야 한다</button></li>
+          <li><button onclick="answerQ(this,'correct','정확합니다! ALP는 단일 거래에 복수 방법을 요구하지 않으며, 일반적으로 하나의 방법이 최선의 추정치를 제공합니다. 단, 어려운 사안에서는 복수 방법의 증거를 결합 활용할 수 있습니다.')">③ ALP는 복수 방법 적용을 요구하지 않으며, 일반적으로 단일 방법이 최선의 추정치를 제공한다</button></li>
+          <li><button onclick="answerQ(this,'wrong','TNMM과 PSM을 항상 함께 사용해야 한다는 규정은 없습니다.')">④ TNMM과 PSM은 항상 함께 사용해야 한다</button></li>
+        </ul>
+        <div class="q-feedback" id="fb4"></div>
+      </div>
+    </div>
+
+    <!-- 체크리스트 -->
+    <div class="card" id="sec-check">
+      <h2>☑ 실무 체크리스트 — 방법 선택</h2>
+      <p style="font-size:.88rem;color:var(--gray);margin-bottom:1rem">방법 선택 문서 작성 시 확인사항</p>
+      <ul class="checklist">
+        <li><input type="checkbox" id="c1" onchange="saveCheck()"><label for="c1">거래의 정확한 구분(Accurate Delineation) 및 기능분석(FAR) 완료 여부 확인</label></li>
+        <li><input type="checkbox" id="c2" onchange="saveCheck()"><label for="c2">5가지 OECD 인정 방법 각각의 적용 가능성을 §2.2 기준에 따라 검토하고 문서화</label></li>
+        <li><input type="checkbox" id="c3" onchange="saveCheck()"><label for="c3">내부 비교가능거래(Internal Comparable) 존재 여부 우선 확인 (CUP 적용 가능성)</label></li>
+        <li><input type="checkbox" id="c4" onchange="saveCheck()"><label for="c4">선정된 방법이 가장 적합한 이유 및 기타 방법이 부적합한 이유 명시</label></li>
+        <li><input type="checkbox" id="c5" onchange="saveCheck()"><label for="c5">OECD 미인정 방법 사용 시 → OECD 인정 방법 부적합 이유 및 미인정 방법이 더 나은 해법인 이유 기술</label></li>
+        <li><input type="checkbox" id="c6" onchange="saveCheck()"><label for="c6">방법 선택 근거를 TP 문서(Local File)의 기능분석·비교가능성 분석과 연계하여 기재</label></li>
+      </ul>
+      <div class="nav-btns" style="margin-top:1.5rem">
+        <a href="index.html" class="btn btn-outline">← Chapter II 목록</a>
+        <a href="M2-2_CUP.html" class="btn btn-primary">Module 2: CUP →</a>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+var MODKEY='ch2_m1';
+var sections=['sec-obj','sec-overview','sec-select','sec-hierarchy','sec-multi','sec-case','sec-quiz','sec-check'];
+var current='sec-obj';
+
+function showSec(id,btn){
+  sections.forEach(function(s){
+    var el=document.getElementById(s);
+    if(el) el.style.display='none';
+  });
+  var target=document.getElementById(id);
+  if(target) target.style.display='block';
+  document.querySelectorAll('.nav-item').forEach(function(b){b.classList.remove('active')});
+  if(btn) btn.classList.add('active');
+  current=id;
+  // progress
+  var idx=sections.indexOf(id);
+  var pct=Math.round((idx+1)/sections.length*100);
+  var existing=parseInt(tpGet(MODKEY+'_pct')||'0');
+  if(pct>existing){
+    tpSet(MODKEY+'_pct',pct);
+    updateProgress(pct);
+  }
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function updateProgress(pct){
+  document.getElementById('mod-prog').style.width=pct+'%';
+  document.getElementById('pct-display').textContent=pct+'%';
+  if(pct===100) document.getElementById('complete-banner').classList.add('show');
+}
+
+function answerQ(btn,type,msg){
+  var item=btn.closest('.quiz-item');
+  item.querySelectorAll('button').forEach(function(b){
+    b.disabled=true;
+    b.classList.remove('correct','wrong');
+  });
+  btn.classList.add(type);
+  var fbId='fb'+item.querySelector('.q-num').textContent.replace('Q','');
+  var fb=document.getElementById(fbId);
+  if(fb){fb.textContent=msg;fb.className='q-feedback show '+(type==='correct'?'ok':'no');}
+  // update progress on quiz completion
+  var allDone=true;
+  document.querySelectorAll('.quiz-item').forEach(function(qi){
+    if(!qi.querySelector('button:disabled')) allDone=false;
+  });
+  if(allDone){
+    var pct=Math.max(parseInt(tpGet(MODKEY+'_pct')||'0'),80);
+    tpSet(MODKEY+'_pct',pct);
+    updateProgress(pct);
+  }
+}
+
+function saveCheck(){
+  var checks='';
+  for(var i=1;i<=6;i++){
+    var cb=document.getElementById('c'+i);
+    checks+=(cb&&cb.checked)?'1':'0';
+  }
+  tpSet(MODKEY+'_checks',checks);
+  var cnt=checks.split('').filter(function(c){return c==='1';}).length;
+  if(cnt===6){
+    tpSet(MODKEY+'_pct',100);
+    updateProgress(100);
+  }
+}
+
+function toggleAcc(btn){
+  var body=btn.nextElementSibling;
+  var isOpen=body.classList.contains('open');
+  body.classList.toggle('open');
+  btn.classList.toggle('open');
+  if(!isOpen){
+    var opened=parseInt(tpGet(MODKEY+'_opened')||'0')+1;
+    tpSet(MODKEY+'_opened',opened);
+    var pct=Math.min(50,opened*7);
+    var existing=parseInt(tpGet(MODKEY+'_pct')||'0');
+    if(pct>existing){tpSet(MODKEY+'_pct',pct);updateProgress(pct);}
+  }
+}
+
+// 초기화: 첫 섹션만 표시
+sections.forEach(function(s){
+  var el=document.getElementById(s);
+  if(el) el.style.display='none';
+});
+document.getElementById('sec-obj').style.display='block';
+
+tpOnReady(function(user){
+  document.getElementById('tpLoading').style.display='none';
+  document.getElementById('topUserName').textContent=user.displayName||user.email;
+  var pct=parseInt(tpGet(MODKEY+'_pct')||'0');
+  updateProgress(pct);
+  var checks=tpGet(MODKEY+'_checks')||'';
+  for(var i=0;i<checks.length;i++){
+    if(checks[i]==='1'&&document.getElementById('c'+(i+1))){
+      document.getElementById('c'+(i+1)).checked=true;
+    }
+  }
+  if(pct===100) document.getElementById('complete-banner').classList.add('show');
+});
+</script>
+</body>
+</html>

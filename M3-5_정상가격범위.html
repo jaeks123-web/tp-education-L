@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M3-5 정상가격범위 & 극단값 처리 — OECD 이전가격 지침서</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:#1a5fa8;--blue-light:#e8f0fa;--blue-mid:#3b7dd8;
+  --green:#1a7a4a;--green-light:#e6f5ee;
+  --orange:#c06000;--orange-light:#fff3e0;
+  --red:#b02020;--red-light:#fdecea;
+  --teal:#0f7a7a;--teal-light:#e0f5f5;--teal-mid:#1a9a9a;
+  --purple:#6a1fa8;--purple-light:#f3e8fa;
+  --gray:#555;--gray-light:#f5f5f5;--gray-border:#ddd;
+  --text:#222;--text2:#555;--white:#fff;
+  --radius:10px;--shadow:0 2px 8px rgba(0,0,0,.10);
+}
+body{font-family:'Noto Sans KR',Arial,sans-serif;background:#f0f4f8;color:var(--text);line-height:1.7;font-size:16px}
+a{color:var(--teal);text-decoration:none}
+.layout{display:flex;min-height:100vh}
+.sidebar{width:220px;background:var(--teal);color:#fff;padding:1.2rem 0;position:sticky;top:0;height:100vh;overflow-y:auto;flex-shrink:0}
+.sidebar h2{font-size:.82rem;padding:0 1rem .8rem;opacity:.75;letter-spacing:.06em;text-transform:uppercase;border-bottom:1px solid rgba(255,255,255,.15);margin-bottom:.5rem}
+.sidebar a{display:block;padding:.5rem 1rem;font-size:.85rem;color:rgba(255,255,255,.85);border-left:3px solid transparent;transition:all .15s}
+.sidebar a:hover,.sidebar a.active{background:rgba(255,255,255,.12);border-left-color:#fff;color:#fff}
+.sidebar .ch-label{padding:.5rem 1rem;font-size:.72rem;opacity:.55;text-transform:uppercase;letter-spacing:.05em;margin-top:.8rem}
+.content{flex:1;padding:0;overflow:hidden}
+.mod-header{background:var(--teal);color:#fff;padding:1.5rem 2rem 1.2rem;border-bottom:3px solid var(--teal-mid)}
+.mod-header .breadcrumb{font-size:.78rem;opacity:.75;margin-bottom:.4rem}
+.mod-header h1{font-size:1.4rem;font-weight:700;margin-bottom:.3rem}
+.mod-header p{font-size:.9rem;opacity:.85}
+.user-bar{display:flex;justify-content:flex-end;align-items:center;gap:.7rem;margin-top:.7rem;font-size:.82rem}
+.user-bar span{opacity:.85}
+.user-bar button{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.35);color:#fff;padding:3px 14px;border-radius:20px;cursor:pointer;font-size:.78rem;font-family:inherit}
+.progress-bar-wrap{background:rgba(255,255,255,.2);border-radius:99px;height:6px;margin-top:.8rem}
+.progress-bar-inner{height:100%;background:#fff;border-radius:99px;transition:width .5s}
+.progress-label{display:flex;justify-content:space-between;font-size:.75rem;opacity:.8;margin-top:.3rem}
+.main-content{max-width:820px;margin:0 auto;padding:2rem 2rem 4rem}
+.section-box{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:1.5rem;overflow:hidden}
+.section-box .sec-header{padding:1.2rem 1.5rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center;background:var(--teal-light);border-bottom:1px solid #c5e8e8}
+.section-box .sec-header h2{font-size:1rem;font-weight:700;color:var(--teal)}
+.section-box .sec-header .toggle-icon{color:var(--teal);font-size:1.1rem;transition:transform .25s}
+.section-box .sec-body{padding:1.5rem;display:none}
+.section-box.open .sec-body{display:block}
+.section-box.open .toggle-icon{transform:rotate(180deg)}
+.card{background:var(--gray-light);border-radius:8px;padding:1rem 1.2rem;margin-bottom:1rem;border-left:4px solid var(--teal)}
+.card h3{font-size:.95rem;font-weight:700;color:var(--teal);margin-bottom:.5rem}
+.card p,.card li{font-size:.9rem;color:var(--text2);line-height:1.7}
+.card ul,.card ol{padding-left:1.2rem;margin-top:.3rem}
+.card li{margin-bottom:.25rem}
+.card.orange{border-left-color:var(--orange);background:var(--orange-light)}
+.card.orange h3{color:var(--orange)}
+.card.green{border-left-color:var(--green);background:var(--green-light)}
+.card.green h3{color:var(--green)}
+.card.red{border-left-color:var(--red);background:var(--red-light)}
+.card.red h3{color:var(--red)}
+.card.purple{border-left-color:var(--purple);background:var(--purple-light)}
+.card.purple h3{color:var(--purple)}
+.card.blue{border-left-color:var(--blue);background:var(--blue-light)}
+.card.blue h3{color:var(--blue)}
+.tip-point{background:var(--teal-light);border:1px solid #9ad8d8;border-radius:8px;padding:.8rem 1rem;margin:.8rem 0;font-size:.88rem;color:#0a5a5a}
+.tip-point::before{content:'💡 ';font-style:normal}
+.para-ref{display:inline-block;font-size:.75rem;color:var(--teal);background:var(--teal-light);padding:1px 8px;border-radius:20px;margin-left:6px;vertical-align:middle}
+.quiz-section{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:1.5rem;padding:1.5rem}
+.quiz-section h2{font-size:1rem;font-weight:700;color:var(--teal);margin-bottom:1.2rem;padding-bottom:.5rem;border-bottom:2px solid var(--teal-light)}
+.quiz-item{margin-bottom:1.2rem;padding:1rem;background:var(--gray-light);border-radius:8px}
+.quiz-item p{font-size:.92rem;font-weight:600;margin-bottom:.7rem}
+.quiz-item label{display:flex;align-items:flex-start;gap:.5rem;font-size:.88rem;margin-bottom:.4rem;cursor:pointer;padding:.3rem .5rem;border-radius:6px;transition:background .1s}
+.quiz-item label:hover{background:#e8e8e8}
+.quiz-item label.correct{background:var(--green-light);color:var(--green);font-weight:600}
+.quiz-item label.wrong{background:var(--red-light);color:var(--red)}
+.quiz-explain{margin-top:.7rem;font-size:.85rem;background:var(--teal-light);border-left:3px solid var(--teal);padding:.6rem .9rem;border-radius:0 6px 6px 0;display:none}
+.checklist{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:1.5rem;padding:1.5rem}
+.checklist h2{font-size:1rem;font-weight:700;color:var(--teal);margin-bottom:1rem;padding-bottom:.5rem;border-bottom:2px solid var(--teal-light)}
+.check-item{display:flex;align-items:flex-start;gap:.8rem;padding:.7rem .5rem;border-bottom:1px solid var(--gray-border);font-size:.9rem}
+.check-item:last-child{border-bottom:none}
+.check-item input[type=checkbox]{margin-top:.2rem;width:16px;height:16px;accent-color:var(--teal);cursor:pointer;flex-shrink:0}
+.check-item label{cursor:pointer;color:var(--text2);line-height:1.5}
+.check-item input:checked + label{color:var(--green);text-decoration:line-through;opacity:.7}
+.complete-banner{background:linear-gradient(135deg,var(--teal),var(--teal-mid));color:#fff;border-radius:var(--radius);padding:1.5rem 2rem;margin-bottom:1.5rem;text-align:center;display:none}
+.complete-banner.show{display:block}
+.complete-banner h3{font-size:1.2rem;margin-bottom:.4rem}
+.complete-banner p{font-size:.9rem;opacity:.9}
+.complete-banner a{display:inline-block;margin-top:.8rem;background:#fff;color:var(--teal);padding:.5rem 1.5rem;border-radius:8px;font-weight:700;font-size:.9rem}
+.nav-btn{display:inline-flex;align-items:center;gap:.4rem;padding:.5rem 1.2rem;border-radius:8px;font-size:.85rem;font-weight:600;cursor:pointer;text-decoration:none;transition:all .15s}
+.nav-prev{background:#fff;color:var(--teal);border:1.5px solid var(--teal)}
+.nav-prev:hover{background:var(--teal-light)}
+.nav-next{background:var(--teal);color:#fff;border:none}
+.nav-next:hover{background:var(--teal-mid)}
+.nav-row{display:flex;justify-content:space-between;align-items:center;margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--gray-border)}
+svg{max-width:100%;height:auto}
+table{width:100%;border-collapse:collapse;font-size:.88rem;margin:.8rem 0}
+th{background:var(--teal);color:#fff;padding:.6rem .8rem;text-align:left}
+td{padding:.55rem .8rem;border-bottom:1px solid var(--gray-border)}
+tr:nth-child(even) td{background:var(--teal-light)}
+</style>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
+  <script src="tp-firebase.js"></script>
+</head>
+<body>
+<div id="tpLoading" style="position:fixed;top:0;left:0;width:100%;height:100%;background:#0f7a7a;display:flex;align-items:center;justify-content:center;z-index:9999;color:#fff;font-family:'Noto Sans KR',Arial,sans-serif">
+  <div style="text-align:center">
+    <div style="font-size:2.5rem;margin-bottom:.8rem">📚</div>
+    <div style="font-size:1rem;font-weight:600">대주 이전가격 교육</div>
+    <div style="font-size:.82rem;opacity:.75;margin-top:.4rem">로딩 중...</div>
+  </div>
+</div>
+<div class="layout">
+  <nav class="sidebar">
+    <h2>Chapter III</h2>
+    <div class="ch-label">M3-5 목차</div>
+    <a href="#" id="nav0">학습 목표</a>
+    <a href="#" id="nav1">단일 정상가격 vs 범위 §3.55–3.59</a>
+    <a href="#" id="nav2">범위 내 최적점 선정 §3.60–3.62</a>
+    <a href="#" id="nav3">극단값: 손실 회사 처리 §3.63–3.65</a>
+    <a href="#" id="nav4">극단값: 고이익 회사 처리 §3.66</a>
+    <a href="#" id="nav5">자가 퀴즈</a>
+    <a href="#" id="nav6">실무 체크리스트</a>
+    <div class="ch-label" style="margin-top:1.2rem">다른 모듈</div>
+    <a href="index_ch3.html">Chapter III 목차</a>
+    <a href="M3-4_비교가능회사선정.html">← M3-4</a>
+    <a href="M3-6_시간적비교가능성.html">M3-6 →</a>
+  </nav>
+  <div class="content">
+    <div class="mod-header">
+      <div class="breadcrumb">기초과정 · Chapter III · Module 5</div>
+      <h1>정상가격범위 &amp; 극단값 처리</h1>
+      <p>Arm's Length Range · Extreme Results — §3.55–§3.66</p>
+      <div class="user-bar">
+        <span id="topUserName"></span>
+        <button onclick="tpSignOut()">로그아웃</button>
+      </div>
+      <div class="progress-bar-wrap">
+        <div class="progress-bar-inner" id="prog-bar" style="width:0%"></div>
+      </div>
+      <div class="progress-label">
+        <span>학습 진도</span>
+        <span id="prog-pct">0%</span>
+      </div>
+    </div>
+    <div class="main-content">
+
+      <div class="complete-banner" id="complete-banner">
+        <h3>🎉 Module 3-5 완료!</h3>
+        <p>정상가격범위(IQR)와 극단값 처리 기준을 마스터했습니다.</p>
+        <a href="M3-6_시간적비교가능성.html">다음: M3-6 시간적 비교가능성 →</a>
+      </div>
+
+      <!-- SECTION 0: 학습 목표 -->
+      <div id="sec-obj" class="section-box open">
+        <div class="sec-header" onclick="toggleAcc('sec-obj')">
+          <h2>📋 학습 목표</h2>
+          <span class="toggle-icon">▼</span>
+        </div>
+        <div class="sec-body">
+          <div class="card">
+            <h3>이 모듈에서 배울 내용</h3>
+            <ul>
+              <li><strong>단일 정상가격</strong>과 <strong>정상가격범위(Arm's Length Range)</strong>의 차이 및 IQR 방법의 의미 <span class="para-ref">§3.55–3.59</span></li>
+              <li>납세자의 결과가 범위 내에 있을 때 세무 당국의 <strong>조정 불필요 원칙</strong> <span class="para-ref">§3.59</span></li>
+              <li>범위 내 <strong>최적점 선정 기준</strong> — 중위값(Median), 평균값, 가중평균값 <span class="para-ref">§3.60–3.62</span></li>
+              <li>비교가능회사의 <strong>상당한 손실</strong> 처리와 계속적 손실의 비교가능성 문제 <span class="para-ref">§3.63–3.65</span></li>
+              <li>비교가능회사의 <strong>상당한 고이익</strong> 처리 — 무형자산 원인 확인 <span class="para-ref">§3.66</span></li>
+            </ul>
+          </div>
+          <div class="tip-point">이 모듈은 실제 이전가격 분석에서 "정상가격범위를 어떻게 설정하고, 이상치(극단값)를 어떻게 처리하는가"라는 핵심 실무 판단을 다룹니다.</div>
+        </div>
+      </div>
+
+      <!-- SECTION 1: 단일 정상가격 vs 범위 -->
+      <div id="sec-range" class="section-box open">
+        <div class="sec-header" onclick="toggleAcc('sec-range')">
+          <h2>📊 단일 정상가격 vs 정상가격범위 <span class="para-ref">§3.55–3.59</span></h2>
+          <span class="toggle-icon">▼</span>
+        </div>
+        <div class="sec-body">
+          <div class="card">
+            <h3>§3.55/3.59 정상가격범위의 기본 개념</h3>
+            <p>이전가격 분석에서 <strong>단일 정상가격(single arm's length price)</strong>보다 <strong>정상가격범위(arm's length range)</strong>를 사용하는 것이 더 일반적이다.</p>
+            <ul style="margin-top:.5rem">
+              <li><strong>완전히 비교가능한 거래</strong>만으로 범위가 구성된 경우 → 범위 내 모든 점이 정상가격으로 인정</li>
+              <li><strong>비교가능성 차이가 남아 있는 경우</strong> → 통계적 방법으로 범위를 좁혀 신뢰성을 높임</li>
+              <li><strong>가장 일반적 방법</strong>: 사분위 범위(IQR) — 하위 25%와 상위 25% 제거 후 중간 50% 범위 사용</li>
+            </ul>
+          </div>
+          <div class="card green">
+            <h3>§3.57/3.59 조정 여부 판단</h3>
+            <ul>
+              <li><strong>§3.57</strong>: 납세자의 결과가 정상가격범위 <em>밖</em>에 있을 때 → 과세당국이 과세소득 조정을 제안할 수 있다</li>
+              <li><strong>§3.59</strong>: 납세자의 결과가 정상가격범위 <em>내</em>에 있다면 → <strong>일반적으로 조정은 불필요하다</strong></li>
+            </ul>
+          </div>
+
+          <!-- SVG: 정상가격범위(IQR) 시각화 -->
+          <svg viewBox="0 0 680 230" xmlns="http://www.w3.org/2000/svg" style="margin:1rem 0;border-radius:8px">
+            <defs>
+              <marker id="arrowT" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#555"/></marker>
+              <marker id="arrowRed" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#b02020"/></marker>
+              <marker id="arrowGreen" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#1a7a4a"/></marker>
+            </defs>
+            <rect width="680" height="230" fill="#f0fafa" rx="10"/>
+            <text x="340" y="24" text-anchor="middle" font-size="13" font-weight="bold" fill="#0f7a7a">정상가격범위(Arm's Length Range) — IQR 시각화</text>
+
+            <!-- 전체 범위 선 -->
+            <line x1="60" y1="100" x2="620" y2="100" stroke="#aaa" stroke-width="2"/>
+            <!-- 전체 범위 양끝 수직선 -->
+            <line x1="60" y1="88" x2="60" y2="112" stroke="#aaa" stroke-width="2"/>
+            <line x1="620" y1="88" x2="620" y2="112" stroke="#aaa" stroke-width="2"/>
+            <text x="60" y="130" text-anchor="middle" font-size="10" fill="#888">최솟값</text>
+            <text x="620" y="130" text-anchor="middle" font-size="10" fill="#888">최댓값</text>
+
+            <!-- IQR 박스 (25%~75%) -->
+            <rect x="200" y="80" width="280" height="40" rx="4" fill="#0f7a7a" opacity=".18" stroke="#0f7a7a" stroke-width="2"/>
+            <text x="200" y="73" text-anchor="middle" font-size="10" fill="#0f7a7a" font-weight="bold">Q1 (25%)</text>
+            <text x="480" y="73" text-anchor="middle" font-size="10" fill="#0f7a7a" font-weight="bold">Q3 (75%)</text>
+            <line x1="200" y1="80" x2="200" y2="120" stroke="#0f7a7a" stroke-width="2"/>
+            <line x1="480" y1="80" x2="480" y2="120" stroke="#0f7a7a" stroke-width="2"/>
+
+            <!-- 중위값 선 -->
+            <line x1="340" y1="76" x2="340" y2="124" stroke="#c06000" stroke-width="2.5" stroke-dasharray="4,2"/>
+            <text x="340" y="70" text-anchor="middle" font-size="10" fill="#c06000" font-weight="bold">중위값 (Median)</text>
+
+            <!-- IQR 레이블 -->
+            <text x="340" y="105" text-anchor="middle" font-size="11" fill="#0f7a7a" font-weight="bold">IQR (사분위 범위)</text>
+            <text x="340" y="118" text-anchor="middle" font-size="10" fill="#0a5a5a">중간 50% — 정상가격범위</text>
+
+            <!-- 납세자 결과 A: 범위 내 -->
+            <circle cx="390" cy="100" r="7" fill="#1a7a4a"/>
+            <text x="390" y="148" text-anchor="middle" font-size="10" fill="#1a7a4a" font-weight="bold">납세자 A</text>
+            <text x="390" y="160" text-anchor="middle" font-size="9" fill="#1a7a4a">(범위 내 → 조정 불필요)</text>
+
+            <!-- 납세자 결과 B: 범위 밖 (왼쪽) -->
+            <circle cx="100" cy="100" r="7" fill="#b02020"/>
+            <text x="100" y="148" text-anchor="middle" font-size="10" fill="#b02020" font-weight="bold">납세자 B</text>
+            <text x="100" y="160" text-anchor="middle" font-size="9" fill="#b02020">(범위 밖 → 조정 대상)</text>
+
+            <!-- 납세자 결과 C: 범위 밖 (오른쪽) -->
+            <circle cx="570" cy="100" r="7" fill="#b02020"/>
+            <text x="570" y="148" text-anchor="middle" font-size="10" fill="#b02020" font-weight="bold">납세자 C</text>
+            <text x="570" y="160" text-anchor="middle" font-size="9" fill="#b02020">(범위 밖 → 조정 대상)</text>
+
+            <!-- 하단 레이블 -->
+            <rect x="60" y="185" width="560" height="32" rx="6" fill="#0f7a7a" opacity=".09" stroke="#0f7a7a" stroke-width="1"/>
+            <text x="340" y="200" text-anchor="middle" font-size="11" fill="#0f7a7a" font-weight="bold">IQR = 하위 25%(Q1) ~ 상위 25%(Q3) 제거 → 나머지 중간 50%가 정상가격범위</text>
+            <text x="340" y="213" text-anchor="middle" font-size="10" fill="#555">비교가능성 차이가 남아 있을 때 IQR 적용으로 범위의 신뢰성을 높임</text>
+          </svg>
+
+          <div class="tip-point">IQR(Interquartile Range)은 비교가능성이 완전하지 않은 비교가능회사 데이터에서 극단값의 영향을 줄이기 위해 사용하는 통계적 방법이다. 완전히 비교가능한 데이터만 있다면 범위 내 모든 점이 정상가격으로 인정된다.</div>
+
+          <table>
+            <tr><th>구분</th><th>조건</th><th>효과</th></tr>
+            <tr><td>완전 비교가능 범위</td><td>비교가능성 차이 없음</td><td>범위 내 모든 점 정상가격 인정</td></tr>
+            <tr><td>IQR 적용 범위</td><td>비교가능성 차이 잔존</td><td>하위·상위 25% 제거 → 범위 좁힘</td></tr>
+            <tr><td>범위 내 납세자 결과</td><td>§3.59</td><td>일반적으로 조정 불필요</td></tr>
+            <tr><td>범위 밖 납세자 결과</td><td>§3.57</td><td>과세당국 조정 제안 가능</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <!-- SECTION 2: 범위 내 최적점 선정 -->
+      <div id="sec-point" class="section-box open">
+        <div class="sec-header" onclick="toggleAcc('sec-point')">
+          <h2>🎯 범위 내 최적점 선정 <span class="para-ref">§3.60–3.62</span></h2>
+          <span class="toggle-icon">▼</span>
+        </div>
+        <div class="sec-body">
+          <div class="card">
+            <h3>§3.60/3.61 최적점 선정 기준</h3>
+            <p>납세자의 결과가 정상가격범위 밖에 있어 조정이 필요할 때, 범위 내 어느 지점으로 조정할 것인지를 결정해야 한다.</p>
+            <ul style="margin-top:.5rem">
+              <li><strong>IQR(사분위 범위)으로 설정된 경우</strong> → <strong>중위값(Median)</strong>을 사용할 수 있다</li>
+              <li><strong>그 외의 경우</strong> → 평균값(Mean) 또는 가중평균값(Weighted Average) 등을 사용할 수 있다</li>
+              <li><strong>특정 지점이 더 신뢰할 수 있는 경우</strong> → 해당 지점을 사용한다</li>
+            </ul>
+          </div>
+          <div class="card orange">
+            <h3>§3.62 최저값 조정 원칙</h3>
+            <p><strong>어떤 특정 값도 가장 신뢰할 수 없을 때</strong> — 즉 범위 내 어느 지점도 다른 지점보다 특별히 더 신뢰할 수 없는 경우:</p>
+            <ul style="margin-top:.4rem">
+              <li>납세자의 결과가 범위 밖에 있고, 범위 내 최저값이 정상가격에 가장 가깝다면 → <strong>범위 내 최저값으로 조정</strong></li>
+              <li>다만 중위값이 일반적으로 사용되는 기준점이 됨</li>
+            </ul>
+          </div>
+
+          <!-- SVG: 최적점 선정 시나리오 -->
+          <svg viewBox="0 0 680 200" xmlns="http://www.w3.org/2000/svg" style="margin:1rem 0;border-radius:8px">
+            <defs>
+              <marker id="arrowDown" markerWidth="8" markerHeight="8" refX="3" refY="6" orient="auto"><path d="M0,0 L6,0 L3,8 z" fill="#0f7a7a"/></marker>
+              <marker id="arrowDownO" markerWidth="8" markerHeight="8" refX="3" refY="6" orient="auto"><path d="M0,0 L6,0 L3,8 z" fill="#c06000"/></marker>
+            </defs>
+            <rect width="680" height="200" fill="#f0fafa" rx="10"/>
+            <text x="340" y="22" text-anchor="middle" font-size="13" font-weight="bold" fill="#0f7a7a">§3.60–3.62 최적점 선정 시나리오</text>
+
+            <!-- 범위 선 -->
+            <line x1="80" y1="80" x2="580" y2="80" stroke="#aaa" stroke-width="1.5"/>
+            <!-- IQR 박스 -->
+            <rect x="200" y="65" width="220" height="30" rx="4" fill="#0f7a7a" opacity=".15" stroke="#0f7a7a" stroke-width="1.5"/>
+            <text x="80" y="97" text-anchor="middle" font-size="9" fill="#888">최솟값</text>
+            <text x="580" y="97" text-anchor="middle" font-size="9" fill="#888">최댓값</text>
+            <text x="200" y="60" text-anchor="middle" font-size="9" fill="#0f7a7a">Q1</text>
+            <text x="420" y="60" text-anchor="middle" font-size="9" fill="#0f7a7a">Q3</text>
+
+            <!-- 중위값 -->
+            <line x1="310" y1="62" x2="310" y2="98" stroke="#c06000" stroke-width="2" stroke-dasharray="3,2"/>
+            <text x="310" y="56" text-anchor="middle" font-size="9" fill="#c06000" font-weight="bold">중위값</text>
+
+            <!-- 시나리오 1: 범위 밖 → 중위값 조정 -->
+            <circle cx="540" cy="80" r="6" fill="#b02020"/>
+            <text x="540" y="118" text-anchor="middle" font-size="9" fill="#b02020">납세자 결과</text>
+            <text x="540" y="129" text-anchor="middle" font-size="9" fill="#b02020">(범위 밖)</text>
+            <line x1="534" y1="80" x2="316" y2="80" stroke="#b02020" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrowRed2)"/>
+            <defs><marker id="arrowRed2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#b02020"/></marker></defs>
+            <text x="430" y="72" text-anchor="middle" font-size="9" fill="#b02020">중위값으로 조정 →</text>
+
+            <!-- 시나리오 2: 범위 내 특정 지점 신뢰 → 해당 지점 사용 -->
+            <circle cx="260" cy="80" r="6" fill="#1a7a4a"/>
+            <text x="260" y="140" text-anchor="middle" font-size="9" fill="#1a7a4a">신뢰할 수 있는</text>
+            <text x="260" y="151" text-anchor="middle" font-size="9" fill="#1a7a4a">특정 지점</text>
+            <text x="260" y="162" text-anchor="middle" font-size="9" fill="#1a7a4a">→ 해당 지점 사용</text>
+
+            <!-- 하단 요약 -->
+            <rect x="60" y="170" width="560" height="22" rx="5" fill="#0f7a7a" opacity=".09"/>
+            <text x="340" y="184" text-anchor="middle" font-size="10" fill="#0f7a7a" font-weight="bold">조정 기준: 특정 지점 신뢰 → 해당 지점 | IQR 범위 → 중위값 | 불확실 → 범위 내 최저값</text>
+          </svg>
+
+          <div class="tip-point">실무에서는 IQR 범위 내 중위값(Median)이 가장 일반적인 조정 기준점이다. 단, 특정 비교가능거래가 피검증거래와 더 유사하다면 해당 데이터 포인트를 우선 사용해야 한다.</div>
+        </div>
+      </div>
+
+      <!-- SECTION 3: 극단값 - 손실 회사 처리 -->
+      <div id="sec-loss" class="section-box open">
+        <div class="sec-header" onclick="toggleAcc('sec-loss')">
+          <h2>📉 극단적 결과: 손실 회사 처리 <span class="para-ref">§3.63–3.65</span></h2>
+          <span class="toggle-icon">▼</span>
+        </div>
+        <div class="sec-body">
+          <div class="card">
+            <h3>§3.63 상당한 손실 실현 회사 처리</h3>
+            <p>정상가격범위 내에 <strong>상당한 손실을 실현하는 비교가능회사</strong>가 포함된 경우:</p>
+            <ul style="margin-top:.5rem">
+              <li>해당 회사의 거래가 <strong>정상가격 조건하에 이루어졌다는 근거가 있다면</strong> → 범위에 포함 가능</li>
+              <li>단, 분석 시 해당 회사의 <strong>손실 원인을 반드시 검토</strong>해야 함</li>
+              <li>사업전략적 손실(신시장 진입 등)과 비효율에 의한 손실을 구별해야 함</li>
+            </ul>
+          </div>
+          <div class="card orange">
+            <h3>§3.64 단기 손실 vs 계속적 손실</h3>
+            <p>독립기업도 단기적 손실은 겪을 수 있다. 그러나 계속적 손실을 기록하는 기업은 비교가능성에 의문이 제기된다.</p>
+            <ul style="margin-top:.4rem">
+              <li><strong>단기 손실</strong>: 시장 진입·경기 침체 등의 사유 → 허용 가능</li>
+              <li><strong>계속적 손실</strong>: 독립기업이라면 사업을 중단했을 상황 → 비교가능성 의문 제기</li>
+            </ul>
+          </div>
+          <div class="card red">
+            <h3>§3.65 계속적 손실 회사의 비교가능성 한계</h3>
+            <p>계속적 손실 회사가 <strong>특수관계거래를 하지 않는 독립기업</strong>이라면 사업을 중단할 것이다.</p>
+            <ul style="margin-top:.4rem">
+              <li>지속 가능하지 않은 사업 상황 = 비교가능성 문제</li>
+              <li>비교가능성 결정은 <strong>사안별로 판단</strong>해야 함</li>
+              <li>손실의 성격(사업전략적 손실 vs 비효율에 의한 손실)을 구별해야 함</li>
+            </ul>
+          </div>
+
+          <!-- SVG: 극단값(손실/이익) 처리 시각화 -->
+          <svg viewBox="0 0 680 240" xmlns="http://www.w3.org/2000/svg" style="margin:1rem 0;border-radius:8px">
+            <defs>
+              <marker id="arrowB" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#555"/></marker>
+            </defs>
+            <rect width="680" height="240" fill="#f0fafa" rx="10"/>
+            <text x="340" y="22" text-anchor="middle" font-size="13" font-weight="bold" fill="#0f7a7a">극단값(손실·고이익 회사) 처리 방식</text>
+
+            <!-- 축: 이익률 -->
+            <text x="50" y="48" text-anchor="middle" font-size="10" fill="#888">이익률</text>
+            <line x1="60" y1="55" x2="60" y2="185" stroke="#aaa" stroke-width="1.5" marker-end="url(#arrowB)"/>
+            <text x="37" y="80" text-anchor="end" font-size="9" fill="#1a7a4a">+고이익</text>
+            <line x1="55" y1="80" x2="620" y2="80" stroke="#ddd" stroke-width="1" stroke-dasharray="3,2"/>
+            <text x="37" y="130" text-anchor="end" font-size="9" fill="#555">0%</text>
+            <line x1="55" y1="130" x2="620" y2="130" stroke="#ddd" stroke-width="1.5"/>
+            <text x="37" y="170" text-anchor="end" font-size="9" fill="#b02020">-손실</text>
+            <line x1="55" y1="170" x2="620" y2="170" stroke="#ddd" stroke-width="1" stroke-dasharray="3,2"/>
+
+            <!-- IQR 박스 -->
+            <rect x="180" y="92" width="260" height="70" rx="4" fill="#0f7a7a" opacity=".12" stroke="#0f7a7a" stroke-width="2"/>
+            <text x="310" y="132" text-anchor="middle" font-size="11" fill="#0f7a7a" font-weight="bold">IQR 정상가격범위</text>
+            <text x="310" y="147" text-anchor="middle" font-size="10" fill="#0a5a5a">비교가능회사 중간 50%</text>
+
+            <!-- 고이익 회사 -->
+            <circle cx="420" cy="72" r="7" fill="#c06000" opacity=".85"/>
+            <text x="490" y="72" font-size="9" fill="#c06000">고이익 회사 (§3.66)</text>
+            <text x="490" y="83" font-size="9" fill="#c06000">→ 무형자산/특수지위 원인? 확인 필요</text>
+
+            <!-- 손실 회사 (단기) -->
+            <circle cx="290" cy="172" r="7" fill="#1a5fa8" opacity=".85"/>
+            <text x="310" y="185" text-anchor="middle" font-size="9" fill="#1a5fa8">단기손실 (§3.63)</text>
+            <text x="310" y="196" text-anchor="middle" font-size="9" fill="#1a5fa8">→ 원인 확인 후 포함 가능</text>
+
+            <!-- 계속적 손실 회사 -->
+            <circle cx="140" cy="178" r="7" fill="#b02020" opacity=".85"/>
+            <text x="90" y="200" text-anchor="middle" font-size="9" fill="#b02020">계속적 손실 (§3.64/3.65)</text>
+            <text x="90" y="211" text-anchor="middle" font-size="9" fill="#b02020">→ 비교가능성 의문</text>
+            <text x="90" y="222" text-anchor="middle" font-size="9" fill="#b02020">제거 검토</text>
+
+            <!-- 범례 -->
+            <rect x="480" y="155" width="160" height="72" rx="5" fill="#fff" stroke="#ddd" stroke-width="1"/>
+            <text x="560" y="172" text-anchor="middle" font-size="10" fill="#555" font-weight="bold">범례</text>
+            <circle cx="495" cy="184" r="5" fill="#0f7a7a" opacity=".5"/>
+            <text x="505" y="188" font-size="9" fill="#555">IQR 정상가격범위</text>
+            <circle cx="495" cy="198" r="5" fill="#b02020"/>
+            <text x="505" y="202" font-size="9" fill="#555">제거 검토 대상</text>
+            <circle cx="495" cy="212" r="5" fill="#1a5fa8"/>
+            <text x="505" y="216" font-size="9" fill="#555">원인 확인 후 판단</text>
+          </svg>
+
+          <div class="tip-point">손실 비교가능회사 포함 여부는 단순히 손실 여부가 아니라 손실의 원인과 지속성을 기준으로 판단해야 한다. 사업전략상 일시적 손실은 독립기업에서도 관찰될 수 있다.</div>
+
+          <table>
+            <tr><th>손실 유형</th><th>OECD 입장</th><th>비고</th></tr>
+            <tr><td>단기 손실 (사업전략적)</td><td>비교가능성 허용 가능 (§3.63)</td><td>원인 검토 필수</td></tr>
+            <tr><td>계속적 손실</td><td>비교가능성 의문 제기 (§3.64/3.65)</td><td>사안별 판단</td></tr>
+            <tr><td>지속 불가능한 사업 상황</td><td>비교가능성 부정 가능 (§3.65)</td><td>독립기업이라면 사업 중단</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <!-- SECTION 4: 극단값 - 고이익 회사 처리 -->
+      <div id="sec-profit" class="section-box open">
+        <div class="sec-header" onclick="toggleAcc('sec-profit')">
+          <h2>📈 극단적 결과: 고이익 회사 처리 <span class="para-ref">§3.66</span></h2>
+          <span class="toggle-icon">▼</span>
+        </div>
+        <div class="sec-body">
+          <div class="card">
+            <h3>§3.66 상당한 이익 실현 회사 처리</h3>
+            <p>정상가격범위 내에 <strong>상당히 높은 이익을 실현하는 비교가능회사</strong>가 포함된 경우:</p>
+            <ul style="margin-top:.5rem">
+              <li>해당 회사의 고이익이 <strong>시장 조건을 반영하는 것이라면</strong> → 범위에 포함 가능</li>
+              <li>고이익의 원인이 <strong>가치 있는 무형자산</strong>이나 <strong>특수한 시장 지위</strong>에서 기인한다면 → 비교가능성 의문 제기</li>
+            </ul>
+          </div>
+          <div class="card orange">
+            <h3>고이익 회사 비교가능성 검토 포인트</h3>
+            <ul>
+              <li><strong>무형자산 보유 여부</strong>: 특허, 브랜드, 노하우 등 가치 있는 무형자산이 고이익의 원인인가?</li>
+              <li><strong>시장 지위</strong>: 독과점적 지위, 진입장벽 등 특수한 시장 구조가 원인인가?</li>
+              <li><strong>비교가능성 5대 요소</strong>: 재화·서비스 특성, 기능분석, 계약조건, 경제 상황, 사업전략 비교</li>
+            </ul>
+          </div>
+          <div class="card green">
+            <h3>고이익 vs 손실: 처리 원칙 비교</h3>
+            <table style="margin:.5rem 0 0">
+              <tr><th>구분</th><th>원인이 시장 반영</th><th>원인이 특수요소</th></tr>
+              <tr><td>고이익 회사 (§3.66)</td><td>범위 포함 가능</td><td>비교가능성 의문 → 제거 검토</td></tr>
+              <tr><td>손실 회사 (§3.63)</td><td>원인 확인 후 포함 가능</td><td>계속적 손실 → 비교가능성 의문</td></tr>
+            </table>
+          </div>
+          <div class="tip-point">고이익 회사와 손실 회사 모두 동일한 원칙이 적용된다 — 극단적 결과의 원인이 무엇인지 파악하고, 그 원인이 피검증거래의 비교가능성과 일치하는지를 판단해야 한다.</div>
+        </div>
+      </div>
+
+      <!-- SECTION 5: 자가 퀴즈 -->
+      <div id="sec-quiz" class="quiz-section">
+        <h2>✏️ 자가 퀴즈</h2>
+
+        <div class="quiz-item">
+          <p>Q1. 정상가격범위에서 IQR(사분위 범위) 사용의 의미는?</p>
+          <label><input type="radio" name="q1" value="a"> A. 범위 내 모든 비교가능 결과를 그대로 사용하는 방법이다</label>
+          <label><input type="radio" name="q1" value="b"> B. 하위 25%와 상위 25%를 제거하여 중간 50%의 비교가능 결과로 범위를 좁히는 방법이다</label>
+          <label><input type="radio" name="q1" value="c"> C. 평균값을 구하기 위해 상위 50%만 사용하는 방법이다</label>
+          <label><input type="radio" name="q1" value="d"> D. 단일 정상가격을 결정하기 위한 방법이다</label>
+          <div class="quiz-explain" id="exp1">§3.55/3.59: IQR(Interquartile Range)은 하위 25%(Q1)와 상위 25%(Q3)를 제거하고 중간 50%의 비교가능 결과만으로 범위를 구성하는 통계적 방법이다. 비교가능성 차이가 완전히 제거되지 않은 경우 이 방법으로 범위의 신뢰성을 높인다.</div>
+        </div>
+
+        <div class="quiz-item">
+          <p>Q2. 납세자의 결과가 정상가격범위 내에 있을 때 세무 당국의 조정 여부는?</p>
+          <label><input type="radio" name="q2" value="a"> A. 항상 조정이 필요하다</label>
+          <label><input type="radio" name="q2" value="b"> B. 중위값으로 반드시 조정해야 한다</label>
+          <label><input type="radio" name="q2" value="c"> C. 일반적으로 조정이 불필요하다</label>
+          <label><input type="radio" name="q2" value="d"> D. 납세자가 선택한 지점으로 조정한다</label>
+          <div class="quiz-explain" id="exp2">§3.59: 납세자의 결과가 정상가격범위 내에 있다면 일반적으로 조정은 불필요하다. 과세당국은 납세자의 결과가 범위 밖에 있을 때만 조정을 제안할 수 있다(§3.57).</div>
+        </div>
+
+        <div class="quiz-item">
+          <p>Q3. 범위 내 어떤 특정 지점도 더 신뢰할 수 없을 때 조정 기준은? (§3.60/3.62)</p>
+          <label><input type="radio" name="q3" value="a"> A. 범위의 최솟값으로 조정한다</label>
+          <label><input type="radio" name="q3" value="b"> B. 범위의 중위값(Median)이 일반적 기준이다</label>
+          <label><input type="radio" name="q3" value="c"> C. 납세자가 원하는 지점을 선택할 수 있다</label>
+          <label><input type="radio" name="q3" value="d"> D. 조정 자체를 할 수 없다</label>
+          <div class="quiz-explain" id="exp3">§3.60/3.62: 범위 내 어떤 특정 지점도 더 신뢰할 수 없을 때 중위값(Median)이 일반적인 조정 기준점이다. 단, 특정 지점이 더 신뢰할 수 있다면 해당 지점을 사용하고, IQR 적용 시에는 중위값, 그 외에는 평균값이나 가중평균값도 사용할 수 있다.</div>
+        </div>
+
+        <div class="quiz-item">
+          <p>Q4. 비교가능회사가 계속적으로 손실을 기록하는 경우 비교가능성에 대한 OECD의 입장은?</p>
+          <label><input type="radio" name="q4" value="a"> A. 계속적 손실 회사도 항상 비교가능회사로 포함해야 한다</label>
+          <label><input type="radio" name="q4" value="b"> B. 단기 손실은 허용 가능하나, 계속적 손실은 비교가능성에 의문을 제기해야 한다</label>
+          <label><input type="radio" name="q4" value="c"> C. 손실 규모에 관계없이 모든 손실 회사를 제거해야 한다</label>
+          <label><input type="radio" name="q4" value="d"> D. 세무당국이 임의로 손실 회사를 포함하거나 제거할 수 있다</label>
+          <div class="quiz-explain" id="exp4">§3.64/3.65: 독립기업도 단기적 손실은 겪을 수 있으므로 단기 손실은 허용 가능하다. 그러나 계속적으로 손실을 기록하는 기업은 독립기업이라면 사업을 중단했을 것이므로 비교가능성에 의문이 제기된다. 비교가능성 결정은 사안별로 판단해야 하며, 손실의 성격(사업전략적 손실 vs 비효율)을 구별해야 한다.</div>
+        </div>
+      </div>
+
+      <!-- SECTION 6: 실무 체크리스트 -->
+      <div id="sec-check" class="checklist">
+        <h2>✅ 실무 체크리스트</h2>
+        <div class="check-item"><input type="checkbox" id="c1" onchange="saveCheck()"><label for="c1">단일 정상가격과 정상가격범위의 차이, IQR 방법의 의미를 이해했다 (§3.55/3.59)</label></div>
+        <div class="check-item"><input type="checkbox" id="c2" onchange="saveCheck()"><label for="c2">정상가격범위 내에서 최적점 선정 기준(중위값/평균값)을 설명할 수 있다 (§3.60/3.62)</label></div>
+        <div class="check-item"><input type="checkbox" id="c3" onchange="saveCheck()"><label for="c3">납세자의 결과가 정상가격범위 내에 있을 때 조정이 불필요함을 확인했다 (§3.59)</label></div>
+        <div class="check-item"><input type="checkbox" id="c4" onchange="saveCheck()"><label for="c4">상당한 손실을 실현하는 비교가능회사의 포함 여부 판단 기준을 이해했다 (§3.63)</label></div>
+        <div class="check-item"><input type="checkbox" id="c5" onchange="saveCheck()"><label for="c5">계속적 손실 회사의 비교가능성 문제 — 사업 지속 불가능성 판단을 파악했다 (§3.64/3.65)</label></div>
+        <div class="check-item"><input type="checkbox" id="c6" onchange="saveCheck()"><label for="c6">상당한 이익 실현 회사의 비교가능성 검토 기준(무형자산 원인 확인)을 이해했다 (§3.66)</label></div>
+      </div>
+
+      <div class="nav-row">
+        <a href="M3-4_비교가능회사선정.html" class="nav-btn nav-prev">← M3-4: 비교가능회사 선정</a>
+        <a href="M3-6_시간적비교가능성.html" class="nav-btn nav-next">M3-6: 시간적 비교가능성 →</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+var MODKEY='ch3_m5';
+var sections=['sec-obj','sec-range','sec-point','sec-loss','sec-profit','sec-quiz','sec-check'];
+var quizAnswers={q1:'b',q2:'c',q3:'b',q4:'b'};
+var quizDone={};
+
+function toggleAcc(id){
+  var el=document.getElementById(id);
+  if(el)el.classList.toggle('open');
+}
+function updateProgress(pct){
+  document.getElementById('prog-bar').style.width=pct+'%';
+  document.getElementById('prog-pct').textContent=pct+'%';
+  tpSet(MODKEY+'_pct',String(pct));
+  if(pct===100)document.getElementById('complete-banner').classList.add('show');
+}
+function answerQ(name,val,correct,expId){
+  document.querySelectorAll('input[name='+name+']').forEach(function(inp){
+    inp.disabled=true;
+    var lbl=inp.parentElement;
+    if(inp.value===correct)lbl.classList.add('correct');
+    else if(inp.value===val)lbl.classList.add('wrong');
+  });
+  document.getElementById(expId).style.display='block';
+  quizDone[name]=true;
+  if(Object.keys(quizDone).length===4)updateProgress(100);
+}
+document.querySelectorAll('.quiz-item input[type=radio]').forEach(function(inp){
+  inp.addEventListener('change',function(){
+    var name=this.name,val=this.value,correct=quizAnswers[name],idx=name.replace('q','');
+    answerQ(name,val,correct,'exp'+idx);
+  });
+});
+function saveCheck(){
+  var s='';
+  for(var i=1;i<=6;i++){var el=document.getElementById('c'+i);s+=el&&el.checked?'1':'0';}
+  tpSet(MODKEY+'_checks',s);
+  var done=s.split('').filter(function(c){return c==='1';}).length;
+  updateProgress(Math.round(done/6*100));
+}
+sections.forEach(function(id,i){
+  var el=document.getElementById(id);
+  if(el){el.style.display='block';el.classList.add('open');}
+  var nav=document.getElementById('nav'+i);
+  if(nav)nav.addEventListener('click',function(e){
+    e.preventDefault();
+    var box=document.getElementById(sections[i]);
+    if(box){box.classList.add('open');box.scrollIntoView({behavior:'smooth',block:'start'});}
+    document.querySelectorAll('.sidebar a').forEach(function(a){a.classList.remove('active');});
+    this.classList.add('active');
+  });
+});
+tpOnReady(function(user){
+  document.getElementById('tpLoading').style.display='none';
+  document.getElementById('topUserName').textContent=user.displayName||user.email;
+  var pct=parseInt(tpGet(MODKEY+'_pct')||'0');
+  updateProgress(pct);
+  var checks=tpGet(MODKEY+'_checks')||'';
+  for(var i=0;i<checks.length;i++){var el=document.getElementById('c'+(i+1));if(checks[i]==='1'&&el)el.checked=true;}
+  if(pct===100)document.getElementById('complete-banner').classList.add('show');
+});
+</script>
+</body>
+</html>

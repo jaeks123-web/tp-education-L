@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>M2-8: 이익분할방법 심화 및 거래이익방법 결론 | Chapter II 기초과정</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:#1a5fa8;--blue-light:#e8f0fa;--blue-mid:#3b7dd8;
+  --green:#1a7a4a;--green-light:#e6f5ee;
+  --orange:#c06000;--orange-light:#fff3e0;
+  --red:#b02020;--red-light:#fdecea;
+  --purple:#6b21a8;--purple-light:#f3e8ff;
+  --gray:#555;--gray-light:#f5f5f5;--gray-border:#ddd;
+  --text:#222;--text2:#555;--white:#fff;
+  --radius:10px;--shadow:0 2px 8px rgba(0,0,0,.10);
+}
+body{font-family:'Noto Sans KR',Arial,sans-serif;background:#f0f4f8;color:var(--text);line-height:1.75;font-size:16px}
+a{color:var(--blue);text-decoration:none}
+.mod-header{background:linear-gradient(135deg,#1a5fa8 0%,#2d7dd2 100%);color:#fff;padding:1.5rem 2rem}
+.mod-header .breadcrumb{font-size:.8rem;opacity:.7;margin-bottom:.4rem}
+.mod-header h1{font-size:1.4rem;font-weight:700}
+.mod-header .sub{font-size:.9rem;opacity:.8;margin-top:.3rem}
+.prog-strip{background:rgba(255,255,255,.15);height:6px;margin-top:1rem;border-radius:99px;overflow:hidden}
+.prog-strip-inner{height:100%;background:#fff;border-radius:99px;transition:width .4s}
+.layout{display:flex;max-width:1100px;margin:0 auto;padding:2rem 1.5rem 4rem;gap:1.5rem}
+.sidebar{width:220px;flex-shrink:0}
+.content{flex:1;min-width:0}
+.nav-card{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:1.2rem;margin-bottom:1rem;position:sticky;top:1rem}
+.nav-card h4{font-size:.85rem;color:var(--gray);margin-bottom:.8rem;letter-spacing:.04em}
+.nav-item{display:block;padding:.45rem .75rem;border-radius:6px;font-size:.85rem;color:var(--text2);margin-bottom:3px;cursor:pointer;border:none;width:100%;text-align:left;background:none;transition:background .12s}
+.nav-item:hover{background:var(--blue-light);color:var(--blue)}
+.nav-item.active{background:var(--blue);color:#fff;font-weight:600}
+.card{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:1.8rem 2rem;margin-bottom:1.5rem}
+.card h2{font-size:1.15rem;font-weight:700;color:var(--blue);margin-bottom:1rem;padding-bottom:.6rem;border-bottom:2px solid var(--blue-light)}
+.card h3{font-size:1rem;font-weight:700;color:var(--text);margin:.8rem 0 .4rem}
+.card p{font-size:.95rem;color:var(--text2);margin-bottom:.7rem}
+.obj-list{list-style:none;padding:0}
+.obj-list li{display:flex;gap:.7rem;align-items:flex-start;padding:.5rem 0;border-bottom:1px solid var(--gray-border);font-size:.93rem}
+.obj-list li:last-child{border:none}
+.obj-num{background:var(--blue);color:#fff;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;flex-shrink:0;margin-top:2px}
+.accordion{border:1px solid var(--gray-border);border-radius:var(--radius);overflow:hidden;margin-bottom:1rem}
+.acc-header{display:flex;justify-content:space-between;align-items:center;padding:.9rem 1.2rem;cursor:pointer;background:var(--gray-light);font-weight:600;font-size:.95rem;border:none;width:100%;text-align:left;transition:background .12s}
+.acc-header:hover{background:#ebebeb}
+.acc-header .para{font-size:.78rem;color:var(--blue);background:var(--blue-light);padding:2px 8px;border-radius:20px;margin-right:.6rem}
+.acc-header .arrow{font-size:1rem;color:var(--gray);transition:transform .2s}
+.acc-body{display:none;padding:1.1rem 1.3rem;background:#fff;font-size:.93rem;color:var(--text2);line-height:1.8;border-top:1px solid var(--gray-border)}
+.acc-body.open{display:block}
+.acc-header.open .arrow{transform:rotate(180deg)}
+.key-point{background:var(--blue-light);border-left:4px solid var(--blue);padding:.7rem 1rem;border-radius:0 6px 6px 0;margin:.8rem 0;font-size:.9rem;color:#1a3a6a}
+.warn-point{background:var(--orange-light);border-left:4px solid var(--orange);padding:.7rem 1rem;border-radius:0 6px 6px 0;margin:.8rem 0;font-size:.9rem;color:#6b3a00}
+.tip-point{background:var(--purple-light);border-left:4px solid var(--purple);padding:.7rem 1rem;border-radius:0 6px 6px 0;margin:.8rem 0;font-size:.9rem;color:#4a1272}
+.quote-box{background:#fafafa;border:1px solid #ddd;border-radius:8px;padding:1rem 1.2rem;margin:.8rem 0;font-style:italic;font-size:.88rem;color:#444;position:relative}
+.quote-box::before{content:'"';font-size:2.5rem;color:#ccc;position:absolute;top:-5px;left:8px;line-height:1}
+.quote-box .source{display:block;font-style:normal;font-size:.78rem;color:var(--gray);margin-top:.5rem;text-align:right}
+.diagram{background:var(--gray-light);border-radius:var(--radius);padding:1.5rem;margin:1rem 0;overflow:auto}
+.compare-table{width:100%;border-collapse:collapse;font-size:.9rem}
+.compare-table th{background:var(--blue);color:#fff;padding:.7rem 1rem;text-align:left;font-weight:600}
+.compare-table td{padding:.65rem 1rem;border-bottom:1px solid var(--gray-border);vertical-align:top}
+.compare-table tr:last-child td{border:none}
+.compare-table tr:nth-child(even) td{background:#fafafa}
+.case-box{background:#fff;border:1.5px solid var(--blue-mid);border-radius:var(--radius);padding:1.3rem 1.5rem;margin:1rem 0}
+.case-box .case-label{font-size:.78rem;font-weight:700;color:var(--blue);letter-spacing:.05em;margin-bottom:.5rem}
+.case-box h4{font-size:.95rem;font-weight:700;color:var(--text);margin-bottom:.6rem}
+.badge{display:inline-block;font-size:.75rem;font-weight:700;padding:2px 10px;border-radius:20px;margin-right:.4rem}
+.badge-int{background:#e8f0fa;color:#1a5fa8}
+.badge-ext{background:#e6f5ee;color:#1a7a4a}
+.quiz-section{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:1.8rem 2rem;margin-bottom:1.5rem}
+.quiz-section h2{font-size:1.15rem;font-weight:700;color:var(--blue);margin-bottom:.4rem}
+.quiz-section .q-count{font-size:.85rem;color:var(--gray);margin-bottom:1.5rem}
+.quiz-item{margin-bottom:1.8rem;padding-bottom:1.5rem;border-bottom:1px solid var(--gray-border)}
+.quiz-item:last-of-type{border:none}
+.quiz-item .q-text{font-size:.97rem;font-weight:600;color:var(--text);margin-bottom:.9rem}
+.quiz-item .q-num{font-size:.78rem;background:var(--blue-light);color:var(--blue);padding:2px 9px;border-radius:20px;margin-right:.5rem;font-weight:700}
+.opt-list{list-style:none;padding:0;display:flex;flex-direction:column;gap:.5rem}
+.opt-list li button{width:100%;text-align:left;padding:.7rem 1rem;border-radius:8px;border:1.5px solid var(--gray-border);background:#fff;font-size:.9rem;cursor:pointer;color:var(--text);transition:all .15s}
+.opt-list li button:hover{border-color:var(--blue-mid);background:var(--blue-light)}
+.opt-list li button.correct{background:var(--green-light);border-color:var(--green);color:var(--green);font-weight:600}
+.opt-list li button.wrong{background:var(--red-light);border-color:var(--red);color:var(--red)}
+.opt-list li button:disabled{cursor:default}
+.q-feedback{margin-top:.7rem;padding:.6rem 1rem;border-radius:8px;font-size:.88rem;display:none}
+.q-feedback.show{display:block}
+.q-feedback.ok{background:var(--green-light);color:var(--green);border:1px solid #a0d8b8}
+.q-feedback.no{background:var(--red-light);color:var(--red);border:1px solid #f5b8b8}
+.checklist{list-style:none;padding:0}
+.checklist li{display:flex;gap:.8rem;align-items:flex-start;padding:.55rem 0;border-bottom:1px solid var(--gray-border);font-size:.92rem}
+.checklist li:last-child{border:none}
+.checklist input[type=checkbox]{width:18px;height:18px;margin-top:2px;cursor:pointer;flex-shrink:0;accent-color:var(--green)}
+.checklist label{cursor:pointer;color:var(--text2)}
+.checklist input:checked+label{color:var(--green);text-decoration:line-through;opacity:.7}
+.nav-btns{display:flex;justify-content:space-between;margin-top:1.5rem}
+.btn{display:inline-flex;align-items:center;gap:.4rem;padding:.7rem 1.5rem;border-radius:8px;font-size:.9rem;font-weight:600;cursor:pointer;border:none;transition:all .15s}
+.btn-primary{background:var(--blue);color:#fff}
+.btn-primary:hover{background:#164d8a}
+.btn-outline{background:#fff;color:var(--blue);border:1.5px solid var(--blue)}
+.btn-outline:hover{background:var(--blue-light)}
+.btn-success{background:var(--green);color:#fff}
+.btn-success:hover{background:#155f39}
+.complete-banner{background:var(--green-light);border:2px solid var(--green);border-radius:var(--radius);padding:1.3rem 1.8rem;text-align:center;display:none;margin-bottom:1.5rem}
+.complete-banner.show{display:block}
+.complete-banner h3{color:var(--green);font-size:1.1rem;margin-bottom:.4rem}
+.chapter-complete-banner{background:linear-gradient(135deg,#1a5fa8 0%,#1a7a4a 100%);border-radius:var(--radius);padding:2rem;text-align:center;margin-bottom:1.5rem;color:#fff;display:none}
+.chapter-complete-banner.show{display:block}
+.chapter-complete-banner h3{font-size:1.3rem;margin-bottom:.6rem}
+.chapter-complete-banner p{opacity:.9;font-size:.95rem;margin-bottom:1rem}
+@media(max-width:720px){.layout{flex-direction:column}.sidebar{width:100%;position:static}.nav-card{position:static}}
+</style>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
+  <script src="tp-firebase.js"></script>
+</head>
+<body>
+<div id="tpLoading" style="position:fixed;top:0;left:0;width:100%;height:100%;background:#1a5fa8;display:flex;align-items:center;justify-content:center;z-index:9999;color:#fff;font-family:'Noto Sans KR',Arial,sans-serif">
+  <div style="text-align:center"><div style="font-size:2.5rem;margin-bottom:.8rem">📚</div><div style="font-size:1rem;font-weight:600">대주 이전가격 교육</div><div style="font-size:.82rem;opacity:.75;margin-top:.4rem">로딩 중...</div></div>
+</div>
+
+<header class="mod-header">
+  <div class="breadcrumb"><a href="index.html" style="color:#fff8">← Chapter II 목록으로</a></div>
+  <h1>Module 8 — 이익분할방법 심화 및 거래이익방법 결론</h1>
+  <div class="sub">§2.154 ~ §2.187 · OECD Transfer Pricing Guidelines Chapter II · Part III-C.4-D</div>
+  <div class="prog-strip"><div class="prog-strip-inner" id="mod-prog" style="width:0%"></div></div>
+  <div style="display:flex;justify-content:flex-end;align-items:center;gap:.7rem;margin-top:.5rem;font-size:.82rem">
+    <span id="topUserName" style="color:rgba(255,255,255,.85)"></span>
+    <button onclick="tpSignOut()" style="background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.35);color:#fff;padding:3px 14px;border-radius:20px;cursor:pointer;font-size:.78rem;font-family:inherit">로그아웃</button>
+  </div>
+</header>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="nav-card">
+      <h4>이 모듈 목차</h4>
+      <button class="nav-item active" onclick="showSec('sec-obj',this)">학습 목표</button>
+      <button class="nav-item" onclick="showSec('sec-profit',this)">1. 배분 이익 결정</button>
+      <button class="nav-item" onclick="showSec('sec-actual',this)">2. 실제이익 vs 기대이익</button>
+      <button class="nav-item" onclick="showSec('sec-factors',this)">3. 이익 분할 요소</button>
+      <button class="nav-item" onclick="showSec('sec-internal',this)">4. 내부 데이터 활용</button>
+      <button class="nav-item" onclick="showSec('sec-conclusion',this)">5. 거래이익방법 결론</button>
+      <button class="nav-item" onclick="showSec('sec-quiz',this)">✏ 자가 퀴즈</button>
+      <button class="nav-item" onclick="showSec('sec-check',this)">☑ 실무 체크리스트</button>
+    </div>
+    <div class="nav-card">
+      <h4>모듈 진도</h4>
+      <div style="font-size:2rem;font-weight:700;color:var(--blue);text-align:center" id="pct-display">0%</div>
+      <div style="font-size:.8rem;color:var(--gray);text-align:center">학습 완료율</div>
+    </div>
+  </aside>
+
+  <main class="content">
+    <div class="complete-banner" id="complete-banner">
+      <h3>🎉 Module 8 학습 완료!</h3>
+      <p>이익분할방법(PSM) 심화 및 거래이익방법 전체를 완료했습니다. Chapter II 전체 과정을 마쳤습니다.</p>
+      <a href="index.html" class="btn btn-success" style="margin-top:.8rem;display:inline-flex">Chapter II 목록으로 →</a>
+    </div>
+
+    <!-- 학습 목표 -->
+    <div class="card" id="sec-obj">
+      <h2>📌 학습 목표</h2>
+      <p style="font-size:.9rem;color:var(--gray);margin-bottom:1rem">이 모듈을 마치면 다음 사항을 설명하고 업무에 적용할 수 있습니다.</p>
+      <ul class="obj-list">
+        <li><div class="obj-num">1</div><span>PSM 적용 시 배분 대상 이익(Relevant Profit) 결정 방법과 회계 일관성 요건을 설명할 수 있다</span></li>
+        <li><div class="obj-num">2</div><span>실제이익 기준 vs 기대이익 기준 PSM의 차이와 각 적용 상황을 설명할 수 있다</span></li>
+        <li><div class="obj-num">3</div><span>PSM에서 사용 가능한 이익 측정치(총이익, 영업이익)와 각 적합 상황을 설명할 수 있다</span></li>
+        <li><div class="obj-num">4</div><span>자산 기준, 비용 기준, 기타 이익 분할 요소(Profit Splitting Factors)를 설명하고 적용할 수 있다</span></li>
+        <li><div class="obj-num">5</div><span>거래이익방법 전체(TNMM &amp; PSM)의 결론 및 가장 합리적인 방법 선택 원칙을 정리할 수 있다</span></li>
+      </ul>
+    </div>
+
+    <!-- 섹션 1: 배분 이익 결정 -->
+    <div class="card" id="sec-profit">
+      <h2>1. 배분 이익 결정 (§2.154–2.157)</h2>
+      <p>PSM에서 이익 배분의 첫 단계는 <strong>관련이익(Relevant Profit)</strong>의 범위를 정확히 결정하는 것입니다. 이는 전체 거래에서 발생하는 결합이익(Combined Profit) 중 특수관계거래에 귀속되는 이익만을 대상으로 합니다.</p>
+
+      <div class="accordion">
+        <button class="acc-header" onclick="toggleAcc(this)">
+          <span><span class="para">§2.154</span>관련이익(Relevant Profit)의 배분 원칙</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p>PSM은 특수관계거래에 참여하는 각 당사자의 <strong>기여도</strong>를 기준으로 관련이익을 배분합니다. 배분 대상 이익은 그룹 전체 이익이 아니라, 해당 특수관계거래로부터 발생한 이익에 한정됩니다.</p>
+          <table class="compare-table" style="margin-top:.5rem">
+            <thead><tr><th>구분</th><th>내용</th></tr></thead>
+            <tbody>
+              <tr><td><strong>결합이익(Combined Profit)</strong></td><td>특수관계거래 전체에서 관련 당사자들이 함께 실현한 총 이익</td></tr>
+              <tr><td><strong>관련이익(Relevant Profit)</strong></td><td>배분 대상이 되는 이익 — 해당 거래에만 귀속되는 이익</td></tr>
+              <tr><td><strong>배분 기준</strong></td><td>각 당사자가 기여한 가치 창출 요소의 상대적 비중</td></tr>
+            </tbody>
+          </table>
+          <div class="key-point">📌 §2.154 핵심: 배분 대상 이익은 그룹 전체 연결 이익이 아닌, <strong>분석 대상 특수관계거래에 직접 귀속되는 이익</strong>으로 한정해야 합니다.</div>
+        </div>
+      </div>
+
+      <div class="accordion">
+        <button class="acc-header" onclick="toggleAcc(this)">
+          <span><span class="para">§2.155</span>동일한 회계원칙 및 기준통화(Functional Currency) 사용</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p>PSM을 적용할 때 복수의 당사자가 서로 다른 통화를 사용하거나 다른 회계기준을 채택하는 경우, <strong>비교 가능성 확보</strong>를 위해 일관된 기준 적용이 필수적입니다.</p>
+          <ul style="margin:.5rem 0 .6rem 1.2rem;font-size:.9rem;line-height:2">
+            <li><strong>동일한 회계원칙:</strong> 각 당사자의 재무제표를 동일한 회계 기준(IFRS 또는 K-GAAP 등)으로 변환하여 비교</li>
+            <li><strong>기준통화 일관성:</strong> 서로 다른 통화를 사용하는 기업 간 이익 비교 시 동일한 환율 및 환율 적용 시점을 사용</li>
+            <li><strong>환율 변동 처리:</strong> 환율 변동으로 인한 이익 차이가 배분 결과를 왜곡하지 않도록 조정 필요</li>
+          </ul>
+          <div class="warn-point">⚠ §2.155 주의: 당사자 간 회계원칙이나 통화 기준이 다르면 이익 규모의 차이가 실질적 기여도 차이가 아닌 회계·환율 차이에 의한 것일 수 있습니다. 반드시 일관된 기준으로 재작성해야 합니다.</div>
+        </div>
+      </div>
+
+      <div class="accordion">
+        <button class="acc-header" onclick="toggleAcc(this)">
+          <span><span class="para">§2.156</span>세무회계자료 일치 — 세무상 재무자료 우선 사용</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p>PSM 분석에 사용되는 이익 자료는 원칙적으로 <strong>세무 신고에 사용된 재무자료</strong>를 기준으로 합니다.</p>
+          <table class="compare-table" style="margin-top:.5rem">
+            <thead><tr><th>상황</th><th>처리 방법</th></tr></thead>
+            <tbody>
+              <tr><td>세무·회계 일치 시</td><td>세무 신고 재무자료 그대로 사용</td></tr>
+              <tr><td>세무·회계 불일치 시</td><td>불일치 항목을 파악하고 분석에 적합하게 조정</td></tr>
+              <tr><td>비교대상 간 회계 차이 시</td><td>공통 기준으로 재작성하여 비교가능성 확보</td></tr>
+            </tbody>
+          </table>
+          <div class="key-point">📌 §2.156 원칙: 이전가격 분석은 세무 신고 기준이므로, 세무상 손익 자료와 분석에 사용되는 재무 자료의 <strong>일치성 확인</strong>이 문서화의 핵심 요소입니다.</div>
+        </div>
+      </div>
+
+      <div class="accordion">
+        <button class="acc-header" onclick="toggleAcc(this)">
+          <span><span class="para">§2.157</span>분할 재무자료 — 해당 거래 귀속 이익만 사용</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p>PSM 분석에서는 <strong>그룹 전체 통합 재무제표</strong>가 아닌, 분석 대상 특수관계거래에만 귀속되는 <strong>분할(구분) 재무자료</strong>를 사용해야 합니다.</p>
+          <p style="margin-top:.5rem">예를 들어, A그룹이 의약품 사업부와 소비재 사업부를 운영하는 경우, 의약품 관련 특수관계거래의 PSM 분석에는 의약품 사업부에 귀속되는 이익만을 사용합니다.</p>
+          <div class="tip-point">💡 실무 팁: 분할 재무자료 작성 시 공통비(본사 간접비, IT 시스템 비용 등) 배분 기준을 명확히 설정하고 문서화해야 합니다. 임의적 배분은 PSM 분석의 신뢰성을 저해합니다.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 섹션 2: 실제이익 vs 기대이익 -->
+    <div class="card" id="sec-actual">
+      <h2>2. 실제이익 vs 기대이익 (§2.158–2.165)</h2>
+      <p>PSM은 <strong>실제이익(Actual Profit)</strong> 또는 <strong>기대이익(Anticipated Profit)</strong> 중 어느 기준을 사용할지 결정해야 합니다. 이는 거래의 성격과 위험 배분 구조에 따라 달라집니다.</p>
+
+      <div class="accordion">
+        <button class="acc-header" onclick="toggleAcc(this)">
+          <span><span class="para">§2.158</span>원칙 — 실제이익 또는 기대이익 모두 사용 가능</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p>OECD 지침서는 PSM에서 두 가지 이익 기준을 모두 인정합니다.</p>
+          <table class="compare-table" style="margin-top:.5rem">
+            <thead><tr><th>구분</th><th>정의</th><th>적용 시점</th></tr></thead>
+            <tbody>
+              <tr><td><strong>실제이익 기준</strong></td><td>거래 완료 후 실제로 실현된 이익을 기준으로 배분</td><td>사후(Ex-post) 분석</td></tr>
+              <tr><td><strong>기대이익 기준</strong></td><td>거래 체결 시점에 합리적으로 예상되는 이익을 기준으로 배분</td><td>사전(Ex-ante) 분석</td></tr>
+            </tbody>
+          </table>
+          <div class="key-point">📌 §2.158 원칙: 두 기준 모두 허용되나, 거래의 불확실성 수준과 위험 배분 구조에 따라 적합한 기준이 달라집니다.</div>
+        </div>
+      </div>
+
+      <div class="accordion">
+        <button class="acc-header" onclick="toggleAcc(this)">
+          <span><span class="para">§2.159</span>실제이익 기준 PSM 적합 상황</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p><strong>실제이익(Actual Profit) 기준</strong>이 적합한 상황:</p>
+          <ul style="margin:.5rem 0 .6rem 1.2rem;font-size:.9rem;line-height:2">
+            <li>거래 체결 시점에 이익을 사전에 결정하기 <strong>어려운 복잡한 거래</strong></li>
+            <li>거래에 <strong>불확실성이 높아 사전 합의가 어려운 경우</strong> (신제품 개발, 신시장 진출 등)</li>
+            <li>양 당사자가 실제 성과에 따라 이익을 공유하는 구조로 계약된 경우</li>
+          </ul>
+          <div class="case-box">
+            <div class="case-label">사례 — 실제이익 기준 적용</div>
+            <h4>바이오 신약 공동 개발 사례</h4>
+            <p>A사와 B사가 신약 공동 개발에 참여합니다. 개발 성공 여부가 불확실하고, 성공 시 이익 규모도 예측하기 어렵습니다. 이 경우 <strong>실제이익 기준 PSM</strong>을 적용하여 실제 출시 후 발생하는 이익을 각 당사자의 기여도(R&amp;D 투자, 임상시험 등)에 따라 배분합니다.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion">
+        <button class="acc-header" onclick="toggleAcc(this)">
+          <span><span class="para">§2.160–2.161</span>기대이익 기준 PSM 적합 상황</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p><strong>기대이익(Anticipated Profit) 기준</strong>이 적합한 상황:</p>
+          <ul style="margin:.5rem 0 .6rem 1.2rem;font-size:.9rem;line-height:2">
+            <li>경제적으로 중요한 위험이 <strong>사후에 발생하고</strong>, 거래 일방이 해당 위험을 부담하지 않는 경우</li>
+            <li>계약 시 <strong>분리된 위험 부담 구조</strong>가 명확한 경우</li>
+            <li>사전에 합의된 분할 공식이 있고, 해당 공식이 독립기업 간 거래와 일치하는 경우</li>
+          </ul>
+          <p style="margin-top:.5rem"><strong>§2.161 — 계약 이후 발생한 예상치 못한 위험 처리:</strong></p>
+          <p>계약 체결 시 예상치 못한 위험(예: 예상치 못한 규제 변경, 원자재 가격 급등)이 계약 후 발생한 경우, 그 위험을 실제 부담하는 당사자가 누구인지에 따라 이익 배분을 조정할 수 있습니다.</p>
+          <div class="tip-point">💡 §2.160 핵심: 기대이익 기준은 사전에 위험이 명확히 분리된 구조에서 유용하며, 예측 가능성이 높은 거래(확립된 사업모델, 안정적 시장)에 더 적합합니다.</div>
+        </div>
+      </div>
+
+      <div class="accordion">
+        <button class="acc-header" onclick="toggleAcc(this)">
+          <span><span class="para">§2.162–2.165</span>이익 측정치 선택 — 총이익 vs 영업이익</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p><strong>§2.162</strong>: PSM에서 이익 배분 기준은 <strong>총이익(Gross Profit)</strong> 또는 <strong>영업이익(Operating Profit)</strong> 중 선택 가능합니다.</p>
+          <table class="compare-table" style="margin-top:.5rem">
+            <thead><tr><th>이익 측정치</th><th>적합 상황</th><th>특징</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><strong>영업이익</strong><br>(Operating Profit)</td>
+                <td>두 당사자 모두 영업비용이 분석에 관련될 때</td>
+                <td>비용 구조 전체를 반영, 더 완전한 기여도 측정</td>
+              </tr>
+              <tr>
+                <td><strong>총이익</strong><br>(Gross Profit)</td>
+                <td>영업비용이 분석과 무관하거나 영업비용 분리가 어려울 때</td>
+                <td>영업비 배분 불확실성 제거, 단순한 구조에 적합</td>
+              </tr>
+            </tbody>
+          </table>
+          <p style="margin-top:.8rem"><strong>§2.164 — 시장위험 부담과 총이익 적용:</strong> 시장 변동 위험(재고 위험, 가격 위험 등)을 부담하는 당사자가 있는 경우, 그 위험 부담이 총이익 수준에서 반영될 때 총이익 기준이 더 적합할 수 있습니다.</p>
+          <div class="key-point">📌 §2.163 핵심: 영업이익 기준이 더 일반적으로 사용되나, 영업비용의 귀속이 불명확하거나 당사자 간 영업비 분리가 어려운 경우 총이익 기준이 실용적입니다.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 섹션 3: 이익 분할 요소 -->
+    <div class="card" id="sec-factors">
+      <h2>3. 이익 분할 요소 (§2.166–2.183)</h2>
+      <p>PSM의 핵심은 각 당사자의 기여도를 객관적으로 측정하는 <strong>이익 분할 요소(Profit Splitting Factors)</strong>를 선정하는 것입니다. 이 요소들은 경제적 실질을 반영해야 합니다.</p>
+
+      <div class="accordion">
+        <button class="acc-header" onclick="toggleAcc(this)">
+          <span><span class="para">§2.166–2.168</span>사용 가능한 자료 범위</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p><strong>§2.166 — 이익 분할에 활용 가능한 자료 범위:</strong></p>
+          <ul style="margin:.4rem 0 .6rem 1.2rem;font-size:.9rem;line-height:2">
+            <li>각 당사자의 내부 재무자료 (관리회계, 부문별 손익)</li>
+            <li>비교가능한 제3자 거래 데이터</li>
+            <li>산업 통계 및 공개된 분할 비율 자료</li>
+          </ul>
+          <p><strong>§2.167 — 비교가능 제3자 거래가 존재하는 경우:</strong> 외부 비교가능거래에서 이익 분할 비율이 확인되면, 이를 PSM의 분할 기준으로 활용할 수 있습니다.</p>
+          <p style="margin-top:.5rem"><strong>§2.168 — 외부 비교가능거래가 없는 경우:</strong> 비교가능한 제3자 거래를 찾기 어려운 경우, 납세자의 내부 데이터에 의존하여 분할 요소를 결정합니다.</p>
+          <div class="warn-point">⚠ §2.168 주의: 내부 데이터만을 사용하는 경우, 데이터의 객관성과 독립성 확보가 매우 중요합니다. 납세자에게 유리한 방향으로 조작될 수 있는 내부 데이터는 독립적 검증이 필요합니다.</div>
+        </div>
+      </div>
+
+      <div class="accordion">
+        <button class="acc-header" onclick="toggleAcc(this)">
+          <span><span class="para">§2.169–2.173</span>이익 분할 요소의 유형과 선정 기준</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p><strong>§2.169 — 주요 이익 분할 요소:</strong></p>
+          <table class="compare-table" style="margin-top:.5rem">
+            <thead><tr><th>분할 요소</th><th>세부 항목</th><th>적합 거래</th></tr></thead>
+            <tbody>
+              <tr><td><strong>자산(Assets)</strong></td><td>유형자산, 무형자산 (장부가액 또는 시장가액)</td><td>자산 집약적 사업, R&amp;D 중심 사업</td></tr>
+              <tr><td><strong>비용(Costs)</strong></td><td>R&amp;D 비용, 마케팅 비용, 인건비</td><td>기능·활동 중심 분석</td></tr>
+              <tr><td><strong>인원수·역량</strong></td><td>FTE(전임 환산 인원수), 핵심 인력 수</td><td>인력 집약적 서비스업</td></tr>
+              <tr><td><strong>판매량·거래량</strong></td><td>매출액, 거래 건수, 시장 점유율</td><td>마케팅·유통 기능 중심</td></tr>
+            </tbody>
+          </table>
+          <p style="margin-top:.8rem"><strong>§2.170–2.171 — 분할 요소 선정 원칙:</strong> 기여도를 가장 잘 반영하는 요소를 선택해야 합니다. 단일 요소보다 복수의 요소를 결합하는 방식이 기여도를 더 정확하게 측정할 수 있습니다.</p>
+          <p style="margin-top:.5rem"><strong>§2.172 — 기타 분할 기준:</strong> 특정 산업이나 거래 특성에 따라 위에 열거되지 않은 다양한 요소(예: 저작물 수, 특허 건수, 임상시험 수)도 활용 가능합니다.</p>
+          <p style="margin-top:.5rem"><strong>§2.173 — PSM 문서화:</strong> 선정된 분할 요소와 그 근거는 Local File 및 Master File에 상세히 기재해야 합니다.</p>
+          <div class="key-point">📌 분할 요소 선정의 핵심 원칙: 선정된 요소가 <strong>경제적 실질</strong>을 반영해야 하며, 독립기업 간에도 유사한 기준으로 이익을 배분한다는 근거가 뒷받침되어야 합니다.</div>
+        </div>
+      </div>
+
+      <div class="accordion">
+        <button class="acc-header" onclick="toggleAcc(this)">
+          <span><span class="para">§2.179–2.183</span>이익 분할 요소 사례 — 자산 기준 및 비용 기준</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p><strong>§2.179 — 자산 기준 PSM 사례:</strong></p>
+          <div class="case-box">
+            <div class="case-label">자산 기준 분할 사례</div>
+            <p>제조업체 A(한국)와 마케팅사 B(미국)가 공동으로 브랜드 제품을 판매합니다. A는 제조설비(유형자산 500억 원)와 특허(무형자산 300억 원)를 보유하고, B는 마케팅 무형자산(브랜드 200억 원)을 보유합니다. 전체 자산 1,000억 원을 기준으로 A:B = 80:20으로 결합이익을 배분합니다.</p>
+          </div>
+          <p style="margin-top:.8rem"><strong>§2.180 — 무형자산 형성 기여도:</strong> 무형자산의 현재 가치를 반영할 때, 해당 무형자산의 <strong>형성에 기여한 당사자</strong>(R&amp;D 투자, 노하우 개발 등)의 역할도 고려해야 합니다.</p>
+          <p style="margin-top:.5rem"><strong>§2.181 — 비용 기준 PSM 사례:</strong></p>
+          <div class="case-box" style="border-color:#1a7a4a">
+            <div class="case-label" style="color:#1a7a4a">비용 기준 분할 사례</div>
+            <p>A(한국, R&amp;D 담당)는 연간 R&amp;D 비용 200억 원을 지출하고, B(미국, 마케팅 담당)는 마케팅 비용 100억 원을 지출합니다. 총 비용 300억 원에서 A:B = 200:100 = 2:1 비율로 결합이익을 배분합니다.</p>
+          </div>
+          <p style="margin-top:.8rem"><strong>§2.182–2.183 — 시간적 요소:</strong> 각 당사자가 기여한 시기의 차이를 반영해야 합니다. 과거에 투자한 비용은 현재 가치로 환산하거나, 시간 가중치를 적용하여 조정합니다. 비용 발생 시점과 가치 창출 시점 사이에 시간적 지연이 있는 경우(예: R&amp;D 투자 후 수년간의 상업화 기간) 이를 조정 요소로 반영합니다.</p>
+          <div class="tip-point">💡 §2.183 실무 팁: 자산 기준과 비용 기준을 혼합하는 접근도 가능합니다. 중요한 것은 선정된 기준이 당사자 각각의 실질적 기여도를 반영한다는 점을 납득 가능하게 설명하는 것입니다.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 섹션 4: 내부 데이터 활용 -->
+    <div class="card" id="sec-internal">
+      <h2>4. 내부 데이터 활용 (§2.174–2.178)</h2>
+      <p>비교가능한 제3자 거래 데이터를 확보하기 어려운 경우, PSM은 납세자 자체의 내부 운영 데이터를 활용하여 분할 요소를 결정합니다.</p>
+
+      <div class="accordion">
+        <button class="acc-header" onclick="toggleAcc(this)">
+          <span><span class="para">§2.174</span>내부 데이터 활용의 원칙</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p>비교가능 제3자 거래를 찾을 수 없는 경우, 납세자 자체의 운영 데이터(관리회계 자료, 사업부별 보고서 등)를 활용하여 이익 분할 요소를 결정할 수 있습니다.</p>
+          <div class="key-point">📌 §2.174 원칙: 내부 데이터 활용 시 <strong>객관성과 독립성</strong>을 확보해야 합니다. 납세자에게 유리한 방향으로 데이터를 선택적으로 활용하거나 조작하는 것은 허용되지 않습니다.</div>
+        </div>
+      </div>
+
+      <div class="accordion">
+        <button class="acc-header" onclick="toggleAcc(this)">
+          <span><span class="para">§2.175</span>자산 기준 PSM — 무형자산 가치 측정의 어려움</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p><strong>자산 기준 PSM</strong>에서는 각 당사자가 보유·사용하는 자산의 가치(장부가액 또는 시장가액)를 기준으로 이익을 배분합니다.</p>
+          <table class="compare-table" style="margin-top:.5rem">
+            <thead><tr><th>자산 유형</th><th>측정 방법</th><th>어려움</th></tr></thead>
+            <tbody>
+              <tr><td><strong>유형자산</strong></td><td>장부가액 또는 대체원가</td><td>상대적으로 객관적</td></tr>
+              <tr><td><strong>식별 가능 무형자산</strong></td><td>감정평가, DCF 방법</td><td>가치 평가에 상당한 판단 개입</td></tr>
+              <tr><td><strong>식별 불가 무형자산</strong></td><td>초과이익 환원법, 잔여법</td><td>측정 자체가 매우 어려움</td></tr>
+            </tbody>
+          </table>
+          <div class="warn-point">⚠ §2.175 핵심 과제: 무형자산(특허, 노하우, 브랜드 등)의 가치를 객관적으로 측정하기 어렵습니다. 무형자산 기여도를 포함할 경우 <strong>평가 방법론 선택</strong>과 그 근거 문서화가 매우 중요합니다.</div>
+        </div>
+      </div>
+
+      <div class="accordion">
+        <button class="acc-header" onclick="toggleAcc(this)">
+          <span><span class="para">§2.176–2.178</span>비용 기준 PSM — 활용 원칙과 예시</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p><strong>§2.176 — 비용 기준 PSM</strong>에서는 각 당사자가 지출한 관련 비용의 비율을 기준으로 결합이익을 배분합니다.</p>
+          <table class="compare-table" style="margin-top:.5rem">
+            <thead><tr><th>비용 유형</th><th>예시</th></tr></thead>
+            <tbody>
+              <tr><td>R&amp;D 비용</td><td>연구원 인건비, 실험 장비 비용, 외부 용역비</td></tr>
+              <tr><td>마케팅 비용</td><td>광고비, 판촉비, 영업인력 비용</td></tr>
+              <tr><td>제조 비용</td><td>원재료비, 생산 설비 운영비, 품질관리 비용</td></tr>
+            </tbody>
+          </table>
+          <p style="margin-top:.8rem"><strong>§2.177–2.178 — 내부 데이터 활용 원칙:</strong></p>
+          <ul style="margin:.4rem 0 .6rem 1.2rem;font-size:.9rem;line-height:2">
+            <li>내부 데이터는 <strong>일관된 방법론</strong>으로 수집·집계되어야 함</li>
+            <li>여러 연도의 데이터를 활용하여 안정성 확인 필요</li>
+            <li>외부 기준(산업 평균, 독립 전문가 의견 등)과 비교하여 합리성 검증</li>
+          </ul>
+          <div class="tip-point">💡 실무 적용: 비용 기준은 자산 기준보다 측정이 상대적으로 용이하고 문서화가 명확합니다. 단, 비용 발생 시점과 가치 창출 시점의 차이(시간 지연)를 반드시 고려해야 합니다.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 섹션 5: 거래이익방법 결론 -->
+    <div class="card" id="sec-conclusion">
+      <h2>5. 거래이익방법 결론 (§2.184–2.187)</h2>
+      <p>Chapter II Part III는 거래이익방법(TNMM &amp; PSM) 전체에 대한 결론을 제시하며, 가장 합리적인 이전가격 방법 선택 원칙을 종합합니다.</p>
+
+      <div class="accordion">
+        <button class="acc-header" onclick="toggleAcc(this)">
+          <span><span class="para">§2.184</span>가장 합리적인 정상가격방법 선택 원칙 종합</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p>거래이익방법을 포함한 모든 이전가격방법은 다음 원칙에 따라 선택됩니다:</p>
+          <ul style="margin:.5rem 0 .6rem 1.2rem;font-size:.9rem;line-height:2">
+            <li><strong>거래 특성과의 적합성:</strong> 분석 대상 특수관계거래의 기능·위험·자산 구조에 가장 적합한 방법</li>
+            <li><strong>비교가능성 수준:</strong> 비교가능한 거래 또는 기업을 가장 신뢰성 있게 확인할 수 있는 방법</li>
+            <li><strong>가용 정보의 질과 양:</strong> 충분하고 신뢰할 수 있는 데이터를 가장 잘 활용할 수 있는 방법</li>
+          </ul>
+          <div class="key-point">📌 §2.184 원칙: "가장 합리적인 방법(Most Appropriate Method)"은 항상 특수관계거래의 경제적 실질을 가장 잘 반영하는 방법입니다. 이는 사례별로 개별적으로 판단해야 합니다.</div>
+        </div>
+      </div>
+
+      <div class="accordion">
+        <button class="acc-header" onclick="toggleAcc(this)">
+          <span><span class="para">§2.185</span>회계기준 비교가능성</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p>거래이익방법(특히 TNMM)을 적용할 때, 분석 대상 기업과 비교가능기업 간에 <strong>동일한 회계 기준</strong>이 적용되어야 합니다.</p>
+          <table class="compare-table" style="margin-top:.5rem">
+            <thead><tr><th>회계 차이 유형</th><th>조정 필요 여부</th></tr></thead>
+            <tbody>
+              <tr><td>R&amp;D 비용 자산화 vs 비용처리</td><td>조정 필요 — 비교가능성에 중요한 영향</td></tr>
+              <tr><td>재고 평가 방법(FIFO vs LIFO)</td><td>조정 필요 — 원가 및 이익률에 영향</td></tr>
+              <tr><td>감가상각 방법</td><td>경우에 따라 조정 필요</td></tr>
+              <tr><td>리스 회계 처리</td><td>IFRS 16 도입 등에 따른 조정 고려</td></tr>
+            </tbody>
+          </table>
+          <div class="warn-point">⚠ §2.185 주의: 회계기준 차이를 무시하면 비교 자체가 왜곡됩니다. 비교가능기업 선정 후 반드시 회계정책 일치 여부를 확인하고, 차이가 있으면 조정해야 합니다.</div>
+        </div>
+      </div>
+
+      <div class="accordion">
+        <button class="acc-header" onclick="toggleAcc(this)">
+          <span><span class="para">§2.186</span>동일한 가격결정 방법 — 연도 간 일관성</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p>이전가격 분석에서는 동일한 거래에 대해 연도 간 일관된 방법론을 적용해야 합니다.</p>
+          <ul style="margin:.5rem 0 .6rem 1.2rem;font-size:.9rem;line-height:2">
+            <li><strong>방법론 일관성:</strong> 특별한 사유 없이 매년 다른 방법을 적용하는 것은 허용되지 않음</li>
+            <li><strong>변경 사유 문서화:</strong> 방법론 변경이 불가피한 경우(사업 구조 변경, 새로운 비교가능거래 발견 등) 변경 사유를 문서화</li>
+          </ul>
+          <div class="key-point">📌 §2.186 원칙: 일관성은 신뢰성의 기반입니다. 납세자가 유리한 해에는 A 방법을, 불리한 해에는 B 방법을 선택하는 기회주의적 방법론 적용은 ALP 위반 소지가 있습니다.</div>
+        </div>
+      </div>
+
+      <div class="accordion">
+        <button class="acc-header" onclick="toggleAcc(this)">
+          <span><span class="para">§2.187</span>사례별·개별적 판단 — 단일 공식은 없다</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p>OECD 지침서는 모든 상황에 적용되는 <strong>단일 공식이나 고정된 우선순위</strong>는 없다고 명확히 선언합니다.</p>
+          <div class="quote-box">
+            "가장 합리적인 방법은 각 사례의 사실관계와 상황에 따라 개별적으로 결정되어야 한다."
+            <span class="source">— OECD 이전가격 지침서 §2.187 요약</span>
+          </div>
+          <table class="compare-table" style="margin-top:.5rem">
+            <thead><tr><th>판단 요소</th><th>내용</th></tr></thead>
+            <tbody>
+              <tr><td>거래 유형</td><td>유형재화, 서비스, 무형자산, 금융거래 등</td></tr>
+              <tr><td>기능·위험·자산</td><td>FAR 분석 결과에 따른 가장 적합한 방법 선택</td></tr>
+              <tr><td>데이터 가용성</td><td>비교가능 거래 또는 기업 데이터의 신뢰성</td></tr>
+              <tr><td>산업 관행</td><td>해당 업종에서 통상 사용되는 방법 고려</td></tr>
+            </tbody>
+          </table>
+          <div class="tip-point">💡 §2.187 결론: 이전가격 분석은 "공식 암기"가 아니라 <strong>경제적 실질 파악과 합리적 판단</strong>이 핵심입니다. 각 거래의 특성에 맞는 방법을 선택하고 그 근거를 충분히 문서화하는 것이 최선의 실무입니다.</div>
+        </div>
+      </div>
+
+      <!-- Chapter II 전체 요약 표 -->
+      <h3 style="margin-top:1.5rem;color:var(--blue)">Chapter II 전체 방법론 요약</h3>
+      <table class="compare-table" style="margin-top:.7rem">
+        <thead>
+          <tr>
+            <th>방법</th>
+            <th>약칭</th>
+            <th>비교 기준</th>
+            <th>적합 거래</th>
+            <th>특징</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>비교가능 비통제 거래가격법</strong></td>
+            <td><span class="badge badge-int">CUP</span></td>
+            <td>가격</td>
+            <td>동종 제품 거래, Commodities</td>
+            <td>가장 직접적, 최우선 적용</td>
+          </tr>
+          <tr>
+            <td><strong>재판매가격방법</strong></td>
+            <td><span class="badge badge-ext">RPM</span></td>
+            <td>총이익률</td>
+            <td>유통·마케팅 거래</td>
+            <td>기능 비교가능성 중요</td>
+          </tr>
+          <tr>
+            <td><strong>원가가산방법</strong></td>
+            <td><span class="badge badge-int">CPM</span></td>
+            <td>원가가산율</td>
+            <td>제조·서비스 제공</td>
+            <td>반제품, 계약제조 적합</td>
+          </tr>
+          <tr>
+            <td><strong>거래순이익률방법</strong></td>
+            <td><span class="badge badge-ext">TNMM</span></td>
+            <td>순이익률</td>
+            <td>광범위 적용 가능</td>
+            <td>실무에서 가장 많이 활용</td>
+          </tr>
+          <tr>
+            <td><strong>이익분할방법</strong></td>
+            <td><span class="badge" style="background:#f3e8ff;color:#6b21a8">PSM</span></td>
+            <td>결합이익 분할</td>
+            <td>고유 기여, 고도 통합 거래</td>
+            <td>양방향 분석, 양 당사자 동시 검토</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 퀴즈 -->
+    <div class="quiz-section" id="sec-quiz">
+      <h2>✏ 자가 퀴즈</h2>
+      <p class="q-count">총 4문제 · 각 문제에 정답을 선택하세요</p>
+
+      <div class="quiz-item">
+        <div class="q-text"><span class="q-num">Q1</span>§2.155의 회계원칙 일관성 요건에 따라, 서로 다른 통화를 사용하는 기업 간 PSM 비교 시 가장 중요한 처리 사항은?</div>
+        <ul class="opt-list">
+          <li><button onclick="answerQ(this,'wrong','각 기업의 현지 통화 기준 이익을 그대로 비교하면 환율 차이로 인해 배분 결과가 왜곡됩니다.')">① 각 기업의 현지 통화 기준 이익을 그대로 비교한다</button></li>
+          <li><button onclick="answerQ(this,'correct','정확합니다! §2.155에 따라 서로 다른 통화를 사용하는 기업 간 비교 시 동일한 환율 및 환율 적용 시점을 일관되게 사용하여 통화 차이로 인한 왜곡을 제거해야 합니다.')">② 동일한 기준통화와 일관된 환율 적용 시점을 사용하여 비교 가능성을 확보한다</button></li>
+          <li><button onclick="answerQ(this,'wrong','PSM에서 통화 차이를 무시하면 기여도가 아닌 환율 변동으로 배분 비율이 결정될 수 있습니다.')">③ 통화 차이는 PSM 분석에서 중요하지 않으므로 무시한다</button></li>
+          <li><button onclick="answerQ(this,'wrong','연말 환율만을 사용하는 것이 규정으로 정해져 있지 않으며, 일관성이 핵심입니다.')">④ 항상 연말 환율을 사용하여 전환한다</button></li>
+        </ul>
+        <div class="q-feedback" id="fb1"></div>
+      </div>
+
+      <div class="quiz-item">
+        <div class="q-text"><span class="q-num">Q2</span>§2.159에 따라 실제이익(Actual Profit) 기준 PSM이 가장 적합한 상황은?</div>
+        <ul class="opt-list">
+          <li><button onclick="answerQ(this,'wrong','위험이 명확히 분리된 안정적 거래는 기대이익 기준이 더 적합합니다.')">① 계약 시 위험이 명확히 분리되어 있고 예측 가능성이 높은 거래</button></li>
+          <li><button onclick="answerQ(this,'correct','정확합니다! §2.159에 따라 계약 체결 시점에 이익을 사전에 결정하기 어렵고 불확실성이 높은 복잡한 거래(예: 신약 개발, 신기술 개발)에서는 실제이익 기준 PSM이 적합합니다.')">② 계약 체결 시 이익 결정이 어렵고 불확실성이 높아 사전 합의가 어려운 복잡한 거래</button></li>
+          <li><button onclick="answerQ(this,'wrong','단순 제조 거래는 일반적으로 TNMM이나 CPM 등 다른 방법이 더 적합합니다.')">③ 위험이 거의 없는 단순 제조 거래</button></li>
+          <li><button onclick="answerQ(this,'wrong','이미 확립된 사업모델은 기대이익 기준이 더 적합할 수 있습니다.')">④ 수년간 안정적으로 운영된 확립된 사업모델의 거래</button></li>
+        </ul>
+        <div class="q-feedback" id="fb2"></div>
+      </div>
+
+      <div class="quiz-item">
+        <div class="q-text"><span class="q-num">Q3</span>§2.175에 따른 자산 기준 PSM에서 무형자산 처리 시 가장 큰 실무적 어려움은?</div>
+        <ul class="opt-list">
+          <li><button onclick="answerQ(this,'wrong','유형자산의 장부가액은 회계장부에서 비교적 쉽게 확인할 수 있습니다.')">① 유형자산의 장부가액을 파악하기 어렵기 때문</button></li>
+          <li><button onclick="answerQ(this,'correct','정확합니다! §2.175에 따라 무형자산(특허, 노하우, 브랜드 등)은 객관적인 시장가치 측정이 어렵고, 평가 방법론 선택에 따라 결과가 크게 달라질 수 있어 자산 기준 PSM 적용 시 가장 큰 실무적 어려움입니다.')">② 무형자산의 객관적 가치 측정이 어렵고, 평가 방법론에 따라 결과가 크게 달라지기 때문</button></li>
+          <li><button onclick="answerQ(this,'wrong','재무자료 수집은 일반적으로 가능하며, 무형자산 가치 측정이 더 본질적인 어려움입니다.')">③ 각 당사자의 재무자료를 수집하기 어렵기 때문</button></li>
+          <li><button onclick="answerQ(this,'wrong','현지 세법 차이는 회계 조정으로 처리할 수 있으며, 무형자산 가치 측정이 더 근본적인 어려움입니다.')">④ 국가별 세법이 달라 동일한 자산에 다른 세율이 적용되기 때문</button></li>
+        </ul>
+        <div class="q-feedback" id="fb3"></div>
+      </div>
+
+      <div class="quiz-item">
+        <div class="q-text"><span class="q-num">Q4</span>§2.187의 거래이익방법 결론에서 강조하는 핵심 원칙으로 가장 올바른 것은?</div>
+        <ul class="opt-list">
+          <li><button onclick="answerQ(this,'wrong','OECD 지침서는 어떤 특정 방법을 항상 우선 적용하라고 규정하지 않습니다. 가장 합리적인 방법은 거래 특성에 따라 결정됩니다.')">① 모든 거래에서 TNMM을 우선 적용해야 한다</button></li>
+          <li><button onclick="answerQ(this,'wrong','PSM은 고유한 기여가 있는 복잡한 거래에 적합하지만, 항상 우선 적용되지는 않습니다.')">② 고도로 통합된 거래에서는 항상 PSM을 적용해야 한다</button></li>
+          <li><button onclick="answerQ(this,'correct','정확합니다! §2.187은 모든 상황에 적용되는 단일 공식은 없으며, 가장 합리적인 방법은 각 사례의 사실관계와 상황에 따라 개별적으로 결정되어야 한다고 명확히 선언합니다. 사례별·개별적 판단이 핵심 원칙입니다.')">③ 모든 상황에 적용되는 단일 공식은 없으며, 각 거래의 사실관계에 따라 사례별로 판단해야 한다</button></li>
+          <li><button onclick="answerQ(this,'wrong','§2.187은 방법론보다 사례별 판단을 강조합니다. 문서화는 중요하지만, 가장 합리적인 방법 선택 자체가 핵심입니다.')">④ 이전가격 분석에서 가장 중요한 것은 문서화이므로 방법론보다 문서화에 집중해야 한다</button></li>
+        </ul>
+        <div class="q-feedback" id="fb4"></div>
+      </div>
+    </div>
+
+    <!-- 체크리스트 -->
+    <div class="card" id="sec-check">
+      <h2>☑ 실무 체크리스트 — PSM 심화 및 거래이익방법 결론 적용</h2>
+      <ul class="checklist">
+        <li><input type="checkbox" id="c1" onchange="saveCheck()"><label for="c1">배분 대상 관련이익(Relevant Profit) 범위 명확히 정의 및 그룹 전체 이익과 구분하여 문서화</label></li>
+        <li><input type="checkbox" id="c2" onchange="saveCheck()"><label for="c2">실제이익 vs 기대이익 기준 선택 근거 및 계약 시 위험 분담 구조 반영 여부 확인</label></li>
+        <li><input type="checkbox" id="c3" onchange="saveCheck()"><label for="c3">이익 분할 요소(자산/비용/기타) 선정 근거 — 경제적 실질 반영 여부 및 독립기업 간 유사 기준 존재 여부 검토</label></li>
+        <li><input type="checkbox" id="c4" onchange="saveCheck()"><label for="c4">내부 데이터 사용 시 객관성 확보 방법 (독립 검증, 외부 기준 대조) 및 데이터 조작 가능성 배제 확인</label></li>
+        <li><input type="checkbox" id="c5" onchange="saveCheck()"><label for="c5">회계기준 일관성 — 특수관계·비교가능기업 간 동일 회계 처리(R&amp;D 자산화, 재고 평가 등) 확인 및 조정</label></li>
+        <li><input type="checkbox" id="c6" onchange="saveCheck()"><label for="c6">TP 문서(Local File, Master File)에 PSM 적용 근거, 분할 요소, 이익 배분 계산 내역 상세 기재</label></li>
+      </ul>
+      <div class="nav-btns" style="margin-top:1.5rem">
+        <a href="M2-7_PSM개요.html" class="btn btn-outline">← Module 7: PSM 개요</a>
+        <a href="index.html" class="btn btn-success">Chapter II 완료 — 목록으로 →</a>
+      </div>
+    </div>
+
+    <!-- Chapter II 완료 배너 -->
+    <div class="chapter-complete-banner" id="chapter-complete-banner">
+      <div style="font-size:2.5rem;margin-bottom:.6rem">🎉</div>
+      <h3>Chapter II 전체 학습 완료!</h3>
+      <p>이전가격산출방법의 모든 방법(CUP, RPM, CPM, TNMM, PSM)을 완료했습니다.<br>Chapter III 비교가능성 분석으로 이어서 학습하세요.</p>
+      <a href="index.html" class="btn" style="background:#fff;color:#1a5fa8;font-weight:700;margin-top:.5rem;display:inline-flex">Chapter II 목록으로 →</a>
+    </div>
+
+  </main>
+</div>
+
+<script>
+var MODKEY='ch2_m8';
+var sections=['sec-obj','sec-profit','sec-actual','sec-factors','sec-internal','sec-conclusion','sec-quiz','sec-check'];
+function showSec(id,btn){
+  sections.forEach(function(s){var el=document.getElementById(s);if(el)el.style.display='none';});
+  var target=document.getElementById(id);if(target)target.style.display='block';
+  document.querySelectorAll('.nav-item').forEach(function(b){b.classList.remove('active')});
+  if(btn)btn.classList.add('active');
+  var idx=sections.indexOf(id);
+  var pct=Math.round((idx+1)/sections.length*100);
+  var existing=parseInt(tpGet(MODKEY+'_pct')||'0');
+  if(pct>existing){tpSet(MODKEY+'_pct',pct);updateProgress(pct);}
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function updateProgress(pct){
+  document.getElementById('mod-prog').style.width=pct+'%';
+  document.getElementById('pct-display').textContent=pct+'%';
+  if(pct===100){
+    document.getElementById('complete-banner').classList.add('show');
+    document.getElementById('chapter-complete-banner').classList.add('show');
+  }
+}
+function answerQ(btn,type,msg){
+  var item=btn.closest('.quiz-item');
+  item.querySelectorAll('button').forEach(function(b){b.disabled=true;b.classList.remove('correct','wrong');});
+  btn.classList.add(type);
+  var fbId='fb'+item.querySelector('.q-num').textContent.replace('Q','');
+  var fb=document.getElementById(fbId);
+  if(fb){fb.textContent=msg;fb.className='q-feedback show '+(type==='correct'?'ok':'no');}
+  var allDone=true;
+  document.querySelectorAll('.quiz-item').forEach(function(qi){if(!qi.querySelector('button:disabled'))allDone=false;});
+  if(allDone){var pct=Math.max(parseInt(tpGet(MODKEY+'_pct')||'0'),80);tpSet(MODKEY+'_pct',pct);updateProgress(pct);}
+}
+function saveCheck(){
+  var checks='';
+  for(var i=1;i<=6;i++){var cb=document.getElementById('c'+i);checks+=(cb&&cb.checked)?'1':'0';}
+  tpSet(MODKEY+'_checks',checks);
+  var cnt=checks.split('').filter(function(c){return c==='1';}).length;
+  if(cnt===6){tpSet(MODKEY+'_pct',100);updateProgress(100);}
+}
+function toggleAcc(btn){
+  var body=btn.nextElementSibling;var isOpen=body.classList.contains('open');
+  body.classList.toggle('open');btn.classList.toggle('open');
+  if(!isOpen){
+    var opened=parseInt(tpGet(MODKEY+'_opened')||'0')+1;tpSet(MODKEY+'_opened',opened);
+    var pct=Math.min(50,opened*7);var existing=parseInt(tpGet(MODKEY+'_pct')||'0');
+    if(pct>existing){tpSet(MODKEY+'_pct',pct);updateProgress(pct);}
+  }
+}
+sections.forEach(function(s){var el=document.getElementById(s);if(el)el.style.display='none';});
+document.getElementById('sec-obj').style.display='block';
+tpOnReady(function(user){
+  document.getElementById('tpLoading').style.display='none';
+  document.getElementById('topUserName').textContent=user.displayName||user.email;
+  var pct=parseInt(tpGet(MODKEY+'_pct')||'0');updateProgress(pct);
+  var checks=tpGet(MODKEY+'_checks')||'';
+  for(var i=0;i<checks.length;i++){if(checks[i]==='1'&&document.getElementById('c'+(i+1)))document.getElementById('c'+(i+1)).checked=true;}
+  if(pct===100){
+    document.getElementById('complete-banner').classList.add('show');
+    document.getElementById('chapter-complete-banner').classList.add('show');
+  }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>M2-2: 비교가능 제3자 가격방법(CUP) | Chapter II 기초과정</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:#1a5fa8;--blue-light:#e8f0fa;--blue-mid:#3b7dd8;
+  --green:#1a7a4a;--green-light:#e6f5ee;
+  --orange:#c06000;--orange-light:#fff3e0;
+  --red:#b02020;--red-light:#fdecea;
+  --purple:#6b21a8;--purple-light:#f3e8ff;
+  --gray:#555;--gray-light:#f5f5f5;--gray-border:#ddd;
+  --text:#222;--text2:#555;--white:#fff;
+  --radius:10px;--shadow:0 2px 8px rgba(0,0,0,.10);
+}
+body{font-family:'Noto Sans KR',Arial,sans-serif;background:#f0f4f8;color:var(--text);line-height:1.75;font-size:16px}
+a{color:var(--blue);text-decoration:none}
+.mod-header{background:linear-gradient(135deg,#1a5fa8 0%,#2d7dd2 100%);color:#fff;padding:1.5rem 2rem}
+.mod-header .breadcrumb{font-size:.8rem;opacity:.7;margin-bottom:.4rem}
+.mod-header h1{font-size:1.4rem;font-weight:700}
+.mod-header .sub{font-size:.9rem;opacity:.8;margin-top:.3rem}
+.prog-strip{background:rgba(255,255,255,.15);height:6px;margin-top:1rem;border-radius:99px;overflow:hidden}
+.prog-strip-inner{height:100%;background:#fff;border-radius:99px;transition:width .4s}
+.layout{display:flex;max-width:1100px;margin:0 auto;padding:2rem 1.5rem 4rem;gap:1.5rem}
+.sidebar{width:220px;flex-shrink:0}
+.content{flex:1;min-width:0}
+.nav-card{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:1.2rem;margin-bottom:1rem;position:sticky;top:1rem}
+.nav-card h4{font-size:.85rem;color:var(--gray);margin-bottom:.8rem;letter-spacing:.04em}
+.nav-item{display:block;padding:.45rem .75rem;border-radius:6px;font-size:.85rem;color:var(--text2);margin-bottom:3px;cursor:pointer;border:none;width:100%;text-align:left;background:none;transition:background .12s}
+.nav-item:hover{background:var(--blue-light);color:var(--blue)}
+.nav-item.active{background:var(--blue);color:#fff;font-weight:600}
+.card{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:1.8rem 2rem;margin-bottom:1.5rem}
+.card h2{font-size:1.15rem;font-weight:700;color:var(--blue);margin-bottom:1rem;padding-bottom:.6rem;border-bottom:2px solid var(--blue-light)}
+.card h3{font-size:1rem;font-weight:700;color:var(--text);margin:.8rem 0 .4rem}
+.card p{font-size:.95rem;color:var(--text2);margin-bottom:.7rem}
+.obj-list{list-style:none;padding:0}
+.obj-list li{display:flex;gap:.7rem;align-items:flex-start;padding:.5rem 0;border-bottom:1px solid var(--gray-border);font-size:.93rem}
+.obj-list li:last-child{border:none}
+.obj-num{background:var(--blue);color:#fff;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;flex-shrink:0;margin-top:2px}
+.accordion{border:1px solid var(--gray-border);border-radius:var(--radius);overflow:hidden;margin-bottom:1rem}
+.acc-header{display:flex;justify-content:space-between;align-items:center;padding:.9rem 1.2rem;cursor:pointer;background:var(--gray-light);font-weight:600;font-size:.95rem;border:none;width:100%;text-align:left;transition:background .12s}
+.acc-header:hover{background:#ebebeb}
+.acc-header .para{font-size:.78rem;color:var(--blue);background:var(--blue-light);padding:2px 8px;border-radius:20px;margin-right:.6rem}
+.acc-header .arrow{font-size:1rem;color:var(--gray);transition:transform .2s}
+.acc-body{display:none;padding:1.1rem 1.3rem;background:#fff;font-size:.93rem;color:var(--text2);line-height:1.8;border-top:1px solid var(--gray-border)}
+.acc-body.open{display:block}
+.acc-header.open .arrow{transform:rotate(180deg)}
+.key-point{background:var(--blue-light);border-left:4px solid var(--blue);padding:.7rem 1rem;border-radius:0 6px 6px 0;margin:.8rem 0;font-size:.9rem;color:#1a3a6a}
+.warn-point{background:var(--orange-light);border-left:4px solid var(--orange);padding:.7rem 1rem;border-radius:0 6px 6px 0;margin:.8rem 0;font-size:.9rem;color:#6b3a00}
+.tip-point{background:var(--purple-light);border-left:4px solid var(--purple);padding:.7rem 1rem;border-radius:0 6px 6px 0;margin:.8rem 0;font-size:.9rem;color:#4a1272}
+.quote-box{background:#fafafa;border:1px solid #ddd;border-radius:8px;padding:1rem 1.2rem;margin:.8rem 0;font-style:italic;font-size:.88rem;color:#444;position:relative}
+.quote-box::before{content:'"';font-size:2.5rem;color:#ccc;position:absolute;top:-5px;left:8px;line-height:1}
+.quote-box .source{display:block;font-style:normal;font-size:.78rem;color:var(--gray);margin-top:.5rem;text-align:right}
+.diagram{background:var(--gray-light);border-radius:var(--radius);padding:1.5rem;margin:1rem 0;overflow:auto}
+.compare-table{width:100%;border-collapse:collapse;font-size:.9rem}
+.compare-table th{background:var(--blue);color:#fff;padding:.7rem 1rem;text-align:left;font-weight:600}
+.compare-table td{padding:.65rem 1rem;border-bottom:1px solid var(--gray-border);vertical-align:top}
+.compare-table tr:last-child td{border:none}
+.compare-table tr:nth-child(even) td{background:#fafafa}
+.case-box{background:#fff;border:1.5px solid var(--blue-mid);border-radius:var(--radius);padding:1.3rem 1.5rem;margin:1rem 0}
+.case-box .case-label{font-size:.78rem;font-weight:700;color:var(--blue);letter-spacing:.05em;margin-bottom:.5rem}
+.case-box h4{font-size:.95rem;font-weight:700;color:var(--text);margin-bottom:.6rem}
+.badge{display:inline-block;font-size:.75rem;font-weight:700;padding:2px 10px;border-radius:20px;margin-right:.4rem}
+.badge-int{background:#e8f0fa;color:#1a5fa8}
+.badge-ext{background:#e6f5ee;color:#1a7a4a}
+.quiz-section{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:1.8rem 2rem;margin-bottom:1.5rem}
+.quiz-section h2{font-size:1.15rem;font-weight:700;color:var(--blue);margin-bottom:.4rem}
+.quiz-section .q-count{font-size:.85rem;color:var(--gray);margin-bottom:1.5rem}
+.quiz-item{margin-bottom:1.8rem;padding-bottom:1.5rem;border-bottom:1px solid var(--gray-border)}
+.quiz-item:last-of-type{border:none}
+.quiz-item .q-text{font-size:.97rem;font-weight:600;color:var(--text);margin-bottom:.9rem}
+.quiz-item .q-num{font-size:.78rem;background:var(--blue-light);color:var(--blue);padding:2px 9px;border-radius:20px;margin-right:.5rem;font-weight:700}
+.opt-list{list-style:none;padding:0;display:flex;flex-direction:column;gap:.5rem}
+.opt-list li button{width:100%;text-align:left;padding:.7rem 1rem;border-radius:8px;border:1.5px solid var(--gray-border);background:#fff;font-size:.9rem;cursor:pointer;color:var(--text);transition:all .15s}
+.opt-list li button:hover{border-color:var(--blue-mid);background:var(--blue-light)}
+.opt-list li button.correct{background:var(--green-light);border-color:var(--green);color:var(--green);font-weight:600}
+.opt-list li button.wrong{background:var(--red-light);border-color:var(--red);color:var(--red)}
+.opt-list li button:disabled{cursor:default}
+.q-feedback{margin-top:.7rem;padding:.6rem 1rem;border-radius:8px;font-size:.88rem;display:none}
+.q-feedback.show{display:block}
+.q-feedback.ok{background:var(--green-light);color:var(--green);border:1px solid #a0d8b8}
+.q-feedback.no{background:var(--red-light);color:var(--red);border:1px solid #f5b8b8}
+.checklist{list-style:none;padding:0}
+.checklist li{display:flex;gap:.8rem;align-items:flex-start;padding:.55rem 0;border-bottom:1px solid var(--gray-border);font-size:.92rem}
+.checklist li:last-child{border:none}
+.checklist input[type=checkbox]{width:18px;height:18px;margin-top:2px;cursor:pointer;flex-shrink:0;accent-color:var(--green)}
+.checklist label{cursor:pointer;color:var(--text2)}
+.checklist input:checked+label{color:var(--green);text-decoration:line-through;opacity:.7}
+.nav-btns{display:flex;justify-content:space-between;margin-top:1.5rem}
+.btn{display:inline-flex;align-items:center;gap:.4rem;padding:.7rem 1.5rem;border-radius:8px;font-size:.9rem;font-weight:600;cursor:pointer;border:none;transition:all .15s}
+.btn-primary{background:var(--blue);color:#fff}
+.btn-primary:hover{background:#164d8a}
+.btn-outline{background:#fff;color:var(--blue);border:1.5px solid var(--blue)}
+.btn-outline:hover{background:var(--blue-light)}
+.btn-success{background:var(--green);color:#fff}
+.complete-banner{background:var(--green-light);border:2px solid var(--green);border-radius:var(--radius);padding:1.3rem 1.8rem;text-align:center;display:none;margin-bottom:1.5rem}
+.complete-banner.show{display:block}
+.complete-banner h3{color:var(--green);font-size:1.1rem;margin-bottom:.4rem}
+@media(max-width:720px){.layout{flex-direction:column}.sidebar{width:100%;position:static}.nav-card{position:static}}
+</style>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
+  <script src="tp-firebase.js"></script>
+</head>
+<body>
+<div id="tpLoading" style="position:fixed;top:0;left:0;width:100%;height:100%;background:#1a5fa8;display:flex;align-items:center;justify-content:center;z-index:9999;color:#fff;font-family:'Noto Sans KR',Arial,sans-serif">
+  <div style="text-align:center"><div style="font-size:2.5rem;margin-bottom:.8rem">📚</div><div style="font-size:1rem;font-weight:600">대주 이전가격 교육</div><div style="font-size:.82rem;opacity:.75;margin-top:.4rem">로딩 중...</div></div>
+</div>
+
+<header class="mod-header">
+  <div class="breadcrumb"><a href="index.html" style="color:#fff8">← Chapter II 목록으로</a></div>
+  <h1>Module 2 — 비교가능 제3자 가격방법(CUP)</h1>
+  <div class="sub">§2.13 ~ §2.26 · OECD Transfer Pricing Guidelines Chapter II · Part II-A&B</div>
+  <div class="prog-strip"><div class="prog-strip-inner" id="mod-prog" style="width:0%"></div></div>
+  <div style="display:flex;justify-content:flex-end;align-items:center;gap:.7rem;margin-top:.5rem;font-size:.82rem">
+    <span id="topUserName" style="color:rgba(255,255,255,.85)"></span>
+    <button onclick="tpSignOut()" style="background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.35);color:#fff;padding:3px 14px;border-radius:20px;cursor:pointer;font-size:.78rem;font-family:inherit">로그아웃</button>
+  </div>
+</header>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="nav-card">
+      <h4>이 모듈 목차</h4>
+      <button class="nav-item active" onclick="showSec('sec-obj',this)">학습 목표</button>
+      <button class="nav-item" onclick="showSec('sec-intro',this)">1. 전통적 방법 소개</button>
+      <button class="nav-item" onclick="showSec('sec-cup',this)">2. CUP 방법 원칙</button>
+      <button class="nav-item" onclick="showSec('sec-comp',this)">3. 비교가능성 요건</button>
+      <button class="nav-item" onclick="showSec('sec-commodity',this)">4. Commodities와 CUP</button>
+      <button class="nav-item" onclick="showSec('sec-case',this)">5. 적용 사례</button>
+      <button class="nav-item" onclick="showSec('sec-quiz',this)">✏ 자가 퀴즈</button>
+      <button class="nav-item" onclick="showSec('sec-check',this)">☑ 실무 체크리스트</button>
+    </div>
+    <div class="nav-card">
+      <h4>모듈 진도</h4>
+      <div style="font-size:2rem;font-weight:700;color:var(--blue);text-align:center" id="pct-display">0%</div>
+      <div style="font-size:.8rem;color:var(--gray);text-align:center">학습 완료율</div>
+    </div>
+  </aside>
+
+  <main class="content">
+    <div class="complete-banner" id="complete-banner">
+      <h3>🎉 Module 2 학습 완료!</h3>
+      <p>CUP 방법을 완료했습니다. Module 3에서 재판매가격방법(RPM)을 학습하세요.</p>
+      <a href="M2-3_RPM.html" class="btn btn-success" style="margin-top:.8rem;display:inline-flex">Module 3 시작하기 →</a>
+    </div>
+
+    <!-- 학습 목표 -->
+    <div class="card" id="sec-obj">
+      <h2>📌 학습 목표</h2>
+      <p style="font-size:.9rem;color:var(--gray);margin-bottom:1rem">이 모듈을 마치면 다음 사항을 설명하고 업무에 적용할 수 있습니다.</p>
+      <ul class="obj-list">
+        <li><div class="obj-num">1</div><span>CUP 방법의 정의와 다른 방법 대비 우선 적용 이유를 설명할 수 있다</span></li>
+        <li><div class="obj-num">2</div><span>내부 비교가능거래(Internal CUP)와 외부 비교가능거래(External CUP)의 차이를 구분하고 각 활용 방법을 설명할 수 있다</span></li>
+        <li><div class="obj-num">3</div><span>CUP 방법의 비교가능성 요건(2가지 조건)을 설명하고 차이조정 방법을 이해한다</span></li>
+        <li><div class="obj-num">4</div><span>Commodities 거래에 CUP 방법 적용 시 Quoted Price 사용 요건과 Pricing Date 결정 방법을 설명할 수 있다</span></li>
+        <li><div class="obj-num">5</div><span>CUP 적용 사례(커피, 운송 조건, 거래량 차이)에서 차이조정 방법을 적용할 수 있다</span></li>
+      </ul>
+    </div>
+
+    <!-- 섹션 1: 전통적 방법 소개 -->
+    <div class="card" id="sec-intro">
+      <h2>1. 전통적 거래방법(Traditional Transaction Methods) 소개</h2>
+      <div class="accordion">
+        <button class="acc-header" onclick="toggleAcc(this)">
+          <span><span class="para">§2.13</span>전통적 거래방법 개요</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p>Part II는 ALP 적용에 사용되는 전통적 거래방법을 상세히 설명합니다. 3가지 방법은 다음과 같습니다:</p>
+          <table class="compare-table" style="margin-top:.7rem">
+            <thead><tr><th>방법명</th><th>약칭</th><th>핵심 비교 기준</th></tr></thead>
+            <tbody>
+              <tr><td>비교가능 제3자 가격방법</td><td><strong>CUP</strong></td><td>거래 가격(Price)</td></tr>
+              <tr><td>재판매가격방법</td><td><strong>RPM</strong></td><td>총이익률(Gross Profit Margin)</td></tr>
+              <tr><td>원가가산방법</td><td><strong>CPM</strong></td><td>원가 대비 총이익 가산율(Cost Plus Mark-up)</td></tr>
+            </tbody>
+          </table>
+          <div class="key-point">📌 전통적 방법은 거래 가격 또는 총이익률을 직접 비교하는 방식으로, 순이익(Net Margin)을 비교하는 거래이익방법보다 더 직접적입니다.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 섹션 2: CUP 원칙 -->
+    <div class="card" id="sec-cup">
+      <h2>2. CUP 방법의 원칙과 구조</h2>
+      <p>CUP(Comparable Uncontrolled Price) 방법은 특수관계거래에서 부과된 가격을 <strong>비교가능한 비관계자 거래의 가격</strong>과 직접 비교하는 방법입니다. 두 가격 간에 차이가 있으면 특수관계거래 조건이 ALP를 충족하지 못함을 나타낼 수 있습니다.</p>
+
+      <div class="diagram">
+        <svg viewBox="0 0 580 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:580px;display:block;margin:0 auto">
+          <!-- 특수관계거래 -->
+          <rect x="10" y="20" width="130" height="55" rx="8" fill="#e8f0fa" stroke="#3b7dd8" stroke-width="1.5"/>
+          <text x="75" y="44" text-anchor="middle" font-size="12" font-weight="700" fill="#1a5fa8">관계사 A</text>
+          <text x="75" y="62" text-anchor="middle" font-size="10" fill="#555">공급자</text>
+          <rect x="240" y="20" width="130" height="55" rx="8" fill="#e8f0fa" stroke="#3b7dd8" stroke-width="1.5"/>
+          <text x="305" y="44" text-anchor="middle" font-size="12" font-weight="700" fill="#1a5fa8">관계사 B</text>
+          <text x="305" y="62" text-anchor="middle" font-size="10" fill="#555">구매자</text>
+          <line x1="140" y1="47" x2="240" y2="47" stroke="#3b7dd8" stroke-width="2"/>
+          <text x="190" y="40" text-anchor="middle" font-size="11" font-weight="700" fill="#1a5fa8">특수관계거래</text>
+          <text x="190" y="57" text-anchor="middle" font-size="10" fill="#c06000">Price = P1 (검토 대상)</text>
+          <!-- CUP 비교 -->
+          <rect x="10" y="130" width="130" height="55" rx="8" fill="#e6f5ee" stroke="#1a7a4a" stroke-width="1.5"/>
+          <text x="75" y="154" text-anchor="middle" font-size="12" font-weight="700" fill="#1a7a4a">독립기업 C</text>
+          <text x="75" y="172" text-anchor="middle" font-size="10" fill="#555">공급자</text>
+          <rect x="240" y="130" width="130" height="55" rx="8" fill="#e6f5ee" stroke="#1a7a4a" stroke-width="1.5"/>
+          <text x="305" y="154" text-anchor="middle" font-size="12" font-weight="700" fill="#1a7a4a">독립기업 D</text>
+          <text x="305" y="172" text-anchor="middle" font-size="10" fill="#555">구매자</text>
+          <line x1="140" y1="157" x2="240" y2="157" stroke="#1a7a4a" stroke-width="2"/>
+          <text x="190" y="150" text-anchor="middle" font-size="11" font-weight="700" fill="#1a7a4a">비교가능거래</text>
+          <text x="190" y="167" text-anchor="middle" font-size="10" fill="#1a7a4a">Price = P2 (CUP)</text>
+          <!-- 비교 화살표 -->
+          <path d="M420 47 L500 47 L500 157 L420 157" fill="none" stroke="#aaa" stroke-width="1.5" stroke-dasharray="5,3"/>
+          <text x="530" y="95" text-anchor="middle" font-size="12" font-weight="700" fill="#b02020">비교</text>
+          <text x="530" y="110" text-anchor="middle" font-size="10" fill="#b02020">P1 ≈ P2?</text>
+        </svg>
+        <p style="text-align:center;font-size:.8rem;color:var(--gray);margin-top:.5rem">CUP 방법: 특수관계거래 가격(P1) vs. 비교가능거래 가격(P2) 직접 비교</p>
+      </div>
+
+      <div class="accordion">
+        <button class="acc-header" onclick="toggleAcc(this)">
+          <span><span class="para">§2.14</span>CUP 방법의 정의와 우선성</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p>CUP 방법은 특수관계거래의 가격을 비교가능한 비관계자 거래의 가격과 비교합니다. 두 가격 차이가 있으면 거래 조건이 ALP와 다를 수 있음을 시사하며, 비관계자 거래 가격으로 대체할 수 있습니다.</p>
+          <div class="key-point">📌 §2.14 핵심: 비교가능한 비관계자 거래를 찾을 수 있는 경우, CUP 방법은 가장 직접적이고 신뢰성 높은 방법이므로 <strong>다른 모든 방법에 우선</strong>합니다.</div>
+
+          <p style="margin-top:.8rem"><strong>내부 CUP vs. 외부 CUP:</strong></p>
+          <table class="compare-table" style="margin-top:.4rem">
+            <thead><tr><th>구분</th><th>정의</th><th>신뢰성</th></tr></thead>
+            <tbody>
+              <tr><td><span class="badge badge-int">내부 CUP</span></td><td>분석 대상 기업이 동일 제품을 제3자에게도 판매(또는 제3자로부터 구매)하는 거래</td><td>일반적으로 더 높음 (직접 비교)</td></tr>
+              <tr><td><span class="badge badge-ext">외부 CUP</span></td><td>분석 대상 기업과 무관한 독립기업 간의 비교가능 거래</td><td>제품·조건 차이로 인해 조정 필요할 수 있음</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- 섹션 3: 비교가능성 요건 -->
+    <div class="card" id="sec-comp">
+      <h2>3. CUP 방법의 비교가능성 요건 (§2.15–2.17)</h2>
+
+      <div class="accordion">
+        <button class="acc-header" onclick="toggleAcc(this)">
+          <span><span class="para">§2.15</span>비교가능성의 2가지 조건</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p>CUP 방법에서 비관계자 거래가 비교가능하려면 다음 두 조건 중 하나를 충족해야 합니다:</p>
+          <table class="compare-table" style="margin-top:.7rem">
+            <thead><tr><th>조건</th><th>내용</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><strong>조건 a)</strong></td>
+                <td>비교 거래 간 차이(또는 거래 기업 간 차이)가 시장 가격에 <strong>중요한 영향을 미치지 않는</strong> 경우</td>
+              </tr>
+              <tr>
+                <td><strong>조건 b)</strong></td>
+                <td>차이가 존재하더라도 그 영향을 제거하기 위해 <strong>합리적으로 정확한 조정</strong>을 할 수 있는 경우</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="key-point">📌 핵심: "합리적으로 정확한 조정(reasonably accurate adjustments)"이 가능하면 완전히 동일한 거래가 아니어도 CUP 적용이 가능합니다.</div>
+        </div>
+      </div>
+
+      <div class="accordion">
+        <button class="acc-header" onclick="toggleAcc(this)">
+          <span><span class="para">§2.16–2.17</span>차이조정과 실무적 유연성</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p><strong>§2.16</strong> — 특수관계거래와 완전히 동일한 비관계자 거래를 찾는 것은 어렵습니다. 예를 들어, 제품 자체의 경미한 차이도 가격에 중요한 영향을 줄 수 있습니다. 이 경우 조정이 적절합니다.</p>
+          <p style="margin-top:.6rem"><strong>§2.17</strong> — 비교가능성 고려 시 단순한 제품 비교 외에도 <strong>더 넓은 사업 기능</strong>(Chapter I의 비교가능성 요소 전반)을 검토해야 합니다.</p>
+          <div class="tip-point">💡 실무 팁: 정확한 조정이 어렵다는 이유만으로 CUP를 포기해서는 안 됩니다. 필요시 다른 방법으로 보완할 수 있습니다(§2.17). 모든 데이터를 CUP에 적합하게 조정하려는 노력을 기울여야 합니다.</div>
+        </div>
+      </div>
+
+      <h3 style="margin-top:1.2rem">주요 차이조정 유형</h3>
+      <table class="compare-table" style="margin-top:.7rem">
+        <thead><tr><th>조정 유형</th><th>예시</th><th>조정 방향</th></tr></thead>
+        <tbody>
+          <tr><td>운송 조건</td><td>Delivered vs. FOB 공장</td><td>운송비·보험료 차이 조정</td></tr>
+          <tr><td>거래량</td><td>1,000톤 vs. 500톤</td><td>볼륨 디스카운트 조정</td></tr>
+          <tr><td>제품 품질</td><td>콜롬비아산 vs. 브라질산 원두</td><td>시장 프리미엄/디스카운트 조정</td></tr>
+          <tr><td>계약 조건</td><td>지불 기한, 보증 조건</td><td>금리·위험 반영 조정</td></tr>
+          <tr><td>시장 단계</td><td>도매 vs. 소매</td><td>유통 마진 조정</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 섹션 4: Commodities -->
+    <div class="card" id="sec-commodity">
+      <h2>4. Commodities 거래와 CUP (§2.18–2.22)</h2>
+      <p>원자재(Commodities) 거래에서 CUP 방법은 일반적으로 가장 적합한 방법입니다. <strong>공시가격(Quoted Price)</strong>을 기준으로 정상가격을 결정할 수 있습니다.</p>
+
+      <div class="accordion">
+        <button class="acc-header" onclick="toggleAcc(this)">
+          <span><span class="para">§2.18–2.19</span>Commodities와 Quoted Price 정의</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p><strong>Commodities:</strong> 국제·국내 상품거래소에서 공시가격(Quoted Price)이 형성되고, 독립기업 간 거래에서 그 가격이 기준으로 사용되는 유형 제품 (예: 원유, 금속, 농산물 등)</p>
+          <p style="margin-top:.6rem"><strong>Quoted Price:</strong> 국제·국내 상품거래소의 가격, 또는 독립기업 간 거래에서 기준으로 활용되는 공인된 가격보고기관·정부기관의 가격 지수</p>
+          <div class="key-point">📌 Quoted Price가 산업 내 독립기업 간 비관계자 거래에서 가격 결정 기준으로 광범위하고 일상적으로 사용될 때, Commodities 거래의 정상가격 결정에 활용 가능합니다.</div>
+        </div>
+      </div>
+
+      <div class="accordion">
+        <button class="acc-header" onclick="toggleAcc(this)">
+          <span><span class="para">§2.20</span>Commodities CUP 비교가능성 요건</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p>Commodities 거래에서 CUP를 신뢰성 있게 적용하려면, 특수관계거래와 Quoted Price 기준 거래 간 다음 경제적 특성이 비교가능해야 합니다:</p>
+          <ul style="margin:.5rem 0 .5rem 1.2rem;font-size:.9rem;line-height:2">
+            <li>Commodity의 물리적 특성 및 품질</li>
+            <li>거래 계약 조건 (거래량, 계약 기간, 인도 시기·조건, 운송, 보험, 외환 조건)</li>
+          </ul>
+          <p>일부 Commodities는 즉시 인도(Prompt Delivery) 등 특정 경제적 특성이 프리미엄 또는 디스카운트를 발생시킵니다. 이러한 차이에 대해서는 합리적으로 정확한 조정이 필요합니다.</p>
+        </div>
+      </div>
+
+      <div class="accordion">
+        <button class="acc-header" onclick="toggleAcc(this)">
+          <span><span class="para">§2.21–2.22</span>문서화 요건 및 Pricing Date</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p><strong>§2.21 — 문서화 요건:</strong> 납세자는 다음을 TP 문서에 포함해야 합니다:</p>
+          <ul style="margin:.4rem 0 .4rem 1.2rem;font-size:.9rem;line-height:2">
+            <li>Commodity 거래의 가격결정 정책</li>
+            <li>Quoted Price 기준 가격조정 정당화 정보</li>
+            <li>사용된 가격공식, 제3자 최종 고객 계약, 프리미엄·디스카운트, Pricing Date, 공급망 정보</li>
+          </ul>
+          <p style="margin-top:.6rem"><strong>§2.22 — Pricing Date 결정:</strong></p>
+          <table class="compare-table" style="margin-top:.4rem">
+            <thead><tr><th>상황</th><th>Pricing Date 결정 방법</th></tr></thead>
+            <tbody>
+              <tr><td>납세자가 거래 시 합의된 Pricing Date 신뢰할 수 있는 증거 제공</td><td>합의된 Pricing Date 적용</td></tr>
+              <tr><td>서면 합의의 Pricing Date가 실제 행동과 불일치</td><td>과세관청이 다른 Pricing Date 결정 가능</td></tr>
+              <tr><td>납세자가 신뢰할 수 있는 Pricing Date 증거를 제공하지 못함</td><td>과세관청이 선하증권(Bill of Lading) 기준 선적일을 Pricing Date로 간주 가능</td></tr>
+            </tbody>
+          </table>
+          <div class="warn-point">⚠ 주의: 과세관청이 Pricing Date를 간주 적용하여 이중과세가 발생하는 경우, MAP(상호합의 절차)을 통해 해결 가능해야 합니다.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 섹션 5: 적용 사례 -->
+    <div class="card" id="sec-case">
+      <h2>5. CUP 방법 적용 사례 (§2.24–2.26)</h2>
+
+      <div class="case-box">
+        <div class="case-label">CASE 1 — §2.24</div>
+        <h4>커피 원두 거래 — 제품 차이 조정</h4>
+        <p>A사(특수관계)가 관계사에게 <strong>콜롬비아산 무상표 커피 원두</strong>를 판매. 독립기업은 <strong>브라질산 무상표 커피 원두</strong>를 유사한 유형·품질·수량으로 판매.</p>
+        <p style="margin-top:.5rem"><strong>분석:</strong> 거래량·시기·유통 단계가 유사하다면 CUP로 신뢰성 높게 적용 가능. 단, 원산지 차이(콜롬비아 vs. 브라질)가 시장에서 <strong>가격에 중요한 영향</strong>을 미치는지 확인 필요.</p>
+        <p style="margin-top:.5rem"><strong>결론:</strong> 원산지가 프리미엄/디스카운트를 발생시키면 → 조정 적용. 합리적으로 정확한 조정 불가 시 → CUP 신뢰성 저하, 다른 방법 고려 필요.</p>
+        <div class="key-point" style="margin-top:.5rem">📌 §2.24 — CUP는 동일 제품을 독립 기업에게도 판매하는 경우 특히 신뢰할 수 있습니다.</div>
+      </div>
+
+      <div class="case-box" style="border-color:#1a7a4a">
+        <div class="case-label" style="color:#1a7a4a">CASE 2 — §2.25</div>
+        <h4>운송 조건 차이 조정 — Delivered vs. FOB</h4>
+        <p>특수관계거래: 납품(Delivered) 가격 조건 / 비교가능거래: FOB 공장 조건</p>
+        <p style="margin-top:.5rem"><strong>분석:</strong> 운송·보험 조건 차이는 <strong>확정적이고 합리적으로 산정 가능</strong>합니다.</p>
+        <p style="margin-top:.5rem"><strong>결론:</strong> 비교가능거래 가격에서 운송·보험비 차이를 조정하여 CUP 적용 가능.</p>
+        <div class="key-point" style="background:var(--green-light);border-color:var(--green);color:#2a5a30;margin-top:.5rem">📌 운송 조건 차이는 "합리적으로 정확한 조정"이 가능한 대표적 사례입니다.</div>
+      </div>
+
+      <div class="case-box" style="border-color:#c06000">
+        <div class="case-label" style="color:#c06000">CASE 3 — §2.26</div>
+        <h4>거래량 차이 조정 — 1,000톤 vs. 500톤</h4>
+        <p>납세자 A사: 관계사에게 동일 제품 <strong>1,000톤을 톤당 USD 80</strong>에 판매.<br>
+        동시에 독립기업에게 <strong>500톤을 톤당 USD 100</strong>에 판매.</p>
+        <p style="margin-top:.5rem"><strong>분석:</strong> 거래량 차이(1,000톤 vs. 500톤)가 거래 가격에 미치는 영향 평가 필요. 대량 거래에서 볼륨 디스카운트(Volume Discount)가 시장 관행인지 확인.</p>
+        <p style="margin-top:.5rem"><strong>결론:</strong> 볼륨 디스카운트가 시장에서 정상적인 경우 → 가격 차이(USD 20/톤)가 정당화될 수 있음. 볼륨 이외 차이가 없다면, 조정 후 USD 80이 정상가격 범위 내일 수 있음.</p>
+        <div class="warn-point" style="margin-top:.5rem">⚠ 볼륨 디스카운트가 시장에서 정상 관행이 아님에도 가격 차이가 있는 경우 → ALP 문제 가능성 검토 필요.</div>
+      </div>
+    </div>
+
+    <!-- 퀴즈 -->
+    <div class="quiz-section" id="sec-quiz">
+      <h2>✏ 자가 퀴즈</h2>
+      <p class="q-count">총 4문제 · 각 문제에 정답을 선택하세요</p>
+
+      <div class="quiz-item">
+        <div class="q-text"><span class="q-num">Q1</span>§2.15에 따른 CUP 방법 적용 가능 조건으로 올바른 것은?</div>
+        <ul class="opt-list">
+          <li><button onclick="answerQ(this,'wrong','조건 a)는 가격 영향이 없는 경우, 조건 b)는 조정 가능한 경우입니다. 완전히 동일해야 하는 것은 아닙니다.')">① 비교 거래 간 아무런 차이가 없어야 한다</button></li>
+          <li><button onclick="answerQ(this,'correct','정확합니다! 조건 a) 차이가 가격에 중요한 영향 없음, 또는 조건 b) 합리적으로 정확한 조정이 가능하면 CUP 적용 가능합니다.')">② 차이가 가격에 중요한 영향 없거나, 합리적으로 정확한 조정이 가능한 경우</button></li>
+          <li><button onclick="answerQ(this,'wrong','완전히 동일한 제품만 CUP에 사용할 수 있는 것은 아닙니다.')">③ 완전히 동일한 제품만 CUP에 사용할 수 있다</button></li>
+          <li><button onclick="answerQ(this,'wrong','내부 비교가능거래 없이도 외부 비교가능거래로 CUP 적용이 가능합니다.')">④ 내부 비교가능거래(Internal CUP)만 CUP 방법에 활용할 수 있다</button></li>
+        </ul>
+        <div class="q-feedback" id="fb1"></div>
+      </div>
+
+      <div class="quiz-item">
+        <div class="q-text"><span class="q-num">Q2</span>Commodities 거래에서 Quoted Price의 정의로 올바른 것은?</div>
+        <ul class="opt-list">
+          <li><button onclick="answerQ(this,'wrong','회사 내부 가격은 Quoted Price가 아닙니다.')">① 납세자가 자사 제품에 부과한 내부 이전가격</button></li>
+          <li><button onclick="answerQ(this,'wrong','MNE 그룹 전체 평균 가격은 Quoted Price가 아닙니다.')">② 동일 MNE 그룹 내 평균 거래 가격</button></li>
+          <li><button onclick="answerQ(this,'correct','정확합니다! Quoted Price는 국제·국내 상품거래소에서 형성되거나 독립기업 간 거래에서 기준으로 사용되는 공인 가격보고기관의 가격입니다.')">③ 국제·국내 상품거래소에서 형성되거나 공인 가격보고기관이 제공하는 가격</button></li>
+          <li><button onclick="answerQ(this,'wrong','정부가 규정한 최저가격은 Quoted Price와 다를 수 있습니다.')">④ 각국 정부가 규정한 최저 수입가격</button></li>
+        </ul>
+        <div class="q-feedback" id="fb2"></div>
+      </div>
+
+      <div class="quiz-item">
+        <div class="q-text"><span class="q-num">Q3</span>§2.25의 운송 조건 사례에서 Delivered 가격과 FOB 가격의 차이에 대한 올바른 설명은?</div>
+        <ul class="opt-list">
+          <li><button onclick="answerQ(this,'wrong','운송 조건 차이는 확정 가능하므로 CUP 적용을 포기할 이유가 없습니다.')">① 운송 조건 차이는 조정 불가능하므로 CUP를 포기해야 한다</button></li>
+          <li><button onclick="answerQ(this,'wrong','운송 조건 차이는 가격에 영향을 미치므로 조정이 필요합니다.')">② 운송 조건 차이는 무시하고 두 가격을 직접 비교한다</button></li>
+          <li><button onclick="answerQ(this,'correct','정확합니다! 운송·보험 조건의 차이는 확정적이고 합리적으로 산정 가능하므로 조정을 통해 CUP를 적용할 수 있습니다.')">③ 운송·보험 비용 차이를 조정하여 비교가능거래 가격으로 만든 후 CUP 적용</button></li>
+          <li><button onclick="answerQ(this,'wrong','운송 조건은 CUP 비교가능성과 관련이 있습니다.')">④ 운송 조건은 CUP 방법에서 고려할 필요 없는 요소다</button></li>
+        </ul>
+        <div class="q-feedback" id="fb3"></div>
+      </div>
+
+      <div class="quiz-item">
+        <div class="q-text"><span class="q-num">Q4</span>§2.22에 따라 납세자가 Pricing Date에 대한 신뢰할 수 있는 증거를 제공하지 못하는 경우 과세관청이 취할 수 있는 조치는?</div>
+        <ul class="opt-list">
+          <li><button onclick="answerQ(this,'wrong','과세관청은 다른 증거를 바탕으로 Pricing Date를 결정할 수 있습니다.')">① 납세자가 제시한 가격을 그대로 인정한다</button></li>
+          <li><button onclick="answerQ(this,'wrong','CUP 포기는 이 경우의 조치가 아닙니다.')">② CUP 방법 적용을 포기하고 TNMM으로 전환한다</button></li>
+          <li><button onclick="answerQ(this,'correct','정확합니다! 납세자가 합의된 Pricing Date 증거를 제공하지 못하면, 과세관청은 선하증권 등 가용 증거를 기반으로 선적일을 Pricing Date로 간주할 수 있습니다.')">③ 선하증권 등 가용 증거를 기반으로 선적일을 Pricing Date로 간주할 수 있다</button></li>
+          <li><button onclick="answerQ(this,'wrong','자동적으로 높은 가격을 적용하는 것은 ALP에 부합하지 않습니다.')">④ 해당 기간 중 가장 높은 Quoted Price를 자동 적용한다</button></li>
+        </ul>
+        <div class="q-feedback" id="fb4"></div>
+      </div>
+    </div>
+
+    <!-- 체크리스트 -->
+    <div class="card" id="sec-check">
+      <h2>☑ 실무 체크리스트 — CUP 방법 적용</h2>
+      <ul class="checklist">
+        <li><input type="checkbox" id="c1" onchange="saveCheck()"><label for="c1">내부 비교가능거래(Internal CUP) 존재 여부 우선 확인 (동일 제품을 제3자에게 판매/구매하는 거래)</label></li>
+        <li><input type="checkbox" id="c2" onchange="saveCheck()"><label for="c2">내부 CUP 없는 경우 외부 데이터베이스에서 비교가능거래 검색</label></li>
+        <li><input type="checkbox" id="c3" onchange="saveCheck()"><label for="c3">§2.15 비교가능성 2가지 조건 충족 여부 검토 (가격 영향 없음 또는 조정 가능)</label></li>
+        <li><input type="checkbox" id="c4" onchange="saveCheck()"><label for="c4">주요 차이(제품 품질, 거래량, 운송 조건, 계약 기간 등) 파악 및 조정 근거 문서화</label></li>
+        <li><input type="checkbox" id="c5" onchange="saveCheck()"><label for="c5">Commodities 거래의 경우 Quoted Price, Pricing Date, 프리미엄/디스카운트 요소 확인</label></li>
+        <li><input type="checkbox" id="c6" onchange="saveCheck()"><label for="c6">CUP 신뢰성이 낮은 경우 대체 방법(RPM, CPM, TNMM 등)과 병행 검토 여부</label></li>
+      </ul>
+      <div class="nav-btns" style="margin-top:1.5rem">
+        <a href="M2-1_방법선택.html" class="btn btn-outline">← Module 1: 방법 선택</a>
+        <a href="M2-3_RPM.html" class="btn btn-primary">Module 3: RPM →</a>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+var MODKEY='ch2_m2';
+var sections=['sec-obj','sec-intro','sec-cup','sec-comp','sec-commodity','sec-case','sec-quiz','sec-check'];
+function showSec(id,btn){
+  sections.forEach(function(s){var el=document.getElementById(s);if(el)el.style.display='none';});
+  var target=document.getElementById(id);if(target)target.style.display='block';
+  document.querySelectorAll('.nav-item').forEach(function(b){b.classList.remove('active')});
+  if(btn)btn.classList.add('active');
+  var idx=sections.indexOf(id);
+  var pct=Math.round((idx+1)/sections.length*100);
+  var existing=parseInt(tpGet(MODKEY+'_pct')||'0');
+  if(pct>existing){tpSet(MODKEY+'_pct',pct);updateProgress(pct);}
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function updateProgress(pct){
+  document.getElementById('mod-prog').style.width=pct+'%';
+  document.getElementById('pct-display').textContent=pct+'%';
+  if(pct===100)document.getElementById('complete-banner').classList.add('show');
+}
+function answerQ(btn,type,msg){
+  var item=btn.closest('.quiz-item');
+  item.querySelectorAll('button').forEach(function(b){b.disabled=true;b.classList.remove('correct','wrong');});
+  btn.classList.add(type);
+  var fbId='fb'+item.querySelector('.q-num').textContent.replace('Q','');
+  var fb=document.getElementById(fbId);
+  if(fb){fb.textContent=msg;fb.className='q-feedback show '+(type==='correct'?'ok':'no');}
+  var allDone=true;
+  document.querySelectorAll('.quiz-item').forEach(function(qi){if(!qi.querySelector('button:disabled'))allDone=false;});
+  if(allDone){var pct=Math.max(parseInt(tpGet(MODKEY+'_pct')||'0'),80);tpSet(MODKEY+'_pct',pct);updateProgress(pct);}
+}
+function saveCheck(){
+  var checks='';
+  for(var i=1;i<=6;i++){var cb=document.getElementById('c'+i);checks+=(cb&&cb.checked)?'1':'0';}
+  tpSet(MODKEY+'_checks',checks);
+  var cnt=checks.split('').filter(function(c){return c==='1';}).length;
+  if(cnt===6){tpSet(MODKEY+'_pct',100);updateProgress(100);}
+}
+function toggleAcc(btn){
+  var body=btn.nextElementSibling;var isOpen=body.classList.contains('open');
+  body.classList.toggle('open');btn.classList.toggle('open');
+  if(!isOpen){
+    var opened=parseInt(tpGet(MODKEY+'_opened')||'0')+1;tpSet(MODKEY+'_opened',opened);
+    var pct=Math.min(50,opened*7);var existing=parseInt(tpGet(MODKEY+'_pct')||'0');
+    if(pct>existing){tpSet(MODKEY+'_pct',pct);updateProgress(pct);}
+  }
+}
+sections.forEach(function(s){var el=document.getElementById(s);if(el)el.style.display='none';});
+document.getElementById('sec-obj').style.display='block';
+tpOnReady(function(user){
+  document.getElementById('tpLoading').style.display='none';
+  document.getElementById('topUserName').textContent=user.displayName||user.email;
+  var pct=parseInt(tpGet(MODKEY+'_pct')||'0');updateProgress(pct);
+  var checks=tpGet(MODKEY+'_checks')||'';
+  for(var i=0;i<checks.length;i++){if(checks[i]==='1'&&document.getElementById('c'+(i+1)))document.getElementById('c'+(i+1)).checked=true;}
+  if(pct===100)document.getElementById('complete-banner').classList.add('show');
+});
+</script>
+</body>
+</html>

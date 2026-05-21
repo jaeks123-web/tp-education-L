@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OECD 이전가격 지침서 — Chapter III 기초과정</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --teal:#0f7a7a;--teal-light:#e0f5f5;--teal-mid:#1a9a9a;
+  --blue:#1a5fa8;--blue-light:#e8f0fa;--blue-mid:#3b7dd8;
+  --green:#1a7a4a;--green-light:#e6f5ee;
+  --orange:#c06000;--orange-light:#fff3e0;
+  --red:#b02020;--red-light:#fdecea;
+  --purple:#6a1fa8;--purple-light:#f3e8fa;
+  --gray:#555;--gray-light:#f5f5f5;--gray-border:#ddd;
+  --text:#222;--text2:#555;--white:#fff;
+  --radius:10px;--shadow:0 2px 8px rgba(0,0,0,.10);
+}
+body{font-family:'Noto Sans KR',Arial,sans-serif;background:#f0f4f8;color:var(--text);line-height:1.7;font-size:16px}
+a{color:var(--teal);text-decoration:none}
+.page-header{background:var(--teal);color:#fff;padding:2rem 2.5rem 1.5rem;border-bottom:4px solid var(--teal-mid)}
+.page-header h1{font-size:1.6rem;font-weight:700;margin-bottom:.3rem}
+.page-header p{font-size:.95rem;opacity:.85}
+.badge{display:inline-block;font-size:.75rem;padding:3px 10px;border-radius:20px;font-weight:600;margin-left:8px}
+.badge-basic{background:#fff3;color:#fff;border:1px solid #fff6}
+.badge-ch3{background:rgba(15,122,122,.4);color:#fff;border:1px solid rgba(255,255,255,.3)}
+.main{max-width:960px;margin:2.5rem auto;padding:0 1.5rem 4rem}
+.intro-box{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:1.8rem 2rem;margin-bottom:2rem;border-left:5px solid var(--teal)}
+.intro-box h2{font-size:1.1rem;color:var(--teal);margin-bottom:.8rem}
+.intro-box p{font-size:.95rem;color:var(--text2);margin-bottom:.5rem}
+.overall-progress{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:1.5rem 2rem;margin-bottom:2rem}
+.overall-progress h3{font-size:1rem;color:var(--gray);margin-bottom:1rem}
+.prog-outer{background:#e9ecef;border-radius:99px;height:12px;overflow:hidden;margin-bottom:.4rem}
+.prog-inner{height:100%;background:linear-gradient(90deg,var(--teal),var(--teal-mid));border-radius:99px;transition:width .5s}
+.prog-label{display:flex;justify-content:space-between;font-size:.85rem;color:var(--gray)}
+.module-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.2rem}
+.module-card{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:1.5rem;border-top:4px solid var(--gray-border);transition:transform .15s,box-shadow .15s;position:relative;overflow:hidden}
+.module-card:hover{transform:translateY(-3px);box-shadow:0 6px 20px rgba(0,0,0,.13)}
+.module-card.done{border-top-color:var(--green)}
+.module-card.inprog{border-top-color:var(--teal)}
+.module-card .num{font-size:.8rem;font-weight:700;color:var(--gray);margin-bottom:.4rem;letter-spacing:.05em}
+.module-card h3{font-size:1rem;font-weight:700;color:var(--text);margin-bottom:.5rem}
+.module-card p{font-size:.85rem;color:var(--text2);margin-bottom:1rem}
+.module-card .para-range{font-size:.78rem;color:var(--teal);background:var(--teal-light);padding:2px 8px;border-radius:20px;display:inline-block;margin-bottom:.8rem}
+.module-card .method-tag{font-size:.75rem;color:var(--blue);background:var(--blue-light);padding:2px 8px;border-radius:20px;display:inline-block;margin-bottom:.8rem;margin-left:4px}
+.module-card .status-bar{height:4px;background:#eee;border-radius:99px;overflow:hidden;margin-bottom:1rem}
+.module-card .status-fill{height:100%;background:var(--green);border-radius:99px}
+.btn{display:inline-block;padding:.6rem 1.4rem;border-radius:8px;font-size:.88rem;font-weight:600;cursor:pointer;border:none;transition:all .15s}
+.btn-primary{background:var(--teal);color:#fff}
+.btn-primary:hover{background:var(--teal-mid)}
+.btn-outline{background:#fff;color:var(--teal);border:1.5px solid var(--teal)}
+.btn-outline:hover{background:var(--teal-light)}
+.btn-done{background:var(--green);color:#fff}
+.status-tag{position:absolute;top:12px;right:12px;font-size:.72rem;font-weight:700;padding:3px 9px;border-radius:20px}
+.tag-done{background:var(--green-light);color:var(--green)}
+.tag-inprog{background:var(--teal-light);color:var(--teal)}
+.tag-pending{background:var(--gray-light);color:var(--gray)}
+.learn-path{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:1.5rem 2rem;margin-bottom:2rem}
+.learn-path h3{font-size:1rem;color:var(--gray);margin-bottom:1rem}
+.path-steps{display:flex;align-items:center;flex-wrap:wrap;gap:.5rem}
+.path-step{background:var(--teal-light);color:var(--teal);padding:.3rem .9rem;border-radius:20px;font-size:.82rem;font-weight:600}
+.path-arrow{color:var(--gray);font-size:1.1rem}
+.tips-box{background:var(--orange-light);border:1px solid #f5c060;border-radius:var(--radius);padding:1.2rem 1.5rem;margin-bottom:2rem}
+.tips-box h4{color:var(--orange);font-size:.95rem;margin-bottom:.5rem}
+.tips-box ul{padding-left:1.2rem;font-size:.88rem;color:#6b4700}
+.tips-box li{margin-bottom:.3rem}
+.comparability-overview{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:1.5rem 2rem;margin-bottom:2rem}
+.comparability-overview h3{font-size:1rem;color:var(--gray);margin-bottom:1rem}
+.comp-row{display:flex;gap:.6rem;flex-wrap:wrap}
+.comp-pill{flex:1;min-width:100px;text-align:center;padding:.7rem .5rem;border-radius:8px;font-size:.82rem;font-weight:700;border:2px solid transparent}
+.cp-1{background:var(--teal-light);color:var(--teal);border-color:var(--teal)}
+.cp-2{background:#e6f5ee;color:#1a7a4a;border-color:#1a7a4a}
+.cp-3{background:#fff3e0;color:#c06000;border-color:#c06000}
+.cp-4{background:#f3e8fa;color:#6a1fa8;border-color:#6a1fa8}
+.cp-5{background:#fdecea;color:#b02020;border-color:#b02020}
+.comp-pill small{display:block;font-size:.7rem;font-weight:400;margin-top:2px;opacity:.8}
+.nav-back{display:inline-flex;align-items:center;gap:.4rem;color:var(--teal);font-size:.88rem;font-weight:600;margin-bottom:1.5rem;padding:.4rem .9rem;background:#fff;border-radius:8px;box-shadow:var(--shadow);border:1px solid var(--gray-border)}
+.nav-back:hover{background:var(--teal-light)}
+</style>
+  <!-- Firebase CDN -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
+  <script src="tp-firebase.js"></script>
+</head>
+<body>
+<div id="tpLoading" style="position:fixed;top:0;left:0;width:100%;height:100%;background:#0f7a7a;display:flex;align-items:center;justify-content:center;z-index:9999;color:#fff;font-family:'Noto Sans KR',Arial,sans-serif">
+  <div style="text-align:center">
+    <div style="font-size:2.5rem;margin-bottom:.8rem">📚</div>
+    <div style="font-size:1rem;font-weight:600">대주 이전가격 교육</div>
+    <div style="font-size:.82rem;opacity:.75;margin-top:.4rem">로딩 중...</div>
+  </div>
+</div>
+<header class="page-header">
+  <h1>OECD 이전가격 지침서 — Chapter III <span class="badge badge-basic">기초과정</span> <span class="badge badge-ch3">비교가능성 분석</span></h1>
+  <p>Comparability Analysis · 비교가능성 분석 · 자기주도 학습 프로그램</p>
+  <div style="display:flex;justify-content:flex-end;align-items:center;gap:.7rem;margin-top:.5rem;font-size:.82rem">
+    <span id="topUserName" style="color:rgba(255,255,255,.85)"></span>
+    <button onclick="tpSignOut()" style="background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.35);color:#fff;padding:3px 14px;border-radius:20px;cursor:pointer;font-size:.78rem;font-family:inherit">로그아웃</button>
+  </div>
+</header>
+<div class="main">
+
+  <a href="index_ch2.html" class="nav-back">← Chapter II로 돌아가기</a>
+
+  <div class="intro-box">
+    <h2>📗 Chapter III 과정에 대하여</h2>
+    <p>이 과정은 OECD 이전가격 지침서 <strong>Chapter III (§3.1~§3.83)</strong>의 핵심 내용을 다룹니다. 이전가격 분석의 실무적 기초인 <strong>비교가능성 분석(Comparability Analysis)</strong>을 체계적으로 학습합니다.</p>
+    <p>Chapter I(ALP 기초)과 Chapter II(방법론)를 먼저 학습하신 후 이 과정을 수강하시면 이해도가 높아집니다. 비교가능성 분석 9단계 프로세스부터 분석대상회사 선정, 비교가능거래 탐색, 정상가격범위 결정까지 단계적으로 학습할 수 있습니다.</p>
+    <p style="margin-top:.8rem;font-size:.88rem;color:var(--gray)">⏱ 예상 학습 시간: 6개 모듈 × 약 40~60분 = 총 약 4~6시간 (자신의 속도에 맞게 분할 가능)</p>
+  </div>
+
+  <div class="comparability-overview">
+    <h3>📌 Chapter III — 비교가능성 5대 요소 한눈에 보기</h3>
+    <div class="comp-row">
+      <div class="comp-pill cp-1">제품·서비스<small>재화·서비스의 특성</small></div>
+      <div class="comp-pill cp-2">기능 분석<small>FAR 분석</small></div>
+      <div class="comp-pill cp-3">계약 조건<small>법적·경제적 조건</small></div>
+      <div class="comp-pill cp-4">경제적 환경<small>시장·지역·시점</small></div>
+      <div class="comp-pill cp-5">사업 전략<small>시장 침투·혁신</small></div>
+    </div>
+  </div>
+
+  <div class="overall-progress" id="overall-progress-box">
+    <h3>📊 전체 학습 진도 (Chapter III)</h3>
+    <div class="prog-outer"><div class="prog-inner" id="overall-bar" style="width:0%"></div></div>
+    <div class="prog-label"><span id="prog-text">0 / 6 모듈 완료</span><span id="prog-pct">0%</span></div>
+  </div>
+
+  <div class="learn-path" style="margin-bottom:1.5rem">
+    <h3>🗺 학습 경로</h3>
+    <div class="path-steps">
+      <span class="path-step">M3-1 비교가능성 개관</span><span class="path-arrow">→</span>
+      <span class="path-step">M3-2 분석대상회사</span><span class="path-arrow">→</span>
+      <span class="path-step">M3-3 비교가능거래 탐색</span><span class="path-arrow">→</span>
+      <span class="path-step">M3-4 비교가능회사 선정</span><span class="path-arrow">→</span>
+      <span class="path-step">M3-5 정상가격범위</span><span class="path-arrow">→</span>
+      <span class="path-step">M3-6 시간적 비교가능성</span>
+    </div>
+  </div>
+
+  <div class="tips-box">
+    <h4>💡 학습 가이드</h4>
+    <ul>
+      <li><strong>M3-1(비교가능성 분석 개관)</strong>을 먼저 완료하면 나머지 모듈의 맥락을 이해하기 쉽습니다. 9단계 프로세스 전체를 조망한 후 각 단계를 상세 학습하세요.</li>
+      <li>M3-2(분석대상회사)와 M3-3(비교가능거래 탐색)은 실무에서 가장 빈번하게 활용되는 내용으로, <strong>순서대로</strong> 학습하면 연계 이해가 명확해집니다.</li>
+      <li>M3-4(비교가능회사 선정) → M3-5(정상가격범위)는 연속 학습을 권장합니다. WCA 조정과 IQR 적용이 논리적으로 연결됩니다.</li>
+      <li>M3-6(시간적 비교가능성)은 Chapter III의 마지막 모듈로, 실무적 이행 사항과 한계를 정리합니다.</li>
+      <li>학습 진도는 Google 계정으로 자동 클라우드 저장됩니다. 다음 접속 시 이어서 학습할 수 있습니다.</li>
+    </ul>
+  </div>
+
+  <div class="module-grid" id="module-grid">
+
+    <div class="module-card" id="card-m1">
+      <span class="status-tag tag-pending" id="tag-m1">미시작</span>
+      <div class="num">MODULE 1 — 비교가능성 기초</div>
+      <span class="para-range">§3.1 – §3.12</span>
+      <h3>비교가능성 분석 개관</h3>
+      <p>9단계 프로세스, 광범위한 분석, 개별·통합 거래 접근법, 비교가능성 5대 요소 개관을 학습합니다.</p>
+      <div class="status-bar"><div class="status-fill" id="fill-m1" style="width:0%"></div></div>
+      <a href="M3-1_비교가능성개관.html" class="btn btn-primary" id="btn-m1">학습 시작 →</a>
+    </div>
+
+    <div class="module-card" id="card-m2">
+      <span class="status-tag tag-pending" id="tag-m2">미시작</span>
+      <div class="num">MODULE 2 — 분석대상 선정</div>
+      <span class="para-range">§3.13 – §3.23</span>
+      <h3>분석대상회사 선정 & 통제거래 정보</h3>
+      <p>의도적 상계, Tested Party 선정 기준(무형자산 非보유 + 단순 기능), 자료 수집 범위를 학습합니다.</p>
+      <div class="status-bar"><div class="status-fill" id="fill-m2" style="width:0%"></div></div>
+      <a href="M3-2_분석대상회사.html" class="btn btn-primary" id="btn-m2">학습 시작 →</a>
+    </div>
+
+    <div class="module-card" id="card-m3">
+      <span class="status-tag tag-pending" id="tag-m3">미시작</span>
+      <div class="num">MODULE 3 — 비교가능거래 탐색</div>
+      <span class="para-range">§3.24 – §3.39</span>
+      <h3>비교가능 비통제거래 탐색</h3>
+      <p>내부/외부 비교가능거래의 정의 및 우선순위, 데이터베이스 활용 방법, 비교가능성 검토 기준을 학습합니다.</p>
+      <div class="status-bar"><div class="status-fill" id="fill-m3" style="width:0%"></div></div>
+      <a href="M3-3_비교가능거래탐색.html" class="btn btn-primary" id="btn-m3">학습 시작 →</a>
+    </div>
+
+    <div class="module-card" id="card-m4">
+      <span class="status-tag tag-pending" id="tag-m4">미시작</span>
+      <div class="num">MODULE 4 — 비교가능회사 선정</div>
+      <span class="para-range">§3.40 – §3.54</span>
+      <h3>비교가능회사 선정 & 비교가능성 조정</h3>
+      <p>가산법 vs 연역법, WCA(운전자본조정)이 가장 일반적인 비교가능성 조정 방법임을 학습합니다.</p>
+      <div class="status-bar"><div class="status-fill" id="fill-m4" style="width:0%"></div></div>
+      <a href="M3-4_비교가능회사선정.html" class="btn btn-primary" id="btn-m4">학습 시작 →</a>
+    </div>
+
+    <div class="module-card" id="card-m5">
+      <span class="status-tag tag-pending" id="tag-m5">미시작</span>
+      <div class="num">MODULE 5 — 정상가격범위</div>
+      <span class="para-range">§3.55 – §3.66</span>
+      <h3>정상가격범위 & 극단값 처리</h3>
+      <p>IQR(사분위범위) 적용 원칙, 중위값 선택 기준, 손실·고이익 비교가능회사 처리 방법을 학습합니다.</p>
+      <div class="status-bar"><div class="status-fill" id="fill-m5" style="width:0%"></div></div>
+      <a href="M3-5_정상가격범위.html" class="btn btn-primary" id="btn-m5">학습 시작 →</a>
+    </div>
+
+    <div class="module-card" id="card-m6">
+      <span class="status-tag tag-pending" id="tag-m6">미시작</span>
+      <div class="num">MODULE 6 — 시간적 비교가능성 (최종)</div>
+      <span class="para-range">§3.68 – §3.83</span>
+      <h3>시간적 비교가능성 & 이행 사항</h3>
+      <p>동일회계연도 원칙, 다중연도 데이터 허용 조건, 납세자 이행 부담과 비용편익 원칙을 학습합니다.</p>
+      <div class="status-bar"><div class="status-fill" id="fill-m6" style="width:0%"></div></div>
+      <a href="M3-6_시간적비교가능성.html" class="btn btn-primary" id="btn-m6">학습 시작 →</a>
+    </div>
+
+  </div>
+
+  <div style="margin-top:2rem;text-align:center">
+    <a href="index_ch2.html" style="color:var(--teal);font-size:.9rem;font-weight:600">← Chapter II: 정상가격산출방법(TPM) 기초과정으로</a>
+  </div>
+
+</div>
+
+<script>
+var modules=['m1','m2','m3','m4','m5','m6'];
+function loadProgress(){
+  var done=0;
+  modules.forEach(function(m,i){
+    var pct=parseInt(tpGet('ch3_'+m+'_pct')||'0');
+    var fill=document.getElementById('fill-'+m);
+    var tag=document.getElementById('tag-'+m);
+    var btn=document.getElementById('btn-'+m);
+    var card=document.getElementById('card-'+m);
+    if(fill)fill.style.width=pct+'%';
+    if(pct===100){
+      done++;
+      tag.textContent='완료 ✓';tag.className='status-tag tag-done';
+      card.classList.add('done');
+      btn.textContent='복습하기';btn.className='btn btn-done';
+    } else if(pct>0){
+      tag.textContent='학습중';tag.className='status-tag tag-inprog';
+      card.classList.add('inprog');
+      btn.textContent='이어서 학습 →';
+    }
+  });
+  var pct=Math.round(done/6*100);
+  document.getElementById('overall-bar').style.width=pct+'%';
+  document.getElementById('prog-text').textContent=done+' / 6 모듈 완료';
+  document.getElementById('prog-pct').textContent=pct+'%';
+}
+tpOnReady(function(user){
+  document.getElementById('tpLoading').style.display='none';
+  document.getElementById('topUserName').textContent=user.displayName||user.email;
+  loadProgress();
+});
+</script>
+</body>
+</html>
