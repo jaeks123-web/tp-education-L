@@ -350,28 +350,47 @@ a{color:var(--accent);text-decoration:none}
 
     <!-- §2.42–2.43 적용 사례 -->
     <div class="card" id="sec-2-2-42">
-      <h2>§ 2.42–2.43 재판매가격방법 적용 사례</h2>
-      <p>OECD 이전가격지침서 §2.42–2.43은 재판매가격방법의 구체적인 적용 사례를 제시합니다. 다음 두 사례는 단순 유통업자와 복합기능 재판매업자 간의 방법 적합성 차이를 보여줍니다.</p>
+      <h2>§2.42–2.43 재판매가격방법 적용 사례 — 도매업자 제품보증 비교</h2>
+      <p>OECD 이전가격지침서 §2.42–2.43은 동일한 시장에서 사업하는 4개 도매업자의 제품보증 서비스 제공 여부에 따른 가격 차이를 분석하여 비교가능성 조정 원칙을 제시합니다.</p>
+
       <div class="accordion">
         <button class="acc-header" onclick="toggleAcc(this)">
-          <span><span class="para">¶ 2.42</span>단순 유통업자에 대한 RPM 적용 사례</span>
+          <span><span class="para">§2.42</span>사례 A·B — 판매자 제공 제품보증과 가격 차이</span>
           <span class="arrow">▼</span>
         </button>
         <div class="acc-body">
-          <p>한국 소재 A사는 미국 모회사로부터 가전제품을 구입하여 국내 도·소매상에게 재판매합니다. A사는 창고 관리와 배송만을 담당하며, 마케팅과 브랜드 관리는 모회사가 수행합니다.</p>
-          <p>A사의 재판매가격이 100원이고, 비교 가능한 독립 유통업자의 재판매가격이윤율이 평균 20%라면, 정상 구입가격은 80원(= 100 × (1−0.20))입니다. 만약 실제 구입가격이 85원이라면 이전가격 문제가 발생할 수 있습니다.</p>
-          <div class="key-point">A사처럼 기능이 단순하고(창고·배송 전담), 위험이 제한적이며, 독자적 무형자산이 없는 재판매업자의 경우 RPM이 가장 적합한 방법입니다.</div>
+          <table class="compare-table">
+            <thead>
+              <tr><th>구분</th><th>도매업자 A</th><th>도매업자 B</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>제품보증 서비스</td><td>제품보증 서비스 <strong>제공</strong></td><td>제품보증 서비스 <strong>없음</strong></td></tr>
+              <tr><td>판매가격</td><td>제품보증 서비스에 따른 비용을 감안하여 <strong>도매업자 B보다 높은 가격</strong>에 제품을 판매</td><td>도매업자 A보다 낮은 가격에 판매</td></tr>
+              <tr><td>비교가능성</td><td colspan="2" style="background:#fff8e1">도매업자 A와 B는 제품보증 서비스 제공 여부가 다르므로, 단순 가격 비교 시 조정 필요. A의 재판매가격이윤율이 B보다 높더라도 이는 보증 서비스 비용을 반영한 것임.</td></tr>
+            </tbody>
+          </table>
+          <div class="key-point">📌 §2.42: 도매업자가 제품보증 서비스를 제공하면 그 비용이 재판매가격이윤율에 반영됩니다. 비교가능거래 선정 시 보증 서비스 제공 여부 및 관련 비용을 반드시 고려해야 합니다.</div>
         </div>
       </div>
+
       <div class="accordion">
         <button class="acc-header" onclick="toggleAcc(this)">
-          <span><span class="para">¶ 2.43</span>복합 기능 재판매업자에 대한 RPM 적용 한계 사례</span>
+          <span><span class="para">§2.43</span>사례 C·D — 공급업자 제공 제품보증과 자동 조정</span>
           <span class="arrow">▼</span>
         </button>
         <div class="acc-body">
-          <p>독일 소재 B사는 일본 모회사로부터 정밀기계를 구입하여 유럽 전역에 판매합니다. B사는 독자적인 판매 네트워크와 브랜드, 전담 기술지원팀을 보유하고 있으며, 재고위험도 전부 부담합니다.</p>
-          <p>이 경우 단순 재판매 기능만을 수행하는 독립 기업과 비교하기 어렵습니다. B사가 보유한 무형자산(브랜드, 고객 관계)과 기능(기술지원)을 반영하지 않으면 RPM 분석 결과가 왜곡됩니다.</p>
-          <div class="warn-point">§2.38의 마케팅 무형자산 조항에 따라, B사처럼 독자적 무형자산이 있고 복합 기능을 수행하는 경우에는 RPM보다 TNMM이나 이익분할방법의 적용을 검토해야 합니다.</div>
+          <table class="compare-table">
+            <thead>
+              <tr><th>구분</th><th>도매업자 C</th><th>도매업자 D</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>제품보증 서비스</td><td>제품보증 서비스 <strong>제공</strong></td><td>제품보증 서비스 <strong>없음</strong><br><small>(대신 제품 공급업자가 제품보증 서비스 제공)</small></td></tr>
+              <tr><td>공급업자 제공가격</td><td>제품보증 서비스를 감안하여 공급업자가 <strong>더 낮은 가격</strong>으로 제품을 공급</td><td>도매업자 C보다 <strong>높은 가격</strong>으로 공급업자로부터 구매</td></tr>
+              <tr><td>자동 조정</td><td colspan="2" style="background:#e8f0fa"><strong>만약 도매업자 C가 제품보증 서비스 비용을 제품판매 원가(COGS)로 기록</strong>하고 있는 경우, 도매업자 C와 D 간의 제품공급가격 차이는 <strong>자동적으로 조정</strong>됩니다. (보증 비용이 COGS에 포함되어 매출총이익률에서 이미 반영됨)</td></tr>
+            </tbody>
+          </table>
+          <div class="key-point">📌 §2.43 핵심: 제품보증 서비스를 누가 제공하느냐에 따라 구입가격이 달라집니다. 도매업자 C가 보증 비용을 COGS에 포함하면 매출총이익률(재판매가격이윤율) 비교 시 차이가 자동으로 조정되어 비교가능성이 유지됩니다.</div>
+          <div class="warn-point">⚠ 주의: 보증 비용이 COGS가 아닌 판매관리비(SG&amp;A)로 기록된 경우에는 자동 조정이 이루어지지 않으므로, 별도의 비교가능성 조정이 필요합니다.</div>
         </div>
       </div>
     </div>

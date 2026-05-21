@@ -266,25 +266,63 @@ a{color:var(--accent);text-decoration:none}
 
       <div class="accordion">
         <button class="acc-header" onclick="toggleAcc(this)">
-          <span><span class="para">§2.4–2.5</span>거래이익방법의 특성과 '대략값(Approximate)'</span>
+          <span><span class="para">§2.4</span>이익분할방법(PSM) 적용 조건</span>
           <span class="arrow">▼</span>
         </button>
         <div class="acc-body">
-          <p>거래이익방법(TNMM, PSM)은 독립기업이 유사한 거래에서 달성했을 <strong>이익 수준(순이익)을 대략적으로(approximately)</strong> 비교합니다. 이것이 'approximate' 개념의 핵심입니다.</p>
-          <p>이익방법은 전통적 거래방법으로는 비교가능거래를 찾기 어려운 경우에 대안으로 사용됩니다. 그러나 이 방법 역시 정상가격원칙에 부합하는 방법으로 OECD가 공식 인정합니다.</p>
-          <div class="warn-point">⚠ '대략값(approximate)': 거래이익방법에서의 순이익은 CUP처럼 정확한 가격 비교가 아니라, 유사한 독립기업이 달성하는 이익 수준과 비교하는 것입니다. 비교가능성이 완벽하지 않더라도 신뢰할 수 있는 수준의 비교는 가능합니다.</div>
+          <p>§2.4는 거래이익방법 중 이익분할방법(PSM)이 일방접근방법(one-sided method)보다 더 합리적인 결과를 산출할 수 있는 두 가지 조건을 제시합니다.</p>
+          <table class="compare-table">
+            <thead><tr><th>조건</th><th>설명</th><th>실무적 의미</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><strong>조건 1</strong><br>독특하고 가치 있는 공헌</td>
+                <td>거래당사자 양측이 모두 unique and valuable contributions를 제공하는 경우</td>
+                <td>일방(One-sided) 방법으로는 고가치 기여를 적절히 보상할 수 없음 → PSM 적합</td>
+              </tr>
+              <tr>
+                <td><strong>조건 2</strong><br>고도로 통합된 거래</td>
+                <td>거래당사자들의 사업이 high degree of integration(상당한 정도의 통합)을 갖추고 있는 경우</td>
+                <td>기능·위험이 긴밀히 연계되어 분리 분석이 어려움 → PSM만이 적합한 방법</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="key-point">📌 §2.4 핵심: PSM이 일방접근방법보다 더 합리적인 결과를 산출할 수 있는 경우는 ① 양 당사자 모두 독특하고 가치 있는 기여를 제공하거나, ② 거래가 상당한 정도로 통합되어 있는 경우입니다.</div>
         </div>
       </div>
 
       <div class="accordion">
         <button class="acc-header" onclick="toggleAcc(this)">
-          <span><span class="para">§2.6</span>OECD 모델협약 제9조와 방법의 연계</span>
+          <span><span class="para">§2.5</span>거래이익방법 적용 전 선행 검토 의무</span>
           <span class="arrow">▼</span>
         </button>
         <div class="acc-body">
-          <p>OECD 모델협약 제9조는 특수관계거래에서 "독립기업 간에 적용했을 조건과 다른 조건"이 적용된 경우 과세당국이 소득을 재계산할 수 있다고 규정합니다.</p>
-          <p>이 조항은 5가지 방법 모두에 대한 법적 근거가 됩니다. 어느 방법을 사용하더라도 "독립기업 간 조건"을 기준으로 분석한다는 원칙은 동일합니다.</p>
-          <div class="key-point">📌 한국의 경우: 국제조세조정에 관한 법률(국조법) 제5조 내지 제9조에서 5가지 정상가격산출방법을 규정하고 있으며, OECD 이전가격지침서를 준용합니다.</div>
+          <p>§2.5는 거래이익방법(TNMM, PSM)을 적용하기 전에 반드시 거쳐야 할 선행 검토 요건을 규정합니다.</p>
+          <ul style="padding-left:1.3rem;line-height:2.1;font-size:.93rem">
+            <li>거래이익방법을 적용하기 <strong>전에</strong> 다른 방법의 적용 가능성을 먼저 검토해야 합니다.</li>
+            <li>단순히 <strong>"비교가능거래가 없다"는 이유만으로</strong> 거래이익방법을 바로 적용하는 것은 바람직하지 않습니다.</li>
+            <li>전통적 거래방법(CUP, RPM, CPM)의 적용 가능성을 충분히 검토한 후, 그 이유가 명확히 문서화된 경우에만 거래이익방법으로 전환할 수 있습니다.</li>
+          </ul>
+          <div class="warn-point">⚠ §2.5 주의: "TNMM이 편리하니 항상 TNMM을 사용한다"는 방식은 §2.5 위반입니다. 이전가격 보고서에는 전통적 거래방법을 검토했으나 적용하지 않은 이유를 반드시 명기해야 합니다.</div>
+        </div>
+      </div>
+
+      <div class="accordion">
+        <button class="acc-header" onclick="toggleAcc(this)">
+          <span><span class="para">§2.6</span>OECD 모델협약 제9조 — '대략값(Approximate)' 개념</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p>OECD 모델협약 제9조는 특수관계거래에서 "독립기업 간에 적용했을 조건과 다른 조건"이 적용된 경우 과세당국이 소득을 재계산할 수 있다고 규정합니다. 이 조항은 5가지 방법 모두에 대한 법적 근거가 됩니다.</p>
+          <p>특히 이익분할방법(PSM)은 정확한 가격 또는 이익을 산출하는 것이 아니라 <strong>거래당사자가 실현했을 정도의 대략의 이익(approximate profit)</strong>을 산출하는 것입니다.</p>
+          <table class="compare-table">
+            <thead><tr><th>구분</th><th>비교 기준</th><th>정밀도</th></tr></thead>
+            <tbody>
+              <tr><td>전통적 거래방법(CUP 등)</td><td>독립기업 간 실제 거래가격을 직접 비교</td><td>직접적·정확한 비교</td></tr>
+              <tr><td>거래이익방법(TNMM, PSM)</td><td>독립기업이 유사한 거래에서 달성했을 <strong>대략의 이익 수준</strong> 비교</td><td>'Approximate' — 간접적 비교</td></tr>
+            </tbody>
+          </table>
+          <div class="key-point">📌 §2.6 핵심: '대략값(approximate)'의 의미는 거래이익방법이 부정확하다는 것이 아니라, 가격이 아닌 이익 수준을 통한 간접적 비교 방식임을 의미합니다. 비교가능성이 완벽하지 않더라도 신뢰할 수 있는 수준의 비교는 가능합니다.</div>
+          <div class="key-point" style="margin-top:.6rem">📌 한국: 국제조세조정에 관한 법률(국조법) 제5조~제9조에서 5가지 정상가격산출방법을 규정하며, OECD 이전가격지침서를 준용합니다.</div>
         </div>
       </div>
     </div>
@@ -339,7 +377,7 @@ a{color:var(--accent);text-decoration:none}
       <p>OECD §2.2의 가장 합리적인 방법 선택 기준을 산업별로 적용한 사례입니다. 방법 선택의 원칙은 ¶2.2에 따라 기능분석, 비교가능거래 존재 여부, 비교가능성 분석 결과를 종합하여 판단합니다.</p>
       <div class="accordion">
         <button class="acc-header" onclick="toggleAcc(this)">
-          <span><span class="para">¶2.2</span>사례 A — 원자재 거래 (CUP 적용)</span>
+          <span><span class="para">§2.2</span>사례 A — 원자재 거래 (CUP 적용)</span>
           <span class="arrow">▼</span>
         </button>
         <div class="acc-body">
@@ -349,7 +387,7 @@ a{color:var(--accent);text-decoration:none}
       </div>
       <div class="accordion">
         <button class="acc-header" onclick="toggleAcc(this)">
-          <span><span class="para">¶2.2</span>사례 B — 유통 자회사 (RPM 적용)</span>
+          <span><span class="para">§2.2</span>사례 B — 유통 자회사 (RPM 적용)</span>
           <span class="arrow">▼</span>
         </button>
         <div class="acc-body">
@@ -359,7 +397,7 @@ a{color:var(--accent);text-decoration:none}
       </div>
       <div class="accordion">
         <button class="acc-header" onclick="toggleAcc(this)">
-          <span><span class="para">¶2.2</span>사례 C — 계약 제조업자 (CPM 적용)</span>
+          <span><span class="para">§2.2</span>사례 C — 계약 제조업자 (CPM 적용)</span>
           <span class="arrow">▼</span>
         </button>
         <div class="acc-body">
@@ -369,7 +407,7 @@ a{color:var(--accent);text-decoration:none}
       </div>
       <div class="accordion">
         <button class="acc-header" onclick="toggleAcc(this)">
-          <span><span class="para">¶2.2</span>사례 D — 복합 기능 기업 (TNMM 적용)</span>
+          <span><span class="para">§2.2</span>사례 D — 복합 기능 기업 (TNMM 적용)</span>
           <span class="arrow">▼</span>
         </button>
         <div class="acc-body">

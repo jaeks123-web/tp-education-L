@@ -138,6 +138,61 @@
       width: 0%;
     }
 
+    /* ===== 섹션 표시/숨김 (M2-2 방식) ===== */
+    .card { display: none !important; margin-bottom: 22px; }
+    .card.active { display: block !important; }
+
+    /* ===== 사이드바 내비게이션 버튼 ===== */
+    .nav-item {
+      display: block;
+      width: 100%;
+      text-align: left;
+      background: none;
+      border: none;
+      padding: .42rem .7rem;
+      border-radius: 6px;
+      font-size: .82rem;
+      cursor: pointer;
+      color: var(--text);
+      font-family: inherit;
+      transition: background .12s;
+      margin-bottom: 2px;
+      line-height: 1.4;
+    }
+    .nav-item:hover { background: var(--accent-light); color: var(--accent); }
+    .nav-item.active { background: var(--accent); color: #fff; font-weight: 700; }
+
+    /* ===== 아코디언 헤더 (M2-2 스타일) ===== */
+    .acc-header {
+      width: 100%;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 13px 22px;
+      text-align: left;
+      font-size: 14.5px;
+      font-weight: 600;
+      color: var(--accent);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background .15s;
+      border-bottom: 1px solid var(--border);
+    }
+    .acc-header:hover { background: var(--accent-light); }
+    .acc-header.open { background: var(--accent-light); }
+    .acc-header .arrow {
+      font-size: 11px;
+      transition: transform .25s;
+      color: var(--accent-mid);
+    }
+    .acc-header.open .arrow { transform: rotate(180deg); }
+    .acc-body {
+      display: none;
+      padding: 6px 22px 18px 22px;
+    }
+    .acc-body.open { display: block; }
+
     /* ===== 메인 ===== */
     .main { flex: 1; min-width: 0; }
 
@@ -521,16 +576,14 @@
   <aside class="sidebar">
     <div class="sidebar-card">
       <div class="sidebar-title">목차</div>
-      <ul>
-        <li><a href="#objectives">학습 목표</a></li>
-        <li><a href="#sec1">§2.154-2.165 관련 이익 배분·이익 측정</a></li>
-        <li><a href="#sec2">§2.166-2.177 이익분할 기준·자료 요건</a></li>
-        <li><a href="#sec3">§2.178-2.183 이익분할 요소</a></li>
-        <li><a href="#sec4">§2.184-2.187 결론·가장 합리적인 방법</a></li>
-        <li><a href="#case">사례 탐구</a></li>
-        <li><a href="#quiz">확인 퀴즈</a></li>
-        <li><a href="#checklist">실무 체크리스트</a></li>
-      </ul>
+      <button class="nav-item active" onclick="showSec('objectives',this)">📌 학습 목표</button>
+      <button class="nav-item" onclick="showSec('sec1',this)">1. 관련 이익 배분·이익 측정</button>
+      <button class="nav-item" onclick="showSec('sec2',this)">2. 이익분할 기준·자료 요건</button>
+      <button class="nav-item" onclick="showSec('sec3',this)">3. 이익분할 요소</button>
+      <button class="nav-item" onclick="showSec('sec4',this)">4. 결론·가장 합리적인 방법</button>
+      <button class="nav-item" onclick="showSec('case',this)">🔍 사례 탐구</button>
+      <button class="nav-item" onclick="showSec('quiz',this)">✏ 확인 퀴즈</button>
+      <button class="nav-item" onclick="showSec('checklist',this)">☑ 실무 체크리스트</button>
     </div>
     <div class="sidebar-card">
       <div class="sidebar-title">학습 진도</div>
@@ -555,7 +608,7 @@
     </div>
 
     <!-- ===== 학습 목표 ===== -->
-    <section id="objectives" class="card">
+    <div class="card active" id="objectives">
       <div class="card-title"><span class="icon">🎯</span> 학습 목표</div>
       <ul class="obj-list">
         <li>PSM에서 관련 이익(combined profits)의 결정 원칙과 실제이익 vs 기대이익 구분을 설명하실 수 있습니다.</li>
@@ -564,23 +617,17 @@
         <li>2022년 개정에서 추가된 무형자산 가치 평가 방법(DCF, 미래소득할인법)의 의의를 이해하십니다.</li>
         <li>PSM에서 가장 합리적인 방법 적용 원칙과 회계기준 비교가능성 문제를 설명하실 수 있습니다.</li>
       </ul>
-    </section>
+    </div>
 
     <!-- ===== 섹션 1 ===== -->
-    <section id="sec1" class="section-card">
-      <div class="section-header">
-        <h2>섹션 1. 관련 이익 배분 &amp; 이익 측정</h2>
-        <div class="section-range">§2.154 ~ §2.165</div>
-      </div>
-      <div class="section-body">
+    <div class="card" id="sec1">
+      <h2>섹션 1. 관련 이익 배분 &amp; 이익 측정 (§2.154 ~ §2.165)</h2>
+      
 
         <!-- 아코디언 1 -->
         <div class="accordion">
-          <button class="accordion-btn" data-acc="acc1">
-            §2.154-2.157 관련 이익의 결정
-            <span class="arrow">▼</span>
-          </button>
-          <div class="accordion-content" id="acc1">
+          <button class="acc-header" onclick="toggleAcc(this)"><span>§2.154-2.157 관련 이익의 결정</span><span class="arrow">▼</span></button>
+          <div class="acc-body">
             <ul class="acc-list">
               <li>동일 회계 원칙 및 기준 통화 적용 원칙: 관련 이익 산정 시 모든 당사자에게 일관된 회계기준과 통화 기준을 적용해야 합니다.</li>
               <li>세무회계 자료 우선 사용: 과세 당국이 검증 가능하도록 세무회계 자료를 우선적으로 활용합니다.</li>
@@ -594,11 +641,8 @@
 
         <!-- 아코디언 2 -->
         <div class="accordion">
-          <button class="accordion-btn" data-acc="acc2">
-            §2.158-2.161 실제이익(Actual Profit) vs 기대이익(Anticipated Profit)
-            <span class="arrow">▼</span>
-          </button>
-          <div class="accordion-content" id="acc2">
+          <button class="acc-header" onclick="toggleAcc(this)"><span>§2.158-2.161 실제이익(Actual Profit) vs 기대이익(Anticipated Profit)</span><span class="arrow">▼</span></button>
+          <div class="acc-body">
             <ul class="acc-list">
               <li><strong>실제이익(Actual Profit):</strong> 거래가 완료된 후 실제로 발생한 이익 → 위험을 실질적으로 부담하는 기업에 귀속됩니다.</li>
               <li><strong>기대이익(Anticipated Profit):</strong> 거래 시점에 기대했던 이익 → 위험을 부담하지 않는 기업에 귀속됩니다.</li>
@@ -612,11 +656,8 @@
 
         <!-- 아코디언 3 -->
         <div class="accordion">
-          <button class="accordion-btn" data-acc="acc3">
-            §2.162-2.165 매출총이익 vs 영업이익 선택
-            <span class="arrow">▼</span>
-          </button>
-          <div class="accordion-content" id="acc3">
+          <button class="acc-header" onclick="toggleAcc(this)"><span>§2.162-2.165 매출총이익 vs 영업이익 선택</span><span class="arrow">▼</span></button>
+          <div class="acc-body">
             <ul class="acc-list">
               <li><strong>매출총이익 기준:</strong> 영업비용이 비교가능성을 방해할 때, 즉 영업비용의 성격이 기업 간에 다를 때 매출총이익을 기준으로 사용합니다.</li>
               <li><strong>영업이익 기준:</strong> 영업비용까지 포함하는 것이 더 합리적인 비교가능성을 제공할 때 영업이익을 기준으로 사용합니다.</li>
@@ -626,23 +667,17 @@
         </div>
 
       </div>
-    </section>
+    </div>
 
     <!-- ===== 섹션 2 ===== -->
-    <section id="sec2" class="section-card">
-      <div class="section-header">
-        <h2>섹션 2. 이익분할 기준 &amp; 자료 요건</h2>
-        <div class="section-range">§2.166 ~ §2.177</div>
-      </div>
-      <div class="section-body">
+    <div class="card" id="sec2">
+      <h2>섹션 2. 이익분할 기준 &amp; 자료 요건 (§2.166 ~ §2.177)</h2>
+      
 
         <!-- 아코디언 4 -->
         <div class="accordion">
-          <button class="accordion-btn" data-acc="acc4">
-            §2.166-2.170 사용 가능한 자료의 3가지 요건
-            <span class="arrow">▼</span>
-          </button>
-          <div class="accordion-content" id="acc4">
+          <button class="acc-header" onclick="toggleAcc(this)"><span>§2.166-2.170 사용 가능한 자료의 3가지 요건</span><span class="arrow">▼</span></button>
+          <div class="acc-body">
             <ul class="acc-list">
               <li><strong>요건 1 — 객관적(Objective):</strong> 배분 방식이 임의적이지 않고 경제적 논리에 기반해야 합니다.</li>
               <li><strong>요건 2 — 검증가능(Verifiable):</strong> 제3자가 검증할 수 있는 방식으로 측정 가능해야 합니다.</li>
@@ -653,11 +688,8 @@
 
         <!-- 아코디언 5 -->
         <div class="accordion">
-          <button class="accordion-btn" data-acc="acc5">
-            §2.171-2.177 이익분할 기준의 유형과 내부 자료
-            <span class="arrow">▼</span>
-          </button>
-          <div class="accordion-content" id="acc5">
+          <button class="acc-header" onclick="toggleAcc(this)"><span>§2.171-2.177 이익분할 기준의 유형과 내부 자료</span><span class="arrow">▼</span></button>
+          <div class="acc-body">
             <ul class="acc-list">
               <li><strong>제3자 자료 검색 가능 산업 예시:</strong> 석유·가스 합작투자, 제약회사 협력개발, 음악 레이블, 금융서비스 등</li>
               <li>비교가능거래가 없을 때: 시장 성장률, 가중치 등 외부 시장 자료를 활용합니다.</li>
@@ -671,23 +703,17 @@
         </div>
 
       </div>
-    </section>
+    </div>
 
     <!-- ===== 섹션 3 ===== -->
-    <section id="sec3" class="section-card">
-      <div class="section-header">
-        <h2>섹션 3. 이익분할 요소</h2>
-        <div class="section-range">§2.178 ~ §2.183</div>
-      </div>
-      <div class="section-body">
+    <div class="card" id="sec3">
+      <h2>섹션 3. 이익분할 요소 (§2.178 ~ §2.183)</h2>
+      
 
         <!-- 아코디언 6 -->
         <div class="accordion">
-          <button class="accordion-btn" data-acc="acc6">
-            §2.178-2.180 자산 기준 이익분할
-            <span class="arrow">▼</span>
-          </button>
-          <div class="accordion-content" id="acc6">
+          <button class="acc-header" onclick="toggleAcc(this)"><span>§2.178-2.180 자산 기준 이익분할</span><span class="arrow">▼</span></button>
+          <div class="acc-body">
             <ul class="acc-list">
               <li>유형자산 + 무형자산 모두 포함하여 자산 기준으로 이익을 배분합니다.</li>
               <li>투자자본(Invested Capital) 기준을 활용합니다.</li>
@@ -699,11 +725,8 @@
 
         <!-- 아코디언 7 -->
         <div class="accordion">
-          <button class="accordion-btn" data-acc="acc7">
-            §2.181-2.183 비용 기준 &amp; 시간적 요소
-            <span class="arrow">▼</span>
-          </button>
-          <div class="accordion-content" id="acc7">
+          <button class="acc-header" onclick="toggleAcc(this)"><span>§2.181-2.183 비용 기준 &amp; 시간적 요소</span><span class="arrow">▼</span></button>
+          <div class="acc-body">
             <ul class="acc-list">
               <li><strong>비용 기준 적용:</strong> 마케팅 무형자산 개발 비용, 특허권 개발 R&amp;D 비용 등이 주요 배분 기준으로 활용됩니다.</li>
               <li><strong>비용 가중치:</strong> 모든 비용을 동일하게 취급하지 않고 가치 창출 기여도에 따라 차등 가중치를 부여합니다.</li>
@@ -714,23 +737,17 @@
         </div>
 
       </div>
-    </section>
+    </div>
 
     <!-- ===== 섹션 4 ===== -->
-    <section id="sec4" class="section-card">
-      <div class="section-header">
-        <h2>섹션 4. 결론 &amp; 가장 합리적인 방법</h2>
-        <div class="section-range">§2.184 ~ §2.187</div>
-      </div>
-      <div class="section-body">
+    <div class="card" id="sec4">
+      <h2>섹션 4. 결론 &amp; 가장 합리적인 방법 (§2.184 ~ §2.187)</h2>
+      
 
         <!-- 아코디언 8 -->
         <div class="accordion">
-          <button class="accordion-btn" data-acc="acc8">
-            §2.184-2.187 PSM 적용의 결론과 주의사항
-            <span class="arrow">▼</span>
-          </button>
-          <div class="accordion-content" id="acc8">
+          <button class="acc-header" onclick="toggleAcc(this)"><span>§2.184-2.187 PSM 적용의 결론과 주의사항</span><span class="arrow">▼</span></button>
+          <div class="acc-body">
             <ul class="acc-list">
               <li><strong>가장 합리적인 방법 적용 원칙 재확인:</strong> 개별 거래의 상황에 따라 판단하며, PSM이 항상 최선의 방법은 아닙니다.</li>
               <li><strong>회계기준 비교가능성:</strong> 비교가능기업이 동일한 방법을 사용한다고 단정해서는 안 됩니다.</li>
@@ -743,10 +760,10 @@
         </div>
 
       </div>
-    </section>
+    </div>
 
     <!-- ===== 사례 탐구 ===== -->
-    <section id="case" class="card">
+    <div class="card" id="case">
       <div class="card-title"><span class="icon">🔍</span> 사례 탐구: 2022년 개정 — 새로운 무형자산 평가방법</div>
       <div class="case-boxes">
 
@@ -778,10 +795,10 @@
         </div>
 
       </div>
-    </section>
+    </div>
 
     <!-- ===== 퀴즈 ===== -->
-    <section id="quiz" class="card quiz-section">
+    <div class="card quiz-section" id="quiz">
       <div class="card-title"><span class="icon">📝</span> 확인 퀴즈</div>
       <p class="quiz-desc">각 문항을 읽고 가장 적절한 답을 선택한 후 [확인] 버튼을 누르세요.</p>
 
@@ -855,10 +872,10 @@
         <div class="score" id="quiz-score">0/5</div>
         <div class="msg" id="quiz-msg"></div>
       </div>
-    </section>
+    </div>
 
     <!-- ===== 체크리스트 ===== -->
-    <section id="checklist" class="card">
+    <div class="card" id="checklist">
       <div class="card-title"><span class="icon">✅</span> 실무 체크리스트</div>
       <ul class="checklist" id="checklist-list">
         <li id="chk1">
@@ -886,7 +903,7 @@
           <label for="c6">계약 당시 합의한 이익 배분 방식을 사후 결과에 따라 변경하지 않았음을 확인하였습니까?</label>
         </li>
       </ul>
-    </section>
+    </div>
 
     <!-- ===== 네비 버튼 ===== -->
     <div class="nav-btns">
@@ -907,6 +924,30 @@
   const CHK_MAX   = 20;  // 체크리스트 최대 20%
 
   // --- 저장 유틸 ---
+  // ===== 섹션 네비게이션 (M2-2 방식) =====
+  var SECTIONS = ['objectives','sec1','sec2','sec3','sec4','case','quiz','checklist'];
+  function showSec(id, btn) {
+    SECTIONS.forEach(function(s) {
+      var el = document.getElementById(s);
+      if (el) {
+        if (s === id) { el.classList.add('active'); }
+        else { el.classList.remove('active'); }
+      }
+    });
+    document.querySelectorAll('.nav-item').forEach(function(b) { b.classList.remove('active'); });
+    if (btn) btn.classList.add('active');
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  }
+
+  // ===== 아코디언 (M2-2 방식) =====
+  function toggleAcc(header) {
+    var body = header.nextElementSibling;
+    var isOpen = header.classList.contains('open');
+    header.classList.toggle('open', !isOpen);
+    body.classList.toggle('open', !isOpen);
+  }
+
+  // ===== 진도/스토리지 =====
   function save(key, val) {
     try { localStorage.setItem(MODKEY + '_' + key, JSON.stringify(val)); } catch(e) {}
   }
