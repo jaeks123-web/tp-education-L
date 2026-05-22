@@ -2,649 +2,739 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>M2-4 원가가산법(CPM) | OECD 이전가격 지침서 기초과정</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>M2-4: 원가가산방법 (CPM)</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-:root{--accent:#1a5fa8;--accent-light:#e8f0fa;--accent-mid:#3b7dd8;--green:#1a7a4a;--green-light:#e6f5ee;--orange:#c06000;--orange-light:#fff3e0;--red:#b02020;--red-light:#fdecea;--gray:#555;--gray-light:#f5f5f5;--gray-border:#ddd;--text:#222;--text2:#555;--white:#fff;--radius:10px;--shadow:0 2px 8px rgba(0,0,0,.10);}
+:root{
+  --blue:#0f7a7a;--blue-light:#e0f5f5;--blue-mid:#1a9a9a;
+  --green:#1a7a4a;--green-light:#e6f5ee;
+  --orange:#c06000;--orange-light:#fff3e0;
+  --red:#b02020;--red-light:#fdecea;
+  --gray:#555;--gray-light:#f5f5f5;--gray-border:#ddd;
+  --text:#222;--text2:#555;--white:#fff;
+  --radius:10px;--shadow:0 2px 8px rgba(0,0,0,.10);
+}
 body{font-family:'Noto Sans KR',Arial,sans-serif;background:#f0f4f8;color:var(--text);line-height:1.75;font-size:16px}
-a{color:var(--accent);text-decoration:none}
-.mod-header{background:var(--accent);color:#fff;padding:1.5rem 2rem}
+a{color:var(--blue);text-decoration:none}
+.mod-header{background:var(--blue);color:#fff;padding:1.5rem 2rem}
 .mod-header .breadcrumb{font-size:.8rem;opacity:.7;margin-bottom:.4rem}
 .mod-header h1{font-size:1.4rem;font-weight:700}
 .mod-header .sub{font-size:.9rem;opacity:.8;margin-top:.3rem}
 .prog-strip{background:rgba(255,255,255,.15);height:6px;margin-top:1rem;border-radius:99px;overflow:hidden}
 .prog-strip-inner{height:100%;background:#fff;border-radius:99px;transition:width .4s}
 .layout{display:flex;max-width:1100px;margin:0 auto;padding:2rem 1.5rem 4rem;gap:1.5rem}
-.sidebar{width:220px;flex-shrink:0}
+.sidebar{width:220px;flex-shrink:0;position:sticky;top:1rem;align-self:flex-start;max-height:calc(100vh - 2rem);overflow-y:auto}
 .content{flex:1;min-width:0}
-.nav-card{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:1.2rem;margin-bottom:1rem;position:sticky;top:1rem}
-.nav-card h4{font-size:.85rem;color:var(--gray);margin-bottom:.8rem}
-.nav-item{display:block;padding:.45rem .75rem;border-radius:6px;font-size:.85rem;color:var(--text2);margin-bottom:3px;cursor:pointer;border:none;width:100%;text-align:left;background:none;transition:background .12s}
-.nav-item:hover{background:var(--accent-light);color:var(--accent)}
-.nav-item.active{background:var(--accent);color:#fff;font-weight:600}
+.nav-card{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:1.2rem;margin-bottom:1rem}
+.nav-card h4{font-size:.85rem;color:var(--gray);margin-bottom:.8rem;letter-spacing:.04em}
+.nav-item{display:block;padding:.45rem .75rem;border-radius:6px;font-size:.85rem;color:var(--text2);margin-bottom:3px;cursor:pointer;border:none;width:100%;text-align:left;background:none;transition:background .12s;font-family:inherit}
+.nav-item:hover{background:var(--blue-light);color:var(--blue)}
+.nav-item.active{background:var(--blue);color:#fff;font-weight:600}
 .card{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:1.8rem 2rem;margin-bottom:1.5rem}
-.card h2{font-size:1.15rem;font-weight:700;color:var(--accent);margin-bottom:1rem;padding-bottom:.6rem;border-bottom:2px solid var(--accent-light)}
+.card h2{font-size:1.15rem;font-weight:700;color:var(--blue);margin-bottom:1rem;padding-bottom:.6rem;border-bottom:2px solid var(--blue-light)}
+.card h3{font-size:1rem;font-weight:700;color:var(--text);margin:.8rem 0 .4rem}
 .card p{font-size:.95rem;color:var(--text2);margin-bottom:.7rem}
+.tag{display:inline-block;padding:2px 9px;border-radius:20px;font-size:.75rem;font-weight:600;margin-left:.4rem}
+.tag-para{background:var(--blue-light);color:var(--blue)}
 .obj-list{list-style:none;padding:0}
 .obj-list li{display:flex;gap:.7rem;align-items:flex-start;padding:.5rem 0;border-bottom:1px solid var(--gray-border);font-size:.93rem}
 .obj-list li:last-child{border:none}
-.obj-num{background:var(--accent);color:#fff;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;flex-shrink:0;margin-top:2px}
+.obj-num{background:var(--blue);color:#fff;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;flex-shrink:0;margin-top:2px}
 .accordion{border:1px solid var(--gray-border);border-radius:var(--radius);overflow:hidden;margin-bottom:1rem}
-.acc-header{display:flex;justify-content:space-between;align-items:center;padding:.9rem 1.2rem;cursor:pointer;background:var(--gray-light);font-weight:600;font-size:.95rem;border:none;width:100%;text-align:left;transition:background .12s}
+.acc-header{display:flex;justify-content:space-between;align-items:center;padding:.9rem 1.2rem;cursor:pointer;background:var(--gray-light);font-weight:600;font-size:.95rem;border:none;width:100%;text-align:left;transition:background .12s;font-family:inherit}
 .acc-header:hover{background:#ebebeb}
-.acc-header .para{font-size:.78rem;color:var(--accent);background:var(--accent-light);padding:2px 8px;border-radius:20px;margin-right:.6rem}
-.acc-header .arrow{font-size:1rem;color:var(--gray);transition:transform .2s}
-.acc-body{display:none;padding:1.1rem 1.3rem;background:#fff;font-size:.93rem;color:var(--text2);line-height:1.8;border-top:1px solid var(--gray-border)}
-.acc-body.open{display:block}
+.acc-header .para{font-size:.75rem;color:var(--blue);background:var(--blue-light);padding:2px 8px;border-radius:20px;margin-left:.5rem;font-weight:500;white-space:nowrap}
+.acc-header .arrow{font-size:1rem;color:var(--gray);transition:transform .2s;margin-left:.5rem;flex-shrink:0}
 .acc-header.open .arrow{transform:rotate(180deg)}
-.key-point{background:var(--accent-light);border-left:4px solid var(--accent);padding:.7rem 1rem;border-radius:0 6px 6px 0;margin:.8rem 0;font-size:.9rem;color:#1a3a6a}
-.warn-point{background:var(--orange-light);border-left:4px solid var(--orange);padding:.7rem 1rem;border-radius:0 6px 6px 0;margin:.8rem 0;font-size:.9rem;color:#6b3a00}
-.compare-table{width:100%;border-collapse:collapse;font-size:.9rem;margin:.8rem 0}
-.compare-table th{background:var(--accent);color:#fff;padding:.7rem 1rem;text-align:left;font-weight:600}
-.compare-table td{padding:.65rem 1rem;border-bottom:1px solid var(--gray-border);vertical-align:top}
+.acc-body{display:none;padding:1.1rem 1.3rem;background:#fff;font-size:.93rem;color:var(--text2);line-height:1.85;border-top:1px solid var(--gray-border)}
+.acc-body.open{display:block}
+.key-point{background:var(--blue-light);border-left:4px solid var(--blue);padding:.7rem 1rem;border-radius:0 6px 6px 0;margin:.8rem 0;font-size:.9rem;color:#0a4a4a;line-height:1.75}
+.warn-point{background:var(--orange-light);border-left:4px solid var(--orange);padding:.7rem 1rem;border-radius:0 6px 6px 0;margin:.8rem 0;font-size:.9rem;color:#6b3a00;line-height:1.75}
+.note-point{background:var(--green-light);border-left:4px solid var(--green);padding:.7rem 1rem;border-radius:0 6px 6px 0;margin:.8rem 0;font-size:.9rem;color:#0d3d25;line-height:1.75}
+.practice-note{background:#fffbeb;border:1px solid #fcd34d;border-radius:8px;padding:.9rem 1.1rem;margin:.8rem 0}
+.practice-note .pn-label{font-weight:700;font-size:.78rem;color:#92400e;margin-bottom:.35rem}
+.practice-note p{font-size:.88rem;color:#78350f;margin-bottom:.35rem}
+.practice-note p:last-child{margin-bottom:0}
+.calc-box{background:#f8fffe;border:2px solid var(--blue-mid);border-radius:10px;padding:1.2rem 1.5rem;margin:.8rem 0}
+.calc-box .calc-title{font-size:.78rem;font-weight:700;color:var(--blue);letter-spacing:.04em;margin-bottom:.8rem}
+.calc-row{display:flex;align-items:center;gap:.8rem;padding:.35rem 0;font-size:.93rem}
+.calc-row .label{flex:1;color:var(--text2)}
+.calc-row .value{font-weight:700;color:var(--text);min-width:80px;text-align:right}
+.calc-divider{border-top:1.5px solid var(--blue-mid);margin:.3rem 0}
+.calc-result{background:var(--blue-light);border-radius:6px;padding:.4rem .8rem;display:flex;align-items:center;gap:.8rem;margin-top:.4rem}
+.calc-result .label{flex:1;font-weight:700;color:var(--blue);font-size:.93rem}
+.calc-result .value{font-weight:800;color:var(--blue);font-size:1rem}
+.compare-table{width:100%;border-collapse:collapse;font-size:.88rem;margin:.8rem 0}
+.compare-table th{background:var(--blue);color:#fff;padding:.6rem .9rem;text-align:left;font-weight:600}
+.compare-table td{padding:.55rem .9rem;border-bottom:1px solid var(--gray-border);color:var(--text2);vertical-align:top}
 .compare-table tr:last-child td{border:none}
-.compare-table tr:nth-child(even) td{background:#fafafa}
-.case-box{background:#fff;border:1.5px solid var(--accent-mid);border-radius:var(--radius);padding:1.3rem 1.5rem;margin:1rem 0}
-.case-box .case-label{font-size:.78rem;font-weight:700;color:var(--accent);letter-spacing:.05em;margin-bottom:.5rem}
-.case-box h4{font-size:.95rem;font-weight:700;color:var(--text);margin-bottom:.6rem}
-.quiz-section{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:1.8rem 2rem;margin-bottom:1.5rem}
-.quiz-section h2{font-size:1.15rem;font-weight:700;color:var(--accent);margin-bottom:.4rem}
-.quiz-section .q-count{font-size:.85rem;color:var(--gray);margin-bottom:1.5rem}
-.quiz-item{margin-bottom:1.8rem;padding-bottom:1.5rem;border-bottom:1px solid var(--gray-border)}
-.quiz-item:last-of-type{border:none}
-.quiz-item .q-text{font-size:.97rem;font-weight:600;color:var(--text);margin-bottom:.9rem}
-.quiz-item .q-num{font-size:.78rem;background:var(--accent-light);color:var(--accent);padding:2px 9px;border-radius:20px;margin-right:.5rem;font-weight:700}
-.opt-list{list-style:none;padding:0;display:flex;flex-direction:column;gap:.5rem}
-.opt-list li button{width:100%;text-align:left;padding:.7rem 1rem;border-radius:8px;border:1.5px solid var(--gray-border);background:#fff;font-size:.9rem;cursor:pointer;color:var(--text);transition:all .15s}
-.opt-list li button:hover{border-color:var(--accent-mid);background:var(--accent-light)}
-.opt-list li button.correct{background:var(--green-light);border-color:var(--green);color:var(--green);font-weight:600}
-.opt-list li button.wrong{background:var(--red-light);border-color:var(--red);color:var(--red)}
-.opt-list li button:disabled{cursor:default}
-.q-feedback{margin-top:.7rem;padding:.6rem 1rem;border-radius:8px;font-size:.88rem;display:none}
-.q-feedback.show{display:block}
-.q-feedback.ok{background:var(--green-light);color:var(--green);border:1px solid #a0d8b8}
-.q-feedback.no{background:var(--red-light);color:var(--red);border:1px solid #f5b8b8}
+.compare-table tr:nth-child(even) td{background:var(--gray-light)}
+.compare-table td strong{color:var(--text)}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:.8rem 0}
+.col-box{border-radius:8px;padding:1rem 1.1rem;border:1.5px solid #86efac;background:#f0fdf4}
+.col-box h4{font-size:.88rem;font-weight:700;color:var(--green);margin-bottom:.35rem}
+.col-box p{font-size:.85rem;margin:0;color:var(--text2);line-height:1.65}
+.col-box.teal{border-color:var(--blue-mid);background:var(--blue-light)}
+.col-box.teal h4{color:var(--blue)}
+.col-box.orange{border-color:#fbbf24;background:#fffbeb}
+.col-box.orange h4{color:var(--orange)}
+.sum-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.8rem;margin:.8rem 0}
+.sum-box{border-radius:8px;padding:.9rem 1rem;border-left:4px solid var(--blue);background:var(--blue-light)}
+.sum-box .sb-label{font-size:.71rem;font-weight:700;color:var(--blue);margin-bottom:.3rem;letter-spacing:.03em}
+.sum-box p{font-size:.85rem;color:#0a4a4a;margin:0;line-height:1.6}
+.sum-box.orange{border-color:var(--orange);background:var(--orange-light)}
+.sum-box.orange .sb-label{color:var(--orange)}
+.sum-box.orange p{color:#6b3a00}
+.sum-box.green{border-color:var(--green);background:var(--green-light)}
+.sum-box.green .sb-label{color:var(--green)}
+.sum-box.green p{color:#0d3d25}
+.step-list{list-style:none;padding:0;margin:.6rem 0}
+.step-list li{display:flex;gap:.8rem;align-items:flex-start;padding:.5rem 0;border-bottom:1px solid #eee;font-size:.92rem;color:var(--text2)}
+.step-list li:last-child{border:none;padding-bottom:0}
+.step-num{background:var(--blue);color:#fff;min-width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;flex-shrink:0;margin-top:2px}
+.flow-list{list-style:none;padding:0;counter-reset:fl}
+.flow-list li{counter-increment:fl;display:flex;gap:.8rem;align-items:flex-start;padding:.5rem 0;border-bottom:1px solid #eee;font-size:.92rem;color:var(--text2)}
+.flow-list li:last-child{border:none;padding-bottom:0}
+.flow-list li::before{content:counter(fl);background:#e0f5f5;color:#0f5a5a;min-width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.73rem;font-weight:700;flex-shrink:0;margin-top:2px}
+.case-box{background:#f8fffe;border:1.5px solid var(--blue-mid);border-radius:10px;padding:1.1rem 1.3rem;margin:.8rem 0}
+.case-box .case-label{font-size:.75rem;font-weight:700;color:var(--blue);margin-bottom:.5rem;letter-spacing:.03em}
+.case-box p{font-size:.9rem;color:var(--text2);margin-bottom:.4rem}
+.case-box p:last-child{margin-bottom:0}
+.case-box strong{color:var(--text)}
+/* 비용 분류 카드 */
+.cost-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.8rem;margin:.8rem 0}
+.cost-card{border-radius:8px;padding:.9rem 1rem;border-top:3px solid}
+.cost-card.a{border-color:var(--blue);background:var(--blue-light)}
+.cost-card.b{border-color:var(--orange);background:var(--orange-light)}
+.cost-card.c{border-color:var(--green);background:var(--green-light)}
+.cost-card .cc-label{font-size:.72rem;font-weight:700;letter-spacing:.04em;margin-bottom:.4rem}
+.cost-card.a .cc-label{color:var(--blue)}
+.cost-card.b .cc-label{color:var(--orange)}
+.cost-card.c .cc-label{color:var(--green)}
+.cost-card h4{font-size:.88rem;font-weight:700;color:var(--text);margin-bottom:.3rem}
+.cost-card p{font-size:.82rem;color:var(--text2);margin:0;line-height:1.6}
+.q-block{background:var(--gray-light);border-radius:8px;padding:1rem 1.2rem;margin-bottom:1rem}
+.q-block .q-text{font-weight:600;font-size:.93rem;margin-bottom:.7rem;color:var(--text);line-height:1.65}
+.q-options label{display:flex;align-items:flex-start;gap:.5rem;padding:.4rem .5rem;border-radius:6px;cursor:pointer;font-size:.91rem;color:var(--text2);transition:background .1s;margin-bottom:3px;line-height:1.55}
+.q-options label:hover{background:#e8e8e8}
+.q-options input[type=radio]{margin-top:3px;flex-shrink:0;accent-color:var(--blue)}
+.q-feedback{display:none;margin-top:.7rem;padding:.6rem .9rem;border-radius:6px;font-size:.88rem;font-weight:500;line-height:1.6}
+.q-feedback.correct{background:var(--green-light);color:var(--green);border-left:3px solid var(--green)}
+.q-feedback.wrong{background:var(--red-light);color:var(--red);border-left:3px solid var(--red)}
+.quiz-btn{background:var(--blue);color:#fff;border:none;padding:.7rem 2rem;border-radius:8px;font-size:.95rem;font-weight:600;cursor:pointer;margin-top:.5rem;transition:background .15s;font-family:inherit}
+.quiz-btn:hover{background:var(--blue-mid)}
+.quiz-btn:disabled{background:#aaa;cursor:default}
+.score-box{display:none;background:var(--blue-light);border:2px solid var(--blue);border-radius:10px;padding:1.2rem;text-align:center;margin-top:1rem}
+.score-box .big{font-size:2rem;font-weight:800;color:var(--blue)}
+.score-box p{font-size:.92rem;color:var(--text2);margin-top:.3rem}
 .checklist{list-style:none;padding:0}
 .checklist li{display:flex;gap:.8rem;align-items:flex-start;padding:.55rem 0;border-bottom:1px solid var(--gray-border);font-size:.92rem}
 .checklist li:last-child{border:none}
 .checklist input[type=checkbox]{width:18px;height:18px;margin-top:2px;cursor:pointer;flex-shrink:0;accent-color:var(--green)}
-.checklist label{cursor:pointer;color:var(--text2)}
+.checklist label{cursor:pointer;color:var(--text2);line-height:1.65}
 .checklist input:checked+label{color:var(--green);text-decoration:line-through;opacity:.7}
-.nav-btns{display:flex;justify-content:space-between;margin-top:1.5rem}
-.btn{display:inline-flex;align-items:center;gap:.4rem;padding:.7rem 1.5rem;border-radius:8px;font-size:.9rem;font-weight:600;cursor:pointer;border:none;transition:all .15s;text-decoration:none}
-.btn-primary{background:var(--accent);color:#fff}
-.btn-primary:hover{background:#164d8a}
-.btn-outline{background:#fff;color:var(--accent);border:1.5px solid var(--accent)}
-.btn-outline:hover{background:var(--accent-light)}
-.btn-success{background:var(--green);color:#fff}
-.complete-banner{background:var(--green-light);border:2px solid var(--green);border-radius:var(--radius);padding:1.3rem 1.8rem;text-align:center;display:none;margin-bottom:1.5rem}
-.complete-banner.show{display:block}
-.complete-banner h3{color:var(--green);font-size:1.1rem;margin-bottom:.4rem}
-.complete-banner p{font-size:.9rem;color:#2a6040}
-@media(max-width:720px){.layout{flex-direction:column}.sidebar{width:100%;position:static}.nav-card{position:static}}
+.nav-bottom{display:flex;justify-content:space-between;align-items:center;margin-top:2rem;gap:.5rem}
+.btn-nav{background:var(--blue);color:#fff;padding:.65rem 1.4rem;border-radius:8px;font-size:.93rem;font-weight:600;cursor:pointer;border:none;transition:background .15s;text-decoration:none;display:inline-block;font-family:inherit}
+.btn-nav:hover{background:var(--blue-mid)}
+.btn-nav.secondary{background:#fff;color:var(--blue);border:2px solid var(--blue)}
+.btn-nav.secondary:hover{background:var(--blue-light)}
+@media(max-width:720px){
+  .layout{flex-direction:column}
+  .sidebar{width:100%;position:static}
+  .two-col,.sum-grid,.cost-grid{grid-template-columns:1fr}
+}
 </style>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
+  <script src="tp-firebase.js"></script>
 </head>
 <body>
 
-<div class="mod-header">
-  <div class="breadcrumb">OECD 이전가격 지침서 기초과정 &gt; Chapter I &gt; M2-4</div>
-  <h1>M2-4 원가가산방법(CPM: Cost Plus Method)</h1>
-  <div class="sub">§2.45–2.61 · OECD Transfer Pricing Guidelines Chapter II · D. Cost Plus Method</div>
-  <div class="prog-strip"><div class="prog-strip-inner" id="mod-prog" style="width:0%"></div></div>
-  <div style="font-size:.8rem;opacity:.7;margin-top:.4rem">진도율: <span id="pct-display">0%</span></div>
+<div id="tpLoading" style="position:fixed;top:0;left:0;width:100%;height:100%;background:#6a1fa8;display:flex;align-items:center;justify-content:center;z-index:9999;color:#fff;font-family:'Noto Sans KR',Arial,sans-serif">
+  <div style="text-align:center">
+    <div style="font-size:2.5rem;margin-bottom:.8rem">📗</div>
+    <div style="font-size:1rem;font-weight:600">대주 이전가격 교육</div>
+    <div style="font-size:.82rem;opacity:.75;margin-top:.4rem">로딩 중...</div>
+  </div>
 </div>
+<header class="mod-header">
+  <div class="breadcrumb">기초과정 › Chapter II 정상가격산출방법 › M2-4</div>
+  <h1>M2-4. 원가가산방법 (CPM)</h1>
+  <div class="sub">Part II-D: Cost Plus Method &nbsp;|&nbsp; ¶2.45 – ¶2.61 &nbsp;|&nbsp; 예상 학습시간: 50분</div>
+  <div class="prog-strip"><div class="prog-strip-inner" id="topBar" style="width:0%"></div></div>
+  <div style="display:flex;justify-content:flex-end;align-items:center;gap:.7rem;margin-top:.3rem;font-size:.8rem">
+    <span id="topUserName" style="color:rgba(255,255,255,.8)"></span>
+    <button onclick="tpSignOut()" style="background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.35);color:#fff;padding:2px 12px;border-radius:20px;cursor:pointer;font-size:.76rem;font-family:inherit">로그아웃</button>
+  </div>
+</header>
 
 <div class="layout">
-  <!-- 사이드바 -->
-  <div class="sidebar">
+  <aside class="sidebar">
     <div class="nav-card">
-      <h4>목차</h4>
-      <button class="nav-item active" onclick="showSec('sec-obj',this)">학습목표</button>
-      <button class="nav-item" onclick="showSec('sec-2-2-45',this)">§ 2.45–2.47 CPM 개요</button>
-      <button class="nav-item" onclick="showSec('sec-2-2-46',this)">§ 2.46–2.48 원가가산이윤</button>
-      <button class="nav-item" onclick="showSec('sec-2-2-47',this)">§ 2.47–2.51 비교가능성</button>
-      <button class="nav-item" onclick="showSec('sec-2-2-49',this)">§ 2.49–2.58 원가 범위·회계</button>
-      <button class="nav-item" onclick="showSec('sec-2-2-52',this)">§ 2.52–2.58 적용 한계</button>
-      <button class="nav-item" onclick="showSec('sec-2-2-59',this)">§ 2.59–2.61 적용 사례</button>
-      <button class="nav-item" onclick="showSec('sec-quiz',this)">확인퀴즈</button>
-      <button class="nav-item" onclick="showSec('sec-check',this)">학습체크리스트</button>
+      <h4>📑 목차</h4>
+      <button class="nav-item" onclick="goTo('obj')">🎯 학습목표</button>
+      <button class="nav-item" onclick="goTo('s1')">1. CPM의 구조와 계산</button>
+      <button class="nav-item" onclick="goTo('s2')">2. 적합한 거래 유형</button>
+      <button class="nav-item" onclick="goTo('s3')">3. 비교가능성 요건</button>
+      <button class="nav-item" onclick="goTo('s4')">4. 비용 분석과 분류</button>
+      <button class="nav-item" onclick="goTo('s5')">5. 원가 기준과 회계처리</button>
+      <button class="nav-item" onclick="goTo('s6')">6. 적용 사례</button>
+      <button class="nav-item" onclick="goTo('quiz')">📝 확인 퀴즈</button>
+      <button class="nav-item" onclick="goTo('check')">☑ 실무 체크리스트</button>
     </div>
-    <div class="nav-card" style="text-align:center">
-      <div style="font-size:.8rem;color:var(--gray);margin-bottom:.3rem">현재 진도</div>
-      <div style="font-size:1.6rem;font-weight:700;color:var(--accent)" id="pct-display2">0%</div>
+    <div class="nav-card">
+      <h4>📊 모듈 진도</h4>
+      <div style="text-align:center;padding:.5rem 0">
+        <div style="font-size:1.6rem;font-weight:800;color:var(--blue)" id="pctDisp">0%</div>
+        <div style="font-size:.8rem;color:var(--gray);margin-top:.2rem">학습 완료율</div>
+      </div>
     </div>
-  </div>
+  </aside>
 
-  <!-- 본문 -->
-  <div class="content">
+  <main class="content">
 
-    <!-- 완료배너 -->
-    <div class="complete-banner" id="complete-banner">
-      <h3>🎉 학습 완료!</h3>
-      <p>M2-4 원가가산법(CPM) 학습을 80% 이상 완료하셨습니다. 수고하셨습니다!</p>
-    </div>
-
-    <!-- 학습목표 -->
-    <div class="card" id="sec-obj">
-      <h2>학습목표</h2>
-      <p>본 모듈을 학습하신 후 다음 사항을 이해하고 적용하실 수 있습니다.</p>
+    <!-- 학습 목표 -->
+    <section class="card" id="obj">
+      <h2>🎯 학습 목표</h2>
       <ul class="obj-list">
-        <li><span class="obj-num">1</span><span>원가가산법(CPM)의 기본 구조와 산출 공식을 설명하실 수 있습니다.</span></li>
-        <li><span class="obj-num">2</span><span>원가가산이윤(Cost Plus Mark-up)의 의미와 결정 방식을 이해하실 수 있습니다.</span></li>
-        <li><span class="obj-num">3</span><span>CPM 적용에 사용되는 원가의 범위와 회계 처리 문제를 파악하실 수 있습니다.</span></li>
-        <li><span class="obj-num">4</span><span>CPM에서 요구하는 비교가능성 기준과 기능분석의 중요성을 이해하실 수 있습니다.</span></li>
-        <li><span class="obj-num">5</span><span>CPM의 적용 한계와 RPM, TNMM 등 다른 방법과의 차이를 비교하실 수 있습니다.</span></li>
+        <li><span class="obj-num">1</span><span>원가가산방법(CPM)의 계산 구조(원가 + 원가가산 마진 = 정상가격)를 설명하고 실제 계산을 수행할 수 있다</span></li>
+        <li><span class="obj-num">2</span><span>CPM이 특히 유용하게 적용되는 4가지 거래 유형(반제품·공동설비·장기공급계약·서비스)을 설명할 수 있다</span></li>
+        <li><span class="obj-num">3</span><span>CPM 적용 시 비용의 세 가지 분류 원칙(조정·별도계산·조정 불필요)을 구별하여 적용할 수 있다</span></li>
+        <li><span class="obj-num">4</span><span>OECD가 권장하는 원가 기준(역사적 원가)과 예외적 대안(표준원가)을 이해한다</span></li>
+        <li><span class="obj-num">5</span><span>CPM과 TNMM의 관계 — 회계처리 불일치 시 CPM이 TNMM으로 수렴하는 문제를 파악한다</span></li>
       </ul>
-    </div>
+    </section>
 
-    <!-- §2.19 CPM 개요 -->
-    <div class="card" id="sec-2-2-45">
-      <h2>§ 2.45–2.47 원가가산방법(CPM) 개요</h2>
-      <div class="accordion">
-        <button class="acc-header" onclick="toggleAcc(this)">
-          <span><span class="para">§2.45–2.47</span>CPM의 정의와 기본 구조</span>
-          <span class="arrow">▼</span>
-        </button>
-        <div class="acc-body">
-          <p>원가가산법(Cost Plus Method, CPM)은 특수관계 거래에서 재화나 용역을 공급하는 측이 부담한 원가에 <strong>원가가산이윤(Cost Plus Mark-up)</strong>을 가산하여 정상가격을 산출하는 방법입니다.</p>
-          <div class="key-point">
-            <strong>CPM 산출 공식</strong><br>
-            정상가격 = 원가 × (1 + 원가가산이윤율)
-          </div>
-          <p>예를 들어, 제조 원가가 80이고 원가가산이윤율이 25%라면, 정상가격은 100(= 80 × 1.25)이 됩니다. 즉, 특수관계 거래에서 공급가격은 100을 하회해서는 안 됩니다.</p>
-          <p>CPM은 주로 <strong>제조·가공 기능 또는 용역 제공 기능</strong>을 수행하는 공급자 측에서 사용됩니다. 반제품이나 완제품을 관련 당사자에게 공급하는 계약제조업자, 그룹 내 용역을 제공하는 공유서비스센터 등이 대표적인 적용 대상입니다.</p>
-          <div class="warn-point">
-            CPM은 공급자가 독자적인 무형자산(특허, 독점 기술 등)을 보유하거나 부가가치 창출 활동이 큰 경우에는 신뢰성이 낮아질 수 있습니다.
-          </div>
-        </div>
-      </div>
-      <div class="accordion">
-        <button class="acc-header" onclick="toggleAcc(this)">
-          <span><span class="para">§2.45–2.47</span>RPM과의 비교</span>
-          <span class="arrow">▼</span>
-        </button>
-        <div class="acc-body">
-          <p>CPM이 공급자(제조업자·용역 제공자) 측의 원가와 이윤을 기준으로 하는 반면, RPM은 재판매업자 측의 재판매가격에서 출발합니다. 두 방법 모두 총이익(Gross Profit) 수준에서 비교를 수행합니다.</p>
-          <table class="compare-table">
-            <tr><th>구분</th><th>RPM</th><th>CPM</th></tr>
-            <tr><td>출발점</td><td>재판매가격(판매자 관점)</td><td>원가(공급자 관점)</td></tr>
-            <tr><td>비교 지표</td><td>재판매가격이윤율(매출총이익률)</td><td>원가가산이윤율(원가 대비 총이익률)</td></tr>
-            <tr><td>주요 적용 대상</td><td>유통·재판매업자</td><td>제조업자·용역 제공자</td></tr>
-            <tr><td>분석 방향</td><td>판매가격 → 구입원가</td><td>원가 → 판매가격</td></tr>
-          </table>
-          <div class="key-point">
-            RPM의 재판매가격이윤율과 CPM의 원가가산이윤율은 서로 다른 분모를 사용합니다. 예를 들어 총이익이 20일 때, 판매가격 100 기준 이윤율은 20%이지만 원가 80 기준 이윤율은 25%입니다.
-          </div>
-        </div>
-      </div>
-    </div>
+    <!-- 섹션 1: CPM 구조와 계산 -->
+    <section class="card" id="s1">
+      <h2>1. 원가가산방법의 구조와 계산 <span class="tag tag-para">¶2.45</span></h2>
+      <p>원가가산방법(Cost Plus Method, CPM)은 재화나 용역을 제공하는 당사자가 실제로 발생한 <strong>원가(Cost Base)</strong>를 기준으로, 기능과 시장 상황에 적합한 <strong>적정 마진(Cost Plus Mark-up)</strong>을 더하여 정상가격을 산정하는 방식이다.</p>
 
-    <!-- §2.20 원가가산이윤 -->
-    <div class="card" id="sec-2-2-46">
-      <h2>§ 2.46–2.48 원가가산이윤의 결정</h2>
       <div class="accordion">
         <button class="acc-header" onclick="toggleAcc(this)">
-          <span><span class="para">§2.46–2.48</span>원가가산이윤의 의미</span>
+          <span>원가가산방법의 계산 구조 <span class="para">¶2.45</span></span>
           <span class="arrow">▼</span>
         </button>
         <div class="acc-body">
-          <p>원가가산이윤(Cost Plus Mark-up)은 공급자가 수행한 기능, 부담한 비용, 인수한 위험에 대한 보상을 의미합니다. 독립 기업이 유사한 환경에서 동일한 공급 기능을 수행했다면 요구했을 이윤율과 비교하여 결정됩니다.</p>
-          <div class="key-point">
-            원가가산이윤율 = (거래가격 − 원가) / 원가<br>
-            즉, <strong>원가 대비 총이익률(Cost Mark-up)</strong>에 해당합니다.
+          <div class="calc-box">
+            <div class="calc-title">📐 CPM 정상가격 계산 흐름</div>
+            <div class="calc-row">
+              <span class="label">① 원가 기반(Cost Base) — 실제 발생 원가</span>
+              <span class="value">100</span>
+            </div>
+            <div class="calc-row" style="font-size:.82rem;color:#888;padding-left:1rem">
+              <span class="label">· 직접 재료비, 직접 노무비, 제조간접비 등</span><span class="value"></span>
+            </div>
+            <div class="calc-row">
+              <span class="label">② (가산) 원가가산 마진 (Cost Plus Mark-up)</span>
+              <span class="value">+ 20</span>
+            </div>
+            <div class="calc-row" style="font-size:.82rem;color:#888;padding-left:1rem">
+              <span class="label">· 기능 수행에 상응하는 적정 이윤</span><span class="value"></span>
+            </div>
+            <div class="calc-divider"></div>
+            <div class="calc-result">
+              <span class="label">✅ 정상가격 (Arm's Length Price)</span>
+              <span class="value">= 120</span>
+            </div>
           </div>
-          <p>원가가산이윤율은 다음 두 가지 방법으로 도출됩니다.</p>
-          <ul style="margin:.5rem 0 .5rem 1.2rem;font-size:.93rem;color:var(--text2)">
-            <li style="margin-bottom:.4rem"><strong>내부비교이윤율:</strong> 동일 공급자가 비관련 당사자에게 공급할 때 벌어들인 이윤율</li>
-            <li><strong>외부비교이윤율:</strong> 독립 기업이 유사한 공급 기능을 수행하여 벌어들인 이윤율</li>
-          </ul>
-          <p>내부 비교가능 거래가 있을 경우 외부 비교보다 신뢰성이 높습니다.</p>
+          <div class="key-point">💡 <strong>CPM의 핵심:</strong> 공급자(관계회사)가 독립기업이었다면 얼마의 마진을 추가했을지를 비교가능거래에서 찾아 원가에 가산한다. RPM이 <em>재판매가격에서 역산</em>하는 방식이라면, CPM은 <em>원가에서 출발하여 정가산</em>하는 방식이다.</div>
+          <div class="practice-note">
+            <div class="pn-label">📌 실무 주석 — CPM의 이익 지표</div>
+            <p>CPM의 원가가산 마진은 <strong>매출원가 대비 매출총이익률(Gross Profit on Cost)</strong>을 기준으로 한다. 이는 RPM의 재판매마진(매출 대비 총이익)과 분모가 다르므로, 두 방법의 마진율을 직접 비교하면 안 된다.</p>
+            <p>예: 원가 100, 판매가 120 → CPM 마진율 = 20/100 = <strong>20%</strong>, RPM 마진율 = 20/120 = <strong>16.7%</strong></p>
+          </div>
         </div>
       </div>
-      <div class="accordion">
-        <button class="acc-header" onclick="toggleAcc(this)">
-          <span><span class="para">§2.46–2.48</span>원가가산이윤에 영향을 주는 요소</span>
-          <span class="arrow">▼</span>
-        </button>
-        <div class="acc-body">
-          <p>원가가산이윤율은 공급자의 기능, 위험, 자산 보유 현황에 따라 달라집니다.</p>
-          <table class="compare-table">
-            <tr><th>요소</th><th>설명</th></tr>
-            <tr><td>수행 기능</td><td>생산, 품질관리, 연구개발, 조달 등의 범위와 복잡성</td></tr>
-            <tr><td>부담 위험</td><td>재고위험, 생산 위험, 품질 책임 위험 등</td></tr>
-            <tr><td>사용 자산</td><td>공장·설비, 특허, 노하우 등 유·무형자산</td></tr>
-            <tr><td>산업 특성</td><td>경쟁 강도, 기술 수준, 진입 장벽</td></tr>
-            <tr><td>거래 규모</td><td>물량 할인, 장기 계약에 따른 이윤율 차이</td></tr>
-          </table>
-          <div class="warn-point">
-            고도의 기술력이나 독자적인 무형자산을 보유한 제조업자는 단순 계약제조업자보다 훨씬 높은 원가가산이윤율을 요구할 것이므로, 비교 가능성 판단 시 주의가 필요합니다.
-          </div>
+    </section>
+
+    <!-- 섹션 2: 적합한 거래 유형 -->
+    <section class="card" id="s2">
+      <h2>2. CPM이 유용한 거래 유형 <span class="tag tag-para">¶2.45</span></h2>
+      <p>CPM은 다음 4가지 유형의 특수관계 거래에 특히 유용하게 적용된다. 이들 거래의 공통점은 <strong>원가 정보에 대한 접근성이 높고 기능이 비교적 명확</strong>하다는 점이다.</p>
+
+      <div class="sum-grid">
+        <div class="sum-box">
+          <div class="sb-label">① 반제품(Semi-finished Goods) 내부 거래</div>
+          <p>완성품 제조를 위해 관계회사에 중간재를 공급하는 거래. 공급자의 원가가 명확하고 추가 가공이 예정되어 있어 CPM 적합.</p>
+        </div>
+        <div class="sum-box">
+          <div class="sb-label">② 공동 설비(Joint Facility) 이용 계약</div>
+          <p>관계회사들이 생산 설비를 공동으로 사용하는 경우. 각 사용자에게 원가를 배분하고 적정 마진을 가산하여 사용료 산정.</p>
+        </div>
+        <div class="sum-box green">
+          <div class="sb-label">③ 장기 공급계약(Long-term Buy-and-Supply)</div>
+          <p>장기간 안정적으로 부품·원재료를 공급하는 계약. 장기 계약으로 원가 예측이 가능하고 기능이 반복적·안정적.</p>
+        </div>
+        <div class="sum-box green">
+          <div class="sb-label">④ 서비스 제공 거래</div>
+          <p>관계회사에 IT, 회계, 법무, HR 등 내부 서비스를 제공하는 경우. 서비스 원가에 적정 마진을 가산하여 용역대가 산정.</p>
         </div>
       </div>
 
       <div class="accordion">
         <button class="acc-header" onclick="toggleAcc(this)">
-          <span><span class="para">§2.48</span>비교가능성 불만족 사례 — 토스트·다리미 제조회사</span>
+          <span>중간재(반제품) 거래에서 CPM이 특히 유용한 이유 <span class="para">¶2.45</span></span>
           <span class="arrow">▼</span>
         </button>
         <div class="acc-body">
-          <p>§2.48은 생산효율성 차이로 인해 원가가산방법 적용을 위한 비교가능성이 만족되지 않는 대표 사례를 제시합니다.</p>
+          <p>원가가산방법은 <strong>중간재가 완성품 등으로 추가 가공하기 위하여 관계회사에게 판매되는 거래</strong>에 적용하기 유용한 방법이다.</p>
+          <div class="two-col">
+            <div class="col-box teal">
+              <h4>CPM 유용한 이유</h4>
+              <p>중간재는 최종 소비자에게 판매되지 않아 <strong>시장 재판매가격이 없으므로</strong> RPM 적용이 불가. 반면 제조원가는 명확히 파악 가능하여 CPM 적합.</p>
+            </div>
+            <div class="col-box">
+              <h4>CUP와의 비교</h4>
+              <p>중간재는 외부 시장에서 동일 제품 거래가 드물어 <strong>비교가능 제3자 가격(CUP)을 찾기 어려움</strong>. 내부 원가 정보를 활용하는 CPM이 현실적 대안.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 섹션 3: 비교가능성 요건 -->
+    <section class="card" id="s3">
+      <h2>3. CPM의 비교가능성 요건 <span class="tag tag-para">¶2.46 · ¶2.47 · ¶2.48</span></h2>
+
+      <div class="accordion">
+        <button class="acc-header" onclick="toggleAcc(this)">
+          <span>내부/외부 비교가능거래와 RPM과의 관계 <span class="para">¶2.46 · ¶2.47</span></span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p>CPM의 비교가능거래 탐색 방식(내부 → 외부)은 RPM과 동일하며, 비교가능성 요건도 <strong>¶2.29~¶2.34에 규정된 RPM 기준을 준용</strong>한다.</p>
           <table class="compare-table">
             <thead>
-              <tr><th>분류</th><th>기업 A</th><th>기업 B</th></tr>
+              <tr><th style="width:22%">구분</th><th>CPM</th><th>RPM</th></tr>
             </thead>
             <tbody>
-              <tr><td>생산효율성</td><td><strong>상당히 효율적임</strong></td><td>효율적이지 못함</td></tr>
-              <tr><td>제조비용</td><td><strong>낮음</strong></td><td>높음</td></tr>
-              <tr><td>생산제품</td><td>토스트</td><td>다리미</td></tr>
-              <tr><td>제품가격</td><td>유사함</td><td>유사함</td></tr>
-              <tr><td>이익수준</td><td><strong>높음</strong></td><td>낮음</td></tr>
               <tr>
-                <td><strong>비교가능성 결론</strong></td>
-                <td colspan="2" style="background:#fdecea;color:#6b1010">
-                  기업 A가 기업 B에 비해 생산 효율적이고 적은 비용으로 동일한 제품을 생산할 수 있기 때문에, 원가가산방법을 적용하기 위한 기업 A와 기업 B의 비교가능성은 <strong>만족되지 않음</strong>.
-                </td>
+                <td><strong>이익 지표</strong></td>
+                <td>원가가산 마진 (Cost Plus Mark-up)<br><span style="font-size:.82rem">= 총이익 ÷ 원가</span></td>
+                <td>재판매마진 (Resale Price Margin)<br><span style="font-size:.82rem">= 총이익 ÷ 매출액</span></td>
+              </tr>
+              <tr>
+                <td><strong>방향</strong></td>
+                <td>원가 → 가산 → 정상가격 <strong>(전진 계산)</strong></td>
+                <td>재판매가격 → 차감 → 정상가격 <strong>(역산)</strong></td>
+              </tr>
+              <tr>
+                <td><strong>비교가능성 우선순위</strong></td>
+                <td colspan="2" style="text-align:center">기능 비교가능성 &gt; 제품 비교가능성 (양방법 공통)</td>
+              </tr>
+              <tr>
+                <td><strong>주요 적용 거래</strong></td>
+                <td>반제품·서비스·장기공급계약</td>
+                <td>유통·도매 거래</td>
               </tr>
             </tbody>
           </table>
-          <div class="warn-point">⚠ §2.48 (주): 회사가 적용하는 기술 노하우가 다르고 이로 인한 비용절감 또는 매출 증감 효과가 있는 경우 이를 고려해야 합니다. 따라서 제품의 유사성(일반 소비용 가전제품)이 있더라도 비용구조가 달라 신뢰성 있는 정보로 두 회사의 차이를 조정할 수 없는 경우, 두 회사를 기준으로 원가가산방법을 적용할 수 없습니다.</div>
         </div>
       </div>
-    </div>
 
-    <!-- §2.21 비교가능성 요건 -->
-    <div class="card" id="sec-2-2-47">
-      <h2>§ 2.47–2.51 CPM의 비교가능성 요건</h2>
       <div class="accordion">
         <button class="acc-header" onclick="toggleAcc(this)">
-          <span><span class="para">§2.47–2.51</span>기능 유사성 중심의 비교가능성</span>
+          <span>기술 노하우 차이와 비용구조 — 토스트/다리미 사례 <span class="para">¶2.48</span></span>
           <span class="arrow">▼</span>
         </button>
         <div class="acc-body">
-          <p>CPM에서도 RPM과 마찬가지로 제품의 동질성보다 <strong>공급자가 수행하는 기능과 위험 부담의 유사성</strong>이 더 중요한 비교가능성 기준입니다. 동일한 제품을 만들더라도 공급자가 부담하는 기능과 위험이 다르면 원가가산이윤율도 달라집니다.</p>
-          <div class="key-point">
-            CPM에서 비교가능성의 핵심: <strong>공급자의 기능·위험·계약 조건</strong>이 독립기업과 유사한가?
+          <div class="case-box">
+            <div class="case-label">📋 사례 — 제품 유사성이 있어도 비용구조가 다른 경우</div>
+            <p><strong>상황:</strong> A사(토스터 제조)와 B사(다리미 제조)는 모두 일반 소비용 가전제품을 생산하여 제품 유사성이 인정된다.</p>
+            <p><strong>문제:</strong> 그러나 두 회사가 적용하는 <strong>기술 노하우가 달라</strong> 비용절감 또는 매출 증감 효과에 차이가 있고, 이로 인해 비용구조가 다르다.</p>
+            <p><strong>결론:</strong> 제품 유사성이 있더라도 비용구조 차이를 신뢰성 있는 정보로 조정할 수 없는 경우, 두 회사를 기준으로 CPM을 적용할 수 없다.</p>
           </div>
-          <p>OECD 지침서가 제시하는 다섯 가지 비교가능성 요소는 다음과 같습니다.</p>
-          <ul style="margin:.5rem 0 .5rem 1.2rem;font-size:.93rem;color:var(--text2)">
-            <li style="margin-bottom:.4rem">① 재화·용역의 특성</li>
-            <li style="margin-bottom:.4rem">② 기능분석 (수행 기능, 사용 자산, 부담 위험)</li>
-            <li style="margin-bottom:.4rem">③ 계약 조건</li>
-            <li style="margin-bottom:.4rem">④ 경제적 상황</li>
-            <li>⑤ 사업 전략</li>
-          </ul>
-          <p>CPM에서도 ② 기능분석이 가장 핵심적인 비교가능성 요소입니다.</p>
+          <div class="warn-point">⚠️ <strong>핵심 교훈:</strong> CPM에서는 원가가산 마진 비교의 전제로 <em>비용구조의 비교가능성</em>이 확보되어야 한다. 비용구조가 다르면 마진 수준 비교 자체가 의미 없어진다.</div>
         </div>
       </div>
-      <div class="accordion">
-        <button class="acc-header" onclick="toggleAcc(this)">
-          <span><span class="para">§2.47–2.51</span>계약제조업자와 독립제조업자의 비교</span>
-          <span class="arrow">▼</span>
-        </button>
-        <div class="acc-body">
-          <p>CPM을 적용할 때는 비교 대상 기업이 그룹 내 당사자와 유사한 기능을 수행하는지 확인해야 합니다. 특히, 계약제조업자(Contract Manufacturer)와 독립적 완전 제조업자(Full-fledged Manufacturer)의 차이를 구분해야 합니다.</p>
-          <table class="compare-table">
-            <tr><th>구분</th><th>계약제조업자</th><th>독립 완전 제조업자</th></tr>
-            <tr><td>연구개발</td><td>수행하지 않음</td><td>자체 R&D 수행</td></tr>
-            <tr><td>무형자산</td><td>보유하지 않음</td><td>특허·노하우 보유</td></tr>
-            <tr><td>재고·시장위험</td><td>제한적 부담</td><td>전부 부담</td></tr>
-            <tr><td>원가가산이윤율</td><td>상대적으로 낮음</td><td>상대적으로 높음</td></tr>
-          </table>
-          <div class="warn-point">
-            독립 완전 제조업자의 이윤율을 계약제조업자에게 그대로 적용하면 이윤이 과대 계상됩니다. 반드시 기능 수준을 일치시켜야 합니다.
-          </div>
-        </div>
-      </div>
-    </div>
+    </section>
 
-    <!-- §2.22 원가 범위와 회계 -->
-    <div class="card" id="sec-2-2-49">
-      <h2>§ 2.49–2.58 원가 범위와 회계 처리</h2>
+    <!-- 섹션 4: 비용 분석과 분류 -->
+    <section class="card" id="s4">
+      <h2>4. 비용 분석과 세 가지 분류 원칙 <span class="tag tag-para">¶2.49 · ¶2.50 · ¶2.51</span></h2>
+
       <div class="accordion">
         <button class="acc-header" onclick="toggleAcc(this)">
-          <span><span class="para">§2.49–2.58</span>원가의 범위 결정</span>
+          <span>CPM 적용 시 비용 분석의 어려움 <span class="para">¶2.49</span></span>
           <span class="arrow">▼</span>
         </button>
         <div class="acc-body">
-          <p>CPM에서 가장 중요한 실무적 문제 중 하나는 <strong>이윤율 계산의 분모가 되는 원가의 범위</strong>를 어떻게 정의하느냐입니다. 원가에 포함되는 항목에 따라 이윤율이 크게 달라질 수 있습니다.</p>
-          <p>일반적으로 CPM에서 원가는 제조원가(직접 재료비, 직접 노무비, 제조 간접비)를 포함하며, 판매비와 일반관리비의 포함 여부는 사안별로 다릅니다.</p>
-          <table class="compare-table">
-            <tr><th>원가 항목</th><th>일반적 포함 여부</th></tr>
-            <tr><td>직접 재료비</td><td>포함</td></tr>
-            <tr><td>직접 노무비</td><td>포함</td></tr>
-            <tr><td>제조 간접비</td><td>포함</td></tr>
-            <tr><td>판매비 및 일반관리비</td><td>거래 구조에 따라 다름</td></tr>
-            <tr><td>연구개발비</td><td>거래 구조에 따라 다름</td></tr>
-          </table>
-          <div class="key-point">
-            비교 가능한 독립 기업과 동일한 원가 범위를 사용해야 합니다. 원가 범위가 다르면 이윤율을 직접 비교할 수 없습니다.
+          <p>CPM 적용 시 가장 어려운 과제 중 하나는 <strong>어떤 비용을 원가가산 마진 산정의 기초(cost base)에 포함할 것인지</strong>를 결정하는 것이다.</p>
+          <div class="two-col">
+            <div class="col-box teal">
+              <h4>일반적 원칙</h4>
+              <p>기업은 사업을 영위하기 위한 비용보다 높은 이익을 창출해야 하며, 시장에서 경쟁하기 위해 생산비용을 감안하여 판매가격을 결정한다.</p>
+            </div>
+            <div class="col-box orange">
+              <h4>예외적 상황</h4>
+              <p>가치 있는 발견이나 연구개발 노력이 아주 적은 경우 등, <strong>시장가격과 발생 비용 간에 경쟁 원칙이 적용되지 않는 경우</strong>가 존재한다.</p>
+            </div>
+          </div>
+          <div class="practice-note">
+            <div class="pn-label">📌 실무 주석 — 비용의 중요성은 산업별로 상이</div>
+            <p>① <strong>광물·희소 원재료 공급 기업:</strong> 매출 창출을 위한 광고·영업활동이 불필요한 경우 있음 — 마케팅비가 중요 비용 아님.</p>
+            <p>② <strong>반도체·제조장비:</strong> 핵심 성공요인이 단순 비용효율적 생산이 아닌 경우 — 비용 외에 무형자산과 사업활동도 함께 검토 필요.</p>
           </div>
         </div>
       </div>
+
       <div class="accordion">
         <button class="acc-header" onclick="toggleAcc(this)">
-          <span><span class="para">§2.49–2.58</span>회계 처리 차이와 일관성</span>
+          <span>비용의 세 가지 분류와 처리 방법 <span class="para">¶2.51</span></span>
           <span class="arrow">▼</span>
         </button>
         <div class="acc-body">
-          <p>기업마다 재고 평가 방법(FIFO, 평균법 등), 감가상각 방법, 원가 배분 기준 등 회계 처리가 다를 수 있습니다. 이로 인해 원가 수준이 달라질 수 있으며, 이윤율 비교의 신뢰성이 떨어질 수 있습니다.</p>
-          <p>따라서 CPM 적용 시에는 비교 대상 기업 간 회계 처리의 <strong>일관성을 확인하고, 필요 시 조정</strong>을 수행해야 합니다. 예를 들어, 한 기업은 연구개발비를 원가에 포함하는 반면 다른 기업은 별도 비용으로 처리한다면, 두 기업의 원가가산이윤율은 단순 비교가 불가능합니다.</p>
-          <div class="warn-point">
-            다국적 기업 그룹 내 거래에서는 국가마다 회계 기준이 다를 수 있으므로(IFRS, US GAAP, 현지 기준), 회계 처리 차이에 대한 세심한 검토가 필요합니다.
+          <p>OECD는 CPM 적용 시 비용을 다음 세 가지로 분류하여 각각 다른 방법으로 처리하도록 규정한다.</p>
+          <div class="cost-grid">
+            <div class="cost-card a">
+              <div class="cc-label">유형 A — 원가에 조정</div>
+              <h4>기능적 차이를 반영하는 비용</h4>
+              <p>비용이 자산 및 위험을 고려한 <strong>기능적 차이를 반영</strong>하지만 원가가산방법 적용 시 고려되지 않은 경우 → <em>원가가산 마진의 원가에 조정</em></p>
+            </div>
+            <div class="cost-card b">
+              <div class="cc-label">유형 B — 별도 대가로 계산</div>
+              <h4>부수적 기능을 반영하는 비용</h4>
+              <p>비용이 <strong>별개의 대가지급이 필요한 서비스</strong>나 자본·자산부채 비용을 반영하는 경우 (예: 대여금 이자) → <em>별도 독립적 대가로 계산</em></p>
+            </div>
+            <div class="cost-card c">
+              <div class="cc-label">유형 C — 조정 불필요</div>
+              <h4>효율성·비효율성을 반영하는 비용</h4>
+              <p>관리감독비, 일반관리비 등 <strong>효율성 또는 비효율성을 반영</strong>하는 비용 → <em>매출총이익률에 추가 조정 불필요</em></p>
+            </div>
+          </div>
+          <div class="practice-note">
+            <div class="pn-label">📌 실무 주석 — 세 가지 분류의 의미</div>
+            <p><strong>유형 A:</strong> 중요 사업활동과 관련된 비용으로, 기능 차이를 마진 계산에 반영해야 함.</p>
+            <p><strong>유형 B:</strong> 중요 사업활동이 아니거나 자본·부채(예: 대여금 이자)와 관련된 비용으로, 별도 거래로 처리.</p>
+            <p><strong>유형 C:</strong> 모든 기업이 유사하게 수행하는 일반관리활동 — 기업 간 차이가 크지 않아 별도 조정 불필요.</p>
+            <p>이 분류의 핵심은 <strong>수행 기능·부담 위험이 어떻게 비용과 연결되는지</strong>를 분석하여 비교가능성을 확보하는 것이다.</p>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- §2.23 적용 한계 -->
-    <div class="card" id="sec-2-2-52">
-      <h2>§ 2.52–2.58 CPM의 적용 한계와 주의사항</h2>
       <div class="accordion">
         <button class="acc-header" onclick="toggleAcc(this)">
-          <span><span class="para">§2.52–2.58</span>무형자산과 고기능 제조업자</span>
+          <span>자산 차이가 비용 결정에 미치는 영향 <span class="para">¶2.50</span></span>
           <span class="arrow">▼</span>
         </button>
         <div class="acc-body">
-          <p>공급자가 독자적인 특허, 핵심 기술, 독점 노하우 등을 보유하고 있다면, 단순 계약제조업자와 비교하여 원가가산이윤율을 결정하는 것은 부적절합니다. 이 경우 독자적인 무형자산의 가치를 별도로 고려해야 하며, 이익분할법이나 TNMM이 더 적합할 수 있습니다.</p>
-          <div class="warn-point">
-            공급자가 고유 무형자산을 보유한 경우에는 CPM으로는 그 가치가 이전가격에 반영되지 않을 수 있습니다. 이는 이익 이전(Profit Shifting) 문제로 이어질 수 있습니다.
+          <p>분석대상회사와 비교가능회사 간의 <strong>자산 차이도 비용을 결정하는 주요 요소</strong>이다.</p>
+          <div class="case-box">
+            <div class="case-label">📋 자산 차이의 비용 영향 예시</div>
+            <p><strong>유형 자산 차이:</strong> 최신 설비를 보유한 회사는 감가상각비가 높을 수 있으나 생산 효율이 높아 단위당 원가가 낮을 수 있다.</p>
+            <p><strong>무형자산 차이:</strong> 핵심 기술이나 특허를 보유한 회사는 연구개발비 등 특정 비용이 낮거나 없을 수 있어 비용구조가 근본적으로 다를 수 있다.</p>
+          </div>
+          <div class="warn-point">⚠️ 자산 차이로 인한 비용구조 차이가 크고 신뢰성 있는 조정이 불가능한 경우, 해당 비교가능회사는 CPM 분석에서 제외하거나 다른 방법을 검토해야 한다.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 섹션 5: 원가 기준과 회계처리 -->
+    <section class="card" id="s5">
+      <h2>5. 원가 기준과 회계처리 문제 <span class="tag tag-para">¶2.52 · ¶2.55 – ¶2.58</span></h2>
+
+      <div class="accordion">
+        <button class="acc-header" onclick="toggleAcc(this)">
+          <span>OECD 권장 원가 기준 — 역사적 원가(실제 원가) <span class="para">¶2.55 · ¶2.58</span></span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p>OECD는 CPM 적용 시 <strong>역사적 원가(Historical Cost), 즉 실제로 발생한 원가</strong>를 기준으로 하도록 규정한다.</p>
+          <div class="sum-grid">
+            <div class="sum-box">
+              <div class="sb-label">원칙 — 역사적 원가(실제 원가)</div>
+              <p>실제 발생한 원가를 기준으로 원가가산 마진을 산출. 가장 객관적이고 검증 가능한 방법.</p>
+            </div>
+            <div class="sum-box green">
+              <div class="sb-label">예외 — 표준원가 등 허용</div>
+              <p>표준원가 등 다른 재고자산 평가방법이 <strong>거래의 실제 내용을 더 합리적으로 반영</strong>하는 경우 해당 방법 적용 가능.</p>
+            </div>
+          </div>
+          <div class="key-point">💡 <strong>표준원가 활용이 더 합리적인 경우:</strong> 계절적 원가 변동이 심한 산업, 대량 생산으로 개별 원가 추적이 어려운 경우, 또는 장기계약에서 안정적인 가격 책정이 필요한 경우 등이다.</div>
+        </div>
+      </div>
+
+      <div class="accordion">
+        <button class="acc-header" onclick="toggleAcc(this)">
+          <span>원가 범위 — 공급자 원가만 포함, 구매자 부담 비용 제외 <span class="para">¶2.56 · ¶2.57</span></span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p>CPM의 원가 기반에는 <strong>제품의 공급 또는 서비스에 관련된 비용만 포함</strong>한다.</p>
+          <div class="warn-point">⚠️ <strong>중요:</strong> 구매자(특수관계 모회사 포함)가 부담하였거나 부담할 비용은 CPM 적용을 위한 원가에 포함하지 않는다. 예를 들어, 구매자가 원재료를 직접 조달하여 공급자에게 제공한 경우, 그 원재료 비용은 공급자의 원가가 아니다.</div>
+          <div class="note-point">📌 <strong>예외 — 변동비·한계비용:</strong> 재고자산이 더 이상 가치가 없게 되는 등 특수한 상황에서는 변동비용 또는 한계비용만을 고려하여 원가가산 이익을 결정할 수 있다.</div>
+        </div>
+      </div>
+
+      <div class="accordion">
+        <button class="acc-header" onclick="toggleAcc(this)">
+          <span>회계처리 불일치 시 CPM이 TNMM으로 수렴하는 문제 <span class="para">¶2.52</span></span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p>CPM을 적용하였으나 분석대상회사와 비교가능회사 간 <strong>회계처리방법이 일치하지 않는 경우</strong>, 매출총이익 수준에서의 비교가 어려워진다.</p>
+          <div class="case-box">
+            <div class="case-label">📋 CPM → TNMM 수렴 메커니즘</div>
+            <p><strong>문제 상황:</strong> A사와 B사가 동일한 제조 기능을 수행하지만, A사는 연구개발비를 매출원가에 포함하고 B사는 영업비용으로 처리한다.</p>
+            <p><strong>결과:</strong> 두 회사의 <strong>매출총이익(Gross Profit)이 다르게 계산</strong>되어 CPM의 마진 비교가 왜곡된다.</p>
+            <p><strong>해결책:</strong> 이 경우 매출총이익이 아닌 <strong>영업이익(Operating Profit)을 기준으로 비교</strong>하게 되는데, 이는 사실상 <em>거래순이익률방법(TNMM)</em>과 동일한 분석이 된다.</p>
+          </div>
+          <div class="key-point">💡 <strong>실무 시사점:</strong> CPM과 TNMM의 차이는 이익 지표(총이익 vs. 영업이익)의 차이인데, 회계처리 불일치로 인해 CPM이 총이익 기준으로 분석 불가한 경우 TNMM으로 전환하는 것이 합리적이다. ¶2.70–¶2.73에서 상세히 다룬다.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 섹션 6: 적용 사례 -->
+    <section class="card" id="s6">
+      <h2>6. 적용 사례 <span class="tag tag-para">¶2.59 – ¶2.61</span></h2>
+
+      <div class="accordion">
+        <button class="acc-header" onclick="toggleAcc(this)">
+          <span>세 가지 사례 유형 — 반제품·서비스·장기공급계약 <span class="para">¶2.59 · ¶2.60 · ¶2.61</span></span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <div class="case-box" style="margin-bottom:.8rem">
+            <div class="case-label">📋 사례 1 (¶2.59) — 반제품 공급</div>
+            <p><strong>상황:</strong> 모회사(제조업체)가 자회사에게 반제품을 공급하고, 자회사가 이를 완성품으로 가공하여 판매</p>
+            <p><strong>CPM 적용:</strong> 모회사의 반제품 제조원가에 비교가능 독립기업의 원가가산 마진을 적용하여 이전가격 결정</p>
+            <p><strong>비교가능거래:</strong> 모회사가 독립 제3자에게 동일·유사 반제품을 공급하는 거래(내부 비교가능거래) 우선 탐색</p>
+          </div>
+          <div class="case-box" style="margin-bottom:.8rem">
+            <div class="case-label">📋 사례 2 (¶2.60) — 서비스 제공</div>
+            <p><strong>상황:</strong> 지역 본부가 자회사들에게 관리·회계·IT 지원 서비스를 제공</p>
+            <p><strong>CPM 적용:</strong> 서비스 제공에 발생한 직접·간접 비용을 집계하고 적정 서비스 마진을 가산하여 용역대가 결정</p>
+            <p><strong>주의사항:</strong> 비용 배분 기준(매출액, 직원 수, 사용량 등)의 합리성과 일관성이 중요</p>
+          </div>
+          <div class="case-box">
+            <div class="case-label">📋 사례 3 (¶2.61) — 장기 공급계약</div>
+            <p><strong>상황:</strong> 부품 공급 자회사가 모회사와 3년 장기 공급계약을 체결하고 매년 일정 물량의 부품을 공급</p>
+            <p><strong>CPM 적용:</strong> 연간 실제 제조원가에 장기계약 마진(독립기업 간 장기계약의 정상 마진 수준)을 가산</p>
+            <p><strong>특이사항:</strong> 장기계약의 경우 연도별 원가 변동을 반영할지, 계약 시점의 원가를 기준으로 고정 마진을 적용할지 검토 필요</p>
           </div>
         </div>
       </div>
-      <div class="accordion">
-        <button class="acc-header" onclick="toggleAcc(this)">
-          <span><span class="para">§2.52–2.58</span>CPM이 적합하지 않은 상황</span>
-          <span class="arrow">▼</span>
-        </button>
-        <div class="acc-body">
-          <p>다음과 같은 상황에서는 CPM보다 다른 방법이 더 적합할 수 있습니다.</p>
-          <table class="compare-table">
-            <tr><th>상황</th><th>권장 대체 방법</th></tr>
-            <tr><td>공급자가 상당한 무형자산 보유</td><td>이익분할법 또는 TNMM</td></tr>
-            <tr><td>완제품 유통 위주 거래</td><td>재판매가격법(RPM)</td></tr>
-            <tr><td>복잡한 기업 간 거래 구조</td><td>TNMM</td></tr>
-            <tr><td>비교 가능한 독립 기업 없음</td><td>TNMM 또는 이익분할법</td></tr>
-          </table>
-          <div class="key-point">
-            CPM은 계약제조업자나 단순 용역 제공자처럼 기능이 제한적이고 위험이 낮은 공급자에게 가장 적합합니다.
-          </div>
+
+      <h3>CPM 방법 적용의 실무 흐름 요약</h3>
+      <ul class="flow-list">
+        <li>기능분석(FAR) 수행 → 공급자의 제조·서비스 기능, 사용 자산, 부담 위험 파악</li>
+        <li>원가 기반(Cost Base) 확정 → 공급자 발생 원가만 포함, 구매자 부담 비용 제외</li>
+        <li>비용 분류 → 유형 A(원가 조정), 유형 B(별도 계산), 유형 C(조정 불필요)로 구분</li>
+        <li>비교가능거래 탐색 → 내부 비교가능거래 우선, 없으면 외부 데이터베이스 활용</li>
+        <li>비교가능성 조정 → 비용구조·자산·회계처리 차이에 대한 합리적 조정 수행</li>
+        <li>원가가산 마진 결정 → 비교가능거래의 정상 마진 범위 산출</li>
+        <li>정상가격 계산 → 원가 기반 × (1 + 원가가산 마진율) = 정상가격</li>
+        <li>문서화 → 원가 구성 내역, 비교가능거래, 마진 조정 근거 보고서에 상세 기술</li>
+      </ul>
+    </section>
+
+    <!-- 확인 퀴즈 -->
+    <section class="card" id="quiz">
+      <h2>📝 확인 퀴즈</h2>
+      <p style="font-size:.9rem;color:var(--gray);margin-bottom:1rem">5문항을 풀고 학습 내용을 확인하세요. 80점 이상이면 다음 모듈로 진행할 수 있습니다.</p>
+
+      <div class="q-block">
+        <div class="q-text">Q1. 원가가산방법(CPM)이 특히 유용하게 적용되는 거래 유형으로 옳지 않은 것은? (¶2.45)</div>
+        <div class="q-options">
+          <label><input type="radio" name="q1" value="a"> 관계회사에 반제품을 공급하는 내부 거래</label>
+          <label><input type="radio" name="q1" value="b"> 브랜드 인지도가 높은 완성품을 최종 소비자에게 직접 판매하는 거래</label>
+          <label><input type="radio" name="q1" value="c"> 관계회사들이 공동 생산 설비를 이용하는 계약</label>
+          <label><input type="radio" name="q1" value="d"> 관계회사에게 IT·회계 지원 서비스를 제공하는 거래</label>
         </div>
-      </div>
-      <div class="accordion">
-        <button class="acc-header" onclick="toggleAcc(this)">
-          <span><span class="para">§2.52–2.58</span>CUP·RPM·CPM의 종합 비교</span>
-          <span class="arrow">▼</span>
-        </button>
-        <div class="acc-body">
-          <p>세 가지 전통적 거래 기반 방법을 종합적으로 비교하면 다음과 같습니다.</p>
-          <table class="compare-table">
-            <tr><th>구분</th><th>CUP</th><th>RPM</th><th>CPM</th></tr>
-            <tr><td>비교 지표</td><td>거래 단가</td><td>재판매가격이윤율</td><td>원가가산이윤율</td></tr>
-            <tr><td>분석 측면</td><td>제품 특성</td><td>재판매자 기능</td><td>공급자 기능</td></tr>
-            <tr><td>적용 대상</td><td>원자재, 표준화 제품</td><td>유통업자</td><td>제조업자, 용역 제공자</td></tr>
-            <tr><td>제품 동질성</td><td>높게 요구</td><td>낮게 요구</td><td>낮게 요구</td></tr>
-            <tr><td>신뢰성</td><td>가장 높음</td><td>기능 유사 시 높음</td><td>기능 유사 시 높음</td></tr>
-          </table>
-        </div>
-      </div>
-    </div>
-
-    <!-- §2.59–2.61 적용 사례 -->
-    <div class="card" id="sec-2-2-59">
-      <h2>§2.59–2.61 원가가산방법 적용 사례</h2>
-      <p>OECD 이전가격지침서 §2.59–2.61은 원가가산방법의 구체적인 적용 사례를 제시합니다.</p>
-
-      <div class="accordion">
-        <button class="acc-header" onclick="toggleAcc(this)">
-          <span><span class="para">§2.59–2.60</span>사례 1 — 타이밍 기계장치: 원가 분류 차이와 조정</span>
-          <span class="arrow">▼</span>
-        </button>
-        <div class="acc-body">
-          <p>§2.59: 기업 A와 기업 B는 동일한 타이밍 기계장치를 생산·판매하나, 관리감독 및 일반행정비용(G&amp;A)의 회계처리 방법이 다릅니다.</p>
-          <table class="compare-table">
-            <thead>
-              <tr><th>구분</th><th>기업 A</th><th>기업 B</th></tr>
-            </thead>
-            <tbody>
-              <tr><td>거래 구조</td><td>기업 B에게 원가에 5% 마진을 더하여 판매</td><td>원가 마진 (3%–5%)</td></tr>
-              <tr>
-                <td>G&amp;A 비용 처리</td>
-                <td>관리감독 및 일반행정비용을 <strong>영업비용</strong>에 기록</td>
-                <td>관리감독 및 일반행정비용을 <strong>생산원가(COGS)</strong>에 기록</td>
-              </tr>
-              <tr>
-                <td><strong>조정 결론</strong></td>
-                <td colspan="2" style="background:#fff8e1">기업 X, Y, Z의 원가가산 마진은 G&amp;A 비용 처리 방식 차이에 따라 <strong>반드시 조정</strong>되어야 합니다. 동일한 원가가산이윤율처럼 보여도 G&amp;A를 COGS에 포함시키면 분자와 분모 모두 변동하여 비교가능성이 왜곡됩니다.</td>
-              </tr>
-            </tbody>
-          </table>
-          <div class="key-point">📌 §2.59: 비교가능 기업들 간에 G&amp;A 비용의 회계 분류가 다른 경우, 원가가산이윤율 비교 전 반드시 동일 기준으로 재분류하는 조정이 필요합니다.</div>
-        </div>
-      </div>
-
-      <div class="accordion">
-        <button class="acc-header" onclick="toggleAcc(this)">
-          <span><span class="para">§2.60</span>사례 2 — TV 조립 계약제조업자 (기업 C / 기업 E)</span>
-          <span class="arrow">▼</span>
-        </button>
-        <div class="acc-body">
-          <table class="compare-table">
-            <thead>
-              <tr><th>구분</th><th>기업 C (국가 D 소재)</th><th>기업 E (국가 F 소재)</th></tr>
-            </thead>
-            <tbody>
-              <tr><td>관계</td><td>기업 E의 100% 자회사</td><td>모회사</td></tr>
-              <tr><td>역할</td><td>텔레비전 <strong>조립</strong></td><td>제조 <strong>노하우 보유</strong>, 필요 구성품 제공</td></tr>
-              <tr><td>비용 특성</td><td>급여 비용이 국가 F보다 <strong>낮음</strong></td><td>기술 지식 및 부품 공급</td></tr>
-              <tr><td>품질 보증</td><td>기술기준을 충족하지 못하는 제품에 대해 기업 E가 보증 제공<br>(기업 C로부터 해당 제품 재구매)</td><td>품질 최종 책임</td></tr>
-              <tr><td>완제품 처리</td><td>조립 완성된 제품을 기업 E의 유통센터로 운송</td><td>유통센터에서 판매</td></tr>
-              <tr><td><strong>CPM 적용 결론</strong></td><td colspan="2" style="background:#e8f0fa">기업 C는 <strong>순수한 계약제조업자(contract manufacturer)</strong>로서, 위험을 부담하지 않고 조립 기능만 수행함. 원가가산방법(CPM)이 적합한 방법.</td></tr>
-            </tbody>
-          </table>
-          <div class="key-point">📌 §2.60: 기능이 제한적이고(조립 전담) 위험이 기업 E에 귀속되며 독자적 무형자산이 없는 계약제조업자 기업 C에게는 CPM이 가장 적합한 방법입니다.</div>
-        </div>
-      </div>
-
-      <div class="accordion">
-        <button class="acc-header" onclick="toggleAcc(this)">
-          <span><span class="para">§2.61</span>사례 3 — 계약연구서비스와 기술 복잡성 추가 마진</span>
-          <span class="arrow">▼</span>
-        </button>
-        <div class="acc-body">
-          <table class="compare-table">
-            <thead>
-              <tr><th>구분</th><th>기업 A (서비스 제공)</th><th>기업 B (서비스 수령)</th></tr>
-            </thead>
-            <tbody>
-              <tr><td>역할</td><td><strong>계약연구서비스(Contract Research Service) 제공</strong></td><td>연구개발과 관련된 <strong>모든 위험 부담</strong></td></tr>
-              <tr><td>무형자산</td><td>해당 없음</td><td><strong>무형자산 소유권 보유</strong></td></tr>
-              <tr><td>방법 적용</td><td colspan="2">기업 A의 계약연구서비스 대가를 계산하기 위해 <strong>원가가산방법(CPM)</strong> 적용</td></tr>
-              <tr><td><strong>추가 마진 조건</strong></td><td colspan="2" style="background:#e8f0fa">만약 계약연구서비스에 <strong>기술 개발 또는 복잡한 기술</strong>이 필요한 경우 → 추가 마진(additional mark-up)을 고려</td></tr>
-            </tbody>
-          </table>
-          <div class="key-point">📌 §2.61: 단순 계약연구서비스는 CPM으로 비교적 쉽게 분석할 수 있으나, 서비스가 기술적으로 복잡하거나 고급 기술을 요구하는 경우 추가 마진을 반영해야 합니다. 기업 A가 독자적 무형자산을 보유하게 된다면 이익분할방법 검토도 필요합니다.</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 확인퀴즈 -->
-    <div class="quiz-section" id="sec-quiz">
-      <h2>확인퀴즈</h2>
-      <div class="q-count">총 5문항 | 퀴즈를 완료하면 진도율이 업데이트됩니다.</div>
-
-      <div class="quiz-item">
-        <div class="q-text"><span class="q-num">Q1</span>원가가산법(CPM)에서 정상가격을 산출하는 공식으로 올바른 것은 무엇입니까?</div>
-        <ul class="opt-list">
-          <li><button onclick="answer(1,this,true)">① 정상가격 = 원가 × (1 + 원가가산이윤율)</button></li>
-          <li><button onclick="answer(1,this,false)">② 정상가격 = 재판매가격 × (1 − 재판매가격이윤율)</button></li>
-          <li><button onclick="answer(1,this,false)">③ 정상가격 = 원가 − 원가가산이윤</button></li>
-          <li><button onclick="answer(1,this,false)">④ 정상가격 = 영업이익 / 영업자산</button></li>
-        </ul>
         <div class="q-feedback" id="fb1"></div>
       </div>
 
-      <div class="quiz-item">
-        <div class="q-text"><span class="q-num">Q2</span>RPM의 재판매가격이윤율과 CPM의 원가가산이윤율의 차이를 올바르게 설명한 것은 무엇입니까?</div>
-        <ul class="opt-list">
-          <li><button onclick="answer(2,this,false)">① 두 지표는 분모가 동일하므로 수치가 항상 같습니다.</button></li>
-          <li><button onclick="answer(2,this,true)">② RPM은 판매가격을 분모로, CPM은 원가를 분모로 사용하므로 수치가 다릅니다.</button></li>
-          <li><button onclick="answer(2,this,false)">③ RPM은 영업이익을 기준으로, CPM은 순이익을 기준으로 계산합니다.</button></li>
-          <li><button onclick="answer(2,this,false)">④ RPM과 CPM은 모두 원가를 분모로 사용합니다.</button></li>
-        </ul>
+      <div class="q-block">
+        <div class="q-text">Q2. CPM 적용 시 원가 기반(Cost Base)에 포함하면 안 되는 항목은? (¶2.56)</div>
+        <div class="q-options">
+          <label><input type="radio" name="q2" value="a"> 공급자가 직접 투입한 직접 재료비</label>
+          <label><input type="radio" name="q2" value="b"> 공급자가 지출한 직접 노무비</label>
+          <label><input type="radio" name="q2" value="c"> 구매자(특수관계 모회사)가 부담하거나 부담할 비용</label>
+          <label><input type="radio" name="q2" value="d"> 공급자가 부담한 제조간접비</label>
+        </div>
         <div class="q-feedback" id="fb2"></div>
       </div>
 
-      <div class="quiz-item">
-        <div class="q-text"><span class="q-num">Q3</span>다음 중 CPM 적용이 가장 적합한 상황은 어느 것입니까?</div>
-        <ul class="opt-list">
-          <li><button onclick="answer(3,this,false)">① 재판매업자가 완제품을 구입하여 도매상에게 판매하는 경우</button></li>
-          <li><button onclick="answer(3,this,false)">② 고유 특허와 R&D 역량을 보유한 제조업자가 관련 당사자에게 납품하는 경우</button></li>
-          <li><button onclick="answer(3,this,true)">③ 모회사의 설계에 따라 부품을 생산하는 계약제조업자가 모회사에 납품하는 경우</button></li>
-          <li><button onclick="answer(3,this,false)">④ 복잡한 기술지원 서비스와 무형자산을 결합한 솔루션을 제공하는 경우</button></li>
-        </ul>
+      <div class="q-block">
+        <div class="q-text">Q3. OECD의 비용 분류 원칙(¶2.51)에 따를 때, "관리감독비·일반관리비 등 효율성 또는 비효율성을 반영하는 비용"에 대한 처리 방법으로 옳은 것은?</div>
+        <div class="q-options">
+          <label><input type="radio" name="q3" value="a"> 비용이 크므로 원가가산 마진 계산 시 원가에 반드시 포함하여 조정한다</label>
+          <label><input type="radio" name="q3" value="b"> 별도의 독립적 대가로 계산한다</label>
+          <label><input type="radio" name="q3" value="c"> 매출총이익률에 추가 조정을 하지 않는다</label>
+          <label><input type="radio" name="q3" value="d"> 해당 비용이 발생한 경우 CPM 적용을 포기하고 다른 방법을 선택한다</label>
+        </div>
         <div class="q-feedback" id="fb3"></div>
       </div>
 
-      <div class="quiz-item">
-        <div class="q-text"><span class="q-num">Q4</span>CPM 적용 시 원가 범위에 관한 설명으로 올바른 것은 무엇입니까?</div>
-        <ul class="opt-list">
-          <li><button onclick="answer(4,this,false)">① 판매비와 일반관리비는 항상 원가에 포함해야 합니다.</button></li>
-          <li><button onclick="answer(4,this,false)">② 원가의 범위는 국제적으로 통일되어 있어 조정이 불필요합니다.</button></li>
-          <li><button onclick="answer(4,this,true)">③ 비교 대상 기업과 동일한 원가 범위를 사용해야 하며, 차이가 있으면 조정이 필요합니다.</button></li>
-          <li><button onclick="answer(4,this,false)">④ 원가는 매출원가만 포함하며, 제조 간접비는 제외해야 합니다.</button></li>
-        </ul>
+      <div class="q-block">
+        <div class="q-text">Q4. OECD가 CPM 적용 시 권장하는 원가 기준으로 옳은 것은? (¶2.55 · ¶2.58)</div>
+        <div class="q-options">
+          <label><input type="radio" name="q4" value="a"> 미래 예상 원가를 기준으로 한다</label>
+          <label><input type="radio" name="q4" value="b"> 역사적 원가(실제 발생 원가)를 기준으로 하며, 거래의 실제 내용을 더 합리적으로 반영하는 경우 표준원가 등도 허용된다</label>
+          <label><input type="radio" name="q4" value="c"> 반드시 표준원가만을 사용해야 한다</label>
+          <label><input type="radio" name="q4" value="d"> 업계 평균 원가를 기준으로 한다</label>
+        </div>
         <div class="q-feedback" id="fb4"></div>
       </div>
 
-      <div class="quiz-item">
-        <div class="q-text"><span class="q-num">Q5</span>OECD 이전가격 지침서에 따르면, CPM을 포함한 세 가지 전통적 거래 기반 방법 중 제품 동질성 요건이 가장 높은 방법은 무엇입니까?</div>
-        <ul class="opt-list">
-          <li><button onclick="answer(5,this,false)">① 원가가산법(CPM)</button></li>
-          <li><button onclick="answer(5,this,false)">② 재판매가격법(RPM)</button></li>
-          <li><button onclick="answer(5,this,true)">③ 비교 비통제 가격법(CUP)</button></li>
-          <li><button onclick="answer(5,this,false)">④ 세 방법 모두 동일한 수준의 제품 동질성을 요구합니다.</button></li>
-        </ul>
+      <div class="q-block">
+        <div class="q-text">Q5. CPM을 적용하였으나 분석대상회사와 비교가능회사 간 회계처리방법이 일치하지 않는 경우 발생하는 문제로 가장 적절한 설명은? (¶2.52)</div>
+        <div class="q-options">
+          <label><input type="radio" name="q5" value="a"> 회계처리 차이는 CPM 분석에 영향을 미치지 않는다</label>
+          <label><input type="radio" name="q5" value="b"> CPM 적용을 완전히 중단하고 CUP 방법으로 전환해야 한다</label>
+          <label><input type="radio" name="q5" value="c"> 매출총이익 기준 비교가 왜곡되어 영업이익 기준 분석(사실상 TNMM)으로 수렴하게 된다</label>
+          <label><input type="radio" name="q5" value="d"> 회계처리 차이가 있으면 자동으로 비교가능성이 인정되어 조정이 불필요하다</label>
+        </div>
         <div class="q-feedback" id="fb5"></div>
       </div>
 
-    </div>
+      <button class="quiz-btn" onclick="submitQuiz()" id="quizBtn">채점하기</button>
+      <div class="score-box" id="scoreBox">
+        <div class="big" id="scoreNum"></div>
+        <p id="scoreMsg"></p>
+      </div>
+    </section>
 
-    <!-- 학습 체크리스트 -->
-    <div class="card" id="sec-check">
-      <h2>학습 체크리스트</h2>
-      <p>학습한 내용을 스스로 점검해 보세요. 각 항목을 이해하셨다면 체크하세요.</p>
+    <!-- 실무 체크리스트 -->
+    <section class="card" id="check">
+      <h2>☑ 실무 체크리스트 — M2-4</h2>
+      <p style="font-size:.9rem;color:var(--gray);margin-bottom:1rem">이전가격 실무에서 원가가산방법(CPM)을 적용할 때 확인해야 할 사항입니다. 검토한 항목에 체크하세요.</p>
       <ul class="checklist">
-        <li>
-          <input type="checkbox" id="c1" onchange="saveCheck()">
-          <label for="c1">CPM의 정의와 기본 공식(정상가격 = 원가 × (1 + 이윤율))을 설명할 수 있습니다.</label>
-        </li>
-        <li>
-          <input type="checkbox" id="c2" onchange="saveCheck()">
-          <label for="c2">원가가산이윤율과 재판매가격이윤율의 분모 차이를 이해하였습니다.</label>
-        </li>
-        <li>
-          <input type="checkbox" id="c3" onchange="saveCheck()">
-          <label for="c3">CPM에서 기능·위험 유사성이 가장 중요한 비교가능성 요소임을 이해하였습니다.</label>
-        </li>
-        <li>
-          <input type="checkbox" id="c4" onchange="saveCheck()">
-          <label for="c4">원가 범위의 일관성이 CPM 신뢰성에 미치는 영향을 파악하였습니다.</label>
-        </li>
-        <li>
-          <input type="checkbox" id="c5" onchange="saveCheck()">
-          <label for="c5">무형자산 보유 제조업자에게는 CPM보다 다른 방법이 적합함을 이해하였습니다.</label>
-        </li>
-        <li>
-          <input type="checkbox" id="c6" onchange="saveCheck()">
-          <label for="c6">CUP, RPM, CPM 세 방법의 적용 대상과 비교 지표의 차이를 비교할 수 있습니다.</label>
-        </li>
+        <li><input type="checkbox" id="c1"><label for="c1">분석대상 거래가 CPM이 유용하게 적용되는 유형(반제품·공동설비·장기공급·서비스)에 해당하는지 확인하였습니까? (¶2.45)</label></li>
+        <li><input type="checkbox" id="c2"><label for="c2">원가 기반(Cost Base) 산정 시 공급자 발생 원가만 포함하고, 구매자 부담 비용은 제외하였습니까? (¶2.56)</label></li>
+        <li><input type="checkbox" id="c3"><label for="c3">발생 비용을 세 가지 유형(원가 조정·별도 계산·조정 불필요)으로 분류하고 각각의 처리 방법을 적용하였습니까? (¶2.51)</label></li>
+        <li><input type="checkbox" id="c4"><label for="c4">비교가능회사와의 비용구조 차이(기술 노하우, 자산 규모 등)를 분석하고 신뢰성 있는 조정이 가능한지 검토하였습니까? (¶2.48·¶2.50)</label></li>
+        <li><input type="checkbox" id="c5"><label for="c5">원가 기준으로 역사적 원가(실제 원가)를 사용하였으며, 표준원가를 사용한 경우 그 합리성을 문서화하였습니까? (¶2.55·¶2.58)</label></li>
+        <li><input type="checkbox" id="c6"><label for="c6">비교가능회사와 회계처리 방법이 다른 경우, 동일 기준으로 조정하거나 TNMM 전환의 필요성을 검토하였습니까? (¶2.52)</label></li>
+        <li><input type="checkbox" id="c7"><label for="c7">내부 비교가능거래(공급자가 제3자와 수행하는 유사 거래)를 우선 탐색하였습니까? (¶2.46)</label></li>
+        <li><input type="checkbox" id="c8"><label for="c8">산출된 원가가산 마진(Cost Plus Mark-up)이 정상가격범위 내에 있는지 확인하고, 원가 구성 내역과 마진 산출 근거를 이전가격 보고서에 기술하였습니까?</label></li>
       </ul>
+    </section>
+
+    <div class="nav-bottom">
+      <a href="M2-3_RPM.html" class="btn-nav secondary">← M2-3: 재판매가격방법</a>
+      <a href="index_ch2.html" class="btn-nav secondary">📋 목차로</a>
+      <a href="M2-5_TNMM기초.html" class="btn-nav">M2-5: TNMM 기초 →</a>
     </div>
 
-    <!-- 네비게이션 버튼 -->
-    <div class="nav-btns">
-      <a href="M2-3_RPM.html" class="btn btn-outline">← 이전: M2-3 RPM</a>
-      <a href="M2-5_TNMM기초.html" class="btn btn-primary">다음: M2-5 TNMM →</a>
-    </div>
-
-  </div>
+  </main>
 </div>
 
 <script>
-var MODKEY='m2_4';
-var totalQ=5,correctCount=0;
-function lsGet(k){return localStorage.getItem(k);}
-function lsSet(k,v){localStorage.setItem(k,v);}
-function updateProgress(pct){
-  document.getElementById('mod-prog').style.width=pct+'%';
-  document.getElementById('pct-display').textContent=pct+'%';
-  var d2=document.getElementById('pct-display2');
-  if(d2)d2.textContent=pct+'%';
+function goTo(id) {
+  const el = document.getElementById(id);
+  if (el) el.scrollIntoView({behavior:'smooth', block:'start'});
+  document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+  event.currentTarget.classList.add('active');
 }
-function getFeedback(qnum,isCorrect){
-  var fb={
-    1:{ok:'CPM에서는 원가에 원가가산이윤율을 곱하여 정상가격을 산출합니다.',no:'CPM의 공식은 정상가격 = 원가 × (1 + 원가가산이윤율)입니다. RPM의 공식과 혼동하지 않도록 주의하세요.'},
-    2:{ok:'RPM은 판매가격을 분모로, CPM은 원가를 분모로 사용하므로 동일한 총이익에 대해 서로 다른 이윤율 수치가 나옵니다.',no:'RPM의 재판매가격이윤율은 판매가격을 분모로 사용하고, CPM의 원가가산이윤율은 원가를 분모로 사용합니다. 따라서 수치가 달라집니다.'},
-    3:{ok:'모회사의 설계에 따라 부품을 생산하는 계약제조업자는 기능이 제한적이고 위험 부담이 낮아 CPM 적용에 가장 적합합니다.',no:'CPM은 기능이 제한적인 계약제조업자에게 가장 적합합니다. 고유 무형자산을 보유하거나 복잡한 기능을 수행하는 경우에는 다른 방법을 고려해야 합니다.'},
-    4:{ok:'CPM에서는 비교 대상 기업과 동일한 원가 범위를 사용해야 하며, 차이가 있으면 반드시 조정이 필요합니다.',no:'원가 범위는 국제적으로 통일되어 있지 않으며, 비교 기업 간 원가 범위가 다르면 이윤율을 직접 비교할 수 없습니다. 조정이 반드시 필요합니다.'},
-    5:{ok:'CUP는 거래 단가 자체를 비교하므로 제품의 물리적 동질성이 가장 높게 요구됩니다. RPM과 CPM은 이윤율 비교이므로 제품 동질성 요건이 상대적으로 낮습니다.',no:'세 방법 중 CUP가 제품 동질성을 가장 높게 요구합니다. RPM과 CPM은 이윤율(기능·위험 유사성) 비교이므로 제품 특성 차이를 어느 정도 허용합니다.'}
-  };
-  return isCorrect?fb[qnum].ok:fb[qnum].no;
+const secIds = ['obj','s1','s2','s3','s4','s5','s6','quiz','check'];
+window.addEventListener('scroll', () => {
+  let cur = 0;
+  secIds.forEach((id, i) => {
+    const el = document.getElementById(id);
+    if (el && window.scrollY >= el.offsetTop - 120) cur = i;
+  });
+  document.querySelectorAll('.nav-item').forEach((b, i) => {
+    b.classList.toggle('active', i === cur);
+  });
+  const pct = Math.min(100, Math.round(window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100));
+  document.getElementById('topBar').style.width = pct + '%';
+  document.getElementById('pctDisp').textContent = pct + '%';
+});
+function toggleAcc(btn) {
+  const body = btn.nextElementSibling;
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  btn.classList.toggle('open', !isOpen);
 }
-function answer(qnum,btn,isCorrect){
-  var container=btn.parentElement.parentElement;
-  var btns=container.querySelectorAll('button');
-  btns.forEach(function(b){b.disabled=true;});
-  var fb=document.getElementById('fb'+qnum);
-  if(isCorrect){btn.classList.add('correct');fb.className='q-feedback ok show';fb.textContent='✔ 정답입니다! '+getFeedback(qnum,true);correctCount++;}
-  else{btn.classList.add('wrong');fb.className='q-feedback no show';fb.textContent='✗ 오답입니다. '+getFeedback(qnum,false);btns.forEach(function(b){if(b.getAttribute('onclick').indexOf('true')>-1)b.classList.add('correct');});}
-  checkQuizDone();
-}
-function checkQuizDone(){
-  var answered=document.querySelectorAll('.q-feedback.show').length;
-  if(answered>=totalQ){var score=Math.round(correctCount/totalQ*100);var pct=30+Math.round(score*0.3);var existing=parseInt(lsGet(MODKEY+'_pct')||'0');var newPct=Math.max(existing,pct);lsSet(MODKEY+'_pct',newPct);lsSet(MODKEY+'_quiz',score);updateProgress(newPct);if(newPct>=80)showComplete();}
-}
-function showComplete(){document.getElementById('complete-banner').classList.add('show');window.scrollTo({top:0,behavior:'smooth'});}
-function saveCheck(){
-  var checks=[];
-  for(var i=1;i<=6;i++)checks.push(document.getElementById('c'+i).checked?'1':'0');
-  lsSet(MODKEY+'_checks',checks.join(''));
-  var done=checks.filter(function(c){return c==='1';}).length;
-  var checkPct=Math.round(done/6*20);
-  var quizPct=parseInt(lsGet(MODKEY+'_quiz')||'0');
-  var quizContrib=30+Math.round(quizPct*0.3);
-  var existing=parseInt(lsGet(MODKEY+'_pct')||'0');
-  var newPct=Math.min(100,Math.max(existing,checkPct+quizContrib));
-  lsSet(MODKEY+'_pct',newPct);
-  updateProgress(newPct);
-  if(newPct>=80)showComplete();
-}
-function showSec(id,btn){
-  document.querySelectorAll('.nav-item').forEach(function(b){b.classList.remove('active');});
-  btn.classList.add('active');
-  document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'});
-}
-function toggleAcc(btn){
-  var body=btn.nextElementSibling;
-  var isOpen=body.classList.contains('open');
-  body.classList.toggle('open');
-  btn.classList.toggle('open');
-  if(!isOpen){
-    var opened=parseInt(lsGet(MODKEY+'_opened')||'0')+1;
-    lsSet(MODKEY+'_opened',opened);
-    var pct=Math.min(50,opened*8);
-    var existing=parseInt(lsGet(MODKEY+'_pct')||'0');
-    if(pct>existing){lsSet(MODKEY+'_pct',pct);updateProgress(pct);}
+const answers = {q1:'b', q2:'c', q3:'c', q4:'b', q5:'c'};
+const feedbacks = {
+  q1:{
+    b:'✅ 정답! 브랜드 인지도가 높은 완성품을 최종 소비자에게 직접 판매하는 거래는 CPM보다 CUP나 RPM이 더 적합합니다. CPM은 중간재·서비스·공동설비·장기공급계약에 유용합니다. (¶2.45)',
+    a:'❌ 오답. 반제품 내부 공급 거래는 CPM이 가장 유용하게 적용되는 대표적 유형입니다.',
+    c:'❌ 오답. 공동 설비 이용 계약은 CPM 적용이 유용한 4가지 유형 중 하나입니다.',
+    d:'❌ 오답. 관계회사 간 서비스 제공 거래는 CPM이 유용하게 적용되는 대표적 유형입니다.'
+  },
+  q2:{
+    c:'✅ 정답! ¶2.56에 따르면 구매자(특수관계 모회사 포함)가 부담하였거나 부담할 비용은 CPM 원가 기반에 포함하지 않습니다. 공급자가 실제 부담한 비용만이 원가 기반이 됩니다.',
+    a:'❌ 오답. 직접 재료비는 공급자가 직접 투입한 비용으로 원가 기반에 포함됩니다.',
+    b:'❌ 오답. 직접 노무비는 공급자의 제조 활동에서 발생한 비용으로 원가 기반에 포함됩니다.',
+    d:'❌ 오답. 제조간접비(공장 임차료, 설비 감가상각 등)는 공급자가 부담하는 비용으로 원가 기반에 포함됩니다.'
+  },
+  q3:{
+    c:'✅ 정답! ¶2.51에 따르면 관리감독비·일반관리비 등 효율성 또는 비효율성을 반영하는 비용은 유형 C에 해당하며, 매출총이익률에 추가 조정을 하지 않습니다. 모든 기업이 유사하게 수행하는 일반적 활동이기 때문입니다.',
+    a:'❌ 오답. 기능적 차이를 반영하는 비용(유형 A)을 원가에 조정하는 방법입니다. 일반관리비는 유형 C입니다.',
+    b:'❌ 오답. 별도 대가로 계산하는 것은 부수적 서비스 기능이나 자본·부채 관련 비용(유형 B)에 해당합니다.',
+    d:'❌ 오답. 일반관리비 발생 자체가 CPM 적용 포기의 이유가 되지 않습니다.'
+  },
+  q4:{
+    b:'✅ 정답! OECD는 역사적 원가(실제 발생 원가)를 기본 기준으로 권장하되, 거래의 실제 내용을 더 합리적으로 반영하는 경우 표준원가 등 다른 방법도 허용합니다. (¶2.55·¶2.58)',
+    a:'❌ 오답. 미래 예상 원가가 아닌 실제 발생한 역사적 원가를 기준으로 합니다.',
+    c:'❌ 오답. 표준원가는 예외적으로 허용되는 것이지 유일한 기준이 아닙니다.',
+    d:'❌ 오답. 업계 평균 원가는 OECD가 권장하는 CPM 원가 기준이 아닙니다.'
+  },
+  q5:{
+    c:'✅ 정답! ¶2.52에 따르면 회계처리 불일치 시 매출총이익 수준에서의 비교가 왜곡되어, 결국 영업이익 기준으로 비교하게 되는데 이는 거래순이익률방법(TNMM)과 사실상 동일한 분석이 됩니다.',
+    a:'❌ 오답. 회계처리 차이는 CPM의 마진 비교를 왜곡하는 중요한 문제 요인입니다.',
+    b:'❌ 오답. CUP로의 전환이 요구되는 것이 아니라, TNMM으로의 전환을 검토하게 됩니다.',
+    d:'❌ 오답. 회계처리 차이가 있으면 오히려 조정이 필요하거나 방법 전환을 검토해야 합니다.'
   }
+};
+function submitQuiz() {
+  let score = 0, answered = 0;
+  ['q1','q2','q3','q4','q5'].forEach(q => {
+    const sel = document.querySelector(`input[name="${q}"]:checked`);
+    const fb = document.getElementById('fb' + q.slice(1));
+    if (!sel) return;
+    answered++;
+    const ok = sel.value === answers[q];
+    if (ok) score++;
+    fb.textContent = feedbacks[q][sel.value] || '해당 해설이 없습니다.';
+    fb.className = 'q-feedback ' + (ok ? 'correct' : 'wrong');
+    fb.style.display = 'block';
+  });
+  if (answered < 5) { alert('모든 문항에 답해주세요.'); return; }
+  document.getElementById('quizBtn').disabled = true;
+  tpSet('ch2_m4_quiz', pct);
+  tpSet('ch2_m4_pct', pct >= 60 ? 100 : 50);
+  const pct = score * 20;
+  document.getElementById('scoreNum').textContent = pct + '점 (' + score + '/5)';
+  document.getElementById('scoreMsg').textContent =
+    pct >= 80 ? '🎉 우수합니다! M2-5로 진행하세요.' :
+    pct >= 60 ? '👍 양호합니다. 오답 문항을 다시 확인하세요.' :
+    '📖 핵심 개념을 다시 복습하고 재도전하세요.';
+  document.getElementById('scoreBox').style.display = 'block';
+  document.getElementById('pctDisp').textContent = '100%';
+  document.getElementById('topBar').style.width = '100%';
 }
-(function(){
-  var pct=parseInt(lsGet(MODKEY+'_pct')||'0');
-  updateProgress(pct);
-  var checks=lsGet(MODKEY+'_checks')||'';
-  for(var i=0;i<checks.length;i++){var el=document.getElementById('c'+(i+1));if(el&&checks[i]==='1')el.checked=true;}
-  if(pct>=80)document.getElementById('complete-banner').classList.add('show');
-})();
+document.querySelectorAll('.checklist input[type=checkbox]').forEach(cb => {
+  cb.addEventListener('change', () => {});
+});
+
+tpOnReady(function(user) {
+  document.getElementById('tpLoading').style.display = 'none';
+  document.getElementById('topUserName').textContent = user.displayName || user.email;
+  var savedPct  = parseInt(tpGet('ch2_m4_pct') || '0');
+  var savedQuiz = tpGet('ch2_m4_quiz');
+  if (savedPct > 0) {
+    document.getElementById('topBar').style.width = savedPct + '%';
+    document.getElementById('pctDisp').textContent = savedPct + '%';
+  }
+  if (savedQuiz) {
+    var _qpct = parseInt(savedQuiz);
+    var _sb = document.getElementById('scoreBox');
+    if (_sb) _sb.style.display = 'block';
+    var _sn = document.getElementById('scoreNum') || document.getElementById('scoreTxt');
+    if (_sn) _sn.textContent = _qpct + '점';
+    var _sm = document.getElementById('scoreMsg');
+    if (_sm) _sm.textContent = '이미 완료된 퀴즈입니다. 복습 후 다음 모듈로 진행하세요.';
+    var _qb = document.getElementById('quizBtn') || document.getElementById('qBtn');
+    if (_qb) _qb.disabled = true;
+  }
+});
 </script>
 </body>
-</
+</html>

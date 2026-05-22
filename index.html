@@ -269,12 +269,12 @@ a{color:var(--blue);text-decoration:none}
 
   <!-- ===== CHAPTER II ===== -->
   <div id="ch2-section">
-    <div class="ch-section-header ch2">📗 Chapter II — 이전가격 산출방법 <span style="font-size:.78rem;font-weight:400;color:var(--text2);margin-left:.3rem">§2.1~§2.187 · 8개 모듈</span></div>
+    <div class="ch-section-header ch2">📗 Chapter II — 이전가격 산출방법 <span style="font-size:.78rem;font-weight:400;color:var(--text2);margin-left:.3rem">§2.1~§2.187 · 9개 모듈</span></div>
 
     <div class="overall-progress">
       <h3>📊 Chapter II 학습 진도</h3>
       <div class="prog-outer"><div class="prog-inner ch2" id="ch2-bar" style="width:0%"></div></div>
-      <div class="prog-label"><span id="ch2-text">0 / 8 모듈 완료</span><span id="ch2-pct">0%</span></div>
+      <div class="prog-label"><span id="ch2-text">0 / 9 모듈 완료</span><span id="ch2-pct">0%</span></div>
     </div>
 
     <div class="learn-path">
@@ -285,9 +285,10 @@ a{color:var(--blue);text-decoration:none}
         <span class="path-step ch2">M2-3 RPM</span><span class="path-arrow">→</span>
         <span class="path-step ch2">M2-4 CPM</span><span class="path-arrow">→</span>
         <span class="path-step ch2">M2-5 TNMM 기초</span><span class="path-arrow">→</span>
-        <span class="path-step ch2">M2-6 TNMM 적용</span><span class="path-arrow">→</span>
+        <span class="path-step ch2">M2-6 TNMM 심화</span><span class="path-arrow">→</span>
         <span class="path-step ch2">M2-7 PSM 개요</span><span class="path-arrow">→</span>
-        <span class="path-step ch2">M2-8 PSM 심화</span>
+        <span class="path-step ch2">M2-8 PSM 심화</span><span class="path-arrow">→</span>
+        <span class="path-step ch2">M2-9 Annex 종합</span>
       </div>
     </div>
 
@@ -352,7 +353,7 @@ a{color:var(--blue);text-decoration:none}
         <h3>TNMM 순이익 지표 선정</h3>
         <p>순이익 지표 4종(ROS·원가기반·ROA·Berry Ratio) 비교, Berry Ratio 조건, 다년도 데이터를 학습합니다.</p>
         <div class="status-bar"><div class="status-fill" id="c2-fill-m6" style="width:0%"></div></div>
-        <a href="M2-6_TNMM적용.html" class="btn-mod" id="c2-btn-m6">학습 시작 →</a>
+        <a href="M2-6_TNMM심화.html" class="btn-mod" id="c2-btn-m6">학습 시작 →</a>
       </div>
       <div class="module-card ch2" id="c2-card-m7">
         <span class="status-tag tag-pending" id="c2-tag-m7">미시작</span>
@@ -371,6 +372,15 @@ a{color:var(--blue);text-decoration:none}
         <p>관련이익 확정, 예상 vs 실제이익 차이 처리, 이익분할 요소, 5대 방법 종합 비교표를 학습합니다.</p>
         <div class="status-bar"><div class="status-fill" id="c2-fill-m8" style="width:0%"></div></div>
         <a href="M2-8_PSM심화.html" class="btn-mod" id="c2-btn-m8">학습 시작 →</a>
+      </div>
+      <div class="module-card ch2" id="c2-card-m9" style="grid-column:1/-1">
+        <span class="status-tag tag-pending" id="c2-tag-m9">미시작</span>
+        <div class="num">Ch. II · MODULE 9 — PSM 심화 사례 (Annex 종합)</div>
+        <span class="para-range">Annex to Chapter II</span>
+        <h3>PSM 적용 사례 종합 — Annex to Chapter II</h3>
+        <p>OECD가 제시한 PSM 적용 사례를 유형별로 분석합니다. 잔여이익분할법의 실제 계산 과정을 통해 PSM 적용 원리를 심화 학습합니다.</p>
+        <div class="status-bar"><div class="status-fill" id="c2-fill-m9" style="width:0%"></div></div>
+        <a href="M2-9_Annex종합.html" class="btn-mod" id="c2-btn-m9">학습 시작 →</a>
       </div>
     </div>
   </div>
@@ -495,7 +505,7 @@ function loadCh1Progress(){
 }
 
 /* ── Chapter II ─────────────────────────────── */
-var ch2mods=['m1','m2','m3','m4','m5','m6','m7','m8'];
+var ch2mods=['m1','m2','m3','m4','m5','m6','m7','m8','m9'];
 function loadCh2Progress(){
   var done=0;
   ch2mods.forEach(function(m){
@@ -516,9 +526,9 @@ function loadCh2Progress(){
       if(btn)btn.textContent='이어서 학습 →';
     }
   });
-  var pct=Math.round(done/8*100);
+  var pct=Math.round(done/9*100);
   document.getElementById('ch2-bar').style.width=pct+'%';
-  document.getElementById('ch2-text').textContent=done+' / 8 모듈 완료';
+  document.getElementById('ch2-text').textContent=done+' / 9 모듈 완료';
   document.getElementById('ch2-pct').textContent=pct+'%';
 }
 

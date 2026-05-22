@@ -1,971 +1,879 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>M2-5: 거래순이익률방법 기초(TNMM) | Chapter II 기초과정</title>
-  <style>
-    /* ===== CSS Variables — Green Theme ===== */
-    :root {
-      --accent:       #1a7a4a;
-      --accent-light: #e6f5ee;
-      --accent-mid:   #2a9a6a;
-      --accent-dark:  #145e38;
-      --warn:         #b45309;
-      --warn-light:   #fef3c7;
-      --key:          #1e40af;
-      --key-light:    #eff6ff;
-      --text:         #1f2937;
-      --text-muted:   #6b7280;
-      --bg:           #f9fafb;
-      --card-bg:      #ffffff;
-      --border:       #e5e7eb;
-      --radius:       12px;
-      --shadow:       0 2px 12px rgba(0,0,0,.08);
-    }
-
-    /* ===== Reset & Base ===== */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body {
-      font-family: 'Pretendard', 'Noto Sans KR', system-ui, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.7;
-      font-size: 15px;
-    }
-
-    /* ===== Module Header ===== */
-    .mod-header {
-      background: linear-gradient(135deg, var(--accent) 0%, var(--accent-mid) 60%, #3db882 100%);
-      color: #fff;
-      padding: 36px 40px 28px;
-    }
-    .mod-header .breadcrumb {
-      font-size: 13px;
-      opacity: .82;
-      margin-bottom: 12px;
-    }
-    .mod-header .breadcrumb a {
-      color: #fff;
-      text-decoration: none;
-      border-bottom: 1px solid rgba(255,255,255,.5);
-    }
-    .mod-header h1 {
-      font-size: 1.75rem;
-      font-weight: 700;
-      margin-bottom: 8px;
-      letter-spacing: -.02em;
-    }
-    .mod-header .scope {
-      font-size: 13px;
-      opacity: .85;
-      font-style: italic;
-    }
-
-    /* ===== Layout: sidebar + main ===== */
-    .layout {
-      display: flex;
-      gap: 0;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 32px 24px;
-      align-items: flex-start;
-    }
-
-    /* ===== Sidebar ===== */
-    .sidebar {
-      width: 230px;
-      flex-shrink: 0;
-      position: sticky;
-      top: 24px;
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 20px 16px;
-      margin-right: 28px;
-    }
-    .sidebar h3 {
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: .08em;
-      color: var(--text-muted);
-      margin-bottom: 12px;
-    }
-    .sidebar nav a {
-      display: block;
-      font-size: 13px;
-      color: var(--text);
-      text-decoration: none;
-      padding: 5px 8px;
-      border-radius: 6px;
-      margin-bottom: 2px;
-      transition: background .15s;
-    }
-    .sidebar nav a:hover { background: var(--accent-light); color: var(--accent); }
-    .sidebar nav a.active { background: var(--accent-light); color: var(--accent); font-weight: 600; }
-    .progress-wrap {
-      margin-top: 20px;
-      border-top: 1px solid var(--border);
-      padding-top: 16px;
-    }
-    .progress-label {
-      display: flex;
-      justify-content: space-between;
-      font-size: 12px;
-      color: var(--text-muted);
-      margin-bottom: 6px;
-    }
-    .progress-bar {
-      height: 6px;
-      background: var(--border);
-      border-radius: 99px;
-      overflow: hidden;
-    }
-    .progress-bar-fill {
-      height: 100%;
-      background: var(--accent);
-      border-radius: 99px;
-      transition: width .4s ease;
-    }
-
-    /* ===== Main Content ===== */
-    .main { flex: 1; min-width: 0; }
-
-    /* ===== Card ===== */
-    .card {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 28px 32px;
-      margin-bottom: 24px;
-    }
-    .card h2 {
-      font-size: 1.15rem;
-      font-weight: 700;
-      color: var(--accent);
-      margin-bottom: 16px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .card h2 .icon { font-size: 1.2rem; }
-
-    /* ===== Learning Objectives ===== */
-    .objectives-list {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .objectives-list li {
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      background: var(--accent-light);
-      border-radius: 8px;
-      padding: 12px 14px;
-      font-size: 14px;
-    }
-    .obj-num {
-      background: var(--accent);
-      color: #fff;
-      font-size: 12px;
-      font-weight: 700;
-      min-width: 24px;
-      height: 24px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      margin-top: 1px;
-    }
-
-    /* ===== Section Titles ===== */
-    .section-title {
-      font-size: 1.05rem;
-      font-weight: 700;
-      color: var(--accent-dark);
-      margin: 32px 0 12px;
-      padding-bottom: 6px;
-      border-bottom: 2px solid var(--accent-light);
-    }
-
-    /* ===== Accordion ===== */
-    .accordion {
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      overflow: hidden;
-      margin-bottom: 10px;
-    }
-    .accordion-btn {
-      width: 100%;
-      background: var(--card-bg);
-      border: none;
-      cursor: pointer;
-      padding: 16px 20px;
-      text-align: left;
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--text);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      transition: background .15s;
-    }
-    .accordion-btn:hover { background: var(--accent-light); }
-    .accordion-btn .chevron {
-      transition: transform .25s;
-      font-size: 12px;
-      color: var(--accent);
-    }
-    .accordion-btn.open { background: var(--accent-light); color: var(--accent); }
-    .accordion-btn.open .chevron { transform: rotate(180deg); }
-    .accordion-body {
-      display: none;
-      padding: 18px 20px 20px;
-      border-top: 1px solid var(--border);
-      background: #fff;
-      font-size: 14px;
-      line-height: 1.8;
-    }
-    .accordion-body.open { display: block; }
-    .accordion-body ul {
-      padding-left: 18px;
-      margin: 8px 0;
-    }
-    .accordion-body ul li { margin-bottom: 6px; }
-
-    /* ===== Key / Warn Points ===== */
-    .key-point, .warn-point {
-      border-radius: 8px;
-      padding: 12px 16px;
-      margin: 12px 0;
-      font-size: 13.5px;
-      display: flex;
-      gap: 10px;
-      align-items: flex-start;
-    }
-    .key-point {
-      background: var(--key-light);
-      border-left: 4px solid var(--key);
-      color: var(--key);
-    }
-    .warn-point {
-      background: var(--warn-light);
-      border-left: 4px solid var(--warn);
-      color: var(--warn);
-    }
-    .key-point strong, .warn-point strong { font-weight: 700; }
-
-    /* ===== Comparison Table ===== */
-    .compare-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 12px 0;
-      font-size: 13.5px;
-    }
-    .compare-table th {
-      background: var(--accent);
-      color: #fff;
-      padding: 9px 14px;
-      text-align: center;
-      font-weight: 600;
-    }
-    .compare-table td {
-      border: 1px solid var(--border);
-      padding: 9px 14px;
-      text-align: center;
-    }
-    .compare-table tr:nth-child(even) td { background: var(--accent-light); }
-
-    /* ===== Case Study ===== */
-    .case-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 16px;
-      margin-top: 16px;
-    }
-    .case-box {
-      background: var(--accent-light);
-      border: 1px solid #b6ddc9;
-      border-radius: 10px;
-      padding: 18px 20px;
-    }
-    .case-box h4 {
-      font-size: 14px;
-      font-weight: 700;
-      color: var(--accent);
-      margin-bottom: 10px;
-      display: flex;
-      align-items: center;
-      gap: 7px;
-    }
-    .case-box ol {
-      padding-left: 18px;
-      font-size: 13.5px;
-      line-height: 1.75;
-    }
-    .case-box p { font-size: 13.5px; line-height: 1.75; }
-    .case-box .step {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 7px;
-      font-size: 13.5px;
-    }
-    .step-num {
-      background: var(--accent);
-      color: #fff;
-      font-size: 11px;
-      font-weight: 700;
-      min-width: 22px;
-      height: 22px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      margin-top: 2px;
-    }
-
-    /* ===== Quiz ===== */
-    .quiz-section {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 28px 32px;
-      margin-bottom: 24px;
-    }
-    .quiz-section h2 {
-      font-size: 1.15rem;
-      font-weight: 700;
-      color: var(--accent);
-      margin-bottom: 20px;
-    }
-    .quiz-item { margin-bottom: 26px; }
-    .quiz-item:last-child { margin-bottom: 0; }
-    .quiz-q {
-      font-weight: 600;
-      font-size: 14.5px;
-      margin-bottom: 10px;
-      line-height: 1.6;
-    }
-    .quiz-q .q-num {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      background: var(--accent);
-      color: #fff;
-      font-size: 12px;
-      font-weight: 700;
-      width: 24px;
-      height: 24px;
-      border-radius: 50%;
-      margin-right: 8px;
-      flex-shrink: 0;
-    }
-    .quiz-options { display: flex; flex-direction: column; gap: 7px; }
-    .quiz-option {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      padding: 10px 14px;
-      border: 1.5px solid var(--border);
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 13.5px;
-      transition: border-color .15s, background .15s;
-      background: #fff;
-      line-height: 1.6;
-    }
-    .quiz-option:hover { border-color: var(--accent-mid); background: var(--accent-light); }
-    .quiz-option input[type="radio"] { margin-top: 3px; accent-color: var(--accent); flex-shrink: 0; }
-    .quiz-feedback {
-      margin-top: 10px;
-      font-size: 13.5px;
-      border-radius: 8px;
-      padding: 10px 14px;
-      display: none;
-    }
-    .quiz-feedback.correct {
-      background: #dcfce7;
-      color: #166534;
-      border-left: 4px solid #16a34a;
-      display: block;
-    }
-    .quiz-feedback.incorrect {
-      background: #fee2e2;
-      color: #991b1b;
-      border-left: 4px solid #dc2626;
-      display: block;
-    }
-    .quiz-btn {
-      margin-top: 8px;
-      padding: 8px 18px;
-      background: var(--accent);
-      color: #fff;
-      border: none;
-      border-radius: 6px;
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background .15s;
-    }
-    .quiz-btn:hover { background: var(--accent-dark); }
-
-    /* ===== Checklist ===== */
-    .checklist {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 9px;
-      margin-top: 10px;
-    }
-    .checklist li {
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      font-size: 14px;
-      padding: 11px 14px;
-      border: 1.5px solid var(--border);
-      border-radius: 8px;
-      background: #fff;
-      cursor: pointer;
-      transition: background .15s, border-color .15s;
-      line-height: 1.6;
-    }
-    .checklist li:hover { background: var(--accent-light); border-color: var(--accent-mid); }
-    .checklist li.checked {
-      background: var(--accent-light);
-      border-color: var(--accent);
-      color: var(--accent-dark);
-    }
-    .checklist li .chk-box {
-      width: 20px;
-      height: 20px;
-      border: 2px solid var(--border);
-      border-radius: 5px;
-      flex-shrink: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-top: 2px;
-      transition: background .15s, border-color .15s;
-      font-size: 12px;
-      color: transparent;
-      background: #fff;
-    }
-    .checklist li.checked .chk-box {
-      background: var(--accent);
-      border-color: var(--accent);
-      color: #fff;
-    }
-
-    /* ===== Navigation Buttons ===== */
-    .nav-btns {
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      margin-top: 8px;
-    }
-    .nav-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 11px 22px;
-      border-radius: 8px;
-      font-size: 14px;
-      font-weight: 600;
-      text-decoration: none;
-      transition: background .15s, transform .1s;
-      border: 2px solid var(--accent);
-      color: var(--accent);
-      background: #fff;
-    }
-    .nav-btn:hover { background: var(--accent-light); transform: translateY(-1px); }
-    .nav-btn.primary { background: var(--accent); color: #fff; }
-    .nav-btn.primary:hover { background: var(--accent-dark); }
-
-    /* ===== Responsive ===== */
-    @media (max-width: 800px) {
-      .layout { flex-direction: column; padding: 16px; }
-      .sidebar { width: 100%; position: static; margin-right: 0; margin-bottom: 20px; }
-      .mod-header { padding: 24px 20px 20px; }
-      .mod-header h1 { font-size: 1.35rem; }
-      .card, .quiz-section { padding: 20px 18px; }
-      .case-grid { grid-template-columns: 1fr; }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>M2-5: 거래순이익률방법 기초 (TNMM)</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:#0f7a7a;--blue-light:#e0f5f5;--blue-mid:#1a9a9a;
+  --green:#1a7a4a;--green-light:#e6f5ee;
+  --orange:#c06000;--orange-light:#fff3e0;
+  --red:#b02020;--red-light:#fdecea;
+  --gray:#555;--gray-light:#f5f5f5;--gray-border:#ddd;
+  --text:#222;--text2:#555;--white:#fff;
+  --radius:10px;--shadow:0 2px 8px rgba(0,0,0,.10);
+}
+body{font-family:'Noto Sans KR',Arial,sans-serif;background:#f0f4f8;color:var(--text);line-height:1.75;font-size:16px}
+a{color:var(--blue);text-decoration:none}
+.mod-header{background:var(--blue);color:#fff;padding:1.5rem 2rem}
+.mod-header .breadcrumb{font-size:.8rem;opacity:.7;margin-bottom:.4rem}
+.mod-header h1{font-size:1.4rem;font-weight:700}
+.mod-header .sub{font-size:.9rem;opacity:.8;margin-top:.3rem}
+.prog-strip{background:rgba(255,255,255,.15);height:6px;margin-top:1rem;border-radius:99px;overflow:hidden}
+.prog-strip-inner{height:100%;background:#fff;border-radius:99px;transition:width .4s}
+.layout{display:flex;max-width:1100px;margin:0 auto;padding:2rem 1.5rem 4rem;gap:1.5rem}
+.sidebar{width:220px;flex-shrink:0;position:sticky;top:1rem;align-self:flex-start;max-height:calc(100vh - 2rem);overflow-y:auto}
+.content{flex:1;min-width:0}
+.nav-card{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:1.2rem;margin-bottom:1rem}
+.nav-card h4{font-size:.85rem;color:var(--gray);margin-bottom:.8rem;letter-spacing:.04em}
+.nav-item{display:block;padding:.45rem .75rem;border-radius:6px;font-size:.85rem;color:var(--text2);margin-bottom:3px;cursor:pointer;border:none;width:100%;text-align:left;background:none;transition:background .12s;font-family:inherit}
+.nav-item:hover{background:var(--blue-light);color:var(--blue)}
+.nav-item.active{background:var(--blue);color:#fff;font-weight:600}
+.card{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:1.8rem 2rem;margin-bottom:1.5rem}
+.card h2{font-size:1.15rem;font-weight:700;color:var(--blue);margin-bottom:1rem;padding-bottom:.6rem;border-bottom:2px solid var(--blue-light)}
+.card h3{font-size:1rem;font-weight:700;color:var(--text);margin:.8rem 0 .4rem}
+.card p{font-size:.95rem;color:var(--text2);margin-bottom:.7rem}
+.tag{display:inline-block;padding:2px 9px;border-radius:20px;font-size:.75rem;font-weight:600;margin-left:.4rem}
+.tag-para{background:var(--blue-light);color:var(--blue)}
+.obj-list{list-style:none;padding:0}
+.obj-list li{display:flex;gap:.7rem;align-items:flex-start;padding:.5rem 0;border-bottom:1px solid var(--gray-border);font-size:.93rem}
+.obj-list li:last-child{border:none}
+.obj-num{background:var(--blue);color:#fff;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;flex-shrink:0;margin-top:2px}
+.accordion{border:1px solid var(--gray-border);border-radius:var(--radius);overflow:hidden;margin-bottom:1rem}
+.acc-header{display:flex;justify-content:space-between;align-items:center;padding:.9rem 1.2rem;cursor:pointer;background:var(--gray-light);font-weight:600;font-size:.95rem;border:none;width:100%;text-align:left;transition:background .12s;font-family:inherit}
+.acc-header:hover{background:#ebebeb}
+.acc-header .para{font-size:.75rem;color:var(--blue);background:var(--blue-light);padding:2px 8px;border-radius:20px;margin-left:.5rem;font-weight:500;white-space:nowrap}
+.acc-header .arrow{font-size:1rem;color:var(--gray);transition:transform .2s;margin-left:.5rem;flex-shrink:0}
+.acc-header.open .arrow{transform:rotate(180deg)}
+.acc-body{display:none;padding:1.1rem 1.3rem;background:#fff;font-size:.93rem;color:var(--text2);line-height:1.85;border-top:1px solid var(--gray-border)}
+.acc-body.open{display:block}
+.key-point{background:var(--blue-light);border-left:4px solid var(--blue);padding:.7rem 1rem;border-radius:0 6px 6px 0;margin:.8rem 0;font-size:.9rem;color:#0a4a4a;line-height:1.75}
+.warn-point{background:var(--orange-light);border-left:4px solid var(--orange);padding:.7rem 1rem;border-radius:0 6px 6px 0;margin:.8rem 0;font-size:.9rem;color:#6b3a00;line-height:1.75}
+.note-point{background:var(--green-light);border-left:4px solid var(--green);padding:.7rem 1rem;border-radius:0 6px 6px 0;margin:.8rem 0;font-size:.9rem;color:#0d3d25;line-height:1.75}
+.practice-note{background:#fffbeb;border:1px solid #fcd34d;border-radius:8px;padding:.9rem 1.1rem;margin:.8rem 0}
+.practice-note .pn-label{font-weight:700;font-size:.78rem;color:#92400e;margin-bottom:.35rem}
+.practice-note p{font-size:.88rem;color:#78350f;margin-bottom:.35rem}
+.practice-note p:last-child{margin-bottom:0}
+.calc-box{background:#f8fffe;border:2px solid var(--blue-mid);border-radius:10px;padding:1.2rem 1.5rem;margin:.8rem 0}
+.calc-box .calc-title{font-size:.78rem;font-weight:700;color:var(--blue);letter-spacing:.04em;margin-bottom:.8rem}
+.calc-row{display:flex;align-items:center;gap:.8rem;padding:.35rem 0;font-size:.93rem}
+.calc-row .label{flex:1;color:var(--text2)}
+.calc-row .value{font-weight:700;color:var(--text);min-width:80px;text-align:right}
+.calc-divider{border-top:1.5px solid var(--blue-mid);margin:.3rem 0}
+.calc-result{background:var(--blue-light);border-radius:6px;padding:.4rem .8rem;display:flex;align-items:center;gap:.8rem;margin-top:.4rem}
+.calc-result .label{flex:1;font-weight:700;color:var(--blue);font-size:.93rem}
+.calc-result .value{font-weight:800;color:var(--blue);font-size:1rem}
+.compare-table{width:100%;border-collapse:collapse;font-size:.88rem;margin:.8rem 0}
+.compare-table th{background:var(--blue);color:#fff;padding:.6rem .9rem;text-align:left;font-weight:600}
+.compare-table td{padding:.55rem .9rem;border-bottom:1px solid var(--gray-border);color:var(--text2);vertical-align:top}
+.compare-table tr:last-child td{border:none}
+.compare-table tr:nth-child(even) td{background:var(--gray-light)}
+.compare-table td strong{color:var(--text)}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:.8rem 0}
+.col-box{border-radius:8px;padding:1rem 1.1rem;border:1.5px solid #86efac;background:#f0fdf4}
+.col-box h4{font-size:.88rem;font-weight:700;color:var(--green);margin-bottom:.35rem}
+.col-box p{font-size:.85rem;margin:0;color:var(--text2);line-height:1.65}
+.col-box.teal{border-color:var(--blue-mid);background:var(--blue-light)}
+.col-box.teal h4{color:var(--blue)}
+.col-box.orange{border-color:#fbbf24;background:#fffbeb}
+.col-box.orange h4{color:var(--orange)}
+.col-box.red{border-color:#f87171;background:var(--red-light)}
+.col-box.red h4{color:var(--red)}
+.sum-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.8rem;margin:.8rem 0}
+.sum-box{border-radius:8px;padding:.9rem 1rem;border-left:4px solid var(--blue);background:var(--blue-light)}
+.sum-box .sb-label{font-size:.71rem;font-weight:700;color:var(--blue);margin-bottom:.3rem;letter-spacing:.03em}
+.sum-box p{font-size:.85rem;color:#0a4a4a;margin:0;line-height:1.6}
+.sum-box.orange{border-color:var(--orange);background:var(--orange-light)}
+.sum-box.orange .sb-label{color:var(--orange)}
+.sum-box.orange p{color:#6b3a00}
+.sum-box.green{border-color:var(--green);background:var(--green-light)}
+.sum-box.green .sb-label{color:var(--green)}
+.sum-box.green p{color:#0d3d25}
+.sum-box.red{border-color:var(--red);background:var(--red-light)}
+.sum-box.red .sb-label{color:var(--red)}
+.sum-box.red p{color:#6b0000}
+.indicator-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem;margin:.8rem 0}
+.ind-card{border-radius:8px;padding:.9rem 1rem;background:var(--gray-light);border:1.5px solid var(--gray-border);text-align:center}
+.ind-card .ic-formula{font-size:1.1rem;font-weight:800;color:var(--blue);margin-bottom:.3rem}
+.ind-card .ic-label{font-size:.78rem;color:var(--text2);margin-bottom:.2rem}
+.ind-card .ic-use{font-size:.75rem;color:var(--gray);line-height:1.5}
+.case-box{background:#f8fffe;border:1.5px solid var(--blue-mid);border-radius:10px;padding:1.1rem 1.3rem;margin:.8rem 0}
+.case-box .case-label{font-size:.75rem;font-weight:700;color:var(--blue);margin-bottom:.5rem;letter-spacing:.03em}
+.case-box p{font-size:.9rem;color:var(--text2);margin-bottom:.4rem}
+.case-box p:last-child{margin-bottom:0}
+.case-box strong{color:var(--text)}
+.method-compare{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.8rem;margin:.8rem 0}
+.mc-card{border-radius:8px;padding:.9rem 1rem;border-top:3px solid}
+.mc-card.cup{border-color:var(--blue);background:var(--blue-light)}
+.mc-card.rpm{border-color:var(--orange);background:var(--orange-light)}
+.mc-card.tnmm{border-color:var(--green);background:var(--green-light)}
+.mc-card .mc-label{font-size:.72rem;font-weight:700;letter-spacing:.04em;margin-bottom:.35rem}
+.mc-card.cup .mc-label{color:var(--blue)}
+.mc-card.rpm .mc-label{color:var(--orange)}
+.mc-card.tnmm .mc-label{color:var(--green)}
+.mc-card h4{font-size:.88rem;font-weight:700;color:var(--text);margin-bottom:.25rem}
+.mc-card p{font-size:.82rem;color:var(--text2);margin:0;line-height:1.6}
+.q-block{background:var(--gray-light);border-radius:8px;padding:1rem 1.2rem;margin-bottom:1rem}
+.q-block .q-text{font-weight:600;font-size:.93rem;margin-bottom:.7rem;color:var(--text);line-height:1.65}
+.q-options label{display:flex;align-items:flex-start;gap:.5rem;padding:.4rem .5rem;border-radius:6px;cursor:pointer;font-size:.91rem;color:var(--text2);transition:background .1s;margin-bottom:3px;line-height:1.55}
+.q-options label:hover{background:#e8e8e8}
+.q-options input[type=radio]{margin-top:3px;flex-shrink:0;accent-color:var(--blue)}
+.q-feedback{display:none;margin-top:.7rem;padding:.6rem .9rem;border-radius:6px;font-size:.88rem;font-weight:500;line-height:1.6}
+.q-feedback.correct{background:var(--green-light);color:var(--green);border-left:3px solid var(--green)}
+.q-feedback.wrong{background:var(--red-light);color:var(--red);border-left:3px solid var(--red)}
+.quiz-btn{background:var(--blue);color:#fff;border:none;padding:.7rem 2rem;border-radius:8px;font-size:.95rem;font-weight:600;cursor:pointer;margin-top:.5rem;transition:background .15s;font-family:inherit}
+.quiz-btn:hover{background:var(--blue-mid)}
+.quiz-btn:disabled{background:#aaa;cursor:default}
+.score-box{display:none;background:var(--blue-light);border:2px solid var(--blue);border-radius:10px;padding:1.2rem;text-align:center;margin-top:1rem}
+.score-box .big{font-size:2rem;font-weight:800;color:var(--blue)}
+.score-box p{font-size:.92rem;color:var(--text2);margin-top:.3rem}
+.checklist{list-style:none;padding:0}
+.checklist li{display:flex;gap:.8rem;align-items:flex-start;padding:.55rem 0;border-bottom:1px solid var(--gray-border);font-size:.92rem}
+.checklist li:last-child{border:none}
+.checklist input[type=checkbox]{width:18px;height:18px;margin-top:2px;cursor:pointer;flex-shrink:0;accent-color:var(--green)}
+.checklist label{cursor:pointer;color:var(--text2);line-height:1.65}
+.checklist input:checked+label{color:var(--green);text-decoration:line-through;opacity:.7}
+.nav-bottom{display:flex;justify-content:space-between;align-items:center;margin-top:2rem;gap:.5rem}
+.btn-nav{background:var(--blue);color:#fff;padding:.65rem 1.4rem;border-radius:8px;font-size:.93rem;font-weight:600;cursor:pointer;border:none;transition:background .15s;text-decoration:none;display:inline-block;font-family:inherit}
+.btn-nav:hover{background:var(--blue-mid)}
+.btn-nav.secondary{background:#fff;color:var(--blue);border:2px solid var(--blue)}
+.btn-nav.secondary:hover{background:var(--blue-light)}
+@media(max-width:720px){
+  .layout{flex-direction:column}
+  .sidebar{width:100%;position:static}
+  .two-col,.sum-grid,.indicator-grid,.method-compare{grid-template-columns:1fr}
+}
+</style>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
+  <script src="tp-firebase.js"></script>
 </head>
 <body>
 
-<!-- ===== MODULE HEADER ===== -->
-<header class="mod-header">
-  <div class="breadcrumb">
-    <a href="index_ch2.html">← Chapter II 목록으로</a>
+<div id="tpLoading" style="position:fixed;top:0;left:0;width:100%;height:100%;background:#6a1fa8;display:flex;align-items:center;justify-content:center;z-index:9999;color:#fff;font-family:'Noto Sans KR',Arial,sans-serif">
+  <div style="text-align:center">
+    <div style="font-size:2.5rem;margin-bottom:.8rem">📗</div>
+    <div style="font-size:1rem;font-weight:600">대주 이전가격 교육</div>
+    <div style="font-size:.82rem;opacity:.75;margin-top:.4rem">로딩 중...</div>
   </div>
-  <h1>Module 5 — 거래순이익률방법 기초 (TNMM)</h1>
-  <div class="scope">§2.62 ~ §2.81 &nbsp;·&nbsp; OECD Transfer Pricing Guidelines Chapter II &nbsp;·&nbsp; B.1</div>
+</div>
+<header class="mod-header">
+  <div class="breadcrumb">기초과정 › Chapter II 정상가격산출방법 › M2-5</div>
+  <h1>M2-5. 거래순이익률방법 기초 (TNMM)</h1>
+  <div class="sub">Part II-B: Transactional Net Margin Method &nbsp;|&nbsp; ¶2.62 – ¶2.81 &nbsp;|&nbsp; 예상 학습시간: 55분</div>
+  <div class="prog-strip"><div class="prog-strip-inner" id="topBar" style="width:0%"></div></div>
+  <div style="display:flex;justify-content:flex-end;align-items:center;gap:.7rem;margin-top:.3rem;font-size:.8rem">
+    <span id="topUserName" style="color:rgba(255,255,255,.8)"></span>
+    <button onclick="tpSignOut()" style="background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.35);color:#fff;padding:2px 12px;border-radius:20px;cursor:pointer;font-size:.76rem;font-family:inherit">로그아웃</button>
+  </div>
 </header>
 
-<!-- ===== LAYOUT ===== -->
 <div class="layout">
-
-  <!-- ===== SIDEBAR ===== -->
   <aside class="sidebar">
-    <h3>목차</h3>
-    <nav id="toc">
-      <a href="#objectives">학습 목표</a>
-      <a href="#sec1">§2.62-2.63 거래이익방법 원칙</a>
-      <a href="#sec2">§2.64-2.65 평가대상·적용한계</a>
-      <a href="#sec3">§2.68-2.70 강점·One-sided</a>
-      <a href="#sec4">§2.76-2.81 변동성·사례</a>
-      <a href="#sec4-case">§2.78 오디오 사례</a>
-      <a href="#quiz">확인 퀴즈</a>
-      <a href="#checklist">체크리스트</a>
-    </nav>
-    <div class="progress-wrap">
-      <div class="progress-label">
-        <span>학습 진도</span>
-        <span id="progress-pct">0%</span>
-      </div>
-      <div class="progress-bar">
-        <div class="progress-bar-fill" id="progress-fill" style="width:0%"></div>
+    <div class="nav-card">
+      <h4>📑 목차</h4>
+      <button class="nav-item" onclick="goTo('obj')">🎯 학습목표</button>
+      <button class="nav-item" onclick="goTo('s1')">1. TNMM의 위치와 개요</button>
+      <button class="nav-item" onclick="goTo('s2')">2. TNMM의 구조와 순이익지표</button>
+      <button class="nav-item" onclick="goTo('s3')">3. TNMM의 장점</button>
+      <button class="nav-item" onclick="goTo('s4')">4. TNMM의 한계</button>
+      <button class="nav-item" onclick="goTo('s5')">5. 비교가능성 기준의 적용</button>
+      <button class="nav-item" onclick="goTo('s6')">6. 전통적 방법과의 관계</button>
+      <button class="nav-item" onclick="goTo('quiz')">📝 확인 퀴즈</button>
+      <button class="nav-item" onclick="goTo('check')">☑ 실무 체크리스트</button>
+    </div>
+    <div class="nav-card">
+      <h4>📊 모듈 진도</h4>
+      <div style="text-align:center;padding:.5rem 0">
+        <div style="font-size:1.6rem;font-weight:800;color:var(--blue)" id="pctDisp">0%</div>
+        <div style="font-size:.8rem;color:var(--gray);margin-top:.2rem">학습 완료율</div>
       </div>
     </div>
   </aside>
 
-  <!-- ===== MAIN ===== -->
-  <main class="main">
+  <main class="content">
 
     <!-- 학습 목표 -->
-    <section id="objectives" class="card">
-      <h2><span class="icon">🎯</span> 학습 목표</h2>
-      <ul class="objectives-list">
-        <li><span class="obj-num">1</span>TNMM(거래순이익률방법)의 기본 원리와 'Approximate(대략값)' 개념을 설명하실 수 있습니다.</li>
-        <li><span class="obj-num">2</span>TNMM의 강점(제품 차이·기능 차이에 덜 민감)과 약점(변동성, 비교가능성)을 분석하실 수 있습니다.</li>
-        <li><span class="obj-num">3</span>One-sided 접근법(분석대상회사 선정)의 의미와 장점을 설명하실 수 있습니다.</li>
-        <li><span class="obj-num">4</span>순이익에 영향을 미치는 주요 요소들을 파악하고 비교가능성 분석에 반영하실 수 있습니다.</li>
-        <li><span class="obj-num">5</span>오디오 제조회사 사례를 통해 시장 진입장벽이 이익 수준에 미치는 영향을 분석하실 수 있습니다.</li>
+    <section class="card" id="obj">
+      <h2>🎯 학습 목표</h2>
+      <ul class="obj-list">
+        <li><span class="obj-num">1</span><span>거래순이익률방법(TNMM)이 5가지 이전가격 방법 중 어떤 위치를 차지하는지, OECD가 인정하는 근거를 설명할 수 있다</span></li>
+        <li><span class="obj-num">2</span><span>TNMM에서 사용되는 순이익지표(영업이익률, Berry Ratio, ROCE 등)의 의미와 선택 기준을 이해한다</span></li>
+        <li><span class="obj-num">3</span><span>TNMM이 전통적 방법(RPM·CPM)보다 제품·기능 차이에 덜 민감한 이유를 설명할 수 있다</span></li>
+        <li><span class="obj-num">4</span><span>TNMM의 한계 — 순이익에 영향을 주는 복합적 요인과 무형자산 보유 기업 적용의 어려움을 파악한다</span></li>
+        <li><span class="obj-num">5</span><span>TNMM과 전통적 거래방법(RPM·CPM)의 관계, 그리고 정상가격범위 사용의 근거를 이해한다</span></li>
       </ul>
     </section>
 
-    <!-- ===== SECTION 1 ===== -->
-    <h3 class="section-title" id="sec1">§2.62-2.63 거래이익방법 원칙·OECD 인정방법</h3>
+    <!-- 섹션 1: TNMM의 위치와 개요 -->
+    <section class="card" id="s1">
+      <h2>1. TNMM의 위치와 개요 <span class="tag tag-para">¶2.62–¶2.63</span></h2>
+      <p>거래순이익률방법(Transactional Net Margin Method, TNMM)은 OECD가 인정하는 두 가지 <strong>거래이익방법(Transactional Profit Methods)</strong> 중 하나이다. 나머지 하나는 이익분할방법(PSM)이다.</p>
 
-    <div class="accordion">
-      <button class="accordion-btn" onclick="toggleAccordion(this)">
-        §2.62 거래이익방법의 위치와 OECD 공식 인정
-        <span class="chevron">▼</span>
-      </button>
-      <div class="accordion-body">
-        <ul>
-          <li>거래이익방법에는 <strong>TNMM(거래순이익률방법)</strong>과 <strong>PSM(이익분할방법)</strong> 두 가지가 있습니다.</li>
-          <li>OECD는 2010년 이전가격지침서 개정 시 거래이익방법(특히 TNMM)을 전통적 거래방법(CUP, RPM, CPM)과 <strong>동등하게 인정</strong>하였습니다.</li>
-          <li>미국 IRC §1.482의 <strong>CPM(Comparable Profits Method)</strong>과 TNMM은 유사한 개념이나 완전히 동일하지는 않습니다.</li>
-        </ul>
-        <div class="key-point">
-          <strong>핵심:</strong>&nbsp; 2010년 이전에는 전통적 거래방법이 우선 적용되었으나, 2010년 개정 이후 '가장 합리적인 방법(Most Appropriate Method)' 원칙으로 변경되어 TNMM도 동등하게 적용 가능합니다.
+      <div class="accordion">
+        <button class="acc-header" onclick="toggleAcc(this)">
+          거래이익방법의 정의와 OECD 인정 근거 <span class="para">¶2.62</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p>거래이익방법은 특수관계거래에서 실현한 <strong>이익(profit)</strong>을 검토 대상으로 삼는 방법이다. OECD는 다음 두 조건을 모두 만족하는 이익방법만을 정상가격원칙에 부합하는 방법으로 인정한다.</p>
+          <div class="sum-grid">
+            <div class="sum-box">
+              <div class="sb-label">조건 ①</div>
+              <p>OECD 모델협약 제9조에 규정된 정상가격원칙(arm's length principle)을 준용할 것</p>
+            </div>
+            <div class="sum-box">
+              <div class="sb-label">조건 ②</div>
+              <p>본 지침서(OECD TP Guidelines)가 제시하는 비교가능성(comparability) 기준을 만족할 것</p>
+            </div>
+          </div>
+          <div class="note-point">
+            💡 미국 §1.482의 "comparable profits methods"나 수정된 원가가산방법 등도 본 지침서 규정과 일치하는 범위 내에서는 인정 가능하다. 단, 이러한 방법들은 TNMM이 통용되기 이전에 주로 사용되었던 접근방식이다.
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="accordion">
-      <button class="accordion-btn" onclick="toggleAccordion(this)">
-        §2.63 'Approximate(대략값)' 개념
-        <span class="chevron">▼</span>
-      </button>
-      <div class="accordion-body">
-        <ul>
-          <li>TNMM은 비교가능 독립기업이 유사한 거래에서 달성했을 순이익을 <strong>'대략적으로(approximately)'</strong> 비교합니다.</li>
-          <li>CUP처럼 가격 자체를 비교하는 것이 아니라 <strong>이익 수준</strong>을 비교합니다.</li>
-          <li>완전히 동일한 비교가능거래가 없어도 적용 가능한 이유이기도 합니다.</li>
-        </ul>
-        <div class="warn-point">
-          <strong>주의:</strong>&nbsp; 'approximate'는 낮은 신뢰성을 의미하는 것이 아니라, 비교 기준이 가격이 아닌 이익이라는 <strong>방법론적 특성</strong>을 설명하는 표현입니다.
+      <div class="accordion">
+        <button class="acc-header" onclick="toggleAcc(this)">
+          OECD가 인정하는 두 가지 거래이익방법 <span class="para">¶2.63</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p>OECD가 공식적으로 인정하는 거래이익방법은 다음 두 가지이다.</p>
+          <div class="two-col">
+            <div class="col-box teal">
+              <h4>① 거래순이익률방법 (TNMM)</h4>
+              <p>특수관계거래의 순이익지표(영업이익률 등)를 비교가능 독립기업과 비교하여 정상가격 여부를 판단한다.</p>
+            </div>
+            <div class="col-box">
+              <h4>② 이익분할방법 (PSM)</h4>
+              <p>특수관계거래에서 발생한 결합이익을 독립기업이라면 받았을 몫에 따라 각 당사자에게 배분한다.</p>
+            </div>
+          </div>
+          <div class="key-point">
+            <strong>핵심 이해:</strong> TNMM은 특수관계에 의해 이익이 영향을 받았는지(정상가격 판정)를 평가하는 지표이다. 다만, TNMM으로 산정된 조정액은 개별 제품·거래별 가격조정액으로 직접 추정하기 어렵기 때문에 <em>정상가격 판정</em>과 <em>이전가격 조정액 산정</em>을 각각 별도로 처리해야 한다.
+          </div>
         </div>
       </div>
-    </div>
 
-    <!-- ===== SECTION 2 ===== -->
-    <h3 class="section-title" id="sec2">§2.64-2.65 평가대상 거래·적용 한계</h3>
-
-    <div class="accordion">
-      <button class="accordion-btn" onclick="toggleAccordion(this)">
-        §2.64 TNMM 분석 대상
-        <span class="chevron">▼</span>
-      </button>
-      <div class="accordion-body">
-        <ul>
-          <li>분석 대상: 평가 대상 특수관계거래에서 발생한 <strong>순이익(Net Profit)</strong></li>
-          <li>분모 선택: <strong>매출액 / 총원가 / 자산가치</strong> 중 가장 적합한 것을 선택</li>
-        </ul>
-        <p style="margin:10px 0 6px;font-weight:600;font-size:13.5px;">방법별 분모 비교</p>
-        <table class="compare-table">
-          <thead>
-            <tr>
-              <th>방법</th>
-              <th>비교 지표</th>
-              <th>분모</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>RPM</td>
-              <td>매출총이익률</td>
-              <td>재판매가격(고정)</td>
-            </tr>
-            <tr>
-              <td>CPM</td>
-              <td>원가가산율</td>
-              <td>원가(고정)</td>
-            </tr>
-            <tr>
-              <td>TNMM</td>
-              <td>순이익률 지표</td>
-              <td>매출액 / 총원가 / 자산 (선택)</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <div class="accordion">
-      <button class="accordion-btn" onclick="toggleAccordion(this)">
-        §2.65 TNMM 적용 한계 — 양쪽 모두 특별 무형자산 보유 시
-        <span class="chevron">▼</span>
-      </button>
-      <div class="accordion-body">
-        <ul>
-          <li>거래 양 당사자 모두 <strong>특별하고 가치 있는 무형자산(Unique Intangibles)</strong>을 보유하는 경우 TNMM 적용에 한계가 있습니다.</li>
-          <li>이 경우 One-sided 방법으로는 신뢰할 수 있는 결과를 도출하기 어렵습니다.</li>
-          <li>대안: <strong>PSM(이익분할방법)</strong> 검토가 필요합니다.</li>
-          <li>The White Paper (1988, pp.79-86)에서 관련 근거를 제시합니다.</li>
-        </ul>
-        <div class="warn-point">
-          <strong>주의:</strong>&nbsp; 특수 무형자산이 양측에 모두 존재하면 어느 한쪽을 분석대상회사로 선정하는 것 자체가 부적절할 수 있으므로, 이익분할방법(PSM)을 우선 검토하십시오.
-        </div>
-      </div>
-    </div>
-
-    <!-- ===== SECTION 3 ===== -->
-    <h3 class="section-title" id="sec3">§2.68-2.70 강점·One-sided·순이익 영향요소</h3>
-
-    <div class="accordion">
-      <button class="accordion-btn" onclick="toggleAccordion(this)">
-        §2.68 TNMM 강점 — 제품·기능 차이에 덜 민감
-        <span class="chevron">▼</span>
-      </button>
-      <div class="accordion-body">
-        <ul>
-          <li>순이익은 매출총이익에 비해 <strong>제품 차이에 덜 민감</strong>합니다.</li>
-          <li>기능이 유사하면 제품이 달라도 순이익률은 비슷할 수 있습니다.</li>
-        </ul>
-        <p style="margin-top:10px;"><strong>예시:</strong> 전자제품 유통 vs 스포츠용품 유통 → 제품은 다르지만 기능(단순 유통)이 유사하면 순이익률 비교가 가능합니다. 이는 RPM이나 CPM 대비 비교가능기업 Pool을 넓힐 수 있는 장점입니다.</p>
-      </div>
-    </div>
-
-    <div class="accordion">
-      <button class="accordion-btn" onclick="toggleAccordion(this)">
-        §2.69 One-sided 방법과 분석대상회사 선정
-        <span class="chevron">▼</span>
-      </button>
-      <div class="accordion-body">
-        <ul>
-          <li><strong>One-sided:</strong> 거래당사자 한쪽(분석대상회사, Tested Party)만 분석합니다.</li>
-          <li>분석대상회사 선정 기준: 무형자산을 보유하지 않고 거래가 덜 복잡한 쪽</li>
-          <li>예: 단순 제조업자(Contract Manufacturer) 또는 단순 판매업자(Limited Risk Distributor)</li>
-          <li>장점: 상대방(모회사 또는 복잡한 기업)의 재무자료 불필요, 분석 단순화</li>
-        </ul>
-        <div class="key-point">
-          <strong>핵심:</strong>&nbsp; 분석대상회사의 재무자료만 필요하며, 비특수관계기업의 순이익과 비교합니다. 이는 실무에서 TNMM이 광범위하게 사용되는 주요 이유 중 하나입니다.
-        </div>
-      </div>
-    </div>
-
-    <div class="accordion">
-      <button class="accordion-btn" onclick="toggleAccordion(this)">
-        §2.70 순이익에 영향을 미치는 요소들
-        <span class="chevron">▼</span>
-      </button>
-      <div class="accordion-body">
-        <p>순이익은 다음과 같은 요소에 영향을 받습니다:</p>
-        <ul>
-          <li><strong>경쟁자 진입(Competitive Entry):</strong> 신규 경쟁자 진입 시 이익률 하락</li>
-          <li><strong>경영 효율성(Management Efficiency):</strong> 내부 비용 관리 능력에 따른 차이</li>
-          <li><strong>자본 비용(Capital Costs):</strong> 이자비용 등 자금 조달 구조의 차이</li>
-          <li><strong>사업 성숙도(Business Maturity):</strong> 초기 진출 vs 성숙 시장에서의 이익률 차이</li>
-        </ul>
-        <p style="margin-top:10px;">이러한 요소들이 비교가능 기업과 분석대상회사 간에 다를 경우 <strong>비교가능성 조정(Comparability Adjustments)</strong>이 필요합니다.</p>
-      </div>
-    </div>
-
-    <!-- ===== SECTION 4 ===== -->
-    <h3 class="section-title" id="sec4">§2.76-2.81 변동성·시장상황·오디오회사 사례</h3>
-
-    <div class="accordion">
-      <button class="accordion-btn" onclick="toggleAccordion(this)">
-        §2.76-2.77 변동성(Volatility) — TNMM의 약점
-        <span class="chevron">▼</span>
-      </button>
-      <div class="accordion-body">
-        <ul>
-          <li>RPM/CPM(총이익 기준)보다 TNMM(순이익 기준)이 <strong>변동성이 더 큽니다.</strong></li>
-          <li>이유: 순이익은 영업비용(판관비, R&amp;D 비용 등)을 포함 → 단기 시장 변화에 더 민감</li>
-          <li>예: 판매 감소 시 고정비(임대료, 인건비) 때문에 순이익이 총이익보다 더 크게 감소</li>
-        </ul>
-        <div class="warn-point">
-          <strong>주의:</strong>&nbsp; 변동성 완화를 위해 <strong>다년간(multi-year) 데이터</strong> 사용이 권장됩니다. 단년도 데이터만 사용할 경우 경기 변동 등으로 인해 왜곡된 결론에 이를 수 있습니다.
-        </div>
-      </div>
-    </div>
-
-    <div class="accordion">
-      <button class="accordion-btn" onclick="toggleAccordion(this)">
-        §2.78 오디오 제조회사(Audio Company) 사례
-        <span class="chevron">▼</span>
-      </button>
-      <div class="accordion-body">
-        <ul>
-          <li><strong>배경:</strong> 하이엔드(High-end) 오디오 제조회사 vs 중간급(Mid-range) 오디오 제조회사 비교</li>
-          <li><strong>하이엔드 시장:</strong> 진입장벽 높음(특수 기술, 브랜드 가치) → 초과이익 가능</li>
-          <li><strong>중간급 시장:</strong> 경쟁이 치열 → 이익률 낮음</li>
-          <li>이전가격 분석 시사점: 단순히 이익률이 높다는 이유만으로 이전가격 조작을 추정해서는 안 됩니다.</li>
-          <li>하이엔드 오디오 시장의 진입장벽이 높은 이익률의 정당한 이유가 될 수 있습니다.</li>
-        </ul>
-        <div class="key-point">
-          <strong>핵심:</strong>&nbsp; 시장 진입장벽 → 초과이익 → 정상가격범위의 상위에 위치할 수 있습니다. 이익 수준 자체보다 <strong>그 이익을 설명하는 경제적 논리</strong>가 중요합니다.
-        </div>
-      </div>
-    </div>
-
-    <div class="accordion">
-      <button class="accordion-btn" onclick="toggleAccordion(this)">
-        §2.79-2.81 영업외비용·충당금·시장상황
-        <span class="chevron">▼</span>
-      </button>
-      <div class="accordion-body">
-        <ul>
-          <li><strong>영업외비용 제외:</strong> 이자수익/이자비용, 법인세 등 영업외손익은 TNMM 분석에서 제외합니다.</li>
-          <li><strong>충당금 조정:</strong> 비경상적 항목(충당금, 일회성 비용)은 비교가능성 분석 시 조정을 고려합니다.</li>
-          <li><strong>시장상황 주의:</strong> 경기 사이클, 산업 성숙도가 다른 비교가능회사와 분석대상회사를 비교할 때는 적절한 조정이 필요합니다.</li>
-        </ul>
-        <div class="key-point">
-          <strong>핵심:</strong>&nbsp; TNMM 분석의 신뢰성은 비교 대상 기업의 영업 구조, 시장 환경, 회계 처리 방식이 얼마나 유사한지에 달려 있습니다.
-        </div>
-      </div>
-    </div>
-
-    <!-- §2.78 오디오 제조회사 사례 통합 -->
-    <section id="sec4-case" class="card">
-      <h2><span class="icon">📋</span> §2.78 오디오 제조회사(Audio Company) TNMM 적용 사례</h2>
-      <p>§2.78은 TNMM의 변동성(§2.76-2.77) 관련 조항에서 오디오 제조회사 사례를 제시합니다. 시장 상황과 경영 효율성이 순이익에 미치는 영향을 분석하는 예시입니다.</p>
-      <div class="case-grid">
-        <div class="case-box">
-          <h4>📌 §2.78 사례 배경</h4>
-          <p>한국 모회사가 하이엔드 오디오 제품을 생산하여 일본 자회사에게 판매합니다. 일본 자회사는 영업이익률 <strong>15%</strong>를 실현하고 있으나, 과세당국은 이를 과도하다고 지적하였습니다.</p>
-        </div>
-        <div class="case-box">
-          <h4>🔍 분석 과정 (§2.78–2.79 기준)</h4>
-          <div class="step"><span class="step-num">1</span><span>일본 자회사 기능 분석 → 단순 유통 + 경미한 마케팅</span></div>
-          <div class="step"><span class="step-num">2</span><span>비교가능 일본 전자제품 유통회사 검색 → 평균 영업이익률 8~12%</span></div>
-          <div class="step"><span class="step-num">3</span><span>하이엔드 오디오 시장 특수성 분석(§2.79) → 진입장벽, 브랜드 프리미엄</span></div>
-          <div class="step"><span class="step-num">4</span><span>프리미엄 전자제품 유통업자 선별 → 정상가격범위 12~18%</span></div>
-        </div>
-      </div>
-      <div class="key-point" style="margin-top:1rem">§2.78: 시장 조건의 차이(하이엔드 제품 시장 특수성)가 이익률에 미치는 영향을 반영하면 일본 자회사의 15% 영업이익률이 정상가격범위(12~18%) 내에 포함될 수 있습니다. 이처럼 TNMM 적용 시 시장 상황과 경영 효율성을 고려한 비교가능성 분석이 필수적입니다(§2.77).</div>
+      <!-- 5가지 방법 체계 비교 -->
+      <h3>5가지 이전가격 방법 체계</h3>
+      <table class="compare-table">
+        <thead>
+          <tr><th>구분</th><th>방법</th><th>비교 기준</th><th>적용 단계</th></tr>
+        </thead>
+        <tbody>
+          <tr><td rowspan="3"><strong>전통적<br>거래방법</strong></td><td>비교가능 제3자 가격방법 (CUP)</td><td>거래가격</td><td>가격 수준</td></tr>
+          <tr><td>재판매가격방법 (RPM)</td><td>매출총이익률</td><td>매출총이익 단계</td></tr>
+          <tr><td>원가가산방법 (CPM)</td><td>원가가산마진</td><td>매출총이익 단계</td></tr>
+          <tr><td rowspan="2" style="background:var(--blue-light)"><strong>거래이익방법</strong></td><td style="background:var(--blue-light)"><strong>거래순이익률방법 (TNMM)</strong> ← 이번 모듈</td><td style="background:var(--blue-light)">순이익지표</td><td style="background:var(--blue-light)">영업이익 단계</td></tr>
+          <tr><td>이익분할방법 (PSM)</td><td>결합이익 배분</td><td>영업이익 단계</td></tr>
+        </tbody>
+      </table>
     </section>
 
+    <!-- 섹션 2: TNMM의 구조와 순이익지표 -->
+    <section class="card" id="s2">
+      <h2>2. TNMM의 구조와 순이익지표 <span class="tag tag-para">¶2.64</span></h2>
+      <p>TNMM은 피검토법인(Tested Party)이 특수관계거래에서 실현한 <strong>순이익지표(Net Profit Indicator)</strong>를 비교가능 독립기업의 그것과 비교하여 정상가격 여부를 판단한다.</p>
 
-    <!-- ===== QUIZ ===== -->
-    <section id="quiz" class="quiz-section">
-      <h2>🧩 확인 퀴즈</h2>
+      <div class="accordion">
+        <button class="acc-header" onclick="toggleAcc(this)">
+          분모(Denominator) 선택의 유연성 <span class="para">¶2.64</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p>RPM과 CPM은 분모가 고정되어 있다. RPM은 항상 <em>매출</em>, CPM은 항상 <em>제조원가</em>를 분모로 사용한다.</p>
+          <p>반면 TNMM은 분모가 유연하다. 평가대상 특수관계거래의 성격을 가장 잘 반영하는 항목을 사례별로 선택한다.</p>
+          <div class="key-point">
+            <strong>분모 선택 원칙:</strong> 평가대상 거래의 특성(기능, 자산, 위험)을 가장 잘 반영하는 재무지표를 분모로 선택한다.
+          </div>
+        </div>
+      </div>
+
+      <!-- 주요 순이익지표 -->
+      <h3>주요 순이익지표(Net Profit Indicator)</h3>
+      <div class="indicator-grid">
+        <div class="ind-card">
+          <div class="ic-formula">영업이익 / 매출</div>
+          <div class="ic-label">영업이익률 (ROS)</div>
+          <div class="ic-use">판매·유통 기능 수행 법인에 주로 적용</div>
+        </div>
+        <div class="ind-card">
+          <div class="ic-formula">영업이익 / 원가</div>
+          <div class="ic-label">Berry Ratio 변형</div>
+          <div class="ic-use">제조·가공 기능 수행 법인에 적용</div>
+        </div>
+        <div class="ind-card">
+          <div class="ic-formula">영업이익 / 자산</div>
+          <div class="ic-label">자산수익률 (ROCE)</div>
+          <div class="ic-use">자본집약적 거래·금융거래에 적용</div>
+        </div>
+        <div class="ind-card">
+          <div class="ic-formula">총이익 / 영업비용</div>
+          <div class="ic-label">Berry Ratio</div>
+          <div class="ic-use">중개·서비스 기능 법인에 적용</div>
+        </div>
+        <div class="ind-card">
+          <div class="ic-formula">영업이익 / 매출원가</div>
+          <div class="ic-label">원가수익률</div>
+          <div class="ic-use">용역거래, 단순 제조에 적용</div>
+        </div>
+        <div class="ind-card">
+          <div class="ic-formula">사례별 선택</div>
+          <div class="ic-label">기타 지표</div>
+          <div class="ic-use">거래 성격에 따라 가장 적합한 지표 선택</div>
+        </div>
+      </div>
+
+      <div class="accordion">
+        <button class="acc-header" onclick="toggleAcc(this)">
+          TNMM 적용의 기본 구조 — 도식
+          <span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <div class="calc-box">
+            <div class="calc-title">TNMM 정상가격 판정 흐름</div>
+            <div class="calc-row">
+              <span class="label">① 피검토법인 특수관계거래의 순이익지표 산출</span>
+              <span class="value">예: ROS 5%</span>
+            </div>
+            <div class="calc-divider"></div>
+            <div class="calc-row">
+              <span class="label">② 비교가능 독립기업 데이터베이스 검색</span>
+              <span class="value">예: 10개사</span>
+            </div>
+            <div class="calc-divider"></div>
+            <div class="calc-row">
+              <span class="label">③ 비교가능 독립기업의 순이익지표 정상가격범위 산출</span>
+              <span class="value">예: 4%~9%</span>
+            </div>
+            <div class="calc-divider"></div>
+            <div class="calc-result">
+              <span class="label">④ 피검토법인 지표가 범위 내에 있으면 → 정상가격 충족</span>
+              <span class="value">✅ 5% ∈ [4%,9%]</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 섹션 3: TNMM의 장점 -->
+    <section class="card" id="s3">
+      <h2>3. TNMM의 장점 <span class="tag tag-para">¶2.68–¶2.69</span></h2>
+
+      <div class="accordion">
+        <button class="acc-header" onclick="toggleAcc(this)">
+          제품·기능 차이에 덜 민감 <span class="para">¶2.68</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p>TNMM은 RPM이나 CPM에 비해 <strong>제품 및 기능의 차이에 덜 영향을 받는다.</strong></p>
+          <div class="compare-table-wrap">
+            <table class="compare-table">
+              <thead>
+                <tr><th>방법</th><th>비교 기준</th><th>제품·기능 차이의 영향</th></tr>
+              </thead>
+              <tbody>
+                <tr><td><strong>CUP</strong></td><td>거래가격</td><td>매우 높음 — 제품 동일성이 필수</td></tr>
+                <tr><td><strong>RPM / CPM</strong></td><td>매출총이익률</td><td>높음 — 기능 유사성이 중요</td></tr>
+                <tr><td><strong>TNMM</strong></td><td>영업이익률 등</td><td>상대적으로 낮음 — 영업이익 수준에서 비교</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="note-point">
+            💡 Chapter II Annex I은 방법별 민감성 차이를 사례로 상세히 설명하고 있다. 영업이익률 단계에서 비교하면 제품·기능의 소소한 차이가 상당 부분 상쇄되기 때문에 비교가능거래를 찾기가 상대적으로 용이하다.
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion">
+        <button class="acc-header" onclick="toggleAcc(this)">
+          단방향(One-sided) 분석의 실무적 편의성 <span class="para">¶2.69</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p>TNMM은 <strong>단방향(One-sided) 평가방법</strong>이다. 즉, 거래 당사자 중 <em>한쪽</em>만을 피검토법인으로 선정하여 그 법인의 순이익지표만 분석하면 된다.</p>
+          <div class="two-col">
+            <div class="col-box teal">
+              <h4>✅ 장점: 상대방 자료 불필요</h4>
+              <p>피검토법인 이외 상대방 법인의 회계·재무자료가 필요하지 않다. 비밀유지 의무가 있는 관계사 내부자료 없이 분석이 가능하다.</p>
+            </div>
+            <div class="col-box">
+              <h4>📌 피검토법인 선정 원칙</h4>
+              <p>단순 기능·낮은 위험을 수행하는 법인을 피검토법인으로 선정하는 것이 일반적이다. 이 경우 외부 데이터베이스에서 비교가능 기업을 찾기 용이하다.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 섹션 4: TNMM의 한계 -->
+    <section class="card" id="s4">
+      <h2>4. TNMM의 한계 <span class="tag tag-para">¶2.65·¶2.70</span></h2>
+
+      <div class="accordion">
+        <button class="acc-header" onclick="toggleAcc(this)">
+          가치있는 무형자산 보유 시 적용의 한계 <span class="para">¶2.65</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p>TNMM은 거래 당사자가 모두 <strong>특별하고 가치있는 무형자산</strong>을 소유한 경우에는 적용이 어렵다.</p>
+          <div class="warn-point">
+            ⚠️ <strong>이유:</strong> 특별하고 가치있는 무형자산을 보유한 기업과 유사한 비교가능 기업을 외부 공개자료(데이터베이스)에서 찾기 어렵기 때문이다. 비교가능 기업이 없으면 정상가격범위를 산출할 수 없다.
+          </div>
+          <div class="two-col">
+            <div class="col-box teal">
+              <h4>TNMM 적합한 경우</h4>
+              <p>단순 제조, 단순 유통, 루틴 서비스 등 — 가치있는 무형자산 없이 기능만 수행하는 법인</p>
+            </div>
+            <div class="col-box red">
+              <h4>TNMM 적용 어려운 경우</h4>
+              <p>브랜드·특허·영업비밀 등 고유무형자산 보유, 양 당사자 모두 무형자산 보유 거래</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion">
+        <button class="acc-header" onclick="toggleAcc(this)">
+          순이익에 영향을 미치는 복합적 요인 <span class="para">¶2.70</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p>순이익 지표는 매출총이익률보다 더 많은 요인에 의해 영향을 받을 수 있다. 이는 TNMM의 구조적 한계이다.</p>
+          <div class="sum-grid">
+            <div class="sum-box orange">
+              <div class="sb-label">영업비용 구조 차이</div>
+              <p>판관비, 연구개발비 등 회사마다 비용 구조가 다르면 순이익지표가 왜곡될 수 있다</p>
+            </div>
+            <div class="sum-box orange">
+              <div class="sb-label">경쟁 전략의 차이</div>
+              <p>시장점유율 확대를 위한 공격적 투자는 일시적으로 이익을 낮추어 비교가능성을 저해한다</p>
+            </div>
+            <div class="sum-box orange">
+              <div class="sb-label">자본 구조 차이</div>
+              <p>자기자본 대 차입 비율의 차이, 이자비용의 차이가 영업이익에 반영될 수 있다</p>
+            </div>
+            <div class="sum-box orange">
+              <div class="sb-label">사업 경험의 차이</div>
+              <p>스타트업 단계와 성숙 단계 기업은 동일 산업 내에서도 이익 수준이 현저히 다르다</p>
+            </div>
+          </div>
+          <div class="note-point">
+            💡 이러한 요인들에 대한 추가 설명은 B.3 "Guidance for application" (¶2.76–¶2.81)에서 다룬다.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 섹션 5: 비교가능성 기준의 적용 -->
+    <section class="card" id="s5">
+      <h2>5. 비교가능성 기준의 적용 <span class="tag tag-para">¶2.76–¶2.79</span></h2>
+      <p>TNMM에서 비교가능성 기준을 적용할 때 영향을 미치는 주요 요소들을 이해하는 것이 중요하다. OECD는 B.3절(¶2.76~)에서 TNMM 적용지침(Guidance for Application)을 별도로 제시한다.</p>
+
+      <div class="accordion">
+        <button class="acc-header" onclick="toggleAcc(this)">
+          변동성(Volatility)과 영업비용의 영향 <span class="para">¶2.76</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p>TNMM은 RPM·CPM보다 <strong>더 높은 변동성(volatility)</strong>을 가질 수 있다. 이는 TNMM이 영업이익 단계에서 평가하기 때문이며, 영업이익에는 다양한 판매·영업활동 비용이 포함된다.</p>
+          <div class="two-col">
+            <div class="col-box orange">
+              <h4>RPM/CPM의 비교 기준</h4>
+              <p>매출총이익률 — 영업비용(판관비 등)을 제외하므로 상대적으로 안정적이다</p>
+            </div>
+            <div class="col-box teal">
+              <h4>TNMM의 비교 기준</h4>
+              <p>영업이익률 — 영업비용까지 포함하므로 외부 환경 변화에 더 민감하게 반응한다</p>
+            </div>
+          </div>
+          <div class="warn-point">
+            ⚠️ 또한 영업이익은 시장에서의 경쟁력 확보 여부, 신규 경쟁자 진입, 대체제의 위협 등 외부 시장 요인에 의해서도 영향을 받기 때문에 비교가능성 분석 시 이를 반드시 고려해야 한다.
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion">
+        <button class="acc-header" onclick="toggleAcc(this)">
+          시장상황과 경영 효율성 요인 <span class="para">¶2.77</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p>TNMM 적용 시 순이익지표에 영향을 미치는 시장·경영 요인들은 다음과 같다.</p>
+          <div class="sum-grid">
+            <div class="sum-box">
+              <div class="sb-label">시장 구조 요인</div>
+              <p>새로운 경쟁자의 진입, 경쟁적 위치, 대체 제품의 위협</p>
+            </div>
+            <div class="sum-box">
+              <div class="sb-label">경영 효율성 요인</div>
+              <p>경영 효율성 및 개별 전략, 다양한 비용 구조(공장·장비 등)</p>
+            </div>
+            <div class="sum-box">
+              <div class="sb-label">자본 구조 요인</div>
+              <p>자기자본 대 차입비용 비율 차이, 자본비용의 차이</p>
+            </div>
+            <div class="sum-box">
+              <div class="sb-label">사업 성숙도 요인</div>
+              <p>비즈니스가 시작 단계인지 성숙 단계인지에 따른 이익 수준 차이</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion">
+        <button class="acc-header" onclick="toggleAcc(this)">
+          오디오 회사 사례 — 산업 내 이익 수준의 차이 <span class="para">¶2.78</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <div class="case-box">
+            <div class="case-label">📦 사례: 하이엔드 오디오 회사 vs 중간급 오디오 회사</div>
+            <p><strong>상황:</strong> 하이엔드 오디오 제조회사와 중간급 오디오 제조회사는 동일한 산업(오디오 제조업)에 속한다.</p>
+            <p><strong>차이점:</strong> 하이엔드 오디오 회사는 시장진입장벽, 적은 경쟁자 수 등의 요인으로 인해 중간급 오디오 회사보다 훨씬 높은 이익 수준을 실현한다.</p>
+            <p><strong>시사점:</strong> 같은 산업 내에서도 기업의 시장 포지셔닝, 진입장벽 높이, 브랜드 파워에 따라 순이익 수준이 크게 달라진다. TNMM 분석 시 이러한 차이를 반드시 고려해야 한다.</p>
+          </div>
+          <div class="key-point">
+            <strong>실무 적용:</strong> 비교가능 기업 검색 시 동일 산업코드라 하더라도 사업 규모, 시장 포지션, 브랜드 가치 등에서 유사한 기업을 선별해야 한다. 단순히 산업 분류가 같다는 이유만으로 비교가능성을 인정하면 안 된다.
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion">
+        <button class="acc-header" onclick="toggleAcc(this)">
+          정상가격범위(Arm's Length Range) 사용 <span class="para">¶2.79</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p>기업 간 다양한 차이를 모두 조정하는 것이 불가능하기 때문에, TNMM에서는 단일 가격 대신 <strong>정상가격범위(Arm's Length Range)</strong>를 사용하는 것이 적합하다.</p>
+          <div class="key-point">
+            정상가격범위는 복수의 비교가능 기업 데이터에서 산출되며, 피검토법인의 순이익지표가 이 범위 내에 있으면 정상가격을 충족한 것으로 본다. 범위를 벗어난 경우에만 이전가격 조정이 필요하다.
+          </div>
+          <p>정상가격범위 설정 방법 및 통계적 접근(사분위수 범위 등)에 대한 상세 내용은 Chapter III에서 별도로 다룬다.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 섹션 6: 전통적 방법과의 관계 -->
+    <section class="card" id="s6">
+      <h2>6. 전통적 방법과의 관계 <span class="tag tag-para">¶2.80–¶2.81</span></h2>
+
+      <div class="accordion">
+        <button class="acc-header" onclick="toggleAcc(this)">
+          TNMM과 전통적 방법의 충돌 문제 <span class="para">¶2.80</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p>TNMM과 전통적 거래방법(RPM·CPM)의 결론이 서로 다른 경우가 발생할 수 있다. OECD 지침서의 기본 입장은 다음과 같다.</p>
+          <div class="sum-grid">
+            <div class="sum-box">
+              <div class="sb-label">원칙: 비교가능성이 높은 방법 우선</div>
+              <p>더 신뢰할 수 있는 비교가능거래 또는 비교가능 기업 데이터를 사용하는 방법이 우선 적용된다</p>
+            </div>
+            <div class="sum-box">
+              <div class="sb-label">전통적 방법의 원칙적 우선순위</div>
+              <p>신뢰할 수 있는 비교가능거래가 있다면 전통적 방법(특히 CUP)이 우선한다</p>
+            </div>
+          </div>
+          <div class="key-point">
+            <strong>현실적 적용:</strong> 실무에서는 CUP 적용이 어려운 경우가 많고, RPM·CPM도 매출총이익 단계 비교가능거래를 찾기 어렵다. 이런 경우 TNMM이 가장 실용적인 대안으로 널리 활용된다.
+          </div>
+          <div class="method-compare">
+            <div class="mc-card cup">
+              <div class="mc-label">CUP (전통적)</div>
+              <h4>가격 비교</h4>
+              <p>동일·유사 제품의 독립 거래가격 필요 — 찾기 어려움</p>
+            </div>
+            <div class="mc-card rpm">
+              <div class="mc-label">RPM/CPM (전통적)</div>
+              <h4>총이익 비교</h4>
+              <p>동일 기능 수행 기업의 매출총이익률 필요 — 상대적으로 어려움</p>
+            </div>
+            <div class="mc-card tnmm">
+              <div class="mc-label">TNMM (거래이익)</div>
+              <h4>순이익 비교</h4>
+              <p>유사 기능 수행 기업의 영업이익률 — 데이터베이스에서 가장 구하기 용이</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion">
+        <button class="acc-header" onclick="toggleAcc(this)">
+          영업 외 비용·충당금의 조정 필요성 <span class="para">¶2.81</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p>분석대상 특수관계거래와 비교가능 독립기업 간에 <strong>영업 외 비용 및 충당금</strong>에 차이가 있는 경우, 이를 조정해야 비교가능성이 확보된다.</p>
+          <div class="sum-grid">
+            <div class="sum-box orange">
+              <div class="sb-label">조정이 필요한 항목 예시</div>
+              <p>대손충당금, 재고자산 평가손실, 구조조정 비용, 비경상적 영업손실 등</p>
+            </div>
+            <div class="sum-box">
+              <div class="sb-label">조정의 목적</div>
+              <p>특수관계거래의 순이익지표와 비교가능 기업의 순이익지표를 동일한 기준에서 비교하기 위함</p>
+            </div>
+          </div>
+          <div class="practice-note">
+            <div class="pn-label">💼 실무 포인트</div>
+            <p>비교가능 기업의 재무제표에서 비경상적·일회성 비용을 제거하고 정상화(normalization)된 영업이익률을 사용하는 것이 TNMM 분석의 정확도를 높이는 핵심 작업이다. 데이터베이스 검색 시 이러한 조정 과정을 명확히 문서화해야 한다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 확인 퀴즈 -->
+    <section class="card" id="quiz">
+      <h2>📝 확인 퀴즈</h2>
+      <p style="font-size:.9rem;color:var(--gray);margin-bottom:1.2rem">5문항 · 80점 이상 통과</p>
 
       <!-- Q1 -->
-      <div class="quiz-item">
-        <div class="quiz-q"><span class="q-num">1</span>TNMM에서 'Approximate(대략값)'라는 표현이 의미하는 것으로 옳은 것은?</div>
-        <div class="quiz-options">
-          <label class="quiz-option"><input type="radio" name="q1" value="1" /> (1) 분석 결과의 정확도가 낮음을 경고하는 표현</label>
-          <label class="quiz-option"><input type="radio" name="q1" value="2" /> (2) 비교 기준이 정확한 가격이 아닌 독립기업의 이익 수준이라는 방법론적 특성</label>
-          <label class="quiz-option"><input type="radio" name="q1" value="3" /> (3) TNMM은 CUP가 불가능할 때만 허용되는 대안적 방법임을 의미</label>
-          <label class="quiz-option"><input type="radio" name="q1" value="4" /> (4) 순이익률 산출 과정에서 반올림이 허용된다는 의미</label>
+      <div class="q-block">
+        <div class="q-text">1. OECD가 공식적으로 인정하는 두 가지 거래이익방법(Transactional Profit Methods)은?</div>
+        <div class="q-options">
+          <label><input type="radio" name="q1" value="a"> CUP와 RPM</label>
+          <label><input type="radio" name="q1" value="b"> TNMM과 PSM</label>
+          <label><input type="radio" name="q1" value="c"> CPM과 TNMM</label>
+          <label><input type="radio" name="q1" value="d"> RPM과 PSM</label>
         </div>
-        <button class="quiz-btn" onclick="checkQuiz('q1', 2, this)">확인</button>
-        <div class="quiz-feedback" id="q1-feedback"></div>
+        <div class="q-feedback" id="f1"></div>
       </div>
 
       <!-- Q2 -->
-      <div class="quiz-item">
-        <div class="quiz-q"><span class="q-num">2</span>TNMM에서 분석대상회사(Tested Party)로 선정하기에 가장 적합한 기업은?</div>
-        <div class="quiz-options">
-          <label class="quiz-option"><input type="radio" name="q2" value="1" /> (1) 고가치 특허 기술을 다수 보유한 연구개발 중심 기업</label>
-          <label class="quiz-option"><input type="radio" name="q2" value="2" /> (2) 무형자산이 없고 단순한 유통 기능만 수행하는 자회사</label>
-          <label class="quiz-option"><input type="radio" name="q2" value="3" /> (3) 그룹 내에서 전략적 의사결정을 담당하는 모회사</label>
-          <label class="quiz-option"><input type="radio" name="q2" value="4" /> (4) 양국 모두에서 세무조사를 받은 기업</label>
+      <div class="q-block">
+        <div class="q-text">2. TNMM에서 순이익지표의 분모(Denominator)에 대한 설명으로 옳은 것은?</div>
+        <div class="q-options">
+          <label><input type="radio" name="q2" value="a"> 항상 매출액을 분모로 사용해야 한다</label>
+          <label><input type="radio" name="q2" value="b"> 항상 제조원가를 분모로 사용해야 한다</label>
+          <label><input type="radio" name="q2" value="c"> 평가대상 거래의 특성을 가장 잘 반영하는 항목을 사례별로 선택한다</label>
+          <label><input type="radio" name="q2" value="d"> 분모는 항상 영업비용으로 고정되어 있다</label>
         </div>
-        <button class="quiz-btn" onclick="checkQuiz('q2', 2, this)">확인</button>
-        <div class="quiz-feedback" id="q2-feedback"></div>
+        <div class="q-feedback" id="f2"></div>
       </div>
 
       <!-- Q3 -->
-      <div class="quiz-item">
-        <div class="quiz-q"><span class="q-num">3</span>TNMM이 RPM/CPM보다 변동성이 더 큰 이유는?</div>
-        <div class="quiz-options">
-          <label class="quiz-option"><input type="radio" name="q3" value="1" /> (1) TNMM은 가격이 아닌 이익을 비교하기 때문</label>
-          <label class="quiz-option"><input type="radio" name="q3" value="2" /> (2) 순이익은 영업비용(고정비 포함)까지 반영하여 시장 변화에 더 민감하게 반응하기 때문</label>
-          <label class="quiz-option"><input type="radio" name="q3" value="3" /> (3) TNMM은 3년 이상의 다년간 데이터를 반드시 사용해야 하기 때문</label>
-          <label class="quiz-option"><input type="radio" name="q3" value="4" /> (4) TNMM은 비교가능기업 수가 적어 통계적 변동성이 크기 때문</label>
+      <div class="q-block">
+        <div class="q-text">3. TNMM이 RPM이나 CPM보다 유리한 점으로 ¶2.69에서 설명하는 내용은?</div>
+        <div class="q-options">
+          <label><input type="radio" name="q3" value="a"> 항상 더 정확한 결과를 산출한다</label>
+          <label><input type="radio" name="q3" value="b"> 가치있는 무형자산 보유 기업에 더 잘 적용된다</label>
+          <label><input type="radio" name="q3" value="c"> 단방향 평가방법이므로 상대방 거래 당사자의 자료가 필요하지 않다</label>
+          <label><input type="radio" name="q3" value="d"> 변동성이 RPM보다 낮다</label>
         </div>
-        <button class="quiz-btn" onclick="checkQuiz('q3', 2, this)">확인</button>
-        <div class="quiz-feedback" id="q3-feedback"></div>
+        <div class="q-feedback" id="f3"></div>
       </div>
 
       <!-- Q4 -->
-      <div class="quiz-item">
-        <div class="quiz-q"><span class="q-num">4</span>오디오 제조회사 사례에서 하이엔드 오디오 자회사가 높은 이익률을 기록하는 경우에 대한 올바른 처리는?</div>
-        <div class="quiz-options">
-          <label class="quiz-option"><input type="radio" name="q4" value="1" /> (1) 이익률이 일반 유통업체보다 높으면 자동으로 이전가격 조작으로 간주</label>
-          <label class="quiz-option"><input type="radio" name="q4" value="2" /> (2) 높은 이익률 자체로는 이전가격 문제를 추정할 수 없으며, 시장 진입장벽·브랜드 가치 등 정당한 사유를 먼저 분석해야 함</label>
-          <label class="quiz-option"><input type="radio" name="q4" value="3" /> (3) 하이엔드 제품은 항상 PSM을 사용해야 함</label>
-          <label class="quiz-option"><input type="radio" name="q4" value="4" /> (4) 비교가능회사의 가중평균 이익률로 자동 조정</label>
+      <div class="q-block">
+        <div class="q-text">4. ¶2.65에 따르면 TNMM 적용이 어려운 경우는?</div>
+        <div class="q-options">
+          <label><input type="radio" name="q4" value="a"> 피검토법인이 단순 유통 기능만 수행하는 경우</label>
+          <label><input type="radio" name="q4" value="b"> 거래 당사자 모두가 특별하고 가치있는 무형자산을 소유한 경우</label>
+          <label><input type="radio" name="q4" value="c"> 비교가능 기업이 10개 이상 검색된 경우</label>
+          <label><input type="radio" name="q4" value="d"> 피검토법인의 영업이익률이 양수인 경우</label>
         </div>
-        <button class="quiz-btn" onclick="checkQuiz('q4', 2, this)">확인</button>
-        <div class="quiz-feedback" id="q4-feedback"></div>
+        <div class="q-feedback" id="f4"></div>
       </div>
 
       <!-- Q5 -->
-      <div class="quiz-item">
-        <div class="quiz-q"><span class="q-num">5</span>TNMM 분석에서 순이익 계산 시 제외해야 하는 항목은?</div>
-        <div class="quiz-options">
-          <label class="quiz-option"><input type="radio" name="q5" value="1" /> (1) 판매관리비</label>
-          <label class="quiz-option"><input type="radio" name="q5" value="2" /> (2) 연구개발비</label>
-          <label class="quiz-option"><input type="radio" name="q5" value="3" /> (3) 이자수익·이자비용 등 영업외손익</label>
-          <label class="quiz-option"><input type="radio" name="q5" value="4" /> (4) 감가상각비</label>
+      <div class="q-block">
+        <div class="q-text">5. ¶2.76에 따르면 TNMM이 RPM·CPM보다 높은 변동성을 갖는 이유는?</div>
+        <div class="q-options">
+          <label><input type="radio" name="q5" value="a"> 분모로 사용하는 자산 가치가 자주 변하기 때문이다</label>
+          <label><input type="radio" name="q5" value="b"> CUP 방법과 달리 가격을 직접 비교하지 않기 때문이다</label>
+          <label><input type="radio" name="q5" value="c"> 영업이익이 판매·영업활동 비용을 포함하고 외부 시장 경쟁 요인에도 영향을 받기 때문이다</label>
+          <label><input type="radio" name="q5" value="d"> 순이익지표 선택이 자의적으로 이루어지기 때문이다</label>
         </div>
-        <button class="quiz-btn" onclick="checkQuiz('q5', 3, this)">확인</button>
-        <div class="quiz-feedback" id="q5-feedback"></div>
+        <div class="q-feedback" id="f5"></div>
       </div>
 
+      <button class="quiz-btn" onclick="gradeQuiz()" id="quizBtn">채점하기</button>
+      <div class="score-box" id="scoreBox">
+        <div class="big" id="scoreNum"></div>
+        <p id="scoreMsg"></p>
+      </div>
     </section>
 
-    <!-- ===== CHECKLIST ===== -->
-    <section id="checklist" class="card">
-      <h2><span class="icon">✔️</span> 실무 체크리스트</h2>
-      <ul class="checklist" id="checklist-list">
-        <li onclick="toggleCheck(this)"><span class="chk-box">✓</span>TNMM 적용 전 전통적 거래방법(CUP, RPM, CPM) 적용 가능성을 먼저 검토하였습니까?</li>
-        <li onclick="toggleCheck(this)"><span class="chk-box">✓</span>분석대상회사(Tested Party)를 무형자산이 없고 기능이 단순한 쪽으로 선정하였습니까?</li>
-        <li onclick="toggleCheck(this)"><span class="chk-box">✓</span>비교가능기업의 기능이 분석대상회사와 충분히 유사한지 확인하였습니까?</li>
-        <li onclick="toggleCheck(this)"><span class="chk-box">✓</span>순이익 계산 시 영업외손익(이자수익/비용, 법인세)을 제외하였습니까?</li>
-        <li onclick="toggleCheck(this)"><span class="chk-box">✓</span>시장 진입장벽, 경쟁 환경 등 이익 수준에 영향을 미치는 요소를 분석하였습니까?</li>
-        <li onclick="toggleCheck(this)"><span class="chk-box">✓</span>변동성 완화를 위해 다년간(multi-year) 데이터 사용 여부를 검토하였습니까?</li>
+    <!-- 실무 체크리스트 -->
+    <section class="card" id="check">
+      <h2>☑ 실무 체크리스트 — M2-5</h2>
+      <p style="font-size:.9rem;color:var(--gray);margin-bottom:1rem">TNMM 분석 적용 전 아래 항목을 확인하십시오.</p>
+      <ul class="checklist">
+        <li>
+          <input type="checkbox" id="c1">
+          <label for="c1">피검토법인(Tested Party)으로 단순 기능·낮은 위험을 수행하는 당사자를 선정하였습니까?</label>
+        </li>
+        <li>
+          <input type="checkbox" id="c2">
+          <label for="c2">평가대상 거래의 성격에 맞는 순이익지표(ROS, ROCE, Berry Ratio 등)를 선택하였습니까?</label>
+        </li>
+        <li>
+          <input type="checkbox" id="c3">
+          <label for="c3">피검토법인이 특별하고 가치있는 무형자산을 보유하고 있어 TNMM 적용이 부적합한 상황인지 검토하였습니까?</label>
+        </li>
+        <li>
+          <input type="checkbox" id="c4">
+          <label for="c4">비교가능 기업 검색 시 산업 분류만이 아니라 기능, 자산, 위험 등 비교가능성 요소를 종합적으로 검토하였습니까?</label>
+        </li>
+        <li>
+          <input type="checkbox" id="c5">
+          <label for="c5">비교가능 기업의 재무자료에서 비경상적·일회성 항목(대손충당금, 구조조정비용 등)을 제거하고 정상화(normalization)하였습니까?</label>
+        </li>
+        <li>
+          <input type="checkbox" id="c6">
+          <label for="c6">시장 포지셔닝, 사업 성숙도, 자본 구조 등 순이익에 영향을 미치는 요인을 비교가능성 분석에서 고려하였습니까?</label>
+        </li>
+        <li>
+          <input type="checkbox" id="c7">
+          <label for="c7">단일 가격 대신 정상가격범위(Arm's Length Range)를 산출하여 피검토법인의 순이익지표 위치를 확인하였습니까?</label>
+        </li>
+        <li>
+          <input type="checkbox" id="c8">
+          <label for="c8">TNMM 분석 결과와 전통적 방법(RPM·CPM) 결과가 충돌하는 경우, 비교가능성이 더 높은 방법을 우선 적용하고 그 근거를 문서화하였습니까?</label>
+        </li>
       </ul>
     </section>
 
-    <!-- ===== NAV BUTTONS ===== -->
-    <div class="nav-btns">
-      <a href="M2-4_CPM.html" class="nav-btn">← M2-4: 원가가산방법(CPM)</a>
-      <a href="M2-6_TNMM적용.html" class="nav-btn primary">M2-6: TNMM 적용 →</a>
+    <!-- 하단 네비게이션 -->
+    <div class="nav-bottom">
+      <a class="btn-nav secondary" href="M2-4_CPM.html">← M2-4: 원가가산방법</a>
+      <a class="btn-nav secondary" href="../index.html">📋 목차로</a>
+      <a class="btn-nav" href="M2-6_TNMM심화.html">M2-6: TNMM 심화 →</a>
     </div>
 
   </main>
 </div>
 
-<!-- ===== JAVASCRIPT ===== -->
 <script>
-  /* ---- Accordion ---- */
-  function toggleAccordion(btn) {
-    const body = btn.nextElementSibling;
-    const isOpen = btn.classList.contains('open');
-    btn.classList.toggle('open', !isOpen);
-    body.classList.toggle('open', !isOpen);
-    updateProgress();
-  }
+// 아코디언 토글 (open 속성 없이 시작 — 모두 닫힌 상태)
+function toggleAcc(btn){
+  btn.classList.toggle('open');
+  var body = btn.nextElementSibling;
+  body.classList.toggle('open');
+}
 
-  /* ---- Quiz ---- */
-  function checkQuiz(name, correct, btn) {
-    const selected = document.querySelector(`input[name="${name}"]:checked`);
-    const feedback = document.getElementById(`${name}-feedback`);
-    if (!selected) {
-      feedback.className = 'quiz-feedback incorrect';
-      feedback.textContent = '선택지를 선택해 주세요.';
-      return;
+// 섹션 네비게이션
+var secIds = ['obj','s1','s2','s3','s4','s5','s6','quiz','check'];
+function goTo(id){
+  var el = document.getElementById(id);
+  if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+// 스크롤 진도 추적
+function updateProgress(){
+  var scrollTop = window.scrollY || document.documentElement.scrollTop;
+  var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  var pct = docHeight > 0 ? Math.round((scrollTop / docHeight) * 100) : 0;
+  pct = Math.min(100, Math.max(0, pct));
+  document.getElementById('topBar').style.width = pct + '%';
+  document.getElementById('pctDisp').textContent = pct + '%';
+
+  // 사이드바 활성 항목
+  var active = 'obj';
+  secIds.forEach(function(id){
+    var el = document.getElementById(id);
+    if(el && el.getBoundingClientRect().top <= 120) active = id;
+  });
+  document.querySelectorAll('.nav-item').forEach(function(btn){
+    btn.classList.remove('active');
+    if(btn.getAttribute('onclick') && btn.getAttribute('onclick').indexOf("'"+active+"'") !== -1){
+      btn.classList.add('active');
     }
-    const val = parseInt(selected.value);
-    if (val === correct) {
-      feedback.className = 'quiz-feedback correct';
-      feedback.textContent = '정답입니다! 잘 이해하고 계십니다.';
+  });
+}
+window.addEventListener('scroll', updateProgress, {passive:true});
+updateProgress();
+
+// 퀴즈 채점
+var answers = {q1:'b', q2:'c', q3:'c', q4:'b', q5:'c'};
+var feedbacks = {
+  q1:{
+    a:'❌ CUP와 RPM은 전통적 거래방법입니다. OECD가 인정하는 거래이익방법은 TNMM과 PSM입니다. (¶2.63)',
+    b:'✅ 정답입니다! OECD는 거래순이익률방법(TNMM)과 이익분할방법(PSM)을 거래이익방법으로 인정합니다. (¶2.63)',
+    c:'❌ CPM은 전통적 거래방법이며 거래이익방법이 아닙니다. (¶2.63)',
+    d:'❌ RPM은 전통적 거래방법입니다. 거래이익방법은 TNMM과 PSM입니다. (¶2.63)'
+  },
+  q2:{
+    a:'❌ RPM의 특징입니다. TNMM은 분모를 사례별로 선택합니다. (¶2.64)',
+    b:'❌ CPM의 특징입니다. TNMM은 분모가 고정되어 있지 않습니다. (¶2.64)',
+    c:'✅ 정답입니다! TNMM의 분모는 평가대상 거래의 특성을 가장 잘 반영하는 항목(매출, 원가, 자산 등)을 사례별로 선택합니다. (¶2.64)',
+    d:'❌ Berry Ratio는 영업비용을 분모로 사용하는 지표이지만, 이것이 TNMM의 고정 분모는 아닙니다. (¶2.64)'
+  },
+  q3:{
+    a:'❌ TNMM이 항상 더 정확하다는 의미가 아닙니다. 각 방법은 적용 상황에 따라 장단점이 있습니다.',
+    b:'❌ ¶2.65에서는 가치있는 무형자산 보유 기업에 TNMM 적용이 오히려 어렵다고 설명합니다.',
+    c:'✅ 정답입니다! TNMM은 단방향(One-sided) 평가방법으로, 상대방 거래 당사자의 회계·재무자료 없이 피검토법인만의 자료로 분석이 가능합니다. (¶2.69)',
+    d:'❌ ¶2.76에서는 TNMM이 RPM보다 변동성이 더 높을 수 있다고 설명합니다.'
+  },
+  q4:{
+    a:'❌ 단순 유통 기능만 수행하는 법인은 TNMM 적용에 적합한 경우입니다.',
+    b:'✅ 정답입니다! 거래 당사자 모두가 특별하고 가치있는 무형자산을 소유한 경우, 비교가능 기업을 외부 자료에서 찾을 수 없어 TNMM 적용이 어렵습니다. (¶2.65)',
+    c:'❌ 비교가능 기업이 충분히 검색된 경우는 TNMM 적용에 유리한 상황입니다.',
+    d:'❌ 피검토법인의 영업이익률이 양수인지 여부는 TNMM 적용 가능성의 판단 기준이 아닙니다.'
+  },
+  q5:{
+    a:'❌ 자산 가치 변동은 ROCE 지표에 영향을 주는 요인이지만 변동성의 주된 이유가 아닙니다.',
+    b:'❌ CUP와의 비교는 변동성 설명과 관련이 없습니다.',
+    c:'✅ 정답입니다! TNMM은 영업이익 단계에서 평가하므로 각종 판매·영업활동 비용이 반영되고, 시장 경쟁력 등 외부 요인에도 영향을 받아 RPM·CPM보다 변동성이 높을 수 있습니다. (¶2.76)',
+    d:'❌ 순이익지표는 자의적으로 선택하는 것이 아니라 거래의 특성에 맞게 선택합니다.'
+  }
+};
+
+function gradeQuiz(){
+  var score = 0; var total = 5;
+  Object.keys(answers).forEach(function(q){
+    var sel = document.querySelector('input[name="'+q+'"]:checked');
+    var fb = document.getElementById('f'+q.slice(1));
+    if(!sel){ fb.style.display='block'; fb.className='q-feedback wrong'; fb.textContent='답을 선택해 주세요.'; return; }
+    var val = sel.value;
+    fb.style.display = 'block';
+    fb.textContent = feedbacks[q][val];
+    if(val === answers[q]){
+      fb.className = 'q-feedback correct';
+      score++;
     } else {
-      feedback.className = 'quiz-feedback incorrect';
-      const explanations = {
-        q1: "'Approximate'는 낮은 신뢰성이 아닌, 비교 기준이 가격이 아닌 이익이라는 방법론적 특성을 나타냅니다.",
-        q2: "분석대상회사는 무형자산이 없고 기능이 단순한 쪽(예: 단순 유통업자)으로 선정하여 분석을 단순화합니다.",
-        q3: "순이익은 판관비 등 고정비를 포함하므로 매출 변화에 총이익보다 더 민감하게 반응하여 변동성이 커집니다.",
-        q4: "이익률이 높다고 자동으로 이전가격 문제가 있는 것이 아니며, 시장 진입장벽 등 정당한 경제적 사유를 먼저 분석해야 합니다.",
-        q5: "이자수익/이자비용 등 영업외손익은 영업 활동과 무관하므로 TNMM 순이익 계산에서 제외합니다."
-      };
-      feedback.textContent = `오답입니다. ${explanations[name]}`;
+      fb.className = 'q-feedback wrong';
     }
-    updateProgress();
-  }
-
-  /* ---- Checklist ---- */
-  function toggleCheck(li) {
-    li.classList.toggle('checked');
-    updateProgress();
-  }
-
-  /* ---- Progress ---- */
-  function updateProgress() {
-    const totalAccordions = document.querySelectorAll('.accordion-btn').length;
-    const openAccordions  = document.querySelectorAll('.accordion-btn.open').length;
-    const totalQuizzes    = 5;
-    const answeredQuizzes = document.querySelectorAll('.quiz-feedback.correct, .quiz-feedback.incorrect').length;
-    const totalChecks     = document.querySelectorAll('.checklist li').length;
-    const checkedChecks   = document.querySelectorAll('.checklist li.checked').length;
-
-    const total = totalAccordions + totalQuizzes + totalChecks;
-    const done  = openAccordions  + answeredQuizzes + checkedChecks;
-    const pct   = Math.round((done / total) * 100);
-
-    document.getElementById('progress-pct').textContent  = pct + '%';
-    document.getElementById('progress-fill').style.width = pct + '%';
-  }
-
-  /* ---- Sidebar active link on scroll ---- */
-  const sections = ['objectives','sec1','sec2','sec3','sec4','case-study','quiz','checklist'];
-  const tocLinks  = document.querySelectorAll('#toc a');
-  window.addEventListener('scroll', () => {
-    let current = '';
-    sections.forEach(id => {
-      const el = document.getElementById(id);
-      if (el && window.scrollY >= el.offsetTop - 120) current = id;
-    });
-    tocLinks.forEach(a => {
-      a.classList.toggle('active', a.getAttribute('href') === '#' + current);
-    });
   });
+  var pct = Math.round(score/total*100);
+  var sb = document.getElementById('scoreBox');
+  sb.style.display = 'block';
+  document.getElementById('scoreNum').textContent = pct + '점';
+  document.getElementById('scoreMsg').textContent = pct >= 80
+    ? '🎉 통과! TNMM 기초 개념을 잘 이해하셨습니다. M2-6 심화 과정으로 진행하세요.'
+    : '💪 ' + score + '/' + total + '문항 정답. 80점 이상이 통과 기준입니다. 내용을 다시 검토해 보세요.';
+  document.getElementById('quizBtn').disabled = true;
+  tpSet('ch2_m5_quiz', pct);
+  tpSet('ch2_m5_pct', pct >= 60 ? 100 : 50);
+}
 
-  /* ---- MODKEY progress persistence (localStorage) ---- */
-  const MODKEY = 'm2_5';
-  window.addEventListener('load', () => {
-    const saved = JSON.parse(localStorage.getItem(MODKEY + '_state') || '{}');
-    // restore checked items
-    if (saved.checks) {
-      const lis = document.querySelectorAll('.checklist li');
-      saved.checks.forEach((v, i) => { if (v && lis[i]) lis[i].classList.add('checked'); });
-    }
-    updateProgress();
-  });
-  window.addEventListener('beforeunload', () => {
-    const checks = Array.from(document.querySelectorAll('.checklist li')).map(li => li.classList.contains('checked'));
-    localStorage.setItem(MODKEY + '_state', JSON.stringify({ checks }));
-  });
-
-  updateProgress();
+tpOnReady(function(user) {
+  document.getElementById('tpLoading').style.display = 'none';
+  document.getElementById('topUserName').textContent = user.displayName || user.email;
+  var savedPct  = parseInt(tpGet('ch2_m5_pct') || '0');
+  var savedQuiz = tpGet('ch2_m5_quiz');
+  if (savedPct > 0) {
+    document.getElementById('topBar').style.width = savedPct + '%';
+    document.getElementById('pctDisp').textContent = savedPct + '%';
+  }
+  if (savedQuiz) {
+    var _qpct = parseInt(savedQuiz);
+    var _sb = document.getElementById('scoreBox');
+    if (_sb) _sb.style.display = 'block';
+    var _sn = document.getElementById('scoreNum') || document.getElementById('scoreTxt');
+    if (_sn) _sn.textContent = _qpct + '점';
+    var _sm = document.getElementById('scoreMsg');
+    if (_sm) _sm.textContent = '이미 완료된 퀴즈입니다. 복습 후 다음 모듈로 진행하세요.';
+    var _qb = document.getElementById('quizBtn') || document.getElementById('qBtn');
+    if (_qb) _qb.disabled = true;
+  }
+});
 </script>
 </body>
 </html>

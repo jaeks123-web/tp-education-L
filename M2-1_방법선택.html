@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>M2-1: 이전가격산출방법의 개요 및 선택 | Chapter II 기초과정</title>
+<title>M2-1: 정상가격산출방법의 개요 및 선택</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --accent:#1a5fa8;--accent-light:#e8f0fa;--accent-mid:#3b7dd8;
+  --blue:#0f7a7a;--blue-light:#e0f5f5;--blue-mid:#1a9a9a;
   --green:#1a7a4a;--green-light:#e6f5ee;
   --orange:#c06000;--orange-light:#fff3e0;
   --red:#b02020;--red-light:#fdecea;
@@ -16,600 +16,710 @@
   --radius:10px;--shadow:0 2px 8px rgba(0,0,0,.10);
 }
 body{font-family:'Noto Sans KR',Arial,sans-serif;background:#f0f4f8;color:var(--text);line-height:1.75;font-size:16px}
-a{color:var(--accent);text-decoration:none}
-.mod-header{background:var(--accent);color:#fff;padding:1.5rem 2rem}
+a{color:var(--blue);text-decoration:none}
+/* ── 헤더 ── */
+.mod-header{background:var(--blue);color:#fff;padding:1.5rem 2rem}
 .mod-header .breadcrumb{font-size:.8rem;opacity:.7;margin-bottom:.4rem}
 .mod-header h1{font-size:1.4rem;font-weight:700}
 .mod-header .sub{font-size:.9rem;opacity:.8;margin-top:.3rem}
 .prog-strip{background:rgba(255,255,255,.15);height:6px;margin-top:1rem;border-radius:99px;overflow:hidden}
 .prog-strip-inner{height:100%;background:#fff;border-radius:99px;transition:width .4s}
+/* ── 레이아웃 ── */
 .layout{display:flex;max-width:1100px;margin:0 auto;padding:2rem 1.5rem 4rem;gap:1.5rem}
-.sidebar{width:220px;flex-shrink:0}
+.sidebar{width:220px;flex-shrink:0;position:sticky;top:1rem;align-self:flex-start;max-height:calc(100vh - 2rem);overflow-y:auto}
 .content{flex:1;min-width:0}
-.nav-card{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:1.2rem;margin-bottom:1rem;position:sticky;top:1rem}
+/* ── 사이드바 ── */
+.nav-card{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:1.2rem;margin-bottom:1rem}
 .nav-card h4{font-size:.85rem;color:var(--gray);margin-bottom:.8rem;letter-spacing:.04em}
-.nav-item{display:block;padding:.45rem .75rem;border-radius:6px;font-size:.85rem;color:var(--text2);margin-bottom:3px;cursor:pointer;border:none;width:100%;text-align:left;background:none;transition:background .12s}
-.nav-item:hover{background:var(--accent-light);color:var(--accent)}
-.nav-item.active{background:var(--accent);color:#fff;font-weight:600}
-.nav-item.done{color:var(--green)}
-.nav-item.done::after{content:' ✓'}
+.nav-item{display:block;padding:.45rem .75rem;border-radius:6px;font-size:.85rem;color:var(--text2);margin-bottom:3px;cursor:pointer;border:none;width:100%;text-align:left;background:none;transition:background .12s;font-family:inherit}
+.nav-item:hover{background:var(--blue-light);color:var(--blue)}
+.nav-item.active{background:var(--blue);color:#fff;font-weight:600}
+/* ── 카드 ── */
 .card{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:1.8rem 2rem;margin-bottom:1.5rem}
-.card h2{font-size:1.15rem;font-weight:700;color:var(--accent);margin-bottom:1rem;padding-bottom:.6rem;border-bottom:2px solid var(--accent-light)}
+.card h2{font-size:1.15rem;font-weight:700;color:var(--blue);margin-bottom:1rem;padding-bottom:.6rem;border-bottom:2px solid var(--blue-light)}
 .card h3{font-size:1rem;font-weight:700;color:var(--text);margin:.8rem 0 .4rem}
 .card p{font-size:.95rem;color:var(--text2);margin-bottom:.7rem}
+/* ── 태그 ── */
+.tag{display:inline-block;padding:2px 9px;border-radius:20px;font-size:.75rem;font-weight:600;margin-left:.4rem}
+.tag-para{background:var(--blue-light);color:var(--blue)}
+.tag-new{background:#fff3e0;color:#c06000}
+/* ── 학습목표 ── */
 .obj-list{list-style:none;padding:0}
 .obj-list li{display:flex;gap:.7rem;align-items:flex-start;padding:.5rem 0;border-bottom:1px solid var(--gray-border);font-size:.93rem}
 .obj-list li:last-child{border:none}
-.obj-num{background:var(--accent);color:#fff;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;flex-shrink:0;margin-top:2px}
+.obj-num{background:var(--blue);color:#fff;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;flex-shrink:0;margin-top:2px}
+/* ── 아코디언 ── */
 .accordion{border:1px solid var(--gray-border);border-radius:var(--radius);overflow:hidden;margin-bottom:1rem}
-.acc-header{display:flex;justify-content:space-between;align-items:center;padding:.9rem 1.2rem;cursor:pointer;background:var(--gray-light);font-weight:600;font-size:.95rem;border:none;width:100%;text-align:left;transition:background .12s}
+.acc-header{display:flex;justify-content:space-between;align-items:center;padding:.9rem 1.2rem;cursor:pointer;background:var(--gray-light);font-weight:600;font-size:.95rem;border:none;width:100%;text-align:left;transition:background .12s;font-family:inherit}
 .acc-header:hover{background:#ebebeb}
-.acc-header .para{font-size:.78rem;color:var(--accent);background:var(--accent-light);padding:2px 8px;border-radius:20px;margin-right:.6rem}
-.acc-header .arrow{font-size:1rem;color:var(--gray);transition:transform .2s}
-.acc-body{display:none;padding:1.1rem 1.3rem;background:#fff;font-size:.93rem;color:var(--text2);line-height:1.8;border-top:1px solid var(--gray-border)}
-.acc-body.open{display:block}
+.acc-header .para{font-size:.75rem;color:var(--blue);background:var(--blue-light);padding:2px 8px;border-radius:20px;margin-left:.5rem;font-weight:500;white-space:nowrap}
+.acc-header .arrow{font-size:1rem;color:var(--gray);transition:transform .2s;margin-left:.5rem;flex-shrink:0}
 .acc-header.open .arrow{transform:rotate(180deg)}
-.key-point{background:var(--accent-light);border-left:4px solid var(--accent);padding:.7rem 1rem;border-radius:0 6px 6px 0;margin:.8rem 0;font-size:.9rem;color:#1a3a6a}
-.warn-point{background:var(--orange-light);border-left:4px solid var(--orange);padding:.7rem 1rem;border-radius:0 6px 6px 0;margin:.8rem 0;font-size:.9rem;color:#6b3a00}
-.quote-box{background:#fafafa;border:1px solid #ddd;border-radius:8px;padding:1rem 1.2rem;margin:.8rem 0;font-style:italic;font-size:.88rem;color:#444;position:relative}
-.quote-box::before{content:'"';font-size:2.5rem;color:#ccc;position:absolute;top:-5px;left:8px;line-height:1}
-.quote-box .source{display:block;font-style:normal;font-size:.78rem;color:var(--gray);margin-top:.5rem;text-align:right}
-.compare-table{width:100%;border-collapse:collapse;font-size:.9rem;margin:.8rem 0}
-.compare-table th{background:var(--accent);color:#fff;padding:.7rem 1rem;text-align:left;font-weight:600}
-.compare-table td{padding:.65rem 1rem;border-bottom:1px solid var(--gray-border);vertical-align:top}
+.acc-body{display:none;padding:1.1rem 1.3rem;background:#fff;font-size:.93rem;color:var(--text2);line-height:1.85;border-top:1px solid var(--gray-border)}
+.acc-body.open{display:block}
+/* ── 강조 박스 ── */
+.key-point{background:var(--blue-light);border-left:4px solid var(--blue);padding:.7rem 1rem;border-radius:0 6px 6px 0;margin:.8rem 0;font-size:.9rem;color:#0a4a4a;line-height:1.75}
+.warn-point{background:var(--orange-light);border-left:4px solid var(--orange);padding:.7rem 1rem;border-radius:0 6px 6px 0;margin:.8rem 0;font-size:.9rem;color:#6b3a00;line-height:1.75}
+.note-point{background:var(--green-light);border-left:4px solid var(--green);padding:.7rem 1rem;border-radius:0 6px 6px 0;margin:.8rem 0;font-size:.9rem;color:#0d3d25;line-height:1.75}
+/* ── 실무주석 ── */
+.practice-note{background:#fffbeb;border:1px solid #fcd34d;border-radius:8px;padding:.9rem 1.1rem;margin:.8rem 0}
+.practice-note .pn-label{font-weight:700;font-size:.78rem;color:#92400e;margin-bottom:.35rem}
+.practice-note p{font-size:.88rem;color:#78350f;margin-bottom:.35rem}
+.practice-note p:last-child{margin-bottom:0}
+/* ── 인용 ── */
+.quote-box{background:#fafafa;border:1px solid #ddd;border-radius:8px;padding:1rem 1.2rem 1rem 2.2rem;margin:.8rem 0;font-style:italic;font-size:.88rem;color:#444;position:relative;line-height:1.8}
+.quote-box::before{content:'"';font-size:2.5rem;color:#ccc;position:absolute;top:-5px;left:8px;line-height:1;font-style:normal}
+.quote-box .src{display:block;font-style:normal;font-size:.76rem;color:var(--gray);margin-top:.4rem;text-align:right}
+/* ── 5가지 방법 그리드 ── */
+.method-grid{display:grid;grid-template-columns:1fr 1fr;gap:.9rem;margin:.9rem 0}
+.mc{border-radius:8px;padding:1rem 1.1rem;border:1.5px solid transparent}
+.mc.trad{background:#e8f0fa;border-color:#93c5fd}
+.mc.profit{background:#fef9c3;border-color:#fde047}
+.mc.full{grid-column:1/-1}
+.mc-badge{font-size:.69rem;font-weight:700;letter-spacing:.04em;margin-bottom:.35rem;text-transform:uppercase}
+.mc.trad .mc-badge{color:#1d4ed8}
+.mc.profit .mc-badge{color:#854d0e}
+.mc h4{font-size:.92rem;font-weight:700;color:var(--text);margin-bottom:.25rem}
+.mc p{font-size:.82rem;color:var(--text2);margin:0;line-height:1.6}
+.sec-divider{display:flex;align-items:center;gap:.6rem;margin:1rem 0;font-size:.83rem;color:#888;font-weight:600}
+.sec-divider::before,.sec-divider::after{content:'';flex:1;height:1px;background:#ddd}
+/* ── 단계 목록 ── */
+.step-list{list-style:none;padding:0;margin:.6rem 0}
+.step-list li{display:flex;gap:.8rem;align-items:flex-start;padding:.5rem 0;border-bottom:1px solid #eee;font-size:.92rem;color:var(--text2)}
+.step-list li:last-child{border:none;padding-bottom:0}
+.step-num{background:var(--blue);color:#fff;min-width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;flex-shrink:0;margin-top:2px}
+/* ── 비교 테이블 ── */
+.compare-table{width:100%;border-collapse:collapse;font-size:.88rem;margin:.8rem 0}
+.compare-table th{background:var(--blue);color:#fff;padding:.6rem .9rem;text-align:left;font-weight:600}
+.compare-table td{padding:.55rem .9rem;border-bottom:1px solid var(--gray-border);color:var(--text2);vertical-align:top}
 .compare-table tr:last-child td{border:none}
-.compare-table tr:nth-child(even) td{background:#fafafa}
-.case-box{background:#fff;border:1.5px solid var(--accent-mid);border-radius:var(--radius);padding:1.3rem 1.5rem;margin:1rem 0}
-.case-box .case-label{font-size:.78rem;font-weight:700;color:var(--accent);letter-spacing:.05em;margin-bottom:.5rem}
-.case-box h4{font-size:.95rem;font-weight:700;color:var(--text);margin-bottom:.6rem}
-.quiz-section{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:1.8rem 2rem;margin-bottom:1.5rem}
-.quiz-section h2{font-size:1.15rem;font-weight:700;color:var(--accent);margin-bottom:.4rem}
-.quiz-section .q-count{font-size:.85rem;color:var(--gray);margin-bottom:1.5rem}
-.quiz-item{margin-bottom:1.8rem;padding-bottom:1.5rem;border-bottom:1px solid var(--gray-border)}
-.quiz-item:last-of-type{border:none}
-.quiz-item .q-text{font-size:.97rem;font-weight:600;color:var(--text);margin-bottom:.9rem}
-.quiz-item .q-num{font-size:.78rem;background:var(--accent-light);color:var(--accent);padding:2px 9px;border-radius:20px;margin-right:.5rem;font-weight:700}
-.opt-list{list-style:none;padding:0;display:flex;flex-direction:column;gap:.5rem}
-.opt-list li button{width:100%;text-align:left;padding:.7rem 1rem;border-radius:8px;border:1.5px solid var(--gray-border);background:#fff;font-size:.9rem;cursor:pointer;color:var(--text);transition:all .15s}
-.opt-list li button:hover{border-color:var(--accent-mid);background:var(--accent-light)}
-.opt-list li button.correct{background:var(--green-light);border-color:var(--green);color:var(--green);font-weight:600}
-.opt-list li button.wrong{background:var(--red-light);border-color:var(--red);color:var(--red)}
-.opt-list li button:disabled{cursor:default}
-.q-feedback{margin-top:.7rem;padding:.6rem 1rem;border-radius:8px;font-size:.88rem;display:none}
-.q-feedback.show{display:block}
-.q-feedback.ok{background:var(--green-light);color:var(--green);border:1px solid #a0d8b8}
-.q-feedback.no{background:var(--red-light);color:var(--red);border:1px solid #f5b8b8}
+.compare-table tr:nth-child(even) td{background:var(--gray-light)}
+.compare-table td strong{color:var(--text)}
+/* ── 두 칸 카드 ── */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:.8rem 0}
+.col-box{border-radius:8px;padding:1rem 1.1rem;border:1.5px solid #86efac;background:#f0fdf4}
+.col-box h4{font-size:.88rem;font-weight:700;color:var(--green);margin-bottom:.35rem}
+.col-box p{font-size:.85rem;margin:0;color:var(--text2);line-height:1.65}
+/* ── 요약 그리드 ── */
+.sum-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.8rem;margin:.8rem 0}
+.sum-box{border-radius:8px;padding:.9rem 1rem;border-left:4px solid var(--blue);background:var(--blue-light)}
+.sum-box .sb-label{font-size:.71rem;font-weight:700;color:var(--blue);margin-bottom:.3rem;letter-spacing:.03em}
+.sum-box p{font-size:.85rem;color:#0a4a4a;margin:0;line-height:1.6}
+.sum-box.orange{border-color:var(--orange);background:var(--orange-light)}
+.sum-box.orange .sb-label{color:var(--orange)}
+.sum-box.orange p{color:#6b3a00}
+/* ── 흐름 목록 ── */
+.flow-list{list-style:none;padding:0;counter-reset:fl}
+.flow-list li{counter-increment:fl;display:flex;gap:.8rem;align-items:flex-start;padding:.5rem 0;border-bottom:1px solid #eee;font-size:.92rem;color:var(--text2)}
+.flow-list li:last-child{border:none;padding-bottom:0}
+.flow-list li::before{content:counter(fl);background:#e0e7ef;color:#374151;min-width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.73rem;font-weight:700;flex-shrink:0;margin-top:2px}
+/* ── 퀴즈 ── */
+.q-block{background:var(--gray-light);border-radius:8px;padding:1rem 1.2rem;margin-bottom:1rem}
+.q-block .q-text{font-weight:600;font-size:.93rem;margin-bottom:.7rem;color:var(--text);line-height:1.65}
+.q-options label{display:flex;align-items:flex-start;gap:.5rem;padding:.4rem .5rem;border-radius:6px;cursor:pointer;font-size:.91rem;color:var(--text2);transition:background .1s;margin-bottom:3px;line-height:1.55}
+.q-options label:hover{background:#e8e8e8}
+.q-options input[type=radio]{margin-top:3px;flex-shrink:0;accent-color:var(--blue)}
+.q-feedback{display:none;margin-top:.7rem;padding:.6rem .9rem;border-radius:6px;font-size:.88rem;font-weight:500;line-height:1.6}
+.q-feedback.correct{background:var(--green-light);color:var(--green);border-left:3px solid var(--green)}
+.q-feedback.wrong{background:var(--red-light);color:var(--red);border-left:3px solid var(--red)}
+.quiz-btn{background:var(--blue);color:#fff;border:none;padding:.7rem 2rem;border-radius:8px;font-size:.95rem;font-weight:600;cursor:pointer;margin-top:.5rem;transition:background .15s;font-family:inherit}
+.quiz-btn:hover{background:var(--blue-mid)}
+.quiz-btn:disabled{background:#aaa;cursor:default}
+.score-box{display:none;background:var(--blue-light);border:2px solid var(--blue);border-radius:10px;padding:1.2rem;text-align:center;margin-top:1rem}
+.score-box .big{font-size:2rem;font-weight:800;color:var(--blue)}
+.score-box p{font-size:.92rem;color:var(--text2);margin-top:.3rem}
+/* ── 체크리스트 ── */
 .checklist{list-style:none;padding:0}
 .checklist li{display:flex;gap:.8rem;align-items:flex-start;padding:.55rem 0;border-bottom:1px solid var(--gray-border);font-size:.92rem}
 .checklist li:last-child{border:none}
 .checklist input[type=checkbox]{width:18px;height:18px;margin-top:2px;cursor:pointer;flex-shrink:0;accent-color:var(--green)}
-.checklist label{cursor:pointer;color:var(--text2)}
+.checklist label{cursor:pointer;color:var(--text2);line-height:1.65}
 .checklist input:checked+label{color:var(--green);text-decoration:line-through;opacity:.7}
-.nav-btns{display:flex;justify-content:space-between;margin-top:1.5rem}
-.btn{display:inline-flex;align-items:center;gap:.4rem;padding:.7rem 1.5rem;border-radius:8px;font-size:.9rem;font-weight:600;cursor:pointer;border:none;transition:all .15s;text-decoration:none}
-.btn-primary{background:var(--accent);color:#fff}
-.btn-primary:hover{background:#164d8a}
-.btn-outline{background:#fff;color:var(--accent);border:1.5px solid var(--accent)}
-.btn-outline:hover{background:var(--accent-light)}
-.btn-success{background:var(--green);color:#fff}
-.btn-success:hover{background:#145e38}
-.complete-banner{background:var(--green-light);border:2px solid var(--green);border-radius:var(--radius);padding:1.3rem 1.8rem;text-align:center;display:none;margin-bottom:1.5rem}
-.complete-banner.show{display:block}
-.complete-banner h3{color:var(--green);font-size:1.1rem;margin-bottom:.4rem}
-.complete-banner p{font-size:.9rem;color:#2a6040}
-.method-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:.8rem 0}
-.method-card{background:var(--accent-light);border:1.5px solid var(--accent-mid);border-radius:8px;padding:1rem}
-.method-card h5{color:var(--accent);font-size:.9rem;font-weight:700;margin-bottom:.4rem}
-.method-card p{font-size:.85rem;color:var(--text2);margin:0}
-@media(max-width:720px){.layout{flex-direction:column}.sidebar{width:100%;position:static}.nav-card{position:static}.method-grid{grid-template-columns:1fr}}
+/* ── 하단 네비게이션 ── */
+.nav-bottom{display:flex;justify-content:space-between;align-items:center;margin-top:2rem;gap:.5rem}
+.btn-nav{background:var(--blue);color:#fff;padding:.65rem 1.4rem;border-radius:8px;font-size:.93rem;font-weight:600;cursor:pointer;border:none;transition:background .15s;text-decoration:none;display:inline-block;font-family:inherit}
+.btn-nav:hover{background:var(--blue-mid)}
+.btn-nav.secondary{background:#fff;color:var(--blue);border:2px solid var(--blue)}
+.btn-nav.secondary:hover{background:var(--blue-light)}
+/* ── 반응형 ── */
+@media(max-width:720px){
+  .layout{flex-direction:column}
+  .sidebar{width:100%;position:static}
+  .nav-card{position:static}
+  .method-grid,.two-col,.sum-grid{grid-template-columns:1fr}
+  .mc.full{grid-column:1}
+}
 </style>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
+  <script src="tp-firebase.js"></script>
 </head>
 <body>
+
+<div id="tpLoading" style="position:fixed;top:0;left:0;width:100%;height:100%;background:#6a1fa8;display:flex;align-items:center;justify-content:center;z-index:9999;color:#fff;font-family:'Noto Sans KR',Arial,sans-serif">
+  <div style="text-align:center">
+    <div style="font-size:2.5rem;margin-bottom:.8rem">📗</div>
+    <div style="font-size:1rem;font-weight:600">대주 이전가격 교육</div>
+    <div style="font-size:.82rem;opacity:.75;margin-top:.4rem">로딩 중...</div>
+  </div>
+</div>
+<!-- ══ 헤더 ══ -->
 <header class="mod-header">
-  <div class="breadcrumb"><a href="index_ch2.html" style="color:#fff8">← Chapter II 목록으로</a></div>
-  <h1>Module 1 — 이전가격산출방법의 개요 및 선택</h1>
-  <div class="sub">§2.1 ~ §2.12 · OECD Transfer Pricing Guidelines Chapter II · A</div>
-  <div class="prog-strip"><div class="prog-strip-inner" id="mod-prog" style="width:0%"></div></div>
+  <div class="breadcrumb">기초과정 › Chapter II 정상가격산출방법 › M2-1</div>
+  <h1>M2-1. 정상가격산출방법의 개요 및 선택</h1>
+  <div class="sub">Part I: Selection of the Transfer Pricing Method &nbsp;|&nbsp; ¶2.1 – ¶2.12 &nbsp;|&nbsp; 예상 학습시간: 45분</div>
+  <div class="prog-strip"><div class="prog-strip-inner" id="topBar" style="width:0%"></div></div>
+  <div style="display:flex;justify-content:flex-end;align-items:center;gap:.7rem;margin-top:.3rem;font-size:.8rem">
+    <span id="topUserName" style="color:rgba(255,255,255,.8)"></span>
+    <button onclick="tpSignOut()" style="background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.35);color:#fff;padding:2px 12px;border-radius:20px;cursor:pointer;font-size:.76rem;font-family:inherit">로그아웃</button>
+  </div>
 </header>
 
 <div class="layout">
+
+  <!-- ══ 사이드바 ══ -->
   <aside class="sidebar">
     <div class="nav-card">
-      <h4>이 모듈 목차</h4>
-      <button class="nav-item active" onclick="showSec('sec-obj',this)">📌 학습 목표</button>
-      <button class="nav-item" onclick="showSec('sec-s1',this)">1. 5가지 방법 개요</button>
-      <button class="nav-item" onclick="showSec('sec-s2',this)">2. 방법 선택 기준</button>
-      <button class="nav-item" onclick="showSec('sec-s3',this)">3. 전통적 vs 이익방법</button>
-      <button class="nav-item" onclick="showSec('sec-s4',this)">4. 다수 방법 사용 원칙</button>
-      <button class="nav-item" onclick="showSec('sec-s-ex',this)">📌 방법 선택 사례</button>
-      <button class="nav-item" onclick="showSec('sec-quiz',this)">✏ 자가 퀴즈</button>
-      <button class="nav-item" onclick="showSec('sec-check',this)">☑ 실무 체크리스트</button>
+      <h4>📑 목차</h4>
+      <button class="nav-item" onclick="goTo('obj')">🎯 학습목표</button>
+      <button class="nav-item" onclick="goTo('s1')">1. 5가지 방법 체계</button>
+      <button class="nav-item" onclick="goTo('s2')">2. 두 방법군의 차이</button>
+      <button class="nav-item" onclick="goTo('s3')">3. 합리적 방법 선택 기준</button>
+      <button class="nav-item" onclick="goTo('s4')">4. 거래이익방법 적용 요건</button>
+      <button class="nav-item" onclick="goTo('s5')">5. 검토범위와 제한사항</button>
+      <button class="nav-item" onclick="goTo('s6')">6. 복수 방법 적용 원칙</button>
+      <button class="nav-item" onclick="goTo('quiz')">📝 확인 퀴즈</button>
+      <button class="nav-item" onclick="goTo('check')">✅ 실무 체크리스트</button>
     </div>
     <div class="nav-card">
-      <h4>모듈 진도</h4>
-      <div style="font-size:2rem;font-weight:700;color:var(--accent);text-align:center" id="pct-display">0%</div>
-      <div style="font-size:.8rem;color:var(--gray);text-align:center">학습 완료율</div>
+      <h4>📊 모듈 진도</h4>
+      <div style="text-align:center;padding:.5rem 0">
+        <div style="font-size:1.6rem;font-weight:800;color:var(--blue)" id="pctDisp">0%</div>
+        <div style="font-size:.8rem;color:var(--gray);margin-top:.2rem">학습 완료율</div>
+      </div>
     </div>
   </aside>
 
+  <!-- ══ 본문 ══ -->
   <main class="content">
-    <div class="complete-banner" id="complete-banner">
-      <h3>🎉 Module 1 학습 완료!</h3>
-      <p>이전가격산출방법의 개요와 선택 기준을 완료하셨습니다. Module 2(CUP)로 이어서 학습하세요.</p>
-      <a href="M2-2_CUP.html" class="btn btn-success" style="margin-top:.8rem;display:inline-flex">Module 2 시작하기 →</a>
-    </div>
 
     <!-- 학습 목표 -->
-    <div class="card" id="sec-obj">
-      <h2>📌 학습 목표</h2>
-      <p style="font-size:.9rem;color:var(--gray);margin-bottom:1rem">이 모듈을 마치면 다음 사항을 설명하고 업무에 적용하실 수 있습니다.</p>
+    <section class="card" id="obj">
+      <h2>🎯 학습 목표</h2>
       <ul class="obj-list">
-        <li><div class="obj-num">1</div><span>OECD 이전가격지침서가 인정하는 5가지 이전가격산출방법을 분류하고 각 방법의 특징을 설명하실 수 있습니다.</span></li>
-        <li><div class="obj-num">2</div><span>'가장 합리적인 방법(most appropriate method)' 선정 기준 4가지를 설명하실 수 있습니다.</span></li>
-        <li><div class="obj-num">3</div><span>전통적 거래방법과 거래이익방법의 근본적 차이를 이해하고, 각 방법이 적합한 상황을 구분하실 수 있습니다.</span></li>
-        <li><div class="obj-num">4</div><span>다수 방법의 동시 사용이 원칙적으로 불필요한 이유를 설명하실 수 있습니다.</span></li>
-        <li><div class="obj-num">5</div><span>초과이익 또는 결손이 반드시 이전가격 문제를 의미하지 않는다는 원칙을 이해하십니다.</span></li>
+        <li><span class="obj-num">1</span><span>OECD가 인정하는 5가지 정상가격산출방법의 분류 체계(전통적 거래방법 / 거래이익방법)를 설명할 수 있다</span></li>
+        <li><span class="obj-num">2</span><span>전통적 거래방법과 거래이익방법의 본질적 구조 차이(가격 직접 역산 가능 여부)를 이해한다</span></li>
+        <li><span class="obj-num">3</span><span>'가장 합리적인 방법' 선택을 위한 4가지 고려사항을 순서대로 적용할 수 있다</span></li>
+        <li><span class="obj-num">4</span><span>이익분할방법을 적용해야 하는 두 가지 핵심 상황을 구별할 수 있다</span></li>
+        <li><span class="obj-num">5</span><span>일반적 경험칙(rule of thumb) 적용 금지 원칙과 복수 방법 동시 적용에 대한 OECD 기준을 파악한다</span></li>
       </ul>
-    </div>
+    </section>
 
-    <!-- 섹션 1 -->
-    <div class="card" id="sec-s1">
-      <h2>1. 이전가격산출방법 5가지 개요 (§2.1)</h2>
-      <p>OECD 이전가격지침서는 정상가격을 산출하기 위한 방법으로 다음 5가지를 인정합니다. 각 방법은 고유한 분석 대상과 비교가능성 요건을 가지고 있습니다.</p>
+    <!-- 섹션 1: 5가지 방법 체계 -->
+    <section class="card" id="s1">
+      <h2>1. 5가지 정상가격산출방법 체계 <span class="tag tag-para">¶2.1</span></h2>
+      <p>OECD 이전가격지침서는 정상가격을 산출하기 위한 방법을 크게 두 개의 군(群)으로 나누어 총 5가지를 인정하고 있다.</p>
 
+      <div class="sec-divider">① 전통적 거래방법 (Traditional Transaction Methods)</div>
       <div class="method-grid">
-        <div class="method-card">
-          <h5>📊 전통적 거래방법 (Traditional Transaction Methods)</h5>
-          <p>① 비교가능 제3자 가격방법 (CUP)<br>② 재판매가격방법 (RPM)<br>③ 원가가산방법 (CPM)</p>
+        <div class="mc trad">
+          <div class="mc-badge">전통적 거래방법</div>
+          <h4>비교가능 제3자 가격방법 (CUP)</h4>
+          <p>특수관계거래 가격과 제3자거래 가격을 <strong>직접 비교</strong>하여 정상가격 산출</p>
         </div>
-        <div class="method-card">
-          <h5>📈 거래이익방법 (Transactional Profit Methods)</h5>
-          <p>④ 거래순이익률방법 (TNMM)<br>⑤ 이익분할방법 (PSM)</p>
+        <div class="mc trad">
+          <div class="mc-badge">전통적 거래방법</div>
+          <h4>재판매가격방법 (RPM)</h4>
+          <p>재판매가격에서 재판매마진을 차감하여 정상가격 <strong>역산</strong></p>
+        </div>
+        <div class="mc trad full">
+          <div class="mc-badge">전통적 거래방법</div>
+          <h4>원가가산방법 (CPM)</h4>
+          <p>실제원가에 적정 마진(cost plus mark-up)을 더하여 정상가격 산출. 반제품 거래·공동설비·장기공급계약·서비스 거래에 유용.</p>
         </div>
       </div>
 
+      <div class="sec-divider">② 거래이익방법 (Transactional Profit Methods)</div>
+      <div class="method-grid">
+        <div class="mc profit">
+          <div class="mc-badge">거래이익방법</div>
+          <h4>거래순이익률방법 (TNMM)</h4>
+          <p>특수관계거래에서 실현한 <strong>순이익 지표</strong>를 비교가능거래의 순이익 지표와 비교</p>
+        </div>
+        <div class="mc profit">
+          <div class="mc-badge">거래이익방법</div>
+          <h4>이익분할방법 (PSM)</h4>
+          <p>거래에서 발생한 결합이익을 각 당사자의 <strong>가치기여도</strong>에 따라 배분하여 정상가격 산출</p>
+        </div>
+      </div>
+
+      <div class="key-point">💡 <strong>핵심 원칙 — 전통적 방법 우선:</strong> OECD는 "전통적 거래방법이 거래이익방법보다 선호된다"고 명시한다. 이는 전통적 방법이 비교가능거래에서 <em>가격을 직접 역산</em>할 수 있는 반면, 거래이익방법은 순이익을 기준으로 <em>대략의 가격을 추정</em>하기 때문이다(¶2.3).</div>
+    </section>
+
+    <!-- 섹션 2: 두 방법군의 차이 -->
+    <section class="card" id="s2">
+      <h2>2. 전통적 거래방법과 거래이익방법의 본질적 차이 <span class="tag tag-para">¶2.3 · ¶2.6</span></h2>
+
       <div class="accordion">
         <button class="acc-header" onclick="toggleAcc(this)">
-          <span><span class="para">§2.1</span>5가지 방법의 특성과 분류 기준</span>
+          <span>두 방법군의 구조적 차이 — 가격 역산 가능 여부 <span class="para">¶2.3</span></span>
           <span class="arrow">▼</span>
         </button>
         <div class="acc-body">
-          <p>전통적 거래방법과 거래이익방법은 분석 대상의 차이에서 구분됩니다.</p>
           <table class="compare-table">
-            <thead><tr><th>구분</th><th>분석 대상</th><th>비교 기준</th><th>대표 방법</th></tr></thead>
-            <tbody>
-              <tr><td><strong>전통적 거래방법</strong></td><td>개별 거래의 가격·조건</td><td>독립기업 간 제3자 가격</td><td>CUP, RPM, CPM</td></tr>
-              <tr><td><strong>거래이익방법</strong></td><td>거래에서 발생한 이익</td><td>비교가능 독립기업의 순이익 또는 이익 배분</td><td>TNMM, PSM</td></tr>
-            </tbody>
-          </table>
-          <div class="key-point">📌 핵심: OECD는 5가지 방법 모두를 정상가격원칙에 부합하는 방법으로 인정합니다. 어느 방법이 다른 방법보다 우선한다는 규정은 없으며, 거래 상황에 가장 적합한 방법을 선택해야 합니다.</div>
-          <p style="font-size:.88rem;color:var(--gray)">※ 미국 IRC §1.482의 CPM(Comparable Profits Method)은 OECD의 TNMM과 유사하지만, 동일한 방법은 아닙니다.</p>
-        </div>
-      </div>
-
-      <div class="accordion">
-        <button class="acc-header" onclick="toggleAcc(this)">
-          <span><span class="para">§2.1 (주)</span>실무상 방법 선택의 현실</span>
-          <span class="arrow">▼</span>
-        </button>
-        <div class="acc-body">
-          <p>실무에서는 비교가능거래를 찾기가 어렵기 때문에 전통적 거래방법보다 거래이익방법(특히 TNMM)이 더 자주 사용됩니다. 그러나 이는 OECD가 권장하는 방향이 아니며, 전통적 거래방법의 적용 가능성을 먼저 충분히 검토해야 합니다.</p>
-          <table class="compare-table">
-            <thead><tr><th>산업/거래 유형</th><th>주로 사용되는 방법</th><th>이유</th></tr></thead>
-            <tbody>
-              <tr><td>원자재·상품 거래</td><td>CUP</td><td>거래소 또는 시장 기준가격 존재</td></tr>
-              <tr><td>유통·판매 자회사</td><td>RPM</td><td>재판매 마진 비교가능성 높음</td></tr>
-              <tr><td>계약제조업자</td><td>CPM</td><td>원가 구조 비교가능성 높음</td></tr>
-              <tr><td>일반 제조·서비스</td><td>TNMM</td><td>비교가능거래 부재, 이익률 비교 용이</td></tr>
-              <tr><td>고가치 무형자산 보유</td><td>PSM</td><td>양방향 기여 가치 평가 필요</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
-    <!-- 섹션 2 -->
-    <div class="card" id="sec-s2">
-      <h2>2. 가장 합리적인 방법 선택 기준 (§2.2)</h2>
-      <p>OECD 이전가격지침서는 '가장 합리적인 방법(most appropriate method)'을 선택하기 위해 다음 4가지 사항을 검토하도록 규정하고 있습니다.</p>
-
-      <div class="accordion">
-        <button class="acc-header" onclick="toggleAcc(this)">
-          <span><span class="para">§2.2</span>가장 합리적인 방법 선택의 4가지 검토사항</span>
-          <span class="arrow">▼</span>
-        </button>
-        <div class="acc-body">
-          <ol style="padding-left:1.3rem;line-height:2.2;font-size:.93rem">
-            <li><strong>각 방법의 장단점:</strong> 분석대상 특수관계거래의 성격에 비추어 각 방법이 갖는 강점과 약점을 평가합니다.</li>
-            <li><strong>기능분석과의 적합성:</strong> 납세자 및 특수관계기업의 기능분석(FAR 분석) 결과에 가장 잘 부합하는 방법을 선택합니다.</li>
-            <li><strong>신뢰할 만한 정보의 이용가능성:</strong> 비교가능 제3자 거래 또는 기업에 관한 충분하고 신뢰할 만한 정보를 이용할 수 있어야 합니다.</li>
-            <li><strong>분석대상 거래와 비교가능거래 간의 비교가능성 정도:</strong> 비교가능성 조정을 실시하더라도 신뢰할 수 있는 결과를 도출할 수 있어야 합니다.</li>
-          </ol>
-          <div class="key-point">📌 핵심: '가장 합리적인 방법'은 단순히 편리한 방법이 아니라, 위 4가지 기준을 체계적으로 검토한 후 선택한 방법입니다. 이 선택 과정을 이전가격 문서에 명확히 기재해야 합니다.</div>
-        </div>
-      </div>
-
-      <div class="accordion">
-        <button class="acc-header" onclick="toggleAcc(this)">
-          <span><span class="para">§2.2 (주)</span>방법 선택의 실무적 접근</span>
-          <span class="arrow">▼</span>
-        </button>
-        <div class="acc-body">
-          <p>실무에서 방법 선택은 일반적으로 다음과 같은 순서로 이루어집니다.</p>
-          <ol style="padding-left:1.3rem;line-height:2.2;font-size:.93rem">
-            <li>분석대상 특수관계거래의 성격(제품 판매, 서비스, 무형자산 등) 파악</li>
-            <li>내부 비교가능거래 존재 여부 검토 → CUP 또는 내부 비교가능거래 적용 가능성 우선 검토</li>
-            <li>기능분석을 통한 거래구조 이해 → 단순 유통사이면 RPM, 단순 제조사이면 CPM 검토</li>
-            <li>외부 비교가능거래 부재 시 → TNMM 적용 (가장 광범위하게 사용)</li>
-            <li>양방향 고가치 무형자산 보유 시 → PSM 검토</li>
-          </ol>
-          <div class="warn-point">⚠ 주의: 방법 선택은 "TNMM이 편리하니 항상 TNMM을 사용한다"와 같은 관행적 접근이 아니라, 각 거래별로 위 단계를 거친 합리적 선택이어야 합니다.</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 섹션 3 -->
-    <div class="card" id="sec-s3">
-      <h2>3. 전통적 거래방법 vs 거래이익방법 (§2.3–2.6)</h2>
-
-      <div class="accordion">
-        <button class="acc-header" onclick="toggleAcc(this)">
-          <span><span class="para">§2.3</span>전통적 거래방법이 선호되는 이유</span>
-          <span class="arrow">▼</span>
-        </button>
-        <div class="acc-body">
-          <p>전통적 거래방법은 특수관계거래와 독립기업 간 거래의 가격을 직접 비교하기 때문에, 이익방법에 비해 더 직접적이고 신뢰할 수 있는 방법으로 간주됩니다.</p>
-          <p>특히 <strong>CUP 방법</strong>은 독립기업 간 실제 거래가격을 직접 비교하므로, 신뢰할 만한 비교가능거래가 존재하는 경우 가장 직접적인 방법입니다.</p>
-          <div class="key-point">📌 핵심: 전통적 거래방법이 가장 합리적인 방법으로 판단되고 동시에 거래이익방법도 신뢰할 수 있는 결과를 제공하는 경우, 전통적 거래방법의 결과를 더 신뢰할 수 있습니다.</div>
-        </div>
-      </div>
-
-      <div class="accordion">
-        <button class="acc-header" onclick="toggleAcc(this)">
-          <span><span class="para">§2.4</span>이익분할방법(PSM) 적용 조건</span>
-          <span class="arrow">▼</span>
-        </button>
-        <div class="acc-body">
-          <p>§2.4는 거래이익방법 중 이익분할방법(PSM)이 일방접근방법(one-sided method)보다 더 합리적인 결과를 산출할 수 있는 두 가지 조건을 제시합니다.</p>
-          <table class="compare-table">
-            <thead><tr><th>조건</th><th>설명</th><th>실무적 의미</th></tr></thead>
+            <thead>
+              <tr>
+                <th style="width:26%">구분</th>
+                <th>전통적 거래방법 (CUP·RPM·CPM)</th>
+                <th>거래이익방법 (TNMM·PSM)</th>
+              </tr>
+            </thead>
             <tbody>
               <tr>
-                <td><strong>조건 1</strong><br>독특하고 가치 있는 공헌</td>
-                <td>거래당사자 양측이 모두 unique and valuable contributions를 제공하는 경우</td>
-                <td>일방(One-sided) 방법으로는 고가치 기여를 적절히 보상할 수 없음 → PSM 적합</td>
+                <td><strong>비교 기준</strong></td>
+                <td>비교가능거래에 적용된 <strong>가격</strong></td>
+                <td>특수관계거래에서 실현한 <strong>순이익(net profit)</strong></td>
               </tr>
               <tr>
-                <td><strong>조건 2</strong><br>고도로 통합된 거래</td>
-                <td>거래당사자들의 사업이 high degree of integration(상당한 정도의 통합)을 갖추고 있는 경우</td>
-                <td>기능·위험이 긴밀히 연계되어 분리 분석이 어려움 → PSM만이 적합한 방법</td>
+                <td><strong>가격 산출 방식</strong></td>
+                <td>비교가능거래에서 가격을 <strong>직접 역산</strong> 가능</td>
+                <td>직접 역산 불가 → <strong>대략의 가격 추정</strong>(approximation)</td>
+              </tr>
+              <tr>
+                <td><strong>OECD 선호도</strong></td>
+                <td>거래이익방법보다 <strong>선호</strong></td>
+                <td>전통적 방법 적용이 불가한 경우에 적용</td>
+              </tr>
+              <tr>
+                <td><strong>제품 차이의 영향</strong></td>
+                <td>제품·가격조건의 비교가능성이 매우 중요</td>
+                <td>기능·위험 비교가능성 중심 (제품 차이에 상대적으로 덜 민감)</td>
               </tr>
             </tbody>
           </table>
-          <div class="key-point">📌 §2.4 핵심: PSM이 일방접근방법보다 더 합리적인 결과를 산출할 수 있는 경우는 ① 양 당사자 모두 독특하고 가치 있는 기여를 제공하거나, ② 거래가 상당한 정도로 통합되어 있는 경우입니다.</div>
+          <div class="practice-note">
+            <div class="pn-label">📌 실무 주석 — "전통적 방법 선호"의 진정한 의미</div>
+            <p>OECD가 전통적 거래방법을 선호하는 것은 전통적 방법이 비교가능거래에서 <strong>가격을 직접 역산</strong>할 수 있기 때문이다. 거래이익방법(TNMM·PSM)은 순이익을 기준으로 정상가격 여부를 판단하는 것으로, 정확하고 직접적인 가격 산정이 아닌 <em>대략의 이익 수준(approximation)을 산출</em>하는 것이다. 따라서 OECD의 "선호"는 절대적 우선순위가 아닌 방법론적 특성의 차이를 반영한 것임을 이해해야 한다.</p>
+          </div>
         </div>
       </div>
 
       <div class="accordion">
         <button class="acc-header" onclick="toggleAcc(this)">
-          <span><span class="para">§2.5</span>거래이익방법 적용 전 선행 검토 의무</span>
+          <span>OECD 모델협약 제9조와 정상가격의 개념 <span class="para">¶2.6</span></span>
           <span class="arrow">▼</span>
         </button>
         <div class="acc-body">
-          <p>§2.5는 거래이익방법(TNMM, PSM)을 적용하기 전에 반드시 거쳐야 할 선행 검토 요건을 규정합니다.</p>
-          <ul style="padding-left:1.3rem;line-height:2.1;font-size:.93rem">
-            <li>거래이익방법을 적용하기 <strong>전에</strong> 다른 방법의 적용 가능성을 먼저 검토해야 합니다.</li>
-            <li>단순히 <strong>"비교가능거래가 없다"는 이유만으로</strong> 거래이익방법을 바로 적용하는 것은 바람직하지 않습니다.</li>
-            <li>전통적 거래방법(CUP, RPM, CPM)의 적용 가능성을 충분히 검토한 후, 그 이유가 명확히 문서화된 경우에만 거래이익방법으로 전환할 수 있습니다.</li>
+          <p>OECD 모델협약 제9조는 <strong>비교가능거래의 비교가능성</strong>과 <strong>'정상가격(arm's length price)'</strong>의 개념을 규정하고 있다. 정상가격은 분석대상거래의 가격 또는 이익을 비교가능거래와 비교하여 결정한다.</p>
+          <p>이익을 기준으로 하는 경우, 정상가격이라고 여겨지는 <em>대략의 가격을 통하여 가격을 산출</em>하는 방식이다. 특히 이익분할방법은 정확한 가격 또는 이익을 산출하는 것이 아니라, 거래당사자가 독립 상황에서 실현했을 <em>정도의 대략적인 이익 수준</em>을 산출하는 방법이다.</p>
+          <div class="key-point">💡 이것이 이익분할방법이 본질적으로 추정(approximation)에 기반하는 이유이며, 전통적 방법보다 덜 선호되는 근거이다.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 섹션 3: 합리적 방법 선택 기준 -->
+    <section class="card" id="s3">
+      <h2>3. 가장 합리적인 방법의 선택 기준 <span class="tag tag-para">¶2.2 · ¶2.8 · ¶2.10 · ¶2.11</span></h2>
+
+      <div class="accordion">
+        <button class="acc-header" onclick="toggleAcc(this)">
+          <span>가장 합리적인 방법 결정을 위한 4가지 고려사항 <span class="para">¶2.2</span></span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="acc-body">
+          <p>OECD 이전가격지침서는 <strong>가장 합리적인 방법(most appropriate method)</strong>을 선택하기 위해 다음 네 가지를 종합적으로 고려하도록 요구한다.</p>
+          <ul class="step-list">
+            <li><span class="step-num">1</span><div><strong>각 방법의 장점과 단점 검토</strong> — OECD가 인정하는 5가지 방법 각각의 강점과 약점을 사례의 사실관계에 비추어 검토한다.</div></li>
+            <li><span class="step-num">2</span><div><strong>기능분석을 통한 특수관계거래 특성 파악</strong> — 분석대상거래에서 수행하는 기능, 사용하는 자산, 부담하는 위험(FAR: Functions, Assets, Risks)을 분석한다.</div></li>
+            <li><span class="step-num">3</span><div><strong>비교가능거래의 존재 여부 확인</strong> — 신뢰할 수 있는 비교가능한 제3자거래 정보가 존재하는지 검토한다.</div></li>
+            <li><span class="step-num">4</span><div><strong>비교가능성 차이에 대한 합리적 조정</strong> — 정상가격 결정에 중요한 영향을 주는 차이가 있는 경우, 그 차이를 합리적으로 조정한다.</div></li>
           </ul>
-          <div class="warn-point">⚠ §2.5 주의: "TNMM이 편리하니 항상 TNMM을 사용한다"는 방식은 §2.5 위반입니다. 이전가격 보고서에는 전통적 거래방법을 검토했으나 적용하지 않은 이유를 반드시 명기해야 합니다.</div>
+          <div class="practice-note">
+            <div class="pn-label">📌 실무 주석</div>
+            <p>비교가능회사 검색 절차에 대한 상세한 설명은 <strong>IMF et al. (2017, p.43; Box 7. "A Typical Process to Screen for Comparables")</strong>을 참조한다. OECD 이전가격지침서는 원론적 개념의 지침을 제공하며, 데이터베이스를 통한 비교가능회사 검색의 실무 절차는 별도 자료에서 확인한다.</p>
+          </div>
         </div>
       </div>
 
       <div class="accordion">
         <button class="acc-header" onclick="toggleAcc(this)">
-          <span><span class="para">§2.6</span>OECD 모델협약 제9조 — '대략값(Approximate)' 개념</span>
+          <span>정상가격산출방법의 검토범위 — 모든 방법을 심도있게 검토할 필요 없음 <span class="para">¶2.8</span></span>
           <span class="arrow">▼</span>
         </button>
         <div class="acc-body">
-          <p>OECD 모델협약 제9조는 특수관계거래에서 "독립기업 간에 적용했을 조건과 다른 조건"이 적용된 경우 과세당국이 소득을 재계산할 수 있다고 규정합니다. 이 조항은 5가지 방법 모두에 대한 법적 근거가 됩니다.</p>
-          <p>특히 이익분할방법(PSM)은 정확한 가격 또는 이익을 산출하는 것이 아니라 <strong>거래당사자가 실현했을 정도의 대략의 이익(approximate profit)</strong>을 산출하는 것입니다.</p>
-          <table class="compare-table">
-            <thead><tr><th>구분</th><th>비교 기준</th><th>정밀도</th></tr></thead>
-            <tbody>
-              <tr><td>전통적 거래방법(CUP 등)</td><td>독립기업 간 실제 거래가격을 직접 비교</td><td>직접적·정확한 비교</td></tr>
-              <tr><td>거래이익방법(TNMM, PSM)</td><td>독립기업이 유사한 거래에서 달성했을 <strong>대략의 이익 수준</strong> 비교</td><td>'Approximate' — 간접적 비교</td></tr>
-            </tbody>
-          </table>
-          <div class="key-point">📌 §2.6 핵심: '대략값(approximate)'의 의미는 거래이익방법이 부정확하다는 것이 아니라, 가격이 아닌 이익 수준을 통한 간접적 비교 방식임을 의미합니다. 비교가능성이 완벽하지 않더라도 신뢰할 수 있는 수준의 비교는 가능합니다.</div>
-          <div class="key-point" style="margin-top:.6rem">📌 한국: 국제조세조정에 관한 법률(국조법) 제5조~제9조에서 5가지 정상가격산출방법을 규정하며, OECD 이전가격지침서를 준용합니다.</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 섹션 4 -->
-    <div class="card" id="sec-s4">
-      <h2>4. 비교가능거래 검색 및 다수 방법 사용 원칙 (§2.7–2.12)</h2>
-
-      <div class="accordion">
-        <button class="acc-header" onclick="toggleAcc(this)">
-          <span><span class="para">§2.7–2.9</span>비교가능거래가 없는 경우 — 초과이익 또는 결손</span>
-          <span class="arrow">▼</span>
-        </button>
-        <div class="acc-body">
-          <p>일부 특수관계거래에서는 비교가능 제3자 거래를 찾기 어려운 경우가 있습니다. 예를 들어, 독보적인 무형자산을 포함한 거래, 고도로 통합된 사업부 거래 등이 그러합니다.</p>
-          <p>중요한 원칙은 특수관계기업이 <strong>초과이익을 실현하거나 결손을 기록한다는 사실만으로</strong> 이전가격 조작이 있었다고 결론지어서는 안 된다는 것입니다.</p>
-          <div class="key-point">📌 핵심: 초과이익은 고가치 무형자산 보유, 탁월한 경영, 유리한 시장 지위 등 정당한 사유로 발생할 수 있습니다. 결손도 시장 진입 전략, 경기 침체, 사업 초기 비용 등 정상적인 사유로 발생할 수 있습니다.</div>
+          <p>가장 합리적인 방법을 찾기 위해 OECD가 인정하는 <strong>모든 방법을 동일한 수준으로 심도있게 검토할 필요는 없다.</strong></p>
+          <p>가장 합리적인 방법은 <strong>¶3.4에서 요구하는 절차 및 요건을 모두 갖춘 것</strong>으로 한다. 즉, 사실관계에 비추어 명백히 부적합한 방법은 배제하고, 가장 적합한 방법에 집중하는 것이 허용된다.</p>
+          <div class="key-point">💡 가장 합리적인 방법 선택의 핵심은 <em>거래의 사실관계와 상황에 가장 잘 맞는 방법</em>을 찾는 것이다. 이는 모든 방법을 순차적으로 테스트하는 의무가 아니다.</div>
         </div>
       </div>
 
       <div class="accordion">
         <button class="acc-header" onclick="toggleAcc(this)">
-          <span><span class="para">§2.10–2.11</span>검토범위의 한계와 자료 신뢰성</span>
+          <span>일반적인 경험칙(Rule of Thumb) 적용 금지 <span class="para">¶2.10</span></span>
           <span class="arrow">▼</span>
         </button>
         <div class="acc-body">
-          <p>이전가격 분석에서 모든 가능한 방법을 동시에 적용할 필요는 없습니다. 납세자와 과세당국 모두 <strong>합리적인 수준의 검토</strong>에서 방법을 선택할 수 있습니다.</p>
-          <p>자료의 신뢰성은 다음 두 가지 요소에 의해 결정됩니다.</p>
-          <ul style="padding-left:1.3rem;line-height:2;font-size:.93rem">
-            <li><strong>비교가능성의 정도:</strong> 분석대상 거래와 비교가능거래가 얼마나 유사한가</li>
-            <li><strong>자료의 완전성과 정확성:</strong> 비교가능거래에 관한 정보가 충분하고 정확한가</li>
-          </ul>
+          <p>OECD 이전가격지침서 Chapter I~III에서 설명한 <strong>모든 분석 절차를 무시하고</strong>, 단순히 업계 관행이나 경험에 근거한 일반적 수치(rule of thumb)를 적용하는 것은 허용되지 <strong>않는다.</strong></p>
+          <div class="warn-point">⚠️ <strong>금지 사례:</strong> "이 업종의 도매마진은 통상 5%이므로 기능분석 없이 5%를 적용한다"처럼 기능분석·비교가능성 분석 없이 업계 평균치를 그대로 사용하는 방식은 OECD 기준에 부합하지 않는다.</div>
         </div>
       </div>
 
       <div class="accordion">
         <button class="acc-header" onclick="toggleAcc(this)">
-          <span><span class="para">§2.12</span>다수 방법 사용 원칙 — 원칙적으로 불필요</span>
+          <span>특수관계거래를 비교가능거래로 활용하는 문제 <span class="para">¶2.11</span></span>
           <span class="arrow">▼</span>
         </button>
         <div class="acc-body">
-          <p>OECD는 납세자가 여러 방법을 동시에 사용해야 한다고 요구하지 않습니다. 한 가지 방법이 <strong>가장 합리적인 방법</strong>으로 선택된 경우, 그 방법만을 사용하면 충분합니다.</p>
-          <p>다수 방법의 결과를 비교하는 것은 하나의 방법 결과의 신뢰성을 <strong>검증(corroborate)</strong>하는 목적에는 유용하나, 의무 사항은 아닙니다.</p>
-          <div class="warn-point">⚠ 주의: 과세당국이 다수 방법의 결과를 산술 평균하거나 결합하여 정상가격을 산출하는 것은 OECD 이전가격지침서와 부합하지 않습니다. 한 가지 '가장 합리적인 방법'의 결과를 사용해야 합니다.</div>
+          <p>다국적기업 내 <strong>특수관계거래를 비교가능거래로 사용할 수 있는지</strong> 여부와, OECD가 규정한 5가지 방법 이외의 방법을 적용할 수 있는지에 대한 설명이다.</p>
+          <p>원칙적으로 특수관계거래는 독립성이 결여되어 있으므로 비교가능거래로 사용하기 어렵다. 그러나 <strong>독립성이 확인되는 거래(내부비교가능거래, internal comparable)</strong>는 예외적으로 활용 가능하다.</p>
+          <div class="note-point">📌 내부비교가능거래는 외부비교가능거래에 비해 자료 접근성이 높고 비교가능성 조정이 용이하지만, 특수관계에 의해 영향을 받지 않았음을 입증해야 한다.</div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <!-- §2.13 산업별 방법 선택 사례 -->
-    <div class="card" id="sec-s-ex">
-      <h2>§2.2 산업별 방법 선택 적용 사례</h2>
-      <p>OECD §2.2의 가장 합리적인 방법 선택 기준을 산업별로 적용한 사례입니다. 방법 선택의 원칙은 ¶2.2에 따라 기능분석, 비교가능거래 존재 여부, 비교가능성 분석 결과를 종합하여 판단합니다.</p>
+    <!-- 섹션 4: 거래이익방법 적용 요건 -->
+    <section class="card" id="s4">
+      <h2>4. 거래이익방법 적용 요건 <span class="tag tag-para">¶2.4 · ¶2.5 · ¶2.7</span></h2>
+
       <div class="accordion">
         <button class="acc-header" onclick="toggleAcc(this)">
-          <span><span class="para">§2.2</span>사례 A — 원자재 거래 (CUP 적용)</span>
+          <span>거래이익방법 적용 전 다른 방법 검토 의무 <span class="para">¶2.5</span></span>
           <span class="arrow">▼</span>
         </button>
         <div class="acc-body">
-          <p>원유, 구리, 소맥 등 표준화된 원자재 거래에서는 국제 공시가격(quoted price)이 존재하므로 비교가능 제3자 가격방법(CUP)이 가장 합리적입니다. 제품 동질성이 높고 독립기업 간 거래가격이 공개되어 있어 직접 비교가 가능합니다.</p>
-          <div class="key-point">원자재처럼 표준화된 제품이며 공시가격이 있는 경우 → CUP가 가장 합리적인 방법</div>
+          <p>거래이익방법(TNMM 또는 PSM)을 적용하기 전에 <strong>전통적 거래방법의 적용 가능성을 반드시 먼저 검토</strong>해야 한다.</p>
+          <div class="warn-point">⚠️ <strong>중요 원칙:</strong> "비교가능거래가 없다"는 이유 <em>하나만으로</em> 거래이익방법을 적용하는 것은 OECD 기준에 부합하지 않는다. 전통적 방법이 적용 불가능한 다른 구체적 사유를 함께 설명하고 문서화해야 한다.</div>
         </div>
       </div>
+
       <div class="accordion">
         <button class="acc-header" onclick="toggleAcc(this)">
-          <span><span class="para">§2.2</span>사례 B — 유통 자회사 (RPM 적용)</span>
+          <span>이익분할방법이 일방접근방법보다 유리한 두 가지 상황 <span class="para">¶2.4</span></span>
           <span class="arrow">▼</span>
         </button>
         <div class="acc-body">
-          <p>모회사 브랜드 제품을 구입하여 현지 시장에 재판매하는 유통 자회사는 기능이 단순하고(창고·배송·판촉) 독자적 무형자산이 없습니다. 이 경우 재판매가격방법(RPM)이 가장 합리적입니다. 유사한 유통 기능을 수행하는 독립 기업의 재판매가격이윤율과 비교합니다.</p>
-          <div class="key-point">기능이 제한된 유통 자회사 → RPM이 가장 합리적인 방법</div>
+          <p>다음 두 가지 상황에서는 이익분할방법이 TNMM 등 일방접근방법(one-sided method)보다 더 합리적인 결과를 산출할 수 있다.</p>
+          <div class="two-col">
+            <div class="col-box">
+              <h4>상황 ① — 독특하고 가치있는 공헌</h4>
+              <p>거래당사자 <strong>양방 모두</strong>가 독특하고 가치있는 기여를 제공하는 경우. 양측이 각각 비교가능거래를 찾기 어려운 독자적 무형자산을 보유한 경우.</p>
+            </div>
+            <div class="col-box">
+              <h4>상황 ② — 상당한 정도의 통합</h4>
+              <p>거래가 <strong>상당한 정도로 통합(highly integrated)</strong>되어 있는 경우. 일방의 기능·위험을 타방과 분리하여 독립적으로 평가하기 어려운 경우.</p>
+            </div>
+          </div>
+          <div class="key-point">💡 <strong>주의:</strong> 거래 한쪽만 독특한 무형자산을 보유하거나 한쪽만 높은 위험을 부담하는 경우에는 이익분할방법 적용의 근거가 약해진다. 이 경우 TNMM 등 일방접근방법이 더 적합할 수 있다.</div>
         </div>
       </div>
+
       <div class="accordion">
         <button class="acc-header" onclick="toggleAcc(this)">
-          <span><span class="para">§2.2</span>사례 C — 계약 제조업자 (CPM 적용)</span>
+          <span>비교가능거래 검색과 초과이익·결손의 관계 <span class="para">¶2.7</span></span>
           <span class="arrow">▼</span>
         </button>
         <div class="acc-body">
-          <p>모회사의 설계·사양에 따라 반제품을 제조하여 납품하는 계약제조업자는 독자적 기술이나 무형자산이 없고 위험도 제한적입니다. 이 경우 원가가산방법(CPM)이 가장 합리적입니다. 유사한 계약제조업자의 원가가산이윤율과 비교합니다.</p>
-          <div class="key-point">위험과 기능이 제한된 계약제조업자 → CPM이 가장 합리적인 방법</div>
+          <p>이전가격 분석은 <strong>비교가능거래를 검색하여 정상가격을 산출</strong>하는 것이다. 따라서 한 회사가 사업의 성공이나 실패의 결과로 실현하는 <strong>초과이익과 결손은 이전가격과 무관</strong>하다.</p>
+          <div class="quote-box">
+            비교가능 독립기업도 그 사업이 성공하거나 실패함에 따라 초과이익 또는 결손을 실현할 수 있다. 이러한 이익 또는 손실은 이전가격 조작의 결과가 아니라 사업 환경의 결과이다.
+            <span class="src">OECD Transfer Pricing Guidelines ¶2.7</span>
+          </div>
+          <div class="practice-note">
+            <div class="pn-label">📌 실무 주석</div>
+            <p>실무에서는 회사가 속한 산업 또는 경쟁회사의 <strong>평균이익 이하의 이익을 계속적으로 실현</strong>하는 경우, 과세관청의 이전가격 조사로 이어질 가능성이 있다.</p>
+            <p>초과이익이나 결손 자체가 이전가격 문제의 법적 증거는 아니지만, 조사의 계기(trigger)가 될 수 있다는 점을 유의해야 한다.</p>
+          </div>
         </div>
       </div>
+    </section>
+
+    <!-- 섹션 5: 검토범위와 제한사항 -->
+    <section class="card" id="s5">
+      <h2>5. 검토범위와 제한사항 — 종합 <span class="tag tag-para">¶2.8 · ¶2.9 · ¶2.10 · ¶2.11</span></h2>
+      <p>OECD 이전가격지침서는 방법 선택 과정에서 발생할 수 있는 오해와 남용을 방지하기 위해 다음과 같은 명시적 제한사항을 두고 있다.</p>
+      <div class="sum-grid">
+        <div class="sum-box">
+          <div class="sb-label">¶2.8 — 검토범위</div>
+          <p>모든 방법을 심도있게 검토할 필요 없음. 명백히 부적합한 방법은 배제 가능.</p>
+        </div>
+        <div class="sum-box orange">
+          <div class="sb-label">¶2.9 — 5가지 방법 외 기타 방법</div>
+          <p>원칙적으로 제한됨. 5가지 공인 방법보다 더 합리적임을 입증해야 하는 예외적 상황에서만 허용.</p>
+        </div>
+        <div class="sum-box orange">
+          <div class="sb-label">¶2.10 — 일반적 경험칙(Rule of Thumb)</div>
+          <p>Chapter I~III의 분석 절차를 무시한 경험칙은 적용 불가. 기능분석이 반드시 선행되어야 함.</p>
+        </div>
+        <div class="sum-box">
+          <div class="sb-label">¶2.11 — 특수관계거래의 비교가능거래 활용</div>
+          <p>독립성이 확인된 경우 내부비교가능거래로 활용 가능. 특수관계에 의한 영향이 없음을 입증 필요.</p>
+        </div>
+      </div>
+      <div class="key-point">💡 <strong>핵심 요약:</strong> OECD의 방법 선택 체계는 절차적 유연성을 허용하면서도, 기능분석·비교가능성 분석이라는 <em>실질적 요건</em>에서는 타협을 허용하지 않는다.</div>
+    </section>
+
+    <!-- 섹션 6: 복수 방법 적용 원칙 -->
+    <section class="card" id="s6">
+      <h2>6. 복수 방법의 동시 적용 원칙 <span class="tag tag-para">¶2.12</span></h2>
+
       <div class="accordion">
         <button class="acc-header" onclick="toggleAcc(this)">
-          <span><span class="para">§2.2</span>사례 D — 복합 기능 기업 (TNMM 적용)</span>
+          <span>OECD는 여러 방법의 동시 적용을 권장하지 않는다 <span class="para">¶2.12</span></span>
           <span class="arrow">▼</span>
         </button>
         <div class="acc-body">
-          <p>생산·마케팅·R&D를 모두 수행하며 고유 무형자산을 보유한 기업은 CUP·RPM·CPM 적용이 어렵습니다. 비교가능 거래를 찾기 어렵고 기능·위험이 복잡하기 때문입니다. 이 경우 거래순이익률방법(TNMM)이 가장 합리적이며, 비교가능 독립 기업의 순이익지표와 비교합니다.</p>
-          <div class="key-point">복합 기능과 무형자산 보유 기업 → TNMM이 가장 합리적인 방법 (이익분할방법도 검토 가능)</div>
+          <p>OECD는 <strong>여러 개의 정상가격산출방법을 동시에 적용하는 것을 일반적으로 권장하지 않는다.</strong></p>
+          <p><strong>가장 합리적인 방법 하나를 선택</strong>하는 것이 원칙이며, 그 방법으로 신뢰할 수 있는 결과가 도출되는 경우 복수의 방법을 병행할 필요가 없다.</p>
+          <div class="key-point">
+            💡 <strong>예외적으로 복수 방법이 허용되는 경우:</strong><br>
+            ① 분석대상거래가 매우 복잡하여 하나의 방법만으로 결론 도출이 어려운 경우<br>
+            ② 두 가지 방법이 상호 보완적으로 사용되어 결과의 신뢰도를 높이는 경우<br>
+            ③ 과세관청이 주된 방법과 다른 방법을 교차검증(cross-check) 목적으로 사용하는 경우
+          </div>
+          <div class="warn-point">⚠️ <strong>주의:</strong> 납세자가 유리한 결과를 얻기 위해 복수의 방법을 적용한 후 그중 유리한 것을 선택하는 방식은 OECD 기준에 부합하지 않는다.</div>
         </div>
       </div>
-    </div>
 
+      <h3>방법 선택의 실무 흐름 요약</h3>
+      <ul class="flow-list">
+        <li>기능분석(FAR) 수행 → 특수관계거래의 기능·자산·위험 특성 파악</li>
+        <li>비교가능거래 탐색 — 내부비교가능거래 우선, 없으면 외부비교가능거래 탐색</li>
+        <li>각 방법의 강점·약점을 사실관계에 비추어 검토 (모든 방법을 동등하게 검토할 필요 없음)</li>
+        <li>가장 합리적인 방법 <strong>하나 선택</strong> (필요 시 교차검증 허용)</li>
+        <li>비교가능성 차이에 대한 합리적 조정 실시</li>
+        <li>정상가격범위(Arm's Length Range) 산출 → 결론 도출</li>
+      </ul>
+    </section>
 
-    <!-- 퀴즈 -->
-    <div class="quiz-section" id="sec-quiz">
-      <h2>✏ 자가 퀴즈</h2>
-      <p class="q-count">총 5문항 — 각 문항을 읽고 정답을 선택하세요.</p>
+    <!-- 확인 퀴즈 -->
+    <section class="card" id="quiz">
+      <h2>📝 확인 퀴즈</h2>
+      <p style="font-size:.9rem;color:var(--gray);margin-bottom:1rem">5문항을 풀고 학습 내용을 확인하세요. 80점 이상이면 다음 모듈로 진행할 수 있습니다.</p>
 
-      <div class="quiz-item">
-        <div class="q-text"><span class="q-num">Q1</span>OECD 이전가격지침서가 인정하는 5가지 방법 중 '전통적 거래방법'에 해당하지 않는 것은?</div>
-        <ul class="opt-list">
-          <li><button onclick="answer(1,this,false)">① 비교가능 제3자 가격방법 (CUP)</button></li>
-          <li><button onclick="answer(1,this,false)">② 재판매가격방법 (RPM)</button></li>
-          <li><button onclick="answer(1,this,true)">③ 거래순이익률방법 (TNMM)</button></li>
-          <li><button onclick="answer(1,this,false)">④ 원가가산방법 (CPM)</button></li>
-        </ul>
+      <!-- Q1 -->
+      <div class="q-block">
+        <div class="q-text">Q1. OECD가 전통적 거래방법을 거래이익방법보다 선호하는 가장 근본적인 이유는? (¶2.3)</div>
+        <div class="q-options">
+          <label><input type="radio" name="q1" value="a"> 전통적 방법이 더 오랫동안 사용되어 국제적 신뢰성이 높기 때문</label>
+          <label><input type="radio" name="q1" value="b"> 비교가능거래에서 가격을 직접 역산할 수 있기 때문</label>
+          <label><input type="radio" name="q1" value="c"> 전통적 방법이 데이터 수집이 더 용이하기 때문</label>
+          <label><input type="radio" name="q1" value="d"> OECD 모델협약 제9조에 전통적 방법만 명시되어 있기 때문</label>
+        </div>
         <div class="q-feedback" id="fb1"></div>
       </div>
 
-      <div class="quiz-item">
-        <div class="q-text"><span class="q-num">Q2</span>'가장 합리적인 방법' 선택 시 검토해야 하는 4가지 기준에 해당하지 않는 것은?</div>
-        <ul class="opt-list">
-          <li><button onclick="answer(2,this,false)">① 각 방법의 장단점</button></li>
-          <li><button onclick="answer(2,this,true)">② 납세자가 선호하는 방법</button></li>
-          <li><button onclick="answer(2,this,false)">③ 기능분석 결과와의 적합성</button></li>
-          <li><button onclick="answer(2,this,false)">④ 신뢰할 만한 정보의 이용가능성</button></li>
-        </ul>
+      <!-- Q2 -->
+      <div class="q-block">
+        <div class="q-text">Q2. '가장 합리적인 방법' 선택을 위한 OECD의 4가지 고려사항에 해당하지 않는 것은? (¶2.2)</div>
+        <div class="q-options">
+          <label><input type="radio" name="q2" value="a"> 각 방법의 장점과 단점</label>
+          <label><input type="radio" name="q2" value="b"> 기능분석을 통한 특수관계거래의 특성</label>
+          <label><input type="radio" name="q2" value="c"> 납세자가 과거에 사용한 방법과의 일관성 유지</label>
+          <label><input type="radio" name="q2" value="d"> 비교가능거래의 존재 여부</label>
+        </div>
         <div class="q-feedback" id="fb2"></div>
       </div>
 
-      <div class="quiz-item">
-        <div class="q-text"><span class="q-num">Q3</span>거래이익방법(TNMM, PSM)에서 '대략값(approximate)'이라는 개념이 의미하는 바는?</div>
-        <ul class="opt-list">
-          <li><button onclick="answer(3,this,false)">① 비교가능거래를 찾을 수 없어 정확한 분석이 불가능하다는 의미</button></li>
-          <li><button onclick="answer(3,this,true)">② 독립기업이 유사한 거래에서 달성했을 이익 수준을 비교하는 것이며, 정확한 가격 비교가 아닌 이익 수준의 근사치를 의미</button></li>
-          <li><button onclick="answer(3,this,false)">③ 이익방법은 정상가격원칙에 완전히 부합하지 않는 방법임을 의미</button></li>
-          <li><button onclick="answer(3,this,false)">④ 분석 결과의 오차범위가 크다는 의미</button></li>
-        </ul>
+      <!-- Q3 -->
+      <div class="q-block">
+        <div class="q-text">Q3. 이익분할방법이 일방접근방법보다 더 합리적인 결과를 산출할 수 있는 상황으로 옳은 것은? (¶2.4)</div>
+        <div class="q-options">
+          <label><input type="radio" name="q3" value="a"> 거래 한쪽만 독특하고 가치있는 무형자산을 보유한 경우</label>
+          <label><input type="radio" name="q3" value="b"> 비교가능거래가 풍부하게 존재하는 경우</label>
+          <label><input type="radio" name="q3" value="c"> 거래가 상당한 정도로 통합되어 일방의 기능·위험을 독립적으로 평가하기 어려운 경우</label>
+          <label><input type="radio" name="q3" value="d"> 거래규모가 소규모여서 간단한 방법이 적합한 경우</label>
+        </div>
         <div class="q-feedback" id="fb3"></div>
       </div>
 
-      <div class="quiz-item">
-        <div class="q-text"><span class="q-num">Q4</span>특수관계기업이 계속적으로 결손을 기록하는 경우에 대한 OECD 이전가격지침서의 입장으로 옳은 것은?</div>
-        <ul class="opt-list">
-          <li><button onclick="answer(4,this,false)">① 결손 기록만으로 이전가격 조작이 있다고 추정해야 한다.</button></li>
-          <li><button onclick="answer(4,this,true)">② 결손은 시장 진입 전략, 경기 침체, 사업 초기 비용 등 정당한 사유로 발생할 수 있으며, 그 자체가 이전가격 문제를 의미하지는 않는다.</button></li>
-          <li><button onclick="answer(4,this,false)">③ 3년 이상 결손이 지속되면 자동으로 이전가격 조정 대상이 된다.</button></li>
-          <li><button onclick="answer(4,this,false)">④ 결손 기업은 항상 TNMM을 사용하여 정상가격을 입증해야 한다.</button></li>
-        </ul>
+      <!-- Q4 -->
+      <div class="q-block">
+        <div class="q-text">Q4. 다음 중 OECD 이전가격지침서에 위배되는 방법 선택 방식은? (¶2.10)</div>
+        <div class="q-options">
+          <label><input type="radio" name="q4" value="a"> 전통적 방법의 적용 가능성을 먼저 검토한 후 거래이익방법을 선택</label>
+          <label><input type="radio" name="q4" value="b"> 기능분석 없이 "이 업종의 통상 마진은 10%"라는 업계 경험을 그대로 적용</label>
+          <label><input type="radio" name="q4" value="c"> 두 가지 방법의 결과가 유사하여 하나를 교차검증으로 활용</label>
+          <label><input type="radio" name="q4" value="d"> 명백히 부적합한 방법은 배제하고 가장 적합한 방법에 집중</label>
+        </div>
         <div class="q-feedback" id="fb4"></div>
       </div>
 
-      <div class="quiz-item">
-        <div class="q-text"><span class="q-num">Q5</span>OECD 이전가격지침서에서 다수의 방법을 동시에 사용하는 것에 대한 입장으로 옳은 것은?</div>
-        <ul class="opt-list">
-          <li><button onclick="answer(5,this,false)">① 신뢰성 확보를 위해 항상 2개 이상의 방법을 동시에 사용해야 한다.</button></li>
-          <li><button onclick="answer(5,this,false)">② 다수 방법의 결과를 평균하여 정상가격을 산출하도록 권장한다.</button></li>
-          <li><button onclick="answer(5,this,true)">③ 가장 합리적인 방법 하나를 선택하면 충분하며, 다수 방법 사용은 의무가 아니다. 단, 신뢰성 검증 목적으로 추가 방법 사용은 가능하다.</button></li>
-          <li><button onclick="answer(5,this,false)">④ 과세당국은 다수 방법의 결과를 모두 검토한 후 납세자에게 불리한 결과를 적용할 수 있다.</button></li>
-        </ul>
+      <!-- Q5 -->
+      <div class="q-block">
+        <div class="q-text">Q5. 이익분할방법(PSM)의 결과에 대한 OECD의 설명으로 가장 적절한 것은? (¶2.6)</div>
+        <div class="q-options">
+          <label><input type="radio" name="q5" value="a"> 이익분할방법은 정확한 이전가격을 직접 산출한다</label>
+          <label><input type="radio" name="q5" value="b"> 이익분할방법의 결과는 손실이 나올 수 없다</label>
+          <label><input type="radio" name="q5" value="c"> 이익분할방법은 독립 상황에서 실현했을 대략(approximate)의 이익 수준을 산출한다</label>
+          <label><input type="radio" name="q5" value="d"> 이익분할방법은 전통적 방법보다 더 정확하므로 항상 우선 적용해야 한다</label>
+        </div>
         <div class="q-feedback" id="fb5"></div>
       </div>
-    </div>
 
-    <!-- 체크리스트 -->
-    <div class="card" id="sec-check">
-      <h2>☑ 실무 체크리스트</h2>
-      <p style="font-size:.9rem;color:var(--gray);margin-bottom:1rem">이전가격산출방법 선택 시 다음 항목을 확인하세요.</p>
+      <button class="quiz-btn" onclick="submitQuiz()" id="quizBtn">채점하기</button>
+      <div class="score-box" id="scoreBox">
+        <div class="big" id="scoreNum"></div>
+        <p id="scoreMsg"></p>
+      </div>
+    </section>
+
+    <!-- 실무 체크리스트 -->
+    <section class="card" id="check">
+      <h2>☑ 실무 체크리스트 — M2-1</h2>
+      <p style="font-size:.9rem;color:var(--gray);margin-bottom:1rem">이전가격 실무에서 정상가격산출방법을 선택할 때 확인해야 할 사항입니다. 검토한 항목에 체크하세요.</p>
       <ul class="checklist">
-        <li><input type="checkbox" id="c1" onchange="saveCheck()"><label for="c1">분석대상 특수관계거래의 성격(제품 판매/서비스/무형자산 등)을 명확히 파악하였습니까?</label></li>
-        <li><input type="checkbox" id="c2" onchange="saveCheck()"><label for="c2">내부 비교가능거래(제3자와의 유사 거래)의 존재 여부를 우선적으로 검토하였습니까?</label></li>
-        <li><input type="checkbox" id="c3" onchange="saveCheck()"><label for="c3">기능분석(FAR 분석) 결과를 바탕으로 각 방법의 적합성을 평가하였습니까?</label></li>
-        <li><input type="checkbox" id="c4" onchange="saveCheck()"><label for="c4">'가장 합리적인 방법' 선택 기준 4가지(장단점/기능분석/정보이용가능성/비교가능성)를 검토하였습니까?</label></li>
-        <li><input type="checkbox" id="c5" onchange="saveCheck()"><label for="c5">방법 선택의 근거와 다른 방법을 배제한 이유를 이전가격 문서에 기재하였습니까?</label></li>
-        <li><input type="checkbox" id="c6" onchange="saveCheck()"><label for="c6">초과이익 또는 결손이 있는 경우, 정당한 사유(무형자산 보유, 시장 전략 등)를 분석하였습니까?</label></li>
+        <li><input type="checkbox" id="c1"><label for="c1">분석대상 특수관계거래에 대해 기능분석(FAR: Functions, Assets, Risks)을 먼저 수행하였습니까? (¶2.2)</label></li>
+        <li><input type="checkbox" id="c2"><label for="c2">5가지 방법(CUP·RPM·CPM·TNMM·PSM) 각각의 장·단점을 거래의 사실관계에 비추어 검토하였습니까? (¶2.2)</label></li>
+        <li><input type="checkbox" id="c3"><label for="c3">전통적 거래방법(CUP·RPM·CPM)의 적용 가능성을 거래이익방법보다 먼저 검토하였습니까? (¶2.5)</label></li>
+        <li><input type="checkbox" id="c4"><label for="c4">거래이익방법 적용 시, 전통적 방법이 적용 불가한 구체적 사유를 문서화하였습니까? (¶2.5)</label></li>
+        <li><input type="checkbox" id="c5"><label for="c5">이익분할방법(PSM) 적용 시, '양방 모두 독특한 기여' 또는 '고도로 통합된 거래' 중 해당 사유를 확인하였습니까? (¶2.4)</label></li>
+        <li><input type="checkbox" id="c6"><label for="c6">업계 평균이나 경험칙(rule of thumb)을 기능분석 없이 그대로 적용하지 않았음을 확인하였습니까? (¶2.10)</label></li>
+        <li><input type="checkbox" id="c7"><label for="c7">복수의 방법을 적용한 경우, 납세자에게 유리한 결과를 선택하는 방식이 아닌 교차검증 목적임을 명시하였습니까? (¶2.12)</label></li>
+        <li><input type="checkbox" id="c8"><label for="c8">최종 선택한 방법이 '가장 합리적인 방법(most appropriate method)'임을 비교가능거래 데이터와 함께 입증하였습니까? (¶2.2)</label></li>
       </ul>
+    </section>
+
+    <!-- ══ 하단 네비게이션 ══ -->
+    <div class="nav-bottom">
+      <a href="index_ch2.html" class="btn-nav secondary">← Chapter II 목차로</a>
+      <a href="index_ch2.html" class="btn-nav secondary">📋 목차로</a>
+      <a href="M2-2_CUP.html" class="btn-nav">M2-2: 비교가능 제3자 가격방법 →</a>
     </div>
 
-    <div class="nav-btns">
-      <a href="index_ch2.html" class="btn btn-outline">← Chapter II 목록</a>
-      <a href="M2-2_CUP.html" class="btn btn-primary">다음: M2-2 CUP →</a>
-    </div>
   </main>
 </div>
 
 <script>
-var MODKEY='m2_1';
-var totalQ=5, correctCount=0;
-
-function lsGet(k){return localStorage.getItem(k);}
-function lsSet(k,v){localStorage.setItem(k,v);}
-
-function updateProgress(pct){
-  document.getElementById('mod-prog').style.width=pct+'%';
-  document.getElementById('pct-display').textContent=pct+'%';
+// ── 사이드바 스크롤 ──
+function goTo(id) {
+  const el = document.getElementById(id);
+  if (el) el.scrollIntoView({behavior:'smooth', block:'start'});
+  // 활성 표시
+  document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+  event.currentTarget.classList.add('active');
 }
 
-function answer(qnum,btn,isCorrect){
-  var container=btn.parentElement.parentElement;
-  var btns=container.querySelectorAll('button');
-  btns.forEach(function(b){b.disabled=true;});
-  var fb=document.getElementById('fb'+qnum);
-  if(isCorrect){
-    btn.classList.add('correct');
-    fb.className='q-feedback ok show';
-    fb.textContent='✔ 정답입니다! '+getFeedback(qnum,true);
-    correctCount++;
-  } else {
-    btn.classList.add('wrong');
-    fb.className='q-feedback no show';
-    fb.textContent='✗ 오답입니다. '+getFeedback(qnum,false);
-    // Show correct answer
-    btns.forEach(function(b){
-      if(b.getAttribute('onclick').indexOf('true')>-1) b.classList.add('correct');
-    });
+// ── 스크롤 감지 → 사이드바 활성화 ──
+const secIds = ['obj','s1','s2','s3','s4','s5','s6','quiz','check'];
+window.addEventListener('scroll', () => {
+  let cur = 0;
+  secIds.forEach((id, i) => {
+    const el = document.getElementById(id);
+    if (el && window.scrollY >= el.offsetTop - 120) cur = i;
+  });
+  document.querySelectorAll('.nav-item').forEach((b, i) => {
+    b.classList.toggle('active', i === cur);
+  });
+  // 진도 바 및 퍼센트
+  const scrolled = window.scrollY;
+  const total = document.body.scrollHeight - window.innerHeight;
+  const pct = Math.min(100, Math.round(scrolled / total * 100));
+  document.getElementById('topBar').style.width = pct + '%';
+  document.getElementById('pctDisp').textContent = pct + '%';
+});
+
+// ── 아코디언 ──
+function toggleAcc(btn) {
+  const body = btn.nextElementSibling;
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  btn.classList.toggle('open', !isOpen);
+}
+
+// ── 퀴즈 ──
+const answers = {q1:'b', q2:'c', q3:'c', q4:'b', q5:'c'};
+const feedbacks = {
+  q1:{
+    b:'✅ 정답! 전통적 거래방법은 비교가능거래에서 가격을 직접 역산할 수 있는 반면, 거래이익방법은 순이익을 기준으로 대략의 가격을 추정하므로 덜 직접적입니다. (¶2.3)',
+    a:'❌ 오답. 선호 이유는 역사적 신뢰성이 아니라, 가격을 직접 역산할 수 있다는 방법론적 특성 때문입니다. (¶2.3)',
+    c:'❌ 오답. 데이터 수집 용이성과는 무관합니다. 오히려 CUP 등 전통적 방법은 엄격한 비교가능성 요건으로 데이터 확보가 더 어렵습니다.',
+    d:'❌ 오답. OECD 모델협약 제9조는 정상가격원칙 전반을 규정하며, 특정 방법만 명시하지 않습니다.'
+  },
+  q2:{
+    c:'✅ 정답! ¶2.2의 4가지 고려사항에 "과거 방법과의 일관성 유지"는 포함되지 않습니다. 방법은 매년 사실관계에 따라 달라질 수 있습니다.',
+    a:'❌ 오답. 각 방법의 장점과 단점 검토는 ¶2.2의 첫 번째 고려사항입니다.',
+    b:'❌ 오답. 기능분석을 통한 특수관계거래의 특성 파악은 ¶2.2의 두 번째 고려사항입니다.',
+    d:'❌ 오답. 비교가능거래의 존재 여부 확인은 ¶2.2의 세 번째 고려사항입니다.'
+  },
+  q3:{
+    c:'✅ 정답! 사업이 고도로 통합(highly integrated)되어 있어 일방의 활동을 독립적으로 평가하기 어려운 경우, 이익분할방법이 더 적합합니다. (¶2.4)',
+    a:'❌ 오답. 거래 한쪽만 독특한 무형자산을 보유한 경우에는 이익분할방법보다 TNMM 등 일방접근방법이 더 적합할 수 있습니다.',
+    b:'❌ 오답. 비교가능거래가 풍부한 경우에는 오히려 전통적 방법을 적용하는 것이 더 적합합니다.',
+    d:'❌ 오답. 거래규모는 방법 선택의 기준이 아닙니다. 방법 선택은 기능분석과 비교가능성에 따라 결정됩니다.'
+  },
+  q4:{
+    b:'✅ 정답! 기능분석 없이 업계 경험칙을 그대로 적용하는 것은 ¶2.10에 명시적으로 금지된 방식입니다.',
+    a:'❌ 오답. 전통적 방법을 먼저 검토한 후 거래이익방법을 선택하는 것은 ¶2.5에서 요구하는 올바른 절차입니다.',
+    c:'❌ 오답. 교차검증 목적의 복수 방법 활용은 ¶2.12에서 예외적으로 허용됩니다.',
+    d:'❌ 오답. 명백히 부적합한 방법을 배제하는 것은 ¶2.8에서 허용하는 절차입니다.'
+  },
+  q5:{
+    c:'✅ 정답! ¶2.6에 따르면 이익분할방법은 정확한 가격이 아닌 거래당사자가 독립 상황에서 실현했을 대략(approximate)의 이익 수준을 산출하는 방법입니다.',
+    a:'❌ 오답. 이익분할방법은 정확한 가격이 아닌 대략의 이익 수준을 산출합니다. 이것이 전통적 방법보다 덜 선호되는 이유입니다.',
+    b:'❌ 오답. ¶2.115에 따르면 이익분할방법은 이익뿐만 아니라 손실(결손)에도 동일한 원칙을 적용합니다.',
+    d:'❌ 오답. OECD는 이익분할방법보다 전통적 거래방법을 선호합니다. 이익분할방법은 전통적 방법 적용이 불가한 경우에 적용합니다.'
   }
-  checkQuizDone();
+};
+
+function submitQuiz() {
+  let score = 0; let answered = 0;
+  ['q1','q2','q3','q4','q5'].forEach(q => {
+    const sel = document.querySelector(`input[name="${q}"]:checked`);
+    const fb = document.getElementById('fb' + q.slice(1));
+    if (!sel) return;
+    answered++;
+    const isCorrect = sel.value === answers[q];
+    if (isCorrect) score++;
+    fb.textContent = feedbacks[q][sel.value] || '해당 해설이 없습니다.';
+    fb.className = 'q-feedback ' + (isCorrect ? 'correct' : 'wrong');
+    fb.style.display = 'block';
+  });
+  if (answered < 5) { alert('모든 문항에 답해주세요.'); return; }
+  document.getElementById('quizBtn').disabled = true;
+  tpSet('ch2_m1_quiz', pct);
+  tpSet('ch2_m1_pct', pct >= 60 ? 100 : 50);
+  const pct = score * 20;
+  document.getElementById('scoreNum').textContent = pct + '점 (' + score + '/5)';
+  document.getElementById('scoreMsg').textContent =
+    pct >= 80 ? '🎉 우수합니다! M2-2로 진행하세요.' :
+    pct >= 60 ? '👍 양호합니다. 오답 문항을 다시 확인하세요.' :
+    '📖 핵심 개념을 다시 복습하고 재도전하세요.';
+  document.getElementById('scoreBox').style.display = 'block';
+  document.getElementById('pctDisp').textContent = '100%';
+  document.getElementById('topBar').style.width = '100%';
 }
 
-function getFeedback(q,correct){
-  var msgs={
-    1:{t:'TNMM은 거래이익방법에 속합니다. 전통적 거래방법은 CUP, RPM, CPM 3가지입니다.',f:'TNMM은 거래이익방법에 속하며, 전통적 거래방법은 CUP, RPM, CPM 3가지입니다.'},
-    2:{t:'납세자의 선호는 방법 선택 기준에 포함되지 않습니다. 4가지 기준은 장단점, 기능분석 적합성, 정보이용가능성, 비교가능성입니다.',f:'방법 선택 기준 4가지: ①장단점 ②기능분석 적합성 ③정보이용가능성 ④비교가능성. 납세자의 선호는 포함되지 않습니다.'},
-    3:{t:'Approximate는 정확한 가격 비교가 아닌 독립기업의 이익 수준을 근사치로 비교한다는 의미입니다.',f:'Approximate(대략값)는 거래이익방법에서 비교가능 독립기업의 이익 수준을 근사치로 비교함을 의미합니다.'},
-    4:{t:'결손 자체가 이전가격 문제를 의미하지 않으며, 정당한 사유를 먼저 검토해야 합니다.',f:'결손이 곧 이전가격 조작을 의미하지 않습니다. 시장 진입 전략, 경기 침체 등 정당한 사유를 먼저 분석해야 합니다.'},
-    5:{t:'가장 합리적인 방법 하나로 충분하며, 다수 방법 평균 산출은 OECD 지침서와 맞지 않습니다.',f:'OECD는 가장 합리적인 방법 하나를 사용하면 충분하다고 합니다. 다수 방법의 결과 평균은 지침서와 부합하지 않습니다.'}
-  };
-  return correct?msgs[q].t:msgs[q].f;
-}
+// ── 체크리스트 ──
+document.querySelectorAll('.checklist input[type=checkbox]').forEach(cb => {
+  cb.addEventListener('change', () => {
+    const done = document.querySelectorAll('.checklist input:checked').length;
+    const total = document.querySelectorAll('.checklist input').length;
+    // 체크리스트 완료율 반영 (선택사항)
+  });
+});
 
-function checkQuizDone(){
-  var answered=document.querySelectorAll('.opt-list button:disabled').length;
-  if(answered>=totalQ*4-3){
-    var score=Math.round(correctCount/totalQ*100);
-    var pct=30+Math.round(score*0.3);
-    var existing=parseInt(lsGet(MODKEY+'_pct')||'0');
-    var newPct=Math.max(existing,pct);
-    lsSet(MODKEY+'_pct',newPct);
-    lsSet(MODKEY+'_quiz',score);
-    updateProgress(newPct);
-    if(newPct>=80) showComplete();
+tpOnReady(function(user) {
+  document.getElementById('tpLoading').style.display = 'none';
+  document.getElementById('topUserName').textContent = user.displayName || user.email;
+  var savedPct  = parseInt(tpGet('ch2_m1_pct') || '0');
+  var savedQuiz = tpGet('ch2_m1_quiz');
+  if (savedPct > 0) {
+    document.getElementById('topBar').style.width = savedPct + '%';
+    document.getElementById('pctDisp').textContent = savedPct + '%';
   }
-}
-
-function showComplete(){
-  document.getElementById('complete-banner').classList.add('show');
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-
-function saveCheck(){
-  var checks=[];
-  for(var i=1;i<=6;i++){
-    checks.push(document.getElementById('c'+i).checked?'1':'0');
+  if (savedQuiz) {
+    var _qpct = parseInt(savedQuiz);
+    var _sb = document.getElementById('scoreBox');
+    if (_sb) _sb.style.display = 'block';
+    var _sn = document.getElementById('scoreNum') || document.getElementById('scoreTxt');
+    if (_sn) _sn.textContent = _qpct + '점';
+    var _sm = document.getElementById('scoreMsg');
+    if (_sm) _sm.textContent = '이미 완료된 퀴즈입니다. 복습 후 다음 모듈로 진행하세요.';
+    var _qb = document.getElementById('quizBtn') || document.getElementById('qBtn');
+    if (_qb) _qb.disabled = true;
   }
-  lsSet(MODKEY+'_checks',checks.join(''));
-  var done=checks.filter(function(c){return c==='1';}).length;
-  var checkPct=Math.round(done/6*20);
-  var existing=parseInt(lsGet(MODKEY+'_pct')||'0');
-  var newPct=Math.min(100,Math.max(existing,checkPct+parseInt(lsGet(MODKEY+'_quiz')||'0')));
-  lsSet(MODKEY+'_pct',newPct);
-  updateProgress(newPct);
-  if(newPct>=80) showComplete();
-}
-
-function showSec(id,btn){
-  document.querySelectorAll('.nav-item').forEach(function(b){b.classList.remove('active');});
-  btn.classList.add('active');
-  document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'});
-}
-
-function toggleAcc(btn){
-  var body=btn.nextElementSibling;
-  var isOpen=body.classList.contains('open');
-  body.classList.toggle('open');
-  btn.classList.toggle('open');
-  if(!isOpen){
-    var opened=parseInt(lsGet(MODKEY+'_opened')||'0')+1;
-    lsSet(MODKEY+'_opened',opened);
-    var pct=Math.min(50,opened*8);
-    var existing=parseInt(lsGet(MODKEY+'_pct')||'0');
-    if(pct>existing){lsSet(MODKEY+'_pct',pct);updateProgress(pct);}
-  }
-}
-
-// 저장된 진도 복원
-(function(){
-  var pct=parseInt(lsGet(MODKEY+'_pct')||'0');
-  updateProgress(pct);
-  var checks=lsGet(MODKEY+'_checks')||'';
-  for(var i=0;i<checks.length;i++){
-    var el=document.getElementById('c'+(i+1));
-    if(el&&checks[i]==='1') el.checked=true;
-  }
-  if(pct>=80) document.getElementById('complete-banner').classList.add('show');
-})();
+});
 </script>
 </body>
 </html>
