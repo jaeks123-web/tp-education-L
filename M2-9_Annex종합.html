@@ -879,7 +879,7 @@ a{color:var(--blue);text-decoration:none}
     <!-- 하단 내비게이션 -->
     <div class="nav-bottom">
       <a href="M2-8_PSM심화.html" class="btn-nav secondary">← M2-8</a>
-      <a href="../index.html" class="btn-nav secondary">📋 목차로</a>
+      <a href="index.html" class="btn-nav secondary">📋 목차로</a>
       <span class="btn-nav" style="background:#aaa;cursor:default">Chapter II 완료 🎉</span>
     </div>
 
@@ -940,7 +940,7 @@ function gradeQuiz(){
   document.getElementById('qBtn').disabled=true;
   var _tpPct = score * 20;
   tpSet('ch2_m9_quiz', _tpPct);
-  tpSet('ch2_m9_pct', score >= 3 ? 100 : 50);
+  tpSet('ch2_m9_pct', score >= 4 ? 100 : 50);
 }
 
 tpOnReady(function(user) {

@@ -972,7 +972,7 @@ a{color:var(--blue);text-decoration:none}
     <!-- 하단 네비게이션 -->
     <div class="nav-bottom">
       <a class="btn-nav secondary" href="M2-7_PSM개요.html">← M2-7: PSM 개요</a>
-      <a class="btn-nav secondary" href="../index.html">📋 목차로</a>
+      <a class="btn-nav secondary" href="index.html">📋 목차로</a>
       <a class="btn-nav" href="M2-9_Annex종합.html">M2-9: Annex 종합사례 →</a>
     </div>
 
@@ -1066,7 +1066,7 @@ function gradeQuiz(){
     :'💪 '+score+'/'+total+'문항 정답. 80점 이상이 통과 기준입니다. 내용을 다시 검토해 보세요.';
   document.getElementById('quizBtn').disabled=true;
   tpSet('ch2_m8_quiz', pct);
-  tpSet('ch2_m8_pct', pct >= 60 ? 100 : 50);
+  tpSet('ch2_m8_pct', pct >= 80 ? 100 : 50);
 }
 
 tpOnReady(function(user) {
