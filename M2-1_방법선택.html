@@ -612,11 +612,6 @@ window.addEventListener('scroll', () => {
     b.classList.toggle('active', i === cur);
   });
   // 진도 바 및 퍼센트
-  const scrolled = window.scrollY;
-  const total = document.body.scrollHeight - window.innerHeight;
-  const pct = Math.min(100, Math.round(scrolled / total * 100));
-  document.getElementById('topBar').style.width = pct + '%';
-  document.getElementById('pctDisp').textContent = pct + '%';
 });
 
 // ── 아코디언 ──
@@ -625,6 +620,7 @@ function toggleAcc(btn) {
   const isOpen = body.classList.contains('open');
   body.classList.toggle('open', !isOpen);
   btn.classList.toggle('open', !isOpen);
+  if (!isOpen) { _trackAccOpen(); }
 }
 
 // ── 퀴즈 ──
@@ -680,14 +676,14 @@ function submitQuiz() {
   const pct = score * 20;
   tpSet('ch2_m1_quiz', pct);
   tpSet('ch2_m1_pct', pct >= 80 ? 100 : 50);
+  _showProg(pct >= 80 ? 100 : 50);
   document.getElementById('scoreNum').textContent = pct + '점 (' + score + '/5)';
   document.getElementById('scoreMsg').textContent =
     pct >= 80 ? '🎉 우수합니다! M2-2로 진행하세요.' :
     pct >= 60 ? '👍 양호합니다. 오답 문항을 다시 확인하세요.' :
     '📖 핵심 개념을 다시 복습하고 재도전하세요.';
   document.getElementById('scoreBox').style.display = 'block';
-  document.getElementById('pctDisp').textContent = '100%';
-  document.getElementById('topBar').style.width = '100%';
+  _showProg(pct >= 80 ? 100 : 50);
 }
 
 // ── 체크리스트 ──
@@ -699,14 +695,30 @@ document.querySelectorAll('.checklist input[type=checkbox]').forEach(cb => {
   });
 });
 
+// ─── 진도 추적 헬퍼 (아코디언 기반) ──────────────────────────────
+var _accOpened = 0;
+var _accTotal = 10;
+var _modKey = 'ch2_m1';
+function _showProg(pct) {
+  document.getElementById('topBar').style.width = pct + '%';
+  document.getElementById('pctDisp').textContent = pct + '%';
+}
+function _trackAccOpen() {
+  _accOpened = Math.min(_accOpened + 1, _accTotal);
+  var accPct = Math.min(50, Math.round(_accOpened / _accTotal * 50));
+  var saved = parseInt(tpGet(_modKey + '_pct') || '0');
+  if (accPct > saved && saved < 100) {
+    tpSet(_modKey + '_pct', accPct);
+    _showProg(accPct);
+  }
+}
 tpOnReady(function(user) {
   document.getElementById('tpLoading').style.display = 'none';
   document.getElementById('topUserName').textContent = user.displayName || user.email;
   var savedPct  = parseInt(tpGet('ch2_m1_pct') || '0');
   var savedQuiz = tpGet('ch2_m1_quiz');
   if (savedPct > 0) {
-    document.getElementById('topBar').style.width = savedPct + '%';
-    document.getElementById('pctDisp').textContent = savedPct + '%';
+    _showProg(savedPct);
   }
   if (savedQuiz) {
     var _qpct = parseInt(savedQuiz);

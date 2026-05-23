@@ -604,15 +604,13 @@ window.addEventListener('scroll',()=>{
   let cur=0;
   secIds.forEach((id,i)=>{const el=document.getElementById(id);if(el&&window.scrollY>=el.offsetTop-120)cur=i;});
   document.querySelectorAll('.nav-item').forEach((b,i)=>b.classList.toggle('active',i===cur));
-  const pct=Math.min(100,Math.round(window.scrollY/(document.body.scrollHeight-window.innerHeight)*100));
-  document.getElementById('topBar').style.width=pct+'%';
-  document.getElementById('pctDisp').textContent=pct+'%';
 });
 function toggleAcc(btn){
   const body=btn.nextElementSibling;
   const isOpen=body.classList.contains('open');
   body.classList.toggle('open',!isOpen);
   btn.classList.toggle('open',!isOpen);
+  if(!isOpen){_trackAccOpen();}
 }
 const answers={q1:'b',q2:'b',q3:'c',q4:'c',q5:'b'};
 const feedbacks={
@@ -666,16 +664,33 @@ function submitQuiz(){
   document.querySelector('.quiz-btn').disabled=true;
   tpSet('ch3_m1_quiz', score);
   tpSet('ch3_m1_pct', score >= 80 ? 100 : 50);
+  _showProg(score >= 80 ? 100 : 50);
 }
 
+// ─── 진도 추적 헬퍼 (아코디언 기반) ──────────────────────────────
+var _accOpened = 0;
+var _accTotal = 12;
+var _modKey = 'ch3_m1';
+function _showProg(pct) {
+  document.getElementById('topBar').style.width = pct + '%';
+  document.getElementById('pctDisp').textContent = pct + '%';
+}
+function _trackAccOpen() {
+  _accOpened = Math.min(_accOpened + 1, _accTotal);
+  var accPct = Math.min(50, Math.round(_accOpened / _accTotal * 50));
+  var saved = parseInt(tpGet(_modKey + '_pct') || '0');
+  if (accPct > saved && saved < 100) {
+    tpSet(_modKey + '_pct', accPct);
+    _showProg(accPct);
+  }
+}
 tpOnReady(function(user) {
   document.getElementById('tpLoading').style.display = 'none';
   document.getElementById('topUserName').textContent = user.displayName || user.email;
   var savedPct  = parseInt(tpGet('ch3_m1_pct') || '0');
   var savedQuiz = tpGet('ch3_m1_quiz');
   if (savedPct > 0) {
-    document.getElementById('topBar').style.width = savedPct + '%';
-    document.getElementById('pctDisp').textContent = savedPct + '%';
+    _showProg(savedPct);
   }
   if (savedQuiz) {
     var _qpct = parseInt(savedQuiz);

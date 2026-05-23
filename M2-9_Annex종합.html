@@ -889,12 +889,14 @@ a{color:var(--blue);text-decoration:none}
 <script>
 const secIds=['obj','s1','s2','s3','s4','s5','s6','s7','quiz','check'];
 function goTo(id){const el=document.getElementById(id);if(el)el.scrollIntoView({behavior:'smooth',block:'start'})}
-function toggleAcc(btn){btn.classList.toggle('open');const body=btn.nextElementSibling;body.classList.toggle('open')}
+function toggleAcc(btn){
+  var wasOpen = btn.classList.contains('open');
+  btn.classList.toggle('open');
+  const body = btn.nextElementSibling;
+  body.classList.toggle('open');
+  if (!wasOpen) { _trackAccOpen(); }
+}
 function updateProgress(){
-  const scrolled=window.scrollY,total=document.body.scrollHeight-window.innerHeight;
-  const pct=total>0?Math.round(Math.min(100,scrolled/total*100)):0;
-  document.getElementById('topBar').style.width=pct+'%';
-  document.getElementById('pctDisp').textContent=pct+'%';
   const cards=document.querySelectorAll('.content section');
   let active=null;
   cards.forEach(c=>{if(c.getBoundingClientRect().top<=120)active=c.id});
@@ -903,7 +905,6 @@ function updateProgress(){
   });
 }
 window.addEventListener('scroll',updateProgress,{passive:true});
-updateProgress();
 
 const answers={q1:'b',q2:'b',q3:'c',q4:'b',q5:'c'};
 const feedbacks={
@@ -941,16 +942,33 @@ function gradeQuiz(){
   var _tpPct = score * 20;
   tpSet('ch2_m9_quiz', _tpPct);
   tpSet('ch2_m9_pct', score >= 4 ? 100 : 50);
+  _showProg(score >= 4 ? 100 : 50);
 }
 
+// ─── 진도 추적 헬퍼 (아코디언 기반) ──────────────────────────────
+var _accOpened = 0;
+var _accTotal = 21;
+var _modKey = 'ch2_m9';
+function _showProg(pct) {
+  document.getElementById('topBar').style.width = pct + '%';
+  document.getElementById('pctDisp').textContent = pct + '%';
+}
+function _trackAccOpen() {
+  _accOpened = Math.min(_accOpened + 1, _accTotal);
+  var accPct = Math.min(50, Math.round(_accOpened / _accTotal * 50));
+  var saved = parseInt(tpGet(_modKey + '_pct') || '0');
+  if (accPct > saved && saved < 100) {
+    tpSet(_modKey + '_pct', accPct);
+    _showProg(accPct);
+  }
+}
 tpOnReady(function(user) {
   document.getElementById('tpLoading').style.display = 'none';
   document.getElementById('topUserName').textContent = user.displayName || user.email;
   var savedPct  = parseInt(tpGet('ch2_m9_pct') || '0');
   var savedQuiz = tpGet('ch2_m9_quiz');
   if (savedPct > 0) {
-    document.getElementById('topBar').style.width = savedPct + '%';
-    document.getElementById('pctDisp').textContent = savedPct + '%';
+    _showProg(savedPct);
   }
   if (savedQuiz) {
     var _qpct = parseInt(savedQuiz);

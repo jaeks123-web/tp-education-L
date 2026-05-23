@@ -981,8 +981,10 @@ a{color:var(--blue);text-decoration:none}
 
 <script>
 function toggleAcc(btn){
+  var wasOpen = btn.classList.contains('open');
   btn.classList.toggle('open');
   btn.nextElementSibling.classList.toggle('open');
+  if (!wasOpen) { _trackAccOpen(); }
 }
 
 var secIds=['obj','s1','s2','s3','s4','s5','s6','s7','quiz','check'];
@@ -992,12 +994,6 @@ function goTo(id){
 }
 
 function updateProgress(){
-  var st=window.scrollY||document.documentElement.scrollTop;
-  var dh=document.documentElement.scrollHeight-window.innerHeight;
-  var pct=dh>0?Math.round((st/dh)*100):0;
-  pct=Math.min(100,Math.max(0,pct));
-  document.getElementById('topBar').style.width=pct+'%';
-  document.getElementById('pctDisp').textContent=pct+'%';
   var active='obj';
   secIds.forEach(function(id){
     var el=document.getElementById(id);
@@ -1009,7 +1005,6 @@ function updateProgress(){
   });
 }
 window.addEventListener('scroll',updateProgress,{passive:true});
-updateProgress();
 
 var answers={q1:'b',q2:'b',q3:'c',q4:'b',q5:'c'};
 var feedbacks={
@@ -1067,16 +1062,33 @@ function gradeQuiz(){
   document.getElementById('quizBtn').disabled=true;
   tpSet('ch2_m8_quiz', pct);
   tpSet('ch2_m8_pct', pct >= 80 ? 100 : 50);
+  _showProg(pct >= 80 ? 100 : 50);
 }
 
+// ─── 진도 추적 헬퍼 (아코디언 기반) ──────────────────────────────
+var _accOpened = 0;
+var _accTotal = 20;
+var _modKey = 'ch2_m8';
+function _showProg(pct) {
+  document.getElementById('topBar').style.width = pct + '%';
+  document.getElementById('pctDisp').textContent = pct + '%';
+}
+function _trackAccOpen() {
+  _accOpened = Math.min(_accOpened + 1, _accTotal);
+  var accPct = Math.min(50, Math.round(_accOpened / _accTotal * 50));
+  var saved = parseInt(tpGet(_modKey + '_pct') || '0');
+  if (accPct > saved && saved < 100) {
+    tpSet(_modKey + '_pct', accPct);
+    _showProg(accPct);
+  }
+}
 tpOnReady(function(user) {
   document.getElementById('tpLoading').style.display = 'none';
   document.getElementById('topUserName').textContent = user.displayName || user.email;
   var savedPct  = parseInt(tpGet('ch2_m8_pct') || '0');
   var savedQuiz = tpGet('ch2_m8_quiz');
   if (savedPct > 0) {
-    document.getElementById('topBar').style.width = savedPct + '%';
-    document.getElementById('pctDisp').textContent = savedPct + '%';
+    _showProg(savedPct);
   }
   if (savedQuiz) {
     var _qpct = parseInt(savedQuiz);

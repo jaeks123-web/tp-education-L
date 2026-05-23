@@ -753,9 +753,11 @@ a{color:var(--blue);text-decoration:none}
 <script>
 // 아코디언 토글 (open 속성 없이 시작 — 모두 닫힌 상태)
 function toggleAcc(btn){
+  var wasOpen = btn.classList.contains('open');
   btn.classList.toggle('open');
   var body = btn.nextElementSibling;
   body.classList.toggle('open');
+  if (!wasOpen) { _trackAccOpen(); }
 }
 
 // 섹션 네비게이션
@@ -767,12 +769,6 @@ function goTo(id){
 
 // 스크롤 진도 추적
 function updateProgress(){
-  var scrollTop = window.scrollY || document.documentElement.scrollTop;
-  var docHeight = document.documentElement.scrollHeight - window.innerHeight;
-  var pct = docHeight > 0 ? Math.round((scrollTop / docHeight) * 100) : 0;
-  pct = Math.min(100, Math.max(0, pct));
-  document.getElementById('topBar').style.width = pct + '%';
-  document.getElementById('pctDisp').textContent = pct + '%';
 
   // 사이드바 활성 항목
   var active = 'obj';
@@ -788,7 +784,6 @@ function updateProgress(){
   });
 }
 window.addEventListener('scroll', updateProgress, {passive:true});
-updateProgress();
 
 // 퀴즈 채점
 var answers = {q1:'b', q2:'c', q3:'c', q4:'b', q5:'c'};
@@ -851,16 +846,33 @@ function gradeQuiz(){
   document.getElementById('quizBtn').disabled = true;
   tpSet('ch2_m5_quiz', pct);
   tpSet('ch2_m5_pct', pct >= 80 ? 100 : 50);
+  _showProg(pct >= 80 ? 100 : 50);
 }
 
+// ─── 진도 추적 헬퍼 (아코디언 기반) ──────────────────────────────
+var _accOpened = 0;
+var _accTotal = 14;
+var _modKey = 'ch2_m5';
+function _showProg(pct) {
+  document.getElementById('topBar').style.width = pct + '%';
+  document.getElementById('pctDisp').textContent = pct + '%';
+}
+function _trackAccOpen() {
+  _accOpened = Math.min(_accOpened + 1, _accTotal);
+  var accPct = Math.min(50, Math.round(_accOpened / _accTotal * 50));
+  var saved = parseInt(tpGet(_modKey + '_pct') || '0');
+  if (accPct > saved && saved < 100) {
+    tpSet(_modKey + '_pct', accPct);
+    _showProg(accPct);
+  }
+}
 tpOnReady(function(user) {
   document.getElementById('tpLoading').style.display = 'none';
   document.getElementById('topUserName').textContent = user.displayName || user.email;
   var savedPct  = parseInt(tpGet('ch2_m5_pct') || '0');
   var savedQuiz = tpGet('ch2_m5_quiz');
   if (savedPct > 0) {
-    document.getElementById('topBar').style.width = savedPct + '%';
-    document.getElementById('pctDisp').textContent = savedPct + '%';
+    _showProg(savedPct);
   }
   if (savedQuiz) {
     var _qpct = parseInt(savedQuiz);
